@@ -34,6 +34,7 @@ import {
   MapPin,
   Calendar,
   ChevronRight,
+  ChevronLeft,
   Send,
   Check,
   AlertCircle,
@@ -87,14 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroStatusEl && personal.status) {
     heroStatusEl.innerHTML = `
       <span class="relative flex h-2 w-2">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
       </span>
-      <span class="font-mono text-xs font-medium text-neutral-700 dark:text-neutral-300">${escapeHtml(personal.status)}</span>
+      <span class="text-xs font-medium text-zinc-700 dark:text-zinc-300">${escapeHtml(personal.status)}</span>
     `;
   }
 
-  // Profile Image Container (graceful fallback if image is missing)
+  // Profile Image Container (graceful fallback with shadow reflection)
   const profileContainer = document.getElementById('hero-profile-container');
   if (profileContainer) {
     if (personal.profileImage && personal.profileImage.trim()) {
@@ -104,11 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
           alt="Photograph of ${escapeHtml(personal.name || 'Developer')}"
           width="480"
           height="560"
-          class="w-full h-full object-cover object-center filter grayscale contrast-[1.05] hover:grayscale-0 transition-all duration-500 rounded-lg border border-[#DADADA] dark:border-[#262626]"
+          class="w-full h-full object-cover object-center rounded-2xl border border-zinc-200 dark:border-zinc-800"
         />
       `;
     } else {
-      // Intentional, editorial monogram portrait placeholder
       const initials = (personal.name || 'HF')
         .split(' ')
         .map(n => n[0])
@@ -117,42 +117,38 @@ document.addEventListener('DOMContentLoaded', () => {
         .toUpperCase();
 
       profileContainer.innerHTML = `
-        <div class="w-full aspect-[4/5] max-w-md mx-auto rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] p-8 flex flex-col justify-between relative overflow-hidden shadow-sm">
-          <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] bg-[radial-gradient(#111_1px,transparent_1px)] [background-size:16px_16px]"></div>
-          
-          <div class="relative z-10 flex items-center justify-between font-mono text-xs text-neutral-500">
-            <span>[PORTRAIT ANCHOR]</span>
-            <span class="text-blue-600 dark:text-blue-400 font-semibold">ASSET PENDING</span>
+        <div class="w-full aspect-[4/5] max-w-md mx-auto rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] p-8 flex flex-col justify-between relative overflow-hidden">
+          <div class="relative z-10 flex items-center justify-between text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span>PROFILE PHOTO</span>
+            <span class="text-rose-600 dark:text-rose-400 font-medium">Pending</span>
           </div>
 
           <div class="relative z-10 my-auto text-center py-10">
-            <div class="w-24 h-24 mx-auto mb-5 rounded-full border border-dashed border-[#DADADA] dark:border-[#333333] flex items-center justify-center font-mono text-2xl font-bold text-neutral-700 dark:text-neutral-300">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full border-2 border-dashed border-rose-400/50 dark:border-rose-500/50 bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center text-2xl font-bold text-rose-600 dark:text-rose-400 shadow-md shadow-rose-600/20">
               ${initials}
             </div>
-            <p class="font-mono text-xs font-semibold text-neutral-800 dark:text-neutral-200 uppercase tracking-widest mb-1">
-              Profile Photo
+            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-1">
+              Photo Placeholder
             </p>
-            <p class="text-xs text-neutral-500 dark:text-neutral-500 max-w-xs mx-auto">
-              Place profile image in <code class="font-mono text-[11px] bg-[#EFEFEc] dark:bg-[#1C1C1C] px-1 py-0.5 rounded">src/assets/profile/profile.webp</code>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400 max-w-xs mx-auto">
+              Place image at <code class="text-[11px] bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-rose-600 dark:text-rose-400">src/assets/profile/profile.webp</code>
             </p>
           </div>
 
-          <div class="relative z-10 pt-4 border-t border-[#DADADA] dark:border-[#262626] flex items-center justify-between text-[11px] font-mono text-neutral-500">
-            <span>LOC: ${escapeHtml(personal.location || 'GLOBAL')}</span>
-            <span>STATUS: ACTIVE</span>
+          <div class="relative z-10 pt-4 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+            <span>Location: ${escapeHtml(personal.location || 'Indonesia')}</span>
+            <span>Software Engineer</span>
           </div>
         </div>
       `;
     }
   }
 
-  // Social Links in Hero (strictly only render if URL exists and is non-empty)
-  // Per requirements: Exactly GitHub, LinkedIn (when configured), and Email.
+  // Social Links in Hero
   const heroSocialContainer = document.getElementById('hero-social-links');
   if (heroSocialContainer) {
     const socialItems = [];
 
-    // 1. Personal GitHub Profile (rendered strictly ONCE across the entire site in Hero)
     if (social.github && social.github.trim()) {
       socialItems.push({
         key: 'github',
@@ -164,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 2. LinkedIn (rendered strictly when configured, empty until verified)
     if (social.linkedin && social.linkedin.trim()) {
       socialItems.push({
         key: 'linkedin',
@@ -176,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 3. Primary Email CTA
     if (primaryEmail && primaryEmail.trim()) {
       socialItems.push({
         key: 'email',
@@ -194,12 +188,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <a
           href="${escapeHtml(s.url)}"
           ${s.isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''}
-          class="inline-flex items-center gap-2 text-xs font-mono font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1 group"
+          class="inline-flex items-center gap-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1 group"
           aria-label="${escapeHtml(s.ariaLabel)}"
         >
           <i data-lucide="${s.icon}" class="w-4 h-4"></i>
           <span>${escapeHtml(s.label)}</span>
-          <i data-lucide="arrow-up-right" class="w-3 h-3 text-neutral-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
         </a>
       `
       )
@@ -219,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     aboutParagraphsContainer.innerHTML = about.paragraphs
       .map(
         p => `
-        <p class="text-base sm:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed font-normal">
+        <p class="text-base text-zinc-700 dark:text-zinc-300 leading-relaxed">
           ${escapeHtml(p)}
         </p>
       `
@@ -250,21 +244,17 @@ document.addEventListener('DOMContentLoaded', () => {
     expertiseContainer.innerHTML = expertise
       .map(
         exp => `
-        <div class="reveal-item p-6 sm:p-8 rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#111111] hover:border-neutral-400 dark:hover:border-neutral-700 transition-colors flex flex-col justify-between">
+        <div class="reveal-item p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] hover:border-rose-500 dark:hover:border-rose-400 transition-all shadow-sm flex flex-col justify-between">
           <div>
-            <span class="font-mono text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-widest block mb-4">
-              // ${escapeHtml(exp.number)}
+            <span class="text-xs font-bold text-rose-600 dark:text-rose-400 block mb-3">
+              ${escapeHtml(exp.number)}
             </span>
-            <h3 class="text-lg sm:text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-3">
+            <h3 class="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-2">
               ${escapeHtml(exp.title)}
             </h3>
-            <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
               ${escapeHtml(exp.description)}
             </p>
-          </div>
-          <div class="pt-6 mt-6 border-t border-[#DADADA]/60 dark:border-[#262626]/60 flex items-center justify-between text-xs font-mono text-neutral-500">
-            <span>Specialization</span>
-            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-neutral-400 dark:text-neutral-600"></i>
           </div>
         </div>
       `
@@ -290,16 +280,16 @@ document.addEventListener('DOMContentLoaded', () => {
       .filter(cat => Array.isArray(skills[cat.key]) && skills[cat.key].length > 0)
       .map(
         cat => `
-        <div class="reveal-item p-6 rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#111111]">
-          <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-500 mb-4 pb-2 border-b border-[#DADADA] dark:border-[#262626] flex items-center justify-between">
+        <div class="reveal-item p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] shadow-sm">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
             <span>${escapeHtml(cat.label)}</span>
-            <span class="text-[11px] text-blue-600 dark:text-blue-400">${skills[cat.key].length}</span>
+            <span class="text-xs font-bold text-rose-600 dark:text-rose-400">${skills[cat.key].length}</span>
           </h3>
           <div class="flex flex-wrap gap-2">
             ${skills[cat.key]
               .map(
                 skill => `
-              <span class="inline-flex items-center px-2.5 py-1 text-xs font-mono rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-800 dark:text-neutral-200">
+              <span class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-200">
                 ${escapeHtml(skill)}
               </span>
             `
@@ -320,25 +310,25 @@ document.addEventListener('DOMContentLoaded', () => {
     educationContainer.innerHTML = education
       .map(
         (edu) => `
-        <div class="reveal-item relative pl-6 sm:pl-8 pb-10 last:pb-0 border-l border-[#DADADA] dark:border-[#262626]">
-          <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-blue-600 dark:bg-blue-400 ring-4 ring-[#F7F7F5] dark:ring-[#0A0A0A]"></span>
+        <div class="reveal-item relative pl-6 sm:pl-8 pb-10 last:pb-0 border-l-2 border-zinc-200 dark:border-zinc-800">
+          <span class="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-rose-600 dark:bg-rose-400 ring-4 ring-[#FAFAFA] dark:ring-[#0D0D11]"></span>
           
           <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
-            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-semibold tracking-wider uppercase">
+            <span class="text-xs text-rose-600 dark:text-rose-400 font-semibold tracking-wide uppercase">
               ${escapeHtml(edu.period)}
             </span>
-            ${edu.status ? `<span class="font-mono text-[11px] text-neutral-500 dark:text-neutral-500 px-2 py-0.5 rounded bg-[#EFEFEc] dark:bg-[#171717] border border-[#DADADA] dark:border-[#262626]">${escapeHtml(edu.status)}</span>` : ''}
+            ${edu.status ? `<span class="text-xs text-zinc-500 dark:text-zinc-400 px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">${escapeHtml(edu.status)}</span>` : ''}
           </div>
 
-          <h3 class="text-lg sm:text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-1">
+          <h3 class="text-lg sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-1">
             ${escapeHtml(edu.program)}
           </h3>
 
-          <p class="font-mono text-xs text-neutral-600 dark:text-neutral-400 uppercase tracking-wide mb-3">
+          <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-3">
             ${escapeHtml(edu.institution)}
           </p>
 
-          <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl">
+          <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl">
             ${escapeHtml(edu.description)}
           </p>
         </div>
@@ -367,8 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (emailText) emailText.textContent = primaryEmail;
   }
 
-
-
   // Functional FormSubmit AJAX Handler
   const contactForm = document.getElementById('contact-form');
   const formFeedback = document.getElementById('contact-form-feedback');
@@ -387,7 +375,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const errSubject = document.getElementById('err-subject');
     const errMessage = document.getElementById('err-message');
 
-    // Clear field-level error styling on input
     [nameInput, emailInput, subjectInput, messageInput].forEach(inp => {
       inp?.addEventListener('input', () => {
         inp.classList.remove('border-red-500', 'focus:ring-red-500');
@@ -399,7 +386,6 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Anti-spam check (honeypot field)
       if (honeyInput && honeyInput.value.trim() !== '') {
         console.warn('Bot submission prevented.');
         return;
@@ -407,7 +393,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let isValid = true;
 
-      // Validate Name
       if (!nameInput?.value.trim()) {
         isValid = false;
         nameInput?.classList.add('border-red-500');
@@ -417,7 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
         errName?.classList.add('hidden');
       }
 
-      // Validate Email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailInput?.value.trim() || !emailRegex.test(emailInput.value.trim())) {
         isValid = false;
@@ -428,7 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
         errEmail?.classList.add('hidden');
       }
 
-      // Validate Subject
       if (!subjectInput?.value.trim()) {
         isValid = false;
         subjectInput?.classList.add('border-red-500');
@@ -438,7 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
         errSubject?.classList.add('hidden');
       }
 
-      // Validate Message (minimum 10 characters)
       if (!messageInput?.value.trim() || messageInput.value.trim().length < 10) {
         isValid = false;
         messageInput?.classList.add('border-red-500');
@@ -451,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isValid) {
         if (formFeedback) {
           formFeedback.innerHTML = `
-            <div class="p-3 rounded border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 font-mono text-xs flex items-center gap-2">
+            <div class="p-3 rounded-lg border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-xs flex items-center gap-2 font-medium">
               <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
               <span>Please correct the highlighted fields before submitting.</span>
             </div>
@@ -462,7 +444,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Begin Submitting State (SEND MESSAGE -> SENDING...)
       if (submitBtn && submitText) {
         submitBtn.disabled = true;
         submitText.textContent = 'Sending...';
@@ -493,7 +474,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (response.ok && (data.success === 'true' || data.success === true || response.status === 200)) {
-          // Success State
           contactForm.reset();
 
           if (submitBtn && submitText) {
@@ -506,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (formFeedback) {
             formFeedback.innerHTML = `
-              <div class="p-4 rounded border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-300 font-mono text-xs space-y-2">
+              <div class="p-4 rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-300 text-xs space-y-2">
                 <div class="flex items-center gap-2 font-semibold">
                   <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                   <span>Your message has been sent successfully.</span>
@@ -514,9 +494,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="text-[11px] text-emerald-800/80 dark:text-emerald-300/80">
                   Thank you for reaching out! I will respond to your email as soon as possible.
                 </p>
-                <div class="p-2 rounded bg-emerald-100/60 dark:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-800 text-[10px] text-emerald-900 dark:text-emerald-200">
-                  <strong>Notice:</strong> If this is your first form submission via FormSubmit, remember to complete the one-time activation link sent to <span class="underline">${escapeHtml(primaryEmail)}</span> to enable automatic forwarding.
-                </div>
               </div>
             `;
             formFeedback.classList.remove('hidden');
@@ -535,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (formFeedback) {
           formFeedback.innerHTML = `
-            <div class="p-4 rounded border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-300 font-mono text-xs space-y-2">
+            <div class="p-4 rounded-lg border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-300 text-xs space-y-2">
               <div class="flex items-center gap-2 font-semibold">
                 <i data-lucide="alert-circle" class="w-4 h-4 text-red-600 dark:text-red-400"></i>
                 <span>Something went wrong while sending your message. Please try again or contact me directly via email.</span>
@@ -565,11 +542,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const footerSocialContainer = document.getElementById('footer-social-links');
   if (footerSocialContainer) {
-    // Only Email in footer per specification
     footerSocialContainer.innerHTML = `
       <a
         href="mailto:${escapeHtml(primaryEmail)}"
-        class="hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring inline-flex items-center gap-1.5 py-1"
+        class="hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring inline-flex items-center gap-1.5 py-1"
         aria-label="Email ${escapeHtml(primaryEmail)}"
       >
         <i data-lucide="mail" class="w-3.5 h-3.5"></i>
@@ -610,6 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
       MapPin,
       Calendar,
       ChevronRight,
+      ChevronLeft,
       Send,
       Check,
       AlertCircle,

@@ -9,25 +9,38 @@ export default {
     extend: {
       colors: {
         canvas: {
-          light: '#F7F7F5',
-          dark: '#0A0A0A',
+          light: '#FAFAFA',
+          dark: '#0D0D11',
         },
         primary: {
-          light: '#111111',
-          dark: '#F5F5F5',
+          light: '#18181B',
+          dark: '#F8FAFC',
         },
         secondary: {
-          light: '#666666',
-          dark: '#A3A3A3',
+          light: '#52525B',
+          dark: '#A1A1AA',
         },
         customBorder: {
-          light: '#DADADA',
-          dark: '#262626',
+          light: '#E4E4E7',
+          dark: '#27272A',
         },
         accent: {
-          light: '#1D4ED8',
-          dark: '#60A5FA',
+          light: '#E11D48',
+          dark: '#FB7185',
         },
+        crimson: {
+          50: '#FFF1F2',
+          100: '#FFE4E6',
+          200: '#FECDD3',
+          300: '#FDA4AF',
+          400: '#FB7185',
+          500: '#F43F5E',
+          600: '#E11D48',
+          700: '#BE123C',
+          800: '#9F1239',
+          900: '#881337',
+          950: '#4C0519',
+        }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
@@ -36,16 +49,12 @@ export default {
       letterSpacing: {
         tighter: '-0.04em',
         tight: '-0.02em',
-        widest: '0.12em',
+        widest: '0.1em',
       },
-      spacing: {
-        '18': '4.5rem',
-        '22': '5.5rem',
-      },
-      transitionDuration: {
-        '250': '250ms',
-        '400': '400ms',
-      },
+      boxShadow: {
+        'reflection-light': '0 20px 40px -15px rgba(225, 29, 72, 0.18), 0 0 15px rgba(0, 0, 0, 0.05)',
+        'reflection-dark': '0 25px 50px -12px rgba(244, 63, 94, 0.25), 0 0 20px rgba(244, 63, 94, 0.1)',
+      }
     },
   },
   plugins: [],

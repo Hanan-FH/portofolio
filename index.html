@@ -53,7 +53,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Font Preconnect for Zero-Layout Shift Performance -->
+    <!-- Font Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -61,11 +61,11 @@
     <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
 
-  <body class="bg-[#F7F7F5] dark:bg-[#0A0A0A] text-[#111111] dark:text-[#F5F5F5] min-h-screen selection:bg-neutral-900 selection:text-white dark:selection:bg-neutral-100 dark:selection:text-black">
+  <body class="bg-[#FAFAFA] dark:bg-[#0D0D11] text-zinc-900 dark:text-zinc-100 min-h-screen selection:bg-rose-600 selection:text-white dark:selection:bg-rose-500 dark:selection:text-white font-sans antialiased">
     <!-- Screen Reader Skip Navigation -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-blue-600 text-white font-mono text-xs rounded shadow-lg focus:outline-none"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-rose-600 text-white font-mono text-xs rounded-lg shadow-lg focus:outline-none"
     >
       Skip to main content
     </a>
@@ -75,49 +75,49 @@
     <!-- ====================================================================== -->
     <header
       id="navbar"
-      class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 border-b border-transparent backdrop-blur-md bg-[#F7F7F5]/80 dark:bg-[#0A0A0A]/80 border-[#DADADA]/60 dark:border-[#262626]/60"
+      class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 border-b border-zinc-200/80 dark:border-zinc-800/80 backdrop-blur-md bg-[#FAFAFA]/90 dark:bg-[#0D0D11]/90"
     >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <!-- Brand / Identity -->
         <a
           href="#"
           class="flex items-center gap-3 focus-ring py-1 group"
           aria-label="Hanan Fathurrozaq Hidayatullah Portfolio Home"
         >
-          <span class="w-8 h-8 rounded bg-neutral-900 dark:bg-neutral-100 text-neutral-100 dark:text-neutral-900 font-mono font-bold text-xs flex items-center justify-center tracking-tighter">
+          <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-rose-700 to-rose-500 text-white font-mono font-bold text-xs flex items-center justify-center tracking-tight shadow-md shadow-rose-600/25">
             HF
           </span>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 bind-name">
+            <span class="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 bind-name">
               Hanan Fathurrozaq Hidayatullah
             </span>
-            <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-widest bind-role">
+            <span class="text-[11px] text-rose-600 dark:text-rose-400 font-medium bind-role">
               Software Engineering
             </span>
           </div>
         </a>
 
         <!-- Desktop Navigation Links -->
-        <nav class="hidden md:flex items-center gap-7 text-xs font-mono tracking-wider uppercase font-medium" aria-label="Main Navigation">
-          <a href="#about" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium" aria-label="Main Navigation">
+          <a href="#about" class="nav-section-link text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1">
             About
           </a>
-          <a href="#expertise" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+          <a href="#expertise" class="nav-section-link text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1">
             Expertise
           </a>
-          <a href="#skills" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+          <a href="#skills" class="nav-section-link text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1">
             Skills
           </a>
-          <a href="#education" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+          <a href="#education" class="nav-section-link text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1">
             Education
           </a>
-          <a href="#projects" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+          <a href="#projects" class="nav-section-link text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1">
             Projects
           </a>
-          <a href="#certificates" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+          <a href="#certificates" class="nav-section-link text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1">
             Certificates
           </a>
-          <a href="#contact" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+          <a href="#contact" class="nav-section-link text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1">
             Contact
           </a>
         </nav>
@@ -127,17 +127,17 @@
           <!-- Theme Toggle Button -->
           <button
             type="button"
-            class="theme-toggle-btn p-2 rounded border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-ring"
+            class="theme-toggle-btn p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring"
             aria-label="Toggle theme mode"
           >
             <i data-lucide="sun" class="theme-icon-sun w-4 h-4 hidden"></i>
             <i data-lucide="moon" class="theme-icon-moon w-4 h-4"></i>
           </button>
 
-          <!-- CV Download Button (strictly hidden if resumeUrl is empty) -->
+          <!-- CV Download Button -->
           <a
             href="#contact"
-            class="cv-link-btn hidden inline-flex items-center gap-2 px-3.5 py-1.5 rounded border border-neutral-900 dark:border-neutral-100 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-mono text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all focus-ring"
+            class="cv-link-btn hidden inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-medium text-xs transition-all shadow-md shadow-rose-600/20 focus-ring"
             aria-label="Download Curriculum Vitae"
           >
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
@@ -149,7 +149,7 @@
         <div class="flex items-center gap-2 md:hidden">
           <button
             type="button"
-            class="theme-toggle-btn p-2 rounded border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] text-neutral-700 dark:text-neutral-300 focus-ring"
+            class="theme-toggle-btn p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] text-zinc-700 dark:text-zinc-300 focus-ring"
             aria-label="Toggle theme mode"
           >
             <i data-lucide="sun" class="theme-icon-sun w-4 h-4 hidden"></i>
@@ -159,7 +159,7 @@
           <button
             id="mobile-menu-btn"
             type="button"
-            class="p-2 rounded border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] text-neutral-800 dark:text-neutral-200 focus-ring"
+            class="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] text-zinc-800 dark:text-zinc-200 focus-ring"
             aria-label="Open mobile menu"
             aria-expanded="false"
             aria-controls="mobile-menu-drawer"
@@ -169,45 +169,45 @@
         </div>
       </div>
 
-      <!-- Mobile Menu Drawer (Accessible Modal/Slide) -->
+      <!-- Mobile Menu Drawer -->
       <div
         id="mobile-menu-drawer"
-        class="pointer-events-none opacity-0 fixed inset-x-0 top-18 bottom-0 bg-[#F7F7F5]/98 dark:bg-[#0A0A0A]/98 backdrop-blur-xl border-t border-[#DADADA] dark:border-[#262626] transition-all duration-300 z-50 flex flex-col justify-between p-6 overflow-y-auto"
+        class="pointer-events-none opacity-0 fixed inset-x-0 top-16 bottom-0 bg-[#FAFAFA]/98 dark:bg-[#0D0D11]/98 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-800 transition-all duration-300 z-50 flex flex-col justify-between p-6 overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-label="Mobile Navigation"
       >
-        <div class="space-y-4">
-          <span class="font-mono text-xs text-neutral-500 uppercase tracking-widest block mb-4">
-            // Navigation
+        <div class="space-y-3">
+          <span class="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block mb-2">
+            Navigation
           </span>
-          <a href="#about" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+          <a href="#about" class="mobile-nav-link block text-base font-medium py-2.5 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/60 dark:border-zinc-800/60">
             About
           </a>
-          <a href="#expertise" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+          <a href="#expertise" class="mobile-nav-link block text-base font-medium py-2.5 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/60 dark:border-zinc-800/60">
             Expertise
           </a>
-          <a href="#skills" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+          <a href="#skills" class="mobile-nav-link block text-base font-medium py-2.5 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/60 dark:border-zinc-800/60">
             Skills &amp; Stack
           </a>
-          <a href="#education" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+          <a href="#education" class="mobile-nav-link block text-base font-medium py-2.5 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/60 dark:border-zinc-800/60">
             Education
           </a>
-          <a href="#projects" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+          <a href="#projects" class="mobile-nav-link block text-base font-medium py-2.5 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/60 dark:border-zinc-800/60">
             Selected Projects
           </a>
-          <a href="#certificates" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+          <a href="#certificates" class="mobile-nav-link block text-base font-medium py-2.5 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/60 dark:border-zinc-800/60">
             Certificates
           </a>
-          <a href="#contact" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100">
+          <a href="#contact" class="mobile-nav-link block text-base font-medium py-2.5 text-zinc-900 dark:text-zinc-100">
             Contact
           </a>
         </div>
 
-        <div class="pt-6 border-t border-[#DADADA] dark:border-[#262626] space-y-3">
+        <div class="pt-6 border-t border-zinc-200 dark:border-zinc-800 space-y-3">
           <a
             href="mailto:hananfh77@gmail.com?subject=Portfolio%20Inquiry"
-            class="flex items-center justify-center gap-2 w-full py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] text-neutral-800 dark:text-neutral-200 font-mono text-xs uppercase font-semibold tracking-wider hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            class="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] text-zinc-800 dark:text-zinc-200 text-xs font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
             aria-label="Send Email to hananfh77@gmail.com"
           >
             <i data-lucide="mail" class="w-4 h-4"></i>
@@ -215,7 +215,7 @@
           </a>
           <a
             href="#contact"
-            class="cv-link-btn hidden flex items-center justify-center gap-2 w-full py-3 rounded bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-mono text-xs uppercase font-semibold tracking-wider"
+            class="cv-link-btn hidden flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-rose-600 text-white text-xs font-semibold"
           >
             <i data-lucide="download" class="w-4 h-4"></i>
             <span class="cv-button-text">Download CV</span>
@@ -229,31 +229,31 @@
       <!-- ====================================================================== -->
       <!-- 2. HERO SECTION -->
       <!-- ====================================================================== -->
-      <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-28" aria-label="Hero Introduction">
+      <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24" aria-label="Hero Introduction">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          <!-- Left Column: Editorial Intro -->
+          <!-- Left Column: Intro -->
           <div class="lg:col-span-7 flex flex-col items-start">
             <!-- Live Status Indicator -->
-            <div id="hero-status-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] mb-6">
+            <div id="hero-status-badge" class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] mb-6 shadow-sm">
               <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
               </span>
-              <span class="font-mono text-xs text-neutral-600 dark:text-neutral-400">Available for Opportunities</span>
+              <span class="text-xs font-medium text-zinc-700 dark:text-zinc-300">Available for Opportunities</span>
             </div>
 
             <!-- Eyebrow Tag -->
-            <span id="hero-eyebrow" class="font-mono text-xs sm:text-sm font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-3">
+            <span id="hero-eyebrow" class="text-xs sm:text-sm font-semibold tracking-wider text-rose-600 dark:text-rose-400 uppercase mb-3">
               SOFTWARE ENGINEERING · DEVELOPER
             </span>
 
             <!-- Main Display Heading -->
-            <h1 id="hero-headline" class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-950 dark:text-white leading-[1.1] mb-6 max-w-2xl">
+            <h1 id="hero-headline" class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 leading-[1.15] mb-6 max-w-2xl">
               Building useful digital experiences through code.
             </h1>
 
             <!-- Professional Summary -->
-            <p id="hero-shortbio" class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xl mb-8">
+            <p id="hero-shortbio" class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-xl mb-8">
               Undergraduate software engineering student focused on clean architecture, modern web development, and performant user interfaces.
             </p>
 
@@ -261,7 +261,7 @@
             <div class="flex flex-wrap items-center gap-4 mb-10">
               <a
                 href="#projects"
-                class="inline-flex items-center gap-2 px-6 py-3 rounded bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 font-mono text-xs uppercase tracking-wider font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors focus-ring"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600 text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-md shadow-rose-600/25 dark:shadow-rose-500/20 focus-ring"
               >
                 <span>View Projects</span>
                 <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
@@ -269,16 +269,16 @@
 
               <a
                 href="#contact"
-                class="inline-flex items-center gap-2 px-6 py-3 rounded border border-neutral-900 dark:border-neutral-100 text-neutral-900 dark:text-neutral-100 font-mono text-xs uppercase tracking-wider font-semibold hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition-colors focus-ring"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-zinc-300 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-semibold uppercase tracking-wider hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60 transition-colors focus-ring"
               >
                 <span>Contact Me</span>
               </a>
             </div>
 
             <!-- Direct Social Anchor Links -->
-            <div class="pt-6 border-t border-[#DADADA] dark:border-[#262626] w-full max-w-md">
-              <span class="font-mono text-[11px] text-neutral-500 uppercase tracking-widest block mb-3">
-                // Connect Directly
+            <div class="pt-6 border-t border-zinc-200 dark:border-zinc-800 w-full max-w-md">
+              <span class="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block mb-3">
+                Connect
               </span>
               <div id="hero-social-links" class="flex flex-wrap items-center gap-5">
                 <!-- Dynamically populated from portfolioData -->
@@ -286,10 +286,10 @@
             </div>
           </div>
 
-          <!-- Right Column: Profile Image Anchor -->
+          <!-- Right Column: Profile Image Anchor with Glowing Red Shadow Reflection -->
           <div class="lg:col-span-5 w-full flex justify-center lg:justify-end">
-            <div id="hero-profile-container" class="w-full max-w-sm sm:max-w-md">
-              <!-- Dynamically populated or deliberate placeholder -->
+            <div id="hero-profile-container" class="w-full max-w-sm sm:max-w-md red-reflection rounded-2xl">
+              <!-- Dynamically populated or clean monogram placeholder -->
             </div>
           </div>
         </div>
@@ -298,19 +298,19 @@
       <!-- ====================================================================== -->
       <!-- 3. ABOUT SECTION -->
       <!-- ====================================================================== -->
-      <section id="about" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="about-section-heading">
+      <section id="about" class="py-20 border-t border-zinc-200 dark:border-zinc-800" aria-labelledby="about-section-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-3 mb-8">
-            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 01</span>
-            <h2 id="about-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
-              About &amp; Philosophy
+          <div class="flex items-center gap-2.5 mb-8">
+            <span class="w-2 h-2 rounded-full bg-rose-600 dark:bg-rose-400"></span>
+            <h2 id="about-section-heading" class="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+              About
             </h2>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <!-- Narrative Column (7 cols) -->
+            <!-- Narrative Column -->
             <div class="lg:col-span-7 space-y-6">
-              <h3 id="about-heading" class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 leading-snug">
+              <h3 id="about-heading" class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 leading-snug">
                 Engineered with curiosity, built for longevity.
               </h3>
               <div id="about-paragraphs" class="space-y-4">
@@ -318,25 +318,25 @@
               </div>
             </div>
 
-            <!-- Quick Specs Column (5 cols) -->
+            <!-- Quick Details Column -->
             <div class="lg:col-span-5 space-y-4">
-              <div class="p-6 rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#111111] space-y-4">
-                <span class="font-mono text-xs font-semibold text-neutral-500 uppercase tracking-wider block border-b border-[#DADADA] dark:border-[#262626] pb-2">
-                  System Telemetry
+              <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] space-y-4 shadow-sm">
+                <span class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider block border-b border-zinc-200 dark:border-zinc-800 pb-2">
+                  Quick Details
                 </span>
 
-                <div class="space-y-3 font-mono text-xs">
+                <div class="space-y-3.5 text-xs sm:text-sm">
                   <div>
-                    <span class="text-neutral-500 block">CURRENT STATUS</span>
-                    <span id="about-status" class="text-neutral-900 dark:text-neutral-100 font-medium">Available</span>
+                    <span class="text-zinc-500 dark:text-zinc-400 block text-xs font-medium">Status</span>
+                    <span id="about-status" class="text-zinc-900 dark:text-zinc-100 font-semibold">Available</span>
                   </div>
                   <div>
-                    <span class="text-neutral-500 block">PRIMARY LOCATION</span>
-                    <span id="about-location" class="text-neutral-900 dark:text-neutral-100 font-medium">Remote / Hybrid</span>
+                    <span class="text-zinc-500 dark:text-zinc-400 block text-xs font-medium">Location</span>
+                    <span id="about-location" class="text-zinc-900 dark:text-zinc-100 font-semibold">Remote / Hybrid</span>
                   </div>
                   <div>
-                    <span class="text-neutral-500 block">CORE FOCUS</span>
-                    <span id="about-focus" class="text-neutral-900 dark:text-neutral-100 font-medium">Web Engineering &amp; Distributed Systems</span>
+                    <span class="text-zinc-500 dark:text-zinc-400 block text-xs font-medium">Core Focus</span>
+                    <span id="about-focus" class="text-zinc-900 dark:text-zinc-100 font-semibold">Web Engineering &amp; Software Systems</span>
                   </div>
                 </div>
               </div>
@@ -348,16 +348,16 @@
       <!-- ====================================================================== -->
       <!-- 4. EXPERTISE SECTION -->
       <!-- ====================================================================== -->
-      <section id="expertise" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="expertise-section-heading">
+      <section id="expertise" class="py-20 border-t border-zinc-200 dark:border-zinc-800" aria-labelledby="expertise-section-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 02</span>
-            <h2 id="expertise-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
-              Core Competencies
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-2 h-2 rounded-full bg-rose-600 dark:bg-rose-400"></span>
+            <h2 id="expertise-section-heading" class="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+              Expertise
             </h2>
           </div>
-          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
-            Technical disciplines applied across architecture, interface design, and systems engineering.
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-10 max-w-2xl">
+            Core technical disciplines and software development skills.
           </p>
 
           <!-- 4-Card Expertise Grid -->
@@ -370,16 +370,16 @@
       <!-- ====================================================================== -->
       <!-- 5. SKILLS / TECHNOLOGIES SECTION -->
       <!-- ====================================================================== -->
-      <section id="skills" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="skills-section-heading">
+      <section id="skills" class="py-20 border-t border-zinc-200 dark:border-zinc-800" aria-labelledby="skills-section-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 03</span>
-            <h2 id="skills-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
-              Technical Stack &amp; Tooling
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-2 h-2 rounded-full bg-rose-600 dark:bg-rose-400"></span>
+            <h2 id="skills-section-heading" class="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+              Skills &amp; Stack
             </h2>
           </div>
-          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
-            Practical programming languages, libraries, databases, and development environments.
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-10 max-w-2xl">
+            Programming languages, frameworks, databases, and tooling.
           </p>
 
           <!-- Categorized Skills Grid -->
@@ -392,16 +392,16 @@
       <!-- ====================================================================== -->
       <!-- 6. EDUCATION SECTION -->
       <!-- ====================================================================== -->
-      <section id="education" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="education-section-heading">
+      <section id="education" class="py-20 border-t border-zinc-200 dark:border-zinc-800" aria-labelledby="education-section-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 04</span>
-            <h2 id="education-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
-              Academic Background
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-2 h-2 rounded-full bg-rose-600 dark:bg-rose-400"></span>
+            <h2 id="education-section-heading" class="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+              Education
             </h2>
           </div>
-          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
-            Foundations in computer science, software engineering curricula, and theoretical coursework.
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-10 max-w-2xl">
+            Academic background and software engineering foundation.
           </p>
 
           <!-- Education Timeline Container -->
@@ -414,25 +414,26 @@
       <!-- ====================================================================== -->
       <!-- 7. SELECTED PROJECTS SECTION -->
       <!-- Strict requirement: Exactly 3 projects rendered from data -->
+      <!-- Vertical Stack ("scroll bawah") with Detail Modal Click -->
       <!-- ====================================================================== -->
-      <section id="projects" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="projects-section-heading">
+      <section id="projects" class="py-20 border-t border-zinc-200 dark:border-zinc-800" aria-labelledby="projects-section-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-3">
-              <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 05</span>
-              <h2 id="projects-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
+            <div class="flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-rose-600 dark:bg-rose-400"></span>
+              <h2 id="projects-section-heading" class="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
                 Selected Projects
               </h2>
             </div>
-            <span class="font-mono text-xs text-neutral-500">EXACTLY 03 ENTRIES</span>
+            <span class="text-xs font-semibold text-zinc-400 dark:text-zinc-500">3 Projects (Click for details)</span>
           </div>
 
-          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
-            A curated showcase of engineering initiatives, interface studies, and software systems.
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-10 max-w-2xl">
+            A showcase of software projects and development initiatives.
           </p>
 
-          <!-- Projects Container (Renders exactly 3 editorial items) -->
-          <div id="projects-container" class="space-y-10">
+          <!-- Projects Vertical Stack Container -->
+          <div id="projects-container" class="space-y-8">
             <!-- Injected via src/js/projects.js -->
           </div>
         </div>
@@ -441,25 +442,51 @@
       <!-- ====================================================================== -->
       <!-- 8. CERTIFICATES SECTION -->
       <!-- Strict requirement: Exactly 10 certificates rendered from data -->
+      <!-- Horizontal Scroll / Carousel Layout ("scroll ke samping") -->
       <!-- ====================================================================== -->
-      <section id="certificates" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="certificates-section-heading">
+      <section id="certificates" class="py-20 border-t border-zinc-200 dark:border-zinc-800" aria-labelledby="certificates-section-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-3">
-              <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 06</span>
-              <h2 id="certificates-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
-                Certifications &amp; Accreditations
+            <div class="flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-rose-600 dark:bg-rose-400"></span>
+              <h2 id="certificates-section-heading" class="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                Certifications
               </h2>
             </div>
-            <span class="font-mono text-xs text-neutral-500">EXACTLY 10 CREDENTIALS</span>
+
+            <!-- Horizontal Scroll Controls -->
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-semibold text-zinc-400 dark:text-zinc-500 hidden sm:inline">10 Credentials (Scroll &rarr;)</span>
+              <div class="flex items-center gap-1.5">
+                <button
+                  id="cert-scroll-left"
+                  type="button"
+                  class="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring"
+                  aria-label="Scroll certificates left"
+                >
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                </button>
+                <button
+                  id="cert-scroll-right"
+                  type="button"
+                  class="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring"
+                  aria-label="Scroll certificates right"
+                >
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
-            Structured coursework, technical certifications, and formal engineering proficiencies.
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-8 max-w-2xl">
+            Technical certifications and completed coursework.
           </p>
 
-          <!-- Certificates Editorial Grid (Desktop: 2/3 cols, Mobile: 1 col) -->
-          <div id="certificates-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
+          <!-- Horizontal Scroll Container -->
+          <div
+            id="certificates-container"
+            class="flex gap-5 overflow-x-auto snap-x snap-mandatory py-2 pb-6 no-scrollbar scroll-smooth"
+          >
             <!-- Injected via src/js/certificates.js -->
           </div>
         </div>
@@ -468,40 +495,40 @@
       <!-- ====================================================================== -->
       <!-- 9. CONTACT SECTION -->
       <!-- ====================================================================== -->
-      <section id="contact" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="contact-section-heading">
+      <section id="contact" class="py-20 border-t border-zinc-200 dark:border-zinc-800" aria-labelledby="contact-section-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 07</span>
-            <h2 id="contact-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
-              Get In Touch
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-2 h-2 rounded-full bg-rose-600 dark:bg-rose-400"></span>
+            <h2 id="contact-section-heading" class="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+              Contact
             </h2>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <!-- Left Info Column -->
             <div class="lg:col-span-6 space-y-6">
-              <h3 id="contact-heading" class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 leading-tight">
+              <h3 id="contact-heading" class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight">
                 Let's Work Together
               </h3>
-              <p id="contact-subheading" class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
-                I am actively seeking software engineering internships, junior developer roles, and open-source collaborations. Have an opportunity or project in mind? Reach out directly via the form or email.
+              <p id="contact-subheading" class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-lg">
+                I am actively seeking software engineering internships, junior developer roles, and open-source collaborations. Reach out directly via form or email.
               </p>
 
               <!-- Quick Action Link Buttons -->
               <div class="space-y-4 pt-4">
                 <div>
-                  <span class="font-mono text-[11px] text-neutral-500 uppercase tracking-widest block mb-2">
-                    // Direct Communication
+                  <span class="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block mb-2">
+                    Direct Email
                   </span>
                   <a
                     id="contact-email-btn"
                     href="mailto:hananfh77@gmail.com?subject=Portfolio%20Inquiry"
-                    class="inline-flex items-center gap-3 px-5 py-3 rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#111111] hover:border-neutral-400 dark:hover:border-neutral-700 transition-colors text-sm font-mono font-medium focus-ring group"
+                    class="inline-flex items-center gap-3 px-5 py-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] hover:border-rose-500 dark:hover:border-rose-400 transition-colors text-sm font-medium focus-ring group shadow-sm"
                     aria-label="Send email to hananfh77@gmail.com"
                   >
-                    <i data-lucide="mail" class="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform"></i>
-                    <span class="contact-email-text font-semibold text-neutral-900 dark:text-neutral-100">hananfh77@gmail.com</span>
-                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-neutral-400 dark:text-neutral-500 ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+                    <i data-lucide="mail" class="w-4 h-4 text-rose-600 dark:text-rose-400 group-hover:scale-110 transition-transform"></i>
+                    <span class="contact-email-text font-semibold text-zinc-900 dark:text-zinc-100">hananfh77@gmail.com</span>
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
                   </a>
                 </div>
               </div>
@@ -509,18 +536,15 @@
 
             <!-- Right Column: Accessible FormSubmit Contact Form -->
             <div class="lg:col-span-6">
-              <form id="contact-form" novalidate class="p-6 sm:p-8 rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#111111] space-y-4 shadow-sm">
+              <form id="contact-form" novalidate class="p-6 sm:p-8 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] space-y-4 shadow-sm">
                 <!-- Form Header -->
-                <div class="flex items-center justify-between border-b border-[#DADADA] dark:border-[#262626] pb-3">
-                  <span class="font-mono text-xs font-semibold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">
-                    // Direct Dispatch Form
-                  </span>
-                  <span class="font-mono text-[10px] text-neutral-400 uppercase tracking-widest">
-                    FormSubmit AJAX
+                <div class="border-b border-zinc-200 dark:border-zinc-800 pb-3 mb-4">
+                  <span class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    Send a Message
                   </span>
                 </div>
 
-                <!-- Anti-spam Honeypot (visually hidden, excluded from screen readers & tab order) -->
+                <!-- Anti-spam Honeypot -->
                 <div style="display:none !important;" aria-hidden="true">
                   <label for="form-honey">Leave this blank</label>
                   <input type="text" id="form-honey" name="_honey" autocomplete="off" tabindex="-1" />
@@ -528,8 +552,8 @@
 
                 <!-- Name Field -->
                 <div>
-                  <label for="form-sender-name" class="block font-mono text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-medium">
-                    Your Name <span class="text-blue-600 dark:text-blue-400">*</span>
+                  <label for="form-sender-name" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+                    Your Name <span class="text-rose-600 dark:text-rose-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -537,15 +561,15 @@
                     name="name"
                     required
                     placeholder="e.g. Jane Doe"
-                    class="w-full px-3.5 py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-900 dark:text-neutral-100 text-sm focus-ring placeholder-neutral-400 dark:placeholder-neutral-600 transition-colors"
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-[#0D0D11] text-zinc-900 dark:text-zinc-100 text-sm focus-ring placeholder-zinc-400 dark:placeholder-zinc-500 transition-colors"
                   />
-                  <p id="err-name" class="hidden text-xs text-red-600 dark:text-red-400 font-mono mt-1">Please enter your name.</p>
+                  <p id="err-name" class="hidden text-xs text-red-600 dark:text-red-400 mt-1">Please enter your name.</p>
                 </div>
 
                 <!-- Email Field -->
                 <div>
-                  <label for="form-sender-email" class="block font-mono text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-medium">
-                    Your Email Address <span class="text-blue-600 dark:text-blue-400">*</span>
+                  <label for="form-sender-email" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+                    Your Email Address <span class="text-rose-600 dark:text-rose-400">*</span>
                   </label>
                   <input
                     type="email"
@@ -553,15 +577,15 @@
                     name="email"
                     required
                     placeholder="e.g. jane@example.com"
-                    class="w-full px-3.5 py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-900 dark:text-neutral-100 text-sm focus-ring placeholder-neutral-400 dark:placeholder-neutral-600 transition-colors"
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-[#0D0D11] text-zinc-900 dark:text-zinc-100 text-sm focus-ring placeholder-zinc-400 dark:placeholder-zinc-500 transition-colors"
                   />
-                  <p id="err-email" class="hidden text-xs text-red-600 dark:text-red-400 font-mono mt-1">Please enter a valid email address.</p>
+                  <p id="err-email" class="hidden text-xs text-red-600 dark:text-red-400 mt-1">Please enter a valid email address.</p>
                 </div>
 
                 <!-- Subject Field -->
                 <div>
-                  <label for="form-subject" class="block font-mono text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-medium">
-                    Subject <span class="text-blue-600 dark:text-blue-400">*</span>
+                  <label for="form-subject" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+                    Subject <span class="text-rose-600 dark:text-rose-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -569,15 +593,15 @@
                     name="subject"
                     required
                     placeholder="e.g. Internship Inquiry / Project Collaboration"
-                    class="w-full px-3.5 py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-900 dark:text-neutral-100 text-sm focus-ring placeholder-neutral-400 dark:placeholder-neutral-600 transition-colors"
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-[#0D0D11] text-zinc-900 dark:text-zinc-100 text-sm focus-ring placeholder-zinc-400 dark:placeholder-zinc-500 transition-colors"
                   />
-                  <p id="err-subject" class="hidden text-xs text-red-600 dark:text-red-400 font-mono mt-1">Please enter an inquiry subject.</p>
+                  <p id="err-subject" class="hidden text-xs text-red-600 dark:text-red-400 mt-1">Please enter an inquiry subject.</p>
                 </div>
 
                 <!-- Message Field -->
                 <div>
-                  <label for="form-message" class="block font-mono text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-medium">
-                    Message <span class="text-blue-600 dark:text-blue-400">*</span>
+                  <label for="form-message" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+                    Message <span class="text-rose-600 dark:text-rose-400">*</span>
                   </label>
                   <textarea
                     id="form-message"
@@ -586,26 +610,26 @@
                     minlength="10"
                     rows="4"
                     placeholder="Briefly describe your project, inquiry, or opportunity..."
-                    class="w-full px-3.5 py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-900 dark:text-neutral-100 text-sm focus-ring placeholder-neutral-400 dark:placeholder-neutral-600 transition-colors resize-y"
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-[#0D0D11] text-zinc-900 dark:text-zinc-100 text-sm focus-ring placeholder-zinc-400 dark:placeholder-zinc-500 transition-colors resize-y"
                   ></textarea>
-                  <p id="err-message" class="hidden text-xs text-red-600 dark:text-red-400 font-mono mt-1">Message must be at least 10 characters long.</p>
+                  <p id="err-message" class="hidden text-xs text-red-600 dark:text-red-400 mt-1">Message must be at least 10 characters long.</p>
                 </div>
 
-                <!-- Dynamic Live Feedback Container (Accessible) -->
+                <!-- Dynamic Live Feedback Container -->
                 <div id="contact-form-feedback" class="hidden" aria-live="polite"></div>
 
-                <!-- Submit Button with Reactive States -->
+                <!-- Submit Button -->
                 <button
                   type="submit"
                   id="contact-submit-btn"
-                  class="w-full py-3 px-5 rounded bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-mono text-xs uppercase tracking-wider font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all focus-ring flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-full py-3 px-5 rounded-lg bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600 text-white text-xs uppercase tracking-wider font-semibold transition-all shadow-md shadow-rose-600/20 focus-ring flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span id="contact-submit-text">Send Message</span>
                   <i data-lucide="send" id="contact-submit-icon" class="w-3.5 h-3.5"></i>
                 </button>
 
-                <p class="font-mono text-[11px] text-neutral-500 dark:text-neutral-500 text-center pt-1">
-                  Dispatched directly to <a href="mailto:hananfh77@gmail.com" class="underline hover:text-neutral-900 dark:hover:text-neutral-200">hananfh77@gmail.com</a> via FormSubmit AJAX.
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 text-center pt-1">
+                  Messages are sent directly to <a href="mailto:hananfh77@gmail.com" class="underline hover:text-zinc-900 dark:hover:text-zinc-100 font-medium">hananfh77@gmail.com</a>.
                 </p>
               </form>
             </div>
@@ -617,24 +641,24 @@
     <!-- ====================================================================== -->
     <!-- 10. FOOTER -->
     <!-- ====================================================================== -->
-    <footer class="border-t border-[#DADADA] dark:border-[#262626] py-12 bg-[#F7F7F5] dark:bg-[#0A0A0A]">
+    <footer class="border-t border-zinc-200 dark:border-zinc-800 py-12 bg-zinc-100 dark:bg-[#08080C]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div>
-          <p class="font-mono text-xs text-neutral-900 dark:text-neutral-100 font-semibold tracking-wide">
+          <p class="text-xs font-medium text-zinc-800 dark:text-zinc-200">
             © <span id="footer-year">2026</span> <span class="bind-name">Hanan Fathurrozaq Hidayatullah</span>. All rights reserved.
           </p>
-          <p class="text-xs text-neutral-500 mt-1">
+          <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
             <span class="bind-role">Software Engineering Student</span> · Built with HTML5, Tailwind CSS &amp; Vanilla JavaScript.
           </p>
         </div>
 
         <!-- Dynamic Footer Social Links -->
         <div class="flex items-center gap-6">
-          <div id="footer-social-links" class="flex items-center gap-5 text-xs font-mono text-neutral-600 dark:text-neutral-400">
+          <div id="footer-social-links" class="flex items-center gap-5 text-xs text-zinc-600 dark:text-zinc-400">
             <!-- Dynamically populated from portfolioData -->
           </div>
 
-          <a href="#hero" class="font-mono text-xs text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1 ml-2">
+          <a href="#hero" class="text-xs font-medium text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1 ml-2">
             Back to Top ↑
           </a>
         </div>
@@ -655,18 +679,18 @@
       <!-- Backdrop -->
       <div
         id="modal-backdrop"
-        class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm transition-opacity"
+        class="fixed inset-0 bg-zinc-900/60 dark:bg-black/80 backdrop-blur-sm transition-opacity"
       ></div>
 
       <!-- Modal Dialog Window -->
       <div
-        class="relative w-full max-w-2xl bg-[#FFFFFF] dark:bg-[#111111] rounded-lg border border-[#DADADA] dark:border-[#262626] shadow-2xl p-6 sm:p-8 z-10 max-h-[90vh] overflow-y-auto"
+        class="relative w-full max-w-2xl bg-white dark:bg-[#16141A] rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 z-10 max-h-[90vh] overflow-y-auto"
       >
         <!-- Close Button -->
         <button
           id="modal-close-btn"
           type="button"
-          class="absolute top-4 right-4 p-2 rounded-md border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#1A1A1A] text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring"
+          class="absolute top-4 right-4 p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-[#0D0D11] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors focus-ring"
           aria-label="Close certificate preview"
         >
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -674,6 +698,42 @@
 
         <!-- Dynamic Content Injected via src/js/certificates.js -->
         <div id="modal-content"></div>
+      </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- ACCESSIBLE PROJECT DETAIL MODAL -->
+    <!-- ====================================================================== -->
+    <div
+      id="project-modal"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-modal-title"
+      aria-hidden="true"
+    >
+      <!-- Backdrop -->
+      <div
+        id="project-modal-backdrop"
+        class="fixed inset-0 bg-zinc-900/60 dark:bg-black/80 backdrop-blur-sm transition-opacity"
+      ></div>
+
+      <!-- Modal Dialog Window -->
+      <div
+        class="relative w-full max-w-3xl bg-white dark:bg-[#16141A] rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 z-10 max-h-[90vh] overflow-y-auto"
+      >
+        <!-- Close Button -->
+        <button
+          id="project-modal-close-btn"
+          type="button"
+          class="absolute top-4 right-4 p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-[#0D0D11] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors focus-ring"
+          aria-label="Close project details"
+        >
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Dynamic Content Injected via src/js/projects.js -->
+        <div id="project-modal-content"></div>
       </div>
     </div>
 
