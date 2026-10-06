@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-canvas: #F7F7F5;
+  --text-primary: #111111;
+  --text-secondary: #666666;
+  --border-subtle: #DADADA;
+  --border-strong: #BCBCBC;
+  --accent: #1D4ED8;
+  --accent-hover: #1E40AF;
+  --accent-subtle: rgba(29, 78, 216, 0.08);
+  --card-bg: #FFFFFF;
+  --card-hover-border: #999999;
+  --surface-muted: #EFEFEc;
+  --nav-backdrop: rgba(247, 247, 245, 0.85);
+}
+
+.dark {
+  --bg-canvas: #0A0A0A;
+  --text-primary: #F5F5F5;
+  --text-secondary: #A3A3A3;
+  --border-subtle: #262626;
+  --border-strong: #383838;
+  --accent: #60A5FA;
+  --accent-hover: #93C5FD;
+  --accent-subtle: rgba(96, 165, 250, 0.12);
+  --card-bg: #111111;
+  --card-hover-border: #444444;
+  --surface-muted: #171717;
+  --nav-backdrop: rgba(10, 10, 10, 0.85);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    line-height: 1.6;
+    transition: background-color 250ms ease, color 250ms ease;
+  }
+
+  ::selection {
+    background-color: var(--text-primary);
+    color: var(--bg-canvas);
+  }
+
+  /* Custom minimal scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-canvas);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+  }
+
+  /* Section anchor scroll offset to account for sticky navbar */
+  section {
+    scroll-margin-top: 5.5rem;
+  }
+}
+
+/* Accessible focus ring utilities */
+@layer utilities {
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 dark:focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F7F5] dark:focus-visible:ring-offset-[#0A0A0A];
+  }
+}
+
+/* Reveal on scroll animations */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

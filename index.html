@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- Anti-flash inline theme loader -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('portfolio-theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- SEO Meta Tags -->
+    <title>Hanan Fathurrozaq Hidayatullah — Software Developer & Engineering Student</title>
+    <meta
+      name="description"
+      content="Production-grade portfolio of Hanan Fathurrozaq Hidayatullah, a software engineering student specializing in clean frontend architecture, responsive web standards, and modern application development."
+    />
+    <meta name="author" content="Hanan Fathurrozaq Hidayatullah" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://example.com/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://example.com/" />
+    <meta property="og:title" content="Hanan Fathurrozaq Hidayatullah — Software Developer & Engineering Student" />
+    <meta
+      property="og:description"
+      content="Production-grade developer portfolio showcasing software engineering projects, technical expertise, and verified coursework."
+    />
+    <meta property="og:image" content="/favicon.svg" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hanan Fathurrozaq Hidayatullah — Software Developer & Engineering Student" />
+    <meta
+      name="twitter:description"
+      content="Production-grade developer portfolio showcasing software engineering projects, technical expertise, and verified coursework."
+    />
+    <meta name="twitter:image" content="/favicon.svg" />
+
+    <!-- Favicon & PWA Manifest -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Font Preconnect for Zero-Layout Shift Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+
+  <body class="bg-[#F7F7F5] dark:bg-[#0A0A0A] text-[#111111] dark:text-[#F5F5F5] min-h-screen selection:bg-neutral-900 selection:text-white dark:selection:bg-neutral-100 dark:selection:text-black">
+    <!-- Screen Reader Skip Navigation -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-blue-600 text-white font-mono text-xs rounded shadow-lg focus:outline-none"
+    >
+      Skip to main content
+    </a>
+
+    <!-- ====================================================================== -->
+    <!-- 1. NAVIGATION -->
+    <!-- ====================================================================== -->
+    <header
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 border-b border-transparent backdrop-blur-md bg-[#F7F7F5]/80 dark:bg-[#0A0A0A]/80 border-[#DADADA]/60 dark:border-[#262626]/60"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+        <!-- Brand / Identity -->
+        <a
+          href="#"
+          class="flex items-center gap-3 focus-ring py-1 group"
+          aria-label="Hanan Fathurrozaq Hidayatullah Portfolio Home"
+        >
+          <span class="w-8 h-8 rounded bg-neutral-900 dark:bg-neutral-100 text-neutral-100 dark:text-neutral-900 font-mono font-bold text-xs flex items-center justify-center tracking-tighter">
+            HF
+          </span>
+          <div class="flex flex-col">
+            <span class="text-sm font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 bind-name">
+              Hanan Fathurrozaq Hidayatullah
+            </span>
+            <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-widest bind-role">
+              Software Engineering
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-7 text-xs font-mono tracking-wider uppercase font-medium" aria-label="Main Navigation">
+          <a href="#about" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+            About
+          </a>
+          <a href="#expertise" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+            Expertise
+          </a>
+          <a href="#skills" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+            Skills
+          </a>
+          <a href="#education" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+            Education
+          </a>
+          <a href="#projects" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+            Projects
+          </a>
+          <a href="#certificates" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+            Certificates
+          </a>
+          <a href="#contact" class="nav-section-link text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1">
+            Contact
+          </a>
+        </nav>
+
+        <!-- Navbar Action Items: Theme Toggle & CV -->
+        <div class="hidden md:flex items-center gap-3">
+          <!-- Theme Toggle Button -->
+          <button
+            type="button"
+            class="theme-toggle-btn p-2 rounded border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-ring"
+            aria-label="Toggle theme mode"
+          >
+            <i data-lucide="sun" class="theme-icon-sun w-4 h-4 hidden"></i>
+            <i data-lucide="moon" class="theme-icon-moon w-4 h-4"></i>
+          </button>
+
+          <!-- CV Download Button (strictly hidden if resumeUrl is empty) -->
+          <a
+            href="#contact"
+            class="cv-link-btn hidden inline-flex items-center gap-2 px-3.5 py-1.5 rounded border border-neutral-900 dark:border-neutral-100 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-mono text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all focus-ring"
+            aria-label="Download Curriculum Vitae"
+          >
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span class="cv-button-text">Download CV</span>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Trigger -->
+        <div class="flex items-center gap-2 md:hidden">
+          <button
+            type="button"
+            class="theme-toggle-btn p-2 rounded border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] text-neutral-700 dark:text-neutral-300 focus-ring"
+            aria-label="Toggle theme mode"
+          >
+            <i data-lucide="sun" class="theme-icon-sun w-4 h-4 hidden"></i>
+            <i data-lucide="moon" class="theme-icon-moon w-4 h-4"></i>
+          </button>
+
+          <button
+            id="mobile-menu-btn"
+            type="button"
+            class="p-2 rounded border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] text-neutral-800 dark:text-neutral-200 focus-ring"
+            aria-label="Open mobile menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu-drawer"
+          >
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Drawer (Accessible Modal/Slide) -->
+      <div
+        id="mobile-menu-drawer"
+        class="pointer-events-none opacity-0 fixed inset-x-0 top-18 bottom-0 bg-[#F7F7F5]/98 dark:bg-[#0A0A0A]/98 backdrop-blur-xl border-t border-[#DADADA] dark:border-[#262626] transition-all duration-300 z-50 flex flex-col justify-between p-6 overflow-y-auto"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile Navigation"
+      >
+        <div class="space-y-4">
+          <span class="font-mono text-xs text-neutral-500 uppercase tracking-widest block mb-4">
+            // Navigation
+          </span>
+          <a href="#about" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+            About
+          </a>
+          <a href="#expertise" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+            Expertise
+          </a>
+          <a href="#skills" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+            Skills &amp; Stack
+          </a>
+          <a href="#education" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+            Education
+          </a>
+          <a href="#projects" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+            Selected Projects
+          </a>
+          <a href="#certificates" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100 border-b border-[#DADADA]/50 dark:border-[#262626]/50">
+            Certificates
+          </a>
+          <a href="#contact" class="mobile-nav-link block text-lg font-mono uppercase tracking-wider py-2 text-neutral-900 dark:text-neutral-100">
+            Contact
+          </a>
+        </div>
+
+        <div class="pt-6 border-t border-[#DADADA] dark:border-[#262626] space-y-3">
+          <a
+            href="mailto:hananfh77@gmail.com?subject=Portfolio%20Inquiry"
+            class="flex items-center justify-center gap-2 w-full py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] text-neutral-800 dark:text-neutral-200 font-mono text-xs uppercase font-semibold tracking-wider hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            aria-label="Send Email to hananfh77@gmail.com"
+          >
+            <i data-lucide="mail" class="w-4 h-4"></i>
+            <span>hananfh77@gmail.com</span>
+          </a>
+          <a
+            href="#contact"
+            class="cv-link-btn hidden flex items-center justify-center gap-2 w-full py-3 rounded bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-mono text-xs uppercase font-semibold tracking-wider"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span class="cv-button-text">Download CV</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="main-content" class="pt-24 sm:pt-28">
+      <!-- ====================================================================== -->
+      <!-- 2. HERO SECTION -->
+      <!-- ====================================================================== -->
+      <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-28" aria-label="Hero Introduction">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          <!-- Left Column: Editorial Intro -->
+          <div class="lg:col-span-7 flex flex-col items-start">
+            <!-- Live Status Indicator -->
+            <div id="hero-status-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#121212] mb-6">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span class="font-mono text-xs text-neutral-600 dark:text-neutral-400">Available for Opportunities</span>
+            </div>
+
+            <!-- Eyebrow Tag -->
+            <span id="hero-eyebrow" class="font-mono text-xs sm:text-sm font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-3">
+              SOFTWARE ENGINEERING · DEVELOPER
+            </span>
+
+            <!-- Main Display Heading -->
+            <h1 id="hero-headline" class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-950 dark:text-white leading-[1.1] mb-6 max-w-2xl">
+              Building useful digital experiences through code.
+            </h1>
+
+            <!-- Professional Summary -->
+            <p id="hero-shortbio" class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xl mb-8">
+              Undergraduate software engineering student focused on clean architecture, modern web development, and performant user interfaces.
+            </p>
+
+            <!-- Call to Actions -->
+            <div class="flex flex-wrap items-center gap-4 mb-10">
+              <a
+                href="#projects"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 font-mono text-xs uppercase tracking-wider font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors focus-ring"
+              >
+                <span>View Projects</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+              </a>
+
+              <a
+                href="#contact"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded border border-neutral-900 dark:border-neutral-100 text-neutral-900 dark:text-neutral-100 font-mono text-xs uppercase tracking-wider font-semibold hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition-colors focus-ring"
+              >
+                <span>Contact Me</span>
+              </a>
+            </div>
+
+            <!-- Direct Social Anchor Links -->
+            <div class="pt-6 border-t border-[#DADADA] dark:border-[#262626] w-full max-w-md">
+              <span class="font-mono text-[11px] text-neutral-500 uppercase tracking-widest block mb-3">
+                // Connect Directly
+              </span>
+              <div id="hero-social-links" class="flex flex-wrap items-center gap-5">
+                <!-- Dynamically populated from portfolioData -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Profile Image Anchor -->
+          <div class="lg:col-span-5 w-full flex justify-center lg:justify-end">
+            <div id="hero-profile-container" class="w-full max-w-sm sm:max-w-md">
+              <!-- Dynamically populated or deliberate placeholder -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================== -->
+      <!-- 3. ABOUT SECTION -->
+      <!-- ====================================================================== -->
+      <section id="about" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="about-section-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center gap-3 mb-8">
+            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 01</span>
+            <h2 id="about-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
+              About &amp; Philosophy
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Narrative Column (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+              <h3 id="about-heading" class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 leading-snug">
+                Engineered with curiosity, built for longevity.
+              </h3>
+              <div id="about-paragraphs" class="space-y-4">
+                <!-- Injected via portfolioData.about.paragraphs -->
+              </div>
+            </div>
+
+            <!-- Quick Specs Column (5 cols) -->
+            <div class="lg:col-span-5 space-y-4">
+              <div class="p-6 rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#111111] space-y-4">
+                <span class="font-mono text-xs font-semibold text-neutral-500 uppercase tracking-wider block border-b border-[#DADADA] dark:border-[#262626] pb-2">
+                  System Telemetry
+                </span>
+
+                <div class="space-y-3 font-mono text-xs">
+                  <div>
+                    <span class="text-neutral-500 block">CURRENT STATUS</span>
+                    <span id="about-status" class="text-neutral-900 dark:text-neutral-100 font-medium">Available</span>
+                  </div>
+                  <div>
+                    <span class="text-neutral-500 block">PRIMARY LOCATION</span>
+                    <span id="about-location" class="text-neutral-900 dark:text-neutral-100 font-medium">Remote / Hybrid</span>
+                  </div>
+                  <div>
+                    <span class="text-neutral-500 block">CORE FOCUS</span>
+                    <span id="about-focus" class="text-neutral-900 dark:text-neutral-100 font-medium">Web Engineering &amp; Distributed Systems</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================== -->
+      <!-- 4. EXPERTISE SECTION -->
+      <!-- ====================================================================== -->
+      <section id="expertise" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="expertise-section-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 02</span>
+            <h2 id="expertise-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
+              Core Competencies
+            </h2>
+          </div>
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
+            Technical disciplines applied across architecture, interface design, and systems engineering.
+          </p>
+
+          <!-- 4-Card Expertise Grid -->
+          <div id="expertise-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Injected via portfolioData.expertise -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================== -->
+      <!-- 5. SKILLS / TECHNOLOGIES SECTION -->
+      <!-- ====================================================================== -->
+      <section id="skills" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="skills-section-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 03</span>
+            <h2 id="skills-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
+              Technical Stack &amp; Tooling
+            </h2>
+          </div>
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
+            Practical programming languages, libraries, databases, and development environments.
+          </p>
+
+          <!-- Categorized Skills Grid -->
+          <div id="skills-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Injected via portfolioData.skills -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================== -->
+      <!-- 6. EDUCATION SECTION -->
+      <!-- ====================================================================== -->
+      <section id="education" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="education-section-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 04</span>
+            <h2 id="education-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
+              Academic Background
+            </h2>
+          </div>
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
+            Foundations in computer science, software engineering curricula, and theoretical coursework.
+          </p>
+
+          <!-- Education Timeline Container -->
+          <div id="education-timeline" class="max-w-4xl space-y-2">
+            <!-- Injected via portfolioData.education -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================== -->
+      <!-- 7. SELECTED PROJECTS SECTION -->
+      <!-- Strict requirement: Exactly 3 projects rendered from data -->
+      <!-- ====================================================================== -->
+      <section id="projects" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="projects-section-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 05</span>
+              <h2 id="projects-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
+                Selected Projects
+              </h2>
+            </div>
+            <span class="font-mono text-xs text-neutral-500">EXACTLY 03 ENTRIES</span>
+          </div>
+
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
+            A curated showcase of engineering initiatives, interface studies, and software systems.
+          </p>
+
+          <!-- Projects Container (Renders exactly 3 editorial items) -->
+          <div id="projects-container" class="space-y-10">
+            <!-- Injected via src/js/projects.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================== -->
+      <!-- 8. CERTIFICATES SECTION -->
+      <!-- Strict requirement: Exactly 10 certificates rendered from data -->
+      <!-- ====================================================================== -->
+      <section id="certificates" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="certificates-section-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 06</span>
+              <h2 id="certificates-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
+                Certifications &amp; Accreditations
+              </h2>
+            </div>
+            <span class="font-mono text-xs text-neutral-500">EXACTLY 10 CREDENTIALS</span>
+          </div>
+
+          <p class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-10 max-w-2xl">
+            Structured coursework, technical certifications, and formal engineering proficiencies.
+          </p>
+
+          <!-- Certificates Editorial Grid (Desktop: 2/3 cols, Mobile: 1 col) -->
+          <div id="certificates-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
+            <!-- Injected via src/js/certificates.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================== -->
+      <!-- 9. CONTACT SECTION -->
+      <!-- ====================================================================== -->
+      <section id="contact" class="py-20 border-t border-[#DADADA] dark:border-[#262626]" aria-labelledby="contact-section-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">// 07</span>
+            <h2 id="contact-section-heading" class="font-mono text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-500 font-semibold">
+              Get In Touch
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Left Info Column -->
+            <div class="lg:col-span-6 space-y-6">
+              <h3 id="contact-heading" class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 leading-tight">
+                Let's Work Together
+              </h3>
+              <p id="contact-subheading" class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
+                I am actively seeking software engineering internships, junior developer roles, and open-source collaborations. Have an opportunity or project in mind? Reach out directly via the form or email.
+              </p>
+
+              <!-- Quick Action Link Buttons -->
+              <div class="space-y-4 pt-4">
+                <div>
+                  <span class="font-mono text-[11px] text-neutral-500 uppercase tracking-widest block mb-2">
+                    // Direct Communication
+                  </span>
+                  <a
+                    id="contact-email-btn"
+                    href="mailto:hananfh77@gmail.com?subject=Portfolio%20Inquiry"
+                    class="inline-flex items-center gap-3 px-5 py-3 rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#111111] hover:border-neutral-400 dark:hover:border-neutral-700 transition-colors text-sm font-mono font-medium focus-ring group"
+                    aria-label="Send email to hananfh77@gmail.com"
+                  >
+                    <i data-lucide="mail" class="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform"></i>
+                    <span class="contact-email-text font-semibold text-neutral-900 dark:text-neutral-100">hananfh77@gmail.com</span>
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-neutral-400 dark:text-neutral-500 ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Accessible FormSubmit Contact Form -->
+            <div class="lg:col-span-6">
+              <form id="contact-form" novalidate class="p-6 sm:p-8 rounded-lg border border-[#DADADA] dark:border-[#262626] bg-[#FFFFFF] dark:bg-[#111111] space-y-4 shadow-sm">
+                <!-- Form Header -->
+                <div class="flex items-center justify-between border-b border-[#DADADA] dark:border-[#262626] pb-3">
+                  <span class="font-mono text-xs font-semibold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">
+                    // Direct Dispatch Form
+                  </span>
+                  <span class="font-mono text-[10px] text-neutral-400 uppercase tracking-widest">
+                    FormSubmit AJAX
+                  </span>
+                </div>
+
+                <!-- Anti-spam Honeypot (visually hidden, excluded from screen readers & tab order) -->
+                <div style="display:none !important;" aria-hidden="true">
+                  <label for="form-honey">Leave this blank</label>
+                  <input type="text" id="form-honey" name="_honey" autocomplete="off" tabindex="-1" />
+                </div>
+
+                <!-- Name Field -->
+                <div>
+                  <label for="form-sender-name" class="block font-mono text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-medium">
+                    Your Name <span class="text-blue-600 dark:text-blue-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="form-sender-name"
+                    name="name"
+                    required
+                    placeholder="e.g. Jane Doe"
+                    class="w-full px-3.5 py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-900 dark:text-neutral-100 text-sm focus-ring placeholder-neutral-400 dark:placeholder-neutral-600 transition-colors"
+                  />
+                  <p id="err-name" class="hidden text-xs text-red-600 dark:text-red-400 font-mono mt-1">Please enter your name.</p>
+                </div>
+
+                <!-- Email Field -->
+                <div>
+                  <label for="form-sender-email" class="block font-mono text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-medium">
+                    Your Email Address <span class="text-blue-600 dark:text-blue-400">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="form-sender-email"
+                    name="email"
+                    required
+                    placeholder="e.g. jane@example.com"
+                    class="w-full px-3.5 py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-900 dark:text-neutral-100 text-sm focus-ring placeholder-neutral-400 dark:placeholder-neutral-600 transition-colors"
+                  />
+                  <p id="err-email" class="hidden text-xs text-red-600 dark:text-red-400 font-mono mt-1">Please enter a valid email address.</p>
+                </div>
+
+                <!-- Subject Field -->
+                <div>
+                  <label for="form-subject" class="block font-mono text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-medium">
+                    Subject <span class="text-blue-600 dark:text-blue-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="form-subject"
+                    name="subject"
+                    required
+                    placeholder="e.g. Internship Inquiry / Project Collaboration"
+                    class="w-full px-3.5 py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-900 dark:text-neutral-100 text-sm focus-ring placeholder-neutral-400 dark:placeholder-neutral-600 transition-colors"
+                  />
+                  <p id="err-subject" class="hidden text-xs text-red-600 dark:text-red-400 font-mono mt-1">Please enter an inquiry subject.</p>
+                </div>
+
+                <!-- Message Field -->
+                <div>
+                  <label for="form-message" class="block font-mono text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-medium">
+                    Message <span class="text-blue-600 dark:text-blue-400">*</span>
+                  </label>
+                  <textarea
+                    id="form-message"
+                    name="message"
+                    required
+                    minlength="10"
+                    rows="4"
+                    placeholder="Briefly describe your project, inquiry, or opportunity..."
+                    class="w-full px-3.5 py-2.5 rounded border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#171717] text-neutral-900 dark:text-neutral-100 text-sm focus-ring placeholder-neutral-400 dark:placeholder-neutral-600 transition-colors resize-y"
+                  ></textarea>
+                  <p id="err-message" class="hidden text-xs text-red-600 dark:text-red-400 font-mono mt-1">Message must be at least 10 characters long.</p>
+                </div>
+
+                <!-- Dynamic Live Feedback Container (Accessible) -->
+                <div id="contact-form-feedback" class="hidden" aria-live="polite"></div>
+
+                <!-- Submit Button with Reactive States -->
+                <button
+                  type="submit"
+                  id="contact-submit-btn"
+                  class="w-full py-3 px-5 rounded bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-mono text-xs uppercase tracking-wider font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all focus-ring flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <span id="contact-submit-text">Send Message</span>
+                  <i data-lucide="send" id="contact-submit-icon" class="w-3.5 h-3.5"></i>
+                </button>
+
+                <p class="font-mono text-[11px] text-neutral-500 dark:text-neutral-500 text-center pt-1">
+                  Dispatched directly to <a href="mailto:hananfh77@gmail.com" class="underline hover:text-neutral-900 dark:hover:text-neutral-200">hananfh77@gmail.com</a> via FormSubmit AJAX.
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ====================================================================== -->
+    <!-- 10. FOOTER -->
+    <!-- ====================================================================== -->
+    <footer class="border-t border-[#DADADA] dark:border-[#262626] py-12 bg-[#F7F7F5] dark:bg-[#0A0A0A]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <p class="font-mono text-xs text-neutral-900 dark:text-neutral-100 font-semibold tracking-wide">
+            © <span id="footer-year">2026</span> <span class="bind-name">Hanan Fathurrozaq Hidayatullah</span>. All rights reserved.
+          </p>
+          <p class="text-xs text-neutral-500 mt-1">
+            <span class="bind-role">Software Engineering Student</span> · Built with HTML5, Tailwind CSS &amp; Vanilla JavaScript.
+          </p>
+        </div>
+
+        <!-- Dynamic Footer Social Links -->
+        <div class="flex items-center gap-6">
+          <div id="footer-social-links" class="flex items-center gap-5 text-xs font-mono text-neutral-600 dark:text-neutral-400">
+            <!-- Dynamically populated from portfolioData -->
+          </div>
+
+          <a href="#hero" class="font-mono text-xs text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring py-1 ml-2">
+            Back to Top ↑
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ====================================================================== -->
+    <!-- ACCESSIBLE CERTIFICATE LIGHTBOX MODAL -->
+    <!-- ====================================================================== -->
+    <div
+      id="certificate-modal"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-hidden="true"
+    >
+      <!-- Backdrop -->
+      <div
+        id="modal-backdrop"
+        class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm transition-opacity"
+      ></div>
+
+      <!-- Modal Dialog Window -->
+      <div
+        class="relative w-full max-w-2xl bg-[#FFFFFF] dark:bg-[#111111] rounded-lg border border-[#DADADA] dark:border-[#262626] shadow-2xl p-6 sm:p-8 z-10 max-h-[90vh] overflow-y-auto"
+      >
+        <!-- Close Button -->
+        <button
+          id="modal-close-btn"
+          type="button"
+          class="absolute top-4 right-4 p-2 rounded-md border border-[#DADADA] dark:border-[#262626] bg-[#F7F7F5] dark:bg-[#1A1A1A] text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors focus-ring"
+          aria-label="Close certificate preview"
+        >
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Dynamic Content Injected via src/js/certificates.js -->
+        <div id="modal-content"></div>
+      </div>
+    </div>
+
+    <!-- Main JavaScript Entry Point -->
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
