@@ -21,11 +21,11 @@ export const portfolioData = {
   personal: {
     name: "Hanan Fathurrozaq Hidayatullah",
     role: "Software Engineering Student",
-    eyebrow: "SOFTWARE ENGINEERING · FULL-STACK & WEB",
-    headline: "Building useful, resilient digital experiences through code.",
-    shortBio: "Undergraduate student in Software Engineering with a strong focus on clean architecture, modern frontend engineering, and accessible web standards.",
-    location: "Jakarta, Indonesia",
-    status: "Available for Internships & Projects",
+    eyebrow: "REKAYASA PERANGKAT LUNAK · SMK PLUS PELITA NUSANTARA",
+    headline: "Software Engineering Student based in Bogor, Indonesia.",
+    shortBio: "Halo, saya Hanan Fathurrozaq Hidayatullah. Siswa SMK Plus Pelita Nusantara jurusan Rekayasa Perangkat Lunak yang berfokus pada web development dan pemrograman.",
+    location: "Bogor, Indonesia",
+    status: "Siswa SMK Plus Pelita Nusantara",
     email: "hananfh77@gmail.com",
     profileImage: "", // Path to image e.g. "/src/assets/profile/profile.webp". If empty, an elegant placeholder renders.
     resumeUrl: "", // Path to resume e.g. "/resume.pdf". If empty, Download CV is cleanly hidden.
@@ -45,8 +45,8 @@ export const portfolioData = {
   // 3. CONTACT FORM CONFIGURATION
   // ============================================================================
   contact: {
-    heading: "Let's Work Together",
-    subheading: "I am actively seeking software engineering internships, junior developer roles, and open-source collaborations. Have an opportunity or project in mind? Reach out directly via the form or email.",
+    heading: "Hubungi Saya",
+    subheading: "Terbuka untuk diskusi proyek, kolaborasi open-source, dan kesempatan magang. Silakan hubungi saya melalui formulir di bawah ini atau email langsung.",
     recipientEmail: "hananfh77@gmail.com",
     formSubmitEndpoint: "https://formsubmit.co/ajax/hananfh77@gmail.com",
   },
@@ -55,14 +55,14 @@ export const portfolioData = {
   // 3. ABOUT SECTION
   // ============================================================================
   about: {
-    heading: "Engineered with curiosity, built for longevity.",
+    heading: "Fokus pada logika pemrograman dan pengembangan web.",
     paragraphs: [
-      "I am an undergraduate software engineering student driven by a deep appreciation for the craft of writing maintainable, performant, and accessible software. I focus on understanding computer science fundamentals and applying them to solve practical problems.",
-      "My approach balances modern engineering principles with deliberate visual restraint. I believe that thoughtful software does not rely on superficial decoration, but rather on clarity of purpose, semantic structure, and responsive execution across any device.",
+      "Saya adalah siswa SMK Plus Pelita Nusantara jurusan Rekayasa Perangkat Lunak. Saya mempelajari dasar-dasar pemrograman, struktur data, dan pembuatan aplikasi web yang bersih serta responsif.",
+      "Saya suka mencoba hal-hal baru dalam pemrograman dan mempraktikkan kode dengan struktur yang rapi dan mudah dirawat.",
     ],
-    status: "Open to Summer 2026 Internships & Junior Roles",
-    currentFocus: "Component-driven architecture, Core Web Vitals optimization, and relational database modeling.",
-    location: "Remote / Hybrid / On-Site",
+    status: "Siswa Aktif SMK Plus Pelita Nusantara",
+    currentFocus: "Pengembangan Aplikasi Web, HTML, CSS, JavaScript & Database",
+    location: "Bogor, Jawa Barat, Indonesia",
   },
 
   // ============================================================================
@@ -109,18 +109,11 @@ export const portfolioData = {
   // ============================================================================
   education: [
     {
-      period: "2023 — Present",
-      institution: "State University of Technology",
-      program: "Bachelor of Science in Software Engineering",
-      description: "Core coursework: Data Structures & Algorithms, Object-Oriented Programming, Database Systems, Software Architecture, Web Engineering, Operating Systems.",
-      status: "Expected Graduation: 2027",
-    },
-    {
-      period: "2020 — 2023",
-      institution: "Vocational High School of Informatics",
-      program: "Software Engineering & Computer Networks",
-      description: "Foundations in computer programming, relational database design, network infrastructure, and algorithmic logic.",
-      status: "Completed",
+      period: "2023 — Sekarang",
+      institution: "SMK Plus Pelita Nusantara",
+      program: "Rekayasa Perangkat Lunak (RPL)",
+      description: "Mempelajari pemrograman web, basis data, algoritma & struktur data, serta pengembangan perangkat lunak.",
+      status: "Siswa Aktif",
     },
   ],
 

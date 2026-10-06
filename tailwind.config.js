@@ -10,23 +10,23 @@ export default {
       colors: {
         canvas: {
           light: '#FAFAFA',
-          dark: '#0D0D11',
+          dark: '#140509',
         },
         primary: {
           light: '#18181B',
-          dark: '#F8FAFC',
+          dark: '#FFF1F2',
         },
         secondary: {
-          light: '#52525B',
-          dark: '#A1A1AA',
+          light: '#71717A',
+          dark: '#FDA4AF',
         },
         customBorder: {
-          light: '#E4E4E7',
-          dark: '#27272A',
+          light: '#FECDD3',
+          dark: '#5C1024',
         },
         accent: {
-          light: '#E11D48',
-          dark: '#FB7185',
+          light: '#DC2626',
+          dark: '#F43F5E',
         },
         crimson: {
           50: '#FFF1F2',
@@ -52,8 +52,8 @@ export default {
         widest: '0.1em',
       },
       boxShadow: {
-        'reflection-light': '0 20px 40px -15px rgba(225, 29, 72, 0.18), 0 0 15px rgba(0, 0, 0, 0.05)',
-        'reflection-dark': '0 25px 50px -12px rgba(244, 63, 94, 0.25), 0 0 20px rgba(244, 63, 94, 0.1)',
+        'reflection-light': '0 25px 50px -12px rgba(220, 38, 38, 0.35), 0 0 25px rgba(225, 29, 72, 0.2)',
+        'reflection-dark': '0 30px 60px -12px rgba(244, 63, 94, 0.45), 0 0 35px rgba(244, 63, 94, 0.25)',
       }
     },
   },
