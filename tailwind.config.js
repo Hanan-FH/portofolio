@@ -9,37 +9,43 @@ export default {
     extend: {
       colors: {
         canvas: {
-          light: '#FAFAFA',
-          dark: '#140509',
+          light: '#F7F7F5',
+          dark: '#0A0A0C',
         },
-        primary: {
-          light: '#18181B',
-          dark: '#FFF1F2',
+        surface: {
+          light: '#FFFFFF',
+          dark: '#121216',
         },
-        secondary: {
-          light: '#71717A',
-          dark: '#FDA4AF',
+        primaryText: {
+          light: '#111113',
+          dark: '#EDEDED',
         },
-        customBorder: {
-          light: '#FECDD3',
-          dark: '#5C1024',
+        secondaryText: {
+          light: '#66666E',
+          dark: '#888892',
+        },
+        subtleBorder: {
+          light: '#E5E5E7',
+          dark: 'rgba(255, 255, 255, 0.06)',
         },
         accent: {
-          light: '#DC2626',
-          dark: '#F43F5E',
+          DEFAULT: '#FF3366',
+          light: '#FF3366',
+          dark: '#FF3366',
+          hover: '#E02456',
         },
         crimson: {
-          50: '#FFF1F2',
-          100: '#FFE4E6',
-          200: '#FECDD3',
-          300: '#FDA4AF',
-          400: '#FB7185',
-          500: '#F43F5E',
-          600: '#E11D48',
-          700: '#BE123C',
-          800: '#9F1239',
-          900: '#881337',
-          950: '#4C0519',
+          50: '#FFF0F4',
+          100: '#FFE1E9',
+          200: '#FFC2D2',
+          300: '#FFA3BB',
+          400: '#FF668E',
+          500: '#FF3366',
+          600: '#E02456',
+          700: '#BA1742',
+          800: '#941033',
+          900: '#6E0824',
+          950: '#3D0212',
         }
       },
       fontFamily: {
@@ -49,11 +55,11 @@ export default {
       letterSpacing: {
         tighter: '-0.04em',
         tight: '-0.02em',
-        widest: '0.1em',
+        widest: '0.12em',
       },
       boxShadow: {
-        'reflection-light': '0 25px 50px -12px rgba(220, 38, 38, 0.35), 0 0 25px rgba(225, 29, 72, 0.2)',
-        'reflection-dark': '0 30px 60px -12px rgba(244, 63, 94, 0.45), 0 0 35px rgba(244, 63, 94, 0.25)',
+        'accent-glow': '0 0 50px rgba(255, 51, 102, 0.15)',
+        'accent-glow-strong': '0 0 60px rgba(255, 51, 102, 0.28)',
       }
     },
   },

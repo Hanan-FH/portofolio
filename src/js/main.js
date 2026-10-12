@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const roleElements = document.querySelectorAll('.bind-role');
   roleElements.forEach(el => {
-    el.textContent = personal.role || 'Software Engineering';
+    el.textContent = personal.role || 'Software Engineering Student';
   });
 
   const eyebrowEl = document.getElementById('hero-eyebrow');
@@ -88,25 +88,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroStatusEl && personal.status) {
     heroStatusEl.innerHTML = `
       <span class="relative flex h-2 w-2">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF3366] opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-[#FF3366]"></span>
       </span>
-      <span class="text-xs font-medium text-zinc-700 dark:text-zinc-300">${escapeHtml(personal.status)}</span>
+      <span class="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300">${escapeHtml(personal.status)}</span>
     `;
   }
 
-  // Profile Image Container (graceful fallback with shadow reflection)
+  // Profile Image Container (ambient crimson glow)
   const profileContainer = document.getElementById('hero-profile-container');
   if (profileContainer) {
     if (personal.profileImage && personal.profileImage.trim()) {
       profileContainer.innerHTML = `
-        <img
-          src="${escapeHtml(personal.profileImage)}"
-          alt="Photograph of ${escapeHtml(personal.name || 'Developer')}"
-          width="480"
-          height="560"
-          class="w-full h-full object-cover object-center rounded-2xl border border-zinc-200 dark:border-zinc-800"
-        />
+        <div class="w-full aspect-[4/5] max-w-md mx-auto rounded-2xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden shadow-[0_0_50px_rgba(255,51,102,0.15)] bg-white dark:bg-[#121216]">
+          <img
+            src="${escapeHtml(personal.profileImage)}"
+            alt="Photograph of ${escapeHtml(personal.name || 'Developer')}"
+            width="480"
+            height="560"
+            class="w-full h-full object-cover object-center"
+          />
+        </div>
       `;
     } else {
       const initials = (personal.name || 'HF')
@@ -117,34 +119,34 @@ document.addEventListener('DOMContentLoaded', () => {
         .toUpperCase();
 
       profileContainer.innerHTML = `
-        <div class="w-full aspect-[4/5] max-w-md mx-auto rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] p-8 flex flex-col justify-between relative overflow-hidden">
-          <div class="relative z-10 flex items-center justify-between text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <div class="w-full aspect-[4/5] max-w-md mx-auto rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#121216] p-8 flex flex-col justify-between relative overflow-hidden shadow-[0_0_50px_rgba(255,51,102,0.15)]">
+          <div class="relative z-10 flex items-center justify-between text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400">
             <span>PROFILE PHOTO</span>
-            <span class="text-rose-600 dark:text-rose-400 font-medium">Pending</span>
+            <span class="text-[#FF3366] font-medium">[IN PROGRESS]</span>
           </div>
 
           <div class="relative z-10 my-auto text-center py-10">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-full border-2 border-dashed border-rose-400/50 dark:border-rose-500/50 bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center text-2xl font-bold text-rose-600 dark:text-rose-400 shadow-md shadow-rose-600/20">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full border-2 border-dashed border-[#FF3366]/50 bg-[#FF3366]/5 dark:bg-[#FF3366]/10 flex items-center justify-center text-2xl font-bold font-mono text-[#FF3366] shadow-lg shadow-[#FF3366]/20">
               ${initials}
             </div>
-            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-1">
-              Photo Placeholder
+            <p class="text-sm font-bold text-zinc-800 dark:text-[#EDEDED] mb-1 font-mono">
+              ${escapeHtml(personal.name || 'Hanan F. H.')}
             </p>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 max-w-xs mx-auto">
-              Place image at <code class="text-[11px] bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-rose-600 dark:text-rose-400">src/assets/profile/profile.webp</code>
+            <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400 max-w-xs mx-auto">
+              Photo asset: <code class="text-[11px] bg-zinc-100 dark:bg-white/[0.05] px-1.5 py-0.5 rounded text-[#FF3366]">src/assets/profile/profile.webp</code>
             </p>
           </div>
 
-          <div class="relative z-10 pt-4 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
-            <span>Location: ${escapeHtml(personal.location || 'Indonesia')}</span>
-            <span>Software Engineer</span>
+          <div class="relative z-10 pt-4 border-t border-zinc-200 dark:border-white/[0.08] flex items-center justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400">
+            <span>Location: ${escapeHtml(personal.location || 'Bogor, Indonesia')}</span>
+            <span class="text-zinc-700 dark:text-zinc-300 font-semibold">Software Engineer</span>
           </div>
         </div>
       `;
     }
   }
 
-  // Social Links in Hero
+  // Social Links in Hero (GitHub strictly appears here, per AGENTS.md)
   const heroSocialContainer = document.getElementById('hero-social-links');
   if (heroSocialContainer) {
     const socialItems = [];
@@ -188,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <a
           href="${escapeHtml(s.url)}"
           ${s.isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''}
-          class="inline-flex items-center gap-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring py-1 group"
+          class="inline-flex items-center gap-2 text-xs font-mono font-semibold text-zinc-600 dark:text-zinc-300 hover:text-[#FF3366] dark:hover:text-[#FF3366] transition-colors focus-ring py-1 group"
           aria-label="${escapeHtml(s.ariaLabel)}"
         >
           <i data-lucide="${s.icon}" class="w-4 h-4"></i>
@@ -213,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     aboutParagraphsContainer.innerHTML = about.paragraphs
       .map(
         p => `
-        <p class="text-base text-zinc-700 dark:text-zinc-300 leading-relaxed">
+        <p class="text-base text-zinc-700 dark:text-[#888892] leading-relaxed">
           ${escapeHtml(p)}
         </p>
       `
@@ -244,15 +246,15 @@ document.addEventListener('DOMContentLoaded', () => {
     expertiseContainer.innerHTML = expertise
       .map(
         exp => `
-        <div class="reveal-item p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] hover:border-rose-500 dark:hover:border-rose-400 transition-all shadow-sm flex flex-col justify-between">
+        <div class="reveal-item p-6 rounded-xl border border-zinc-200 dark:border-white/[0.06] hover:border-[#FF3366]/40 dark:hover:border-[#FF3366]/50 bg-white dark:bg-[#121216] transition-all duration-300 shadow-sm flex flex-col justify-between">
           <div>
-            <span class="text-xs font-bold text-rose-600 dark:text-rose-400 block mb-3">
-              ${escapeHtml(exp.number)}
+            <span class="text-xs font-mono font-bold text-[#FF3366] block mb-3">
+              // ${escapeHtml(exp.number)}
             </span>
-            <h3 class="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-2">
+            <h3 class="text-lg font-bold tracking-tight text-zinc-900 dark:text-[#EDEDED] mb-2">
               ${escapeHtml(exp.title)}
             </h3>
-            <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+            <p class="text-sm text-zinc-600 dark:text-[#888892] leading-relaxed">
               ${escapeHtml(exp.description)}
             </p>
           </div>
@@ -280,16 +282,16 @@ document.addEventListener('DOMContentLoaded', () => {
       .filter(cat => Array.isArray(skills[cat.key]) && skills[cat.key].length > 0)
       .map(
         cat => `
-        <div class="reveal-item p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] shadow-sm">
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+        <div class="reveal-item p-6 rounded-xl border border-zinc-200 dark:border-white/[0.06] bg-white dark:bg-[#121216] shadow-sm">
+          <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-4 pb-2 border-b border-zinc-200 dark:border-white/[0.06] flex items-center justify-between">
             <span>${escapeHtml(cat.label)}</span>
-            <span class="text-xs font-bold text-rose-600 dark:text-rose-400">${skills[cat.key].length}</span>
+            <span class="text-xs font-mono font-bold text-[#FF3366]">${skills[cat.key].length}</span>
           </h3>
           <div class="flex flex-wrap gap-2">
             ${skills[cat.key]
               .map(
                 skill => `
-              <span class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-200">
+              <span class="inline-flex items-center px-3 py-1 text-xs font-mono font-medium rounded-md border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/[0.03] text-zinc-800 dark:text-[#EDEDED]">
                 ${escapeHtml(skill)}
               </span>
             `
@@ -310,25 +312,25 @@ document.addEventListener('DOMContentLoaded', () => {
     educationContainer.innerHTML = education
       .map(
         (edu) => `
-        <div class="reveal-item relative pl-6 sm:pl-8 pb-10 last:pb-0 border-l-2 border-zinc-200 dark:border-zinc-800">
-          <span class="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-rose-600 dark:bg-rose-400 ring-4 ring-[#FAFAFA] dark:ring-[#0D0D11]"></span>
+        <div class="reveal-item relative pl-6 sm:pl-8 pb-10 last:pb-0 border-l-2 border-zinc-200 dark:border-white/10">
+          <span class="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-[#FF3366] ring-4 ring-[#F7F7F5] dark:ring-[#0A0A0C]"></span>
           
           <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
-            <span class="text-xs text-rose-600 dark:text-rose-400 font-semibold tracking-wide uppercase">
+            <span class="text-xs font-mono text-[#FF3366] font-semibold tracking-wide uppercase">
               ${escapeHtml(edu.period)}
             </span>
-            ${edu.status ? `<span class="text-xs text-zinc-500 dark:text-zinc-400 px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">${escapeHtml(edu.status)}</span>` : ''}
+            ${edu.status ? `<span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-white/[0.05] border border-zinc-200 dark:border-white/10">${escapeHtml(edu.status)}</span>` : ''}
           </div>
 
-          <h3 class="text-lg sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-1">
+          <h3 class="text-lg sm:text-xl font-bold text-zinc-900 dark:text-[#EDEDED] mb-1">
             ${escapeHtml(edu.program)}
           </h3>
 
-          <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-3">
+          <p class="text-xs font-mono font-medium text-zinc-500 dark:text-zinc-400 mb-3">
             ${escapeHtml(edu.institution)}
           </p>
 
-          <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl">
+          <p class="text-sm text-zinc-600 dark:text-[#888892] leading-relaxed max-w-3xl">
             ${escapeHtml(edu.description)}
           </p>
         </div>
@@ -433,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isValid) {
         if (formFeedback) {
           formFeedback.innerHTML = `
-            <div class="p-3 rounded-lg border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-xs flex items-center gap-2 font-medium">
+            <div class="p-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400 text-xs flex items-center gap-2 font-mono">
               <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
               <span>Please correct the highlighted fields before submitting.</span>
             </div>
@@ -486,12 +488,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (formFeedback) {
             formFeedback.innerHTML = `
-              <div class="p-4 rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-300 text-xs space-y-2">
+              <div class="p-4 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs space-y-2 font-mono">
                 <div class="flex items-center gap-2 font-semibold">
-                  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
                   <span>Your message has been sent successfully.</span>
                 </div>
-                <p class="text-[11px] text-emerald-800/80 dark:text-emerald-300/80">
+                <p class="text-[11px] text-emerald-700/80 dark:text-emerald-300/80">
                   Thank you for reaching out! I will respond to your email as soon as possible.
                 </p>
               </div>
@@ -512,14 +514,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (formFeedback) {
           formFeedback.innerHTML = `
-            <div class="p-4 rounded-lg border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-300 text-xs space-y-2">
+            <div class="p-4 rounded-lg border border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400 text-xs space-y-2 font-mono">
               <div class="flex items-center gap-2 font-semibold">
-                <i data-lucide="alert-circle" class="w-4 h-4 text-red-600 dark:text-red-400"></i>
+                <i data-lucide="alert-circle" class="w-4 h-4 text-red-500"></i>
                 <span>Something went wrong while sending your message. Please try again or contact me directly via email.</span>
               </div>
               <p class="text-[11px]">
                 Direct fallback email:
-                <a href="mailto:${escapeHtml(primaryEmail)}?subject=${encodeURIComponent(subjectInput?.value.trim() || 'Portfolio Inquiry')}" class="underline font-bold hover:text-red-700 dark:hover:text-red-200">
+                <a href="mailto:${escapeHtml(primaryEmail)}?subject=${encodeURIComponent(subjectInput?.value.trim() || 'Portfolio Inquiry')}" class="underline font-bold hover:text-red-700 dark:hover:text-red-300">
                   ${escapeHtml(primaryEmail)}
                 </a>
               </p>
@@ -545,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
     footerSocialContainer.innerHTML = `
       <a
         href="mailto:${escapeHtml(primaryEmail)}"
-        class="hover:text-rose-600 dark:hover:text-rose-400 transition-colors focus-ring inline-flex items-center gap-1.5 py-1"
+        class="hover:text-[#FF3366] transition-colors focus-ring inline-flex items-center gap-1.5 py-1"
         aria-label="Email ${escapeHtml(primaryEmail)}"
       >
         <i data-lucide="mail" class="w-3.5 h-3.5"></i>

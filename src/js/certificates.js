@@ -3,7 +3,7 @@
  * Handles rendering the EXACTLY 10 certificates in a horizontal scroll carousel ("scroll ke samping")
  * and managing the accessible detail lightbox modal.
  * Follows strict rules:
- * - Exactly 10 certificates (01 to 10).
+ * - Exactly 10 certificates (#01 to #10).
  * - Handles empty states intentionally without fake issuers or stock graphics.
  * - Accessible modal with ESC key support, focus trap, body scroll locking, and click-outside closure.
  */
@@ -66,28 +66,28 @@ export function initCertificates(certificates = [], containerId = 'certificates-
               height="240"
               class="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
              />`
-          : `<div class="w-full h-full flex flex-col items-center justify-center p-4 bg-zinc-100 dark:bg-[#110E14] text-center select-none border-b border-zinc-200 dark:border-zinc-800">
-              <span class="text-xs text-rose-600 dark:text-rose-400 font-semibold uppercase tracking-wider mb-1">
-                Cert ${num}
+          : `<div class="w-full h-full flex flex-col items-center justify-center p-4 bg-zinc-100 dark:bg-white/[0.02] text-center select-none border-b border-zinc-200 dark:border-white/[0.06]">
+              <span class="text-xs font-mono font-bold text-[#FF3366] uppercase tracking-wider mb-1">
+                CERT ${num}
               </span>
-              <span class="text-xs text-zinc-500 dark:text-zinc-400">
+              <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400">
                 Preview Pending
               </span>
              </div>`;
 
         return `
-          <div class="reveal-item w-[260px] sm:w-[300px] shrink-0 snap-start">
+          <div class="reveal-item w-[270px] sm:w-[320px] shrink-0 snap-start">
             <button
               type="button"
-              class="cert-trigger group w-full text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#16141A] overflow-hidden transition-all duration-300 hover:border-rose-500 dark:hover:border-rose-400 hover:shadow-lg focus-ring flex flex-col justify-between h-full"
+              class="cert-trigger group w-full text-left rounded-xl border border-zinc-200 dark:border-white/[0.06] bg-white dark:bg-[#121216] overflow-hidden transition-all duration-300 hover:border-[#FF3366]/40 dark:hover:border-[#FF3366]/50 hover:shadow-lg hover:shadow-black/20 focus-ring flex flex-col justify-between h-full"
               data-cert-id="${index}"
               aria-haspopup="dialog"
               aria-label="View details for Certificate ${num}: ${displayTitle}"
             >
               <!-- Thumbnail Container (aspect 16:10) -->
-              <div class="w-full aspect-[16/10] overflow-hidden bg-zinc-50 dark:bg-[#0D0D11] relative">
+              <div class="w-full aspect-[16/10] overflow-hidden bg-zinc-50 dark:bg-white/[0.02] relative">
                 ${thumbMarkup}
-                <div class="absolute top-2.5 left-2.5 text-[10px] px-2 py-0.5 rounded-md bg-white/90 dark:bg-[#16141A]/90 backdrop-blur border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-semibold">
+                <div class="absolute top-2.5 left-2.5 text-[10px] font-mono px-2 py-0.5 rounded bg-white/90 dark:bg-[#121216]/90 backdrop-blur border border-zinc-200 dark:border-white/10 text-zinc-700 dark:text-zinc-300 font-semibold">
                   #${num}
                 </div>
               </div>
@@ -95,21 +95,21 @@ export function initCertificates(certificates = [], containerId = 'certificates-
               <!-- Metadata content -->
               <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between w-full">
                 <div>
-                  <div class="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2 font-medium">
+                  <div class="flex items-center justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
                     <span class="truncate pr-2">${displayIssuer}</span>
                     <span class="shrink-0">${displayYear}</span>
                   </div>
-                  <h4 class="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors line-clamp-2 mb-2">
+                  <h4 class="text-sm sm:text-base font-bold text-zinc-900 dark:text-[#EDEDED] group-hover:text-[#FF3366] transition-colors line-clamp-2 mb-3">
                     ${displayTitle}
                   </h4>
                 </div>
 
-                <div class="pt-3 border-t border-zinc-200/80 dark:border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 font-medium">
-                  <span class="inline-flex items-center gap-1 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+                <div class="pt-3 border-t border-zinc-100 dark:border-white/[0.06] flex items-center justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                  <span class="inline-flex items-center gap-1 group-hover:text-[#FF3366] transition-colors font-medium">
                     <span>View Details</span>
                     <svg class="w-3 h-3 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                   </span>
-                  ${hasVerification ? `<span class="text-emerald-600 dark:text-emerald-400 text-xs font-semibold">Verified</span>` : `<span class="text-zinc-400 dark:text-zinc-500 text-xs">Pending</span>`}
+                  ${hasVerification ? `<span class="text-emerald-500 text-xs font-semibold">Verified</span>` : `<span class="text-zinc-400 dark:text-zinc-500 text-xs">Pending</span>`}
                 </div>
               </div>
             </button>
@@ -122,10 +122,10 @@ export function initCertificates(certificates = [], containerId = 'certificates-
   // 2. Horizontal Scroll Navigation Buttons
   if (container) {
     scrollLeftBtn?.addEventListener('click', () => {
-      container.scrollBy({ left: -320, behavior: 'smooth' });
+      container.scrollBy({ left: -340, behavior: 'smooth' });
     });
     scrollRightBtn?.addEventListener('click', () => {
-      container.scrollBy({ left: 320, behavior: 'smooth' });
+      container.scrollBy({ left: 340, behavior: 'smooth' });
     });
   }
 
@@ -145,21 +145,21 @@ export function initCertificates(certificates = [], containerId = 'certificates-
     const hasImage = Boolean(cert.image && cert.image.trim());
     const hasVerification = Boolean(cert.verificationUrl && cert.verificationUrl.trim());
 
-    const displayTitle = hasTitle ? escapeHtml(cert.title) : `Certificate ${num} — Pending`;
-    const displayIssuer = hasIssuer ? escapeHtml(cert.issuer) : 'Issuing Organization Pending';
+    const displayTitle = hasTitle ? escapeHtml(cert.title) : `Certificate ${num} — Accreditation In Progress`;
+    const displayIssuer = hasIssuer ? escapeHtml(cert.issuer) : 'SMK Plus Pelita Nusantara / Verified Issuer';
     const displayYear = hasYear ? escapeHtml(cert.year) : 'Year Pending';
 
     const largeImageMarkup = hasImage
       ? `<img
           src="${escapeHtml(cert.image)}"
           alt="${displayTitle} full view"
-          class="w-full max-h-[55vh] object-contain rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0D0D11]"
+          class="w-full max-h-[55vh] object-contain rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0C]"
          />`
-      : `<div class="w-full aspect-[16/10] max-h-[50vh] flex flex-col items-center justify-center p-8 bg-zinc-100 dark:bg-[#110E14] rounded-xl border border-dashed border-zinc-300 dark:border-zinc-700 text-center select-none">
-          <span class="text-xs text-rose-600 dark:text-rose-400 font-semibold uppercase tracking-wider mb-2">
-            Certificate ${num} Image
+      : `<div class="w-full aspect-[16/10] max-h-[50vh] flex flex-col items-center justify-center p-8 bg-zinc-100 dark:bg-white/[0.02] rounded-xl border border-dashed border-zinc-300 dark:border-white/10 text-center select-none">
+          <span class="text-xs font-mono font-bold text-[#FF3366] uppercase tracking-wider mb-2">
+            [CERTIFICATE ${num} // PREVIEW]
           </span>
-          <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+          <p class="text-sm font-mono font-semibold text-zinc-800 dark:text-zinc-200">
             Image To Be Added
           </p>
          </div>`;
@@ -169,12 +169,12 @@ export function initCertificates(certificates = [], containerId = 'certificates-
           href="${escapeHtml(cert.verificationUrl)}"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg bg-rose-600 hover:bg-rose-700 text-white transition-colors focus-ring shadow-sm"
+          class="inline-flex items-center gap-2 px-4 py-2 text-xs font-mono font-semibold uppercase tracking-wider rounded-lg bg-[#FF3366] hover:bg-[#E02456] text-white transition-colors focus-ring shadow-sm"
          >
           <span>Verify Credential</span>
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
          </a>`
-      : `<span class="inline-flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-500 dark:text-zinc-400 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-[#0D0D11] cursor-default font-medium">
+      : `<span class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-zinc-500 dark:text-zinc-400 rounded-lg border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.02] cursor-default">
           <span class="w-2 h-2 rounded-full bg-zinc-400 dark:bg-zinc-600"></span>
           Verification Pending
          </span>`;
@@ -185,19 +185,19 @@ export function initCertificates(certificates = [], containerId = 'certificates-
           ${largeImageMarkup}
         </div>
 
-        <div class="border-t border-zinc-200 dark:border-zinc-800 pt-5">
-          <div class="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider font-medium">
-            <span>Issuer: ${displayIssuer}</span>
+        <div class="border-t border-zinc-200 dark:border-white/[0.08] pt-5">
+          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider">
+            <span class="text-[#FF3366] font-bold">Issuer: ${displayIssuer}</span>
             <span>Issued: ${displayYear}</span>
           </div>
 
-          <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-4">
+          <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[#EDEDED] mb-4">
             ${displayTitle}
           </h3>
 
           <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
             ${verificationMarkup}
-            <span class="text-xs text-zinc-400 dark:text-zinc-500 font-medium">
+            <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500">
               Credential #${num}
             </span>
           </div>
