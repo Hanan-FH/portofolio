@@ -770,12 +770,12 @@ export function App() {
               <span>Credential #{String(selectedCert.id).padStart(2, '0')}</span>
               {selectedCert.image ? (
                 <a
-                  href={selectedCert.image}
+                  href={selectedCert.verificationUrl || selectedCert.image}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: 'var(--accent)', textDecoration: 'none' }}
                 >
-                  Buka Gambar Penuh ↗
+                  Buka Berkas Penuh ↗
                 </a>
               ) : (
                 <span>Verification Pending</span>
