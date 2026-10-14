@@ -408,7 +408,14 @@ export function App() {
               return (
                 <article key={proj.id} className="project-block">
                   <div className="project-left">
-                    <div className="project-badge">PRJ {num}</div>
+                    {proj.image ? (
+                      <div className="project-thumbnail-box">
+                        <img src={proj.image} alt={displayTitle} className="project-thumb-img" />
+                        <span className="project-badge-overlay">PRJ {num}</span>
+                      </div>
+                    ) : (
+                      <div className="project-badge">PRJ {num}</div>
+                    )}
                     <div className="project-info">
                       <div className="project-meta">
                         <span className="project-category">{displayCat}</span>
@@ -417,6 +424,15 @@ export function App() {
                       </div>
                       <h3 className="project-title">{displayTitle}</h3>
                       <p className="project-desc">{displayDesc}</p>
+                      {proj.technologies && proj.technologies.length > 0 && (
+                        <div className="chips" style={{ marginTop: 6 }}>
+                          {proj.technologies.map((tech) => (
+                            <span key={tech} className="chip" style={{ fontSize: 10, padding: '2px 8px' }}>
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -682,16 +698,26 @@ export function App() {
               ✕
             </button>
 
-            <div className="modal-image-placeholder">
-              <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: 12 }}>
-                [PROJECT 0{selectedProject.id} // PREVIEW]
-              </span>
-              <span style={{ fontSize: 13, color: '#888892', marginTop: 4 }}>
-                IMAGE TO BE ADDED
-              </span>
-            </div>
+            {selectedProject.image ? (
+              <div className="modal-image-container">
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title || `Project 0${selectedProject.id}`}
+                  className="modal-cert-img"
+                />
+              </div>
+            ) : (
+              <div className="modal-image-placeholder">
+                <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: 12 }}>
+                  [PROJECT 0{selectedProject.id} // PREVIEW]
+                </span>
+                <span style={{ fontSize: 13, color: '#888892', marginTop: 4 }}>
+                  IMAGE TO BE ADDED
+                </span>
+              </div>
+            )}
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 11, marginBottom: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 11, marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
               <span style={{ color: 'var(--accent)', fontWeight: 700 }}>
                 {selectedProject.category || 'SOFTWARE ARCHITECTURE'}
               </span>
@@ -702,6 +728,16 @@ export function App() {
               {selectedProject.title || `Project 0${selectedProject.id} — Development In Progress`}
             </h3>
 
+            {selectedProject.technologies && selectedProject.technologies.length > 0 && (
+              <div className="chips" style={{ marginBottom: 16 }}>
+                {selectedProject.technologies.map((tech) => (
+                  <span key={tech} className="chip">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            )}
+
             <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
               {selectedProject.description ||
                 'Dokumentasi rinci proyek, skema arsitektur, dan ringkasan implementasi teknis akan dirilis setelah tahap pengujian selesai.'}
@@ -709,7 +745,18 @@ export function App() {
 
             <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: '#666672' }}>
               <span>PRJ ID: // 0{selectedProject.id}</span>
-              <span>Source code &amp; live demonstration pending</span>
+              {selectedProject.image ? (
+                <a
+                  href={selectedProject.image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'var(--accent)', textDecoration: 'none' }}
+                >
+                  Buka Gambar Penuh ↗
+                </a>
+              ) : (
+                <span>Source code &amp; live demonstration pending</span>
+              )}
             </div>
           </div>
         </div>

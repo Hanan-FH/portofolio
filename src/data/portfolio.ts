@@ -104,12 +104,12 @@ export const portfolioData = {
   projects: [
     {
       id: 1,
-      title: "",
-      category: "",
-      description: "",
-      year: "",
-      image: "",
-      technologies: [],
+      title: "Mini Shop — 2D Store Simulator (Godot)",
+      category: "GAME DEVELOPMENT",
+      description: "Game simulasi toko 2D berbasis Godot Engine dengan tema Mini Shop. Dilengkapi mekanik manajemen inventaris, sistem buka/tutup toko, interaksi rak dan kasir, kontrol karakter WASD, serta alur operasional toko harian.",
+      year: "2026",
+      image: "/projects/mini-shop-godot.png",
+      technologies: ["Godot Engine", "GDScript", "2D Pixel Art", "Game Loop"],
       liveUrl: "",
       githubUrl: "",
     },
