@@ -5,7 +5,7 @@ import { portfolioData, type Project, type Certificate } from './data/portfolio'
 const CURRENT_YEAR = new Date().getFullYear();
 
 export function App() {
-  const { personal, social, about, expertise, skills, education, projects, certificates, contact } = portfolioData;
+  const { personal, social, about, skills, education, projects, certificates, contact } = portfolioData;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -144,7 +144,6 @@ export function App() {
 
           <nav className="nav-menu" aria-label="Main Navigation">
             <a href="#about" className="nav-link">About</a>
-            <a href="#expertise" className="nav-link">Expertise</a>
             <a href="#skills" className="nav-link">Skills</a>
             <a href="#education" className="nav-link">Education</a>
             <a href="#projects" className="nav-link">Projects</a>
@@ -167,7 +166,6 @@ export function App() {
         {isMobileMenuOpen && (
           <div className="mobile-drawer" role="dialog" aria-label="Mobile Navigation">
             <a href="#about" onClick={() => setIsMobileMenuOpen(false)}>About</a>
-            <a href="#expertise" onClick={() => setIsMobileMenuOpen(false)}>Expertise</a>
             <a href="#skills" onClick={() => setIsMobileMenuOpen(false)}>Skills</a>
             <a href="#education" onClick={() => setIsMobileMenuOpen(false)}>Education</a>
             <a href="#projects" onClick={() => setIsMobileMenuOpen(false)}>Projects</a>
@@ -312,34 +310,13 @@ export function App() {
         </section>
 
         {/* ====================================================================
-            EXPERTISE SECTION
-            ==================================================================== */}
-        <section id="expertise">
-          <div className="section-tag">
-            <span className="dot" />
-            <span>// 02 Expertise</span>
-          </div>
-          <h2 className="section-title">Core technical disciplines and software engineering focus.</h2>
-
-          <div className="expertise-grid">
-            {expertise.map((item) => (
-              <div key={item.number} className="expertise-card">
-                <span className="expertise-num">// {item.number}</span>
-                <h3 className="expertise-title">{item.title}</h3>
-                <p className="expertise-desc">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ====================================================================
             SKILLS SECTION (Horizontal Scroll Carousel — Programming & Tech Languages)
             ==================================================================== */}
         <section id="skills">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <div className="section-tag" style={{ marginBottom: 0 }}>
               <span className="dot" />
-              <span>// 03 Skills &amp; Languages</span>
+              <span>// 02 Skills &amp; Languages</span>
             </div>
 
             <div className="skill-header-actions">
@@ -393,7 +370,7 @@ export function App() {
         <section id="education">
           <div className="section-tag">
             <span className="dot" />
-            <span>// 04 Education</span>
+            <span>// 03 Education</span>
           </div>
           <h2 className="section-title">Academic foundation and vocational software engineering background.</h2>
 
@@ -419,7 +396,7 @@ export function App() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <div className="section-tag" style={{ marginBottom: 0 }}>
               <span className="dot" />
-              <span>// 05 Selected Projects</span>
+              <span>// 04 Selected Projects</span>
             </div>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#666672' }}>
               EXACTLY 3 PROJECTS
@@ -489,7 +466,7 @@ export function App() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <div className="section-tag" style={{ marginBottom: 0 }}>
               <span className="dot" />
-              <span>// 06 Certifications</span>
+              <span>// 05 Certifications</span>
             </div>
 
             <div className="cert-header-actions">
@@ -574,7 +551,7 @@ export function App() {
         <section id="contact">
           <div className="section-tag">
             <span className="dot" />
-            <span>// 07 Contact</span>
+            <span>// 06 Contact</span>
           </div>
 
           <div className="contact-grid">
