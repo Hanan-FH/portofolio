@@ -276,7 +276,14 @@ export const portfolioData = {
       image: "/certificates/sertifikat-id-networkers-introduction-to-ctf.png",
       verificationUrl: "/certificates/sertifikat-id-networkers-introduction-to-ctf.png",
     },
-    { id: 9, title: "", issuer: "", year: "", image: "", verificationUrl: "" },
+    {
+      id: 9,
+      title: "From Vision to Version 1.0: Roadmapping Your Game Effectively",
+      issuer: "Code Lamp Indonesia",
+      year: "2025",
+      image: "/certificates/sertifikat-codelamp-roadmapping-your-game.png",
+      verificationUrl: "/certificates/sertifikat-codelamp-roadmapping-your-game.png",
+    },
     { id: 10, title: "", issuer: "", year: "", image: "", verificationUrl: "" },
   ] as Certificate[],
 };
