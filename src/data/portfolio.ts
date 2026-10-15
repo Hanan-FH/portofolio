@@ -276,7 +276,14 @@ export const portfolioData = {
       image: "/certificates/sertifikat-id-networkers-introduction-to-ctf.png",
       verificationUrl: "/certificates/sertifikat-id-networkers-introduction-to-ctf.png",
     },
-    { id: 9, title: "", issuer: "", year: "", image: "", verificationUrl: "" },
+    {
+      id: 9,
+      title: "Game Design: From Hobby to Hook - Hooked in Minutes, Engaged for Days",
+      issuer: "Code Lamp Indonesia",
+      year: "2025",
+      image: "/certificates/sertifikat-codelamp-game-design.png",
+      verificationUrl: "/certificates/sertifikat-codelamp-game-design.pdf",
+    },
     {
       id: 10,
       title: "From Vision to Version 1.0: Roadmapping Your Game Effectively",
