@@ -35,17 +35,33 @@ export function App() {
     }
   };
 
-  // Keyboard Escape listener for modals
+  // Keyboard Escape listener for modals and mobile drawer
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setSelectedProject(null);
         setSelectedCert(null);
+        setIsMobileMenuOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Lock body scroll when mobile menu or modal is open
+  useEffect(() => {
+    if (isMobileMenuOpen || selectedProject || selectedCert) {
+      document.body.classList.add('scroll-locked');
+      document.documentElement.classList.add('scroll-locked');
+    } else {
+      document.body.classList.remove('scroll-locked');
+      document.documentElement.classList.remove('scroll-locked');
+    }
+    return () => {
+      document.body.classList.remove('scroll-locked');
+      document.documentElement.classList.remove('scroll-locked');
+    };
+  }, [isMobileMenuOpen, selectedProject, selectedCert]);
 
   // FormSubmit AJAX state
   const [formData, setFormData] = useState({
@@ -162,15 +178,67 @@ export function App() {
           </button>
         </div>
 
-        {/* Mobile Drawer */}
+        {/* Minimalist Developer Mobile Drawer */}
         {isMobileMenuOpen && (
-          <div className="mobile-drawer" role="dialog" aria-label="Mobile Navigation">
-            <a href="#about" onClick={() => setIsMobileMenuOpen(false)}>About</a>
-            <a href="#skills" onClick={() => setIsMobileMenuOpen(false)}>Skills</a>
-            <a href="#education" onClick={() => setIsMobileMenuOpen(false)}>Education</a>
-            <a href="#projects" onClick={() => setIsMobileMenuOpen(false)}>Projects</a>
-            <a href="#certificates" onClick={() => setIsMobileMenuOpen(false)}>Certificates</a>
-            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</a>
+          <div className="mobile-drawer" role="dialog" aria-label="Mobile Navigation" aria-modal="true">
+            <div className="mobile-nav-links">
+              <a href="#about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                <span className="mobile-nav-left">
+                  <span className="mobile-nav-num">// 01</span>
+                  <span className="mobile-nav-text">About</span>
+                </span>
+                <span className="mobile-nav-arrow">↗</span>
+              </a>
+              <a href="#skills" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                <span className="mobile-nav-left">
+                  <span className="mobile-nav-num">// 02</span>
+                  <span className="mobile-nav-text">Skills</span>
+                </span>
+                <span className="mobile-nav-arrow">↗</span>
+              </a>
+              <a href="#education" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                <span className="mobile-nav-left">
+                  <span className="mobile-nav-num">// 03</span>
+                  <span className="mobile-nav-text">Education</span>
+                </span>
+                <span className="mobile-nav-arrow">↗</span>
+              </a>
+              <a href="#projects" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                <span className="mobile-nav-left">
+                  <span className="mobile-nav-num">// 04</span>
+                  <span className="mobile-nav-text">Projects</span>
+                </span>
+                <span className="mobile-nav-arrow">↗</span>
+              </a>
+              <a href="#certificates" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                <span className="mobile-nav-left">
+                  <span className="mobile-nav-num">// 05</span>
+                  <span className="mobile-nav-text">Certificates</span>
+                </span>
+                <span className="mobile-nav-arrow">↗</span>
+              </a>
+              <a href="#contact" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                <span className="mobile-nav-left">
+                  <span className="mobile-nav-num">// 06</span>
+                  <span className="mobile-nav-text">Contact</span>
+                </span>
+                <span className="mobile-nav-arrow">↗</span>
+              </a>
+            </div>
+
+            <div className="mobile-drawer-footer">
+              <div className="mobile-drawer-status">
+                <span className="dot" />
+                <span>{personal.status}</span>
+              </div>
+              <a
+                href={`mailto:${personal.email}`}
+                className="mobile-drawer-email"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span>{personal.email}</span> ↗
+              </a>
+            </div>
           </div>
         )}
       </header>
