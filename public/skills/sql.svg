@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="sqlGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00758F"/>
+      <stop offset="100%" stop-color="#F29111"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="24" fill="#0f172a"/>
+  <!-- Cylinders representing Database / SQL -->
+  <path fill="#00758F" d="M64 16c-24.3 0-44 5.4-44 12v16c0 6.6 19.7 12 44 12s44-5.4 44-12V28c0-6.6-19.7-12-44-12z"/>
+  <ellipse cx="64" cy="28" rx="44" ry="12" fill="#38bdf8"/>
+  <path fill="#0284c7" d="M20 44v16c0 6.6 19.7 12 44 12s44-5.4 44-12V44c-9.2 4.6-25.2 7.5-44 7.5S29.2 48.6 20 44z"/>
+  <path fill="#0369a1" d="M20 68v16c0 6.6 19.7 12 44 12s44-5.4 44-12V68c-9.2 4.6-25.2 7.5-44 7.5S29.2 72.6 20 68z"/>
+  <!-- SQL Text Badge -->
+  <rect x="22" y="86" width="84" height="28" rx="6" fill="#f59e0b"/>
+  <text x="64" y="106" font-family="monospace, sans-serif" font-weight="900" font-size="18" fill="#0f172a" text-anchor="middle" letter-spacing="2">SQL</text>
+</svg>

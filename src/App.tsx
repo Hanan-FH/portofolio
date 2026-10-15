@@ -17,13 +17,21 @@ export function App() {
   const subjectInputId = useId();
   const messageInputId = useId();
 
-  // Carousel ref
+  // Carousel refs
   const certScrollRef = useRef<HTMLDivElement>(null);
+  const skillScrollRef = useRef<HTMLDivElement>(null);
 
   const scrollCerts = (direction: 'left' | 'right') => {
     if (certScrollRef.current) {
       const scrollAmount = direction === 'left' ? -310 : 310;
       certScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  const scrollSkills = (direction: 'left' | 'right') => {
+    if (skillScrollRef.current) {
+      const scrollAmount = direction === 'left' ? -280 : 280;
+      skillScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
@@ -325,37 +333,59 @@ export function App() {
         </section>
 
         {/* ====================================================================
-            SKILLS SECTION
+            SKILLS SECTION (Horizontal Scroll Carousel — Programming & Tech Languages)
             ==================================================================== */}
         <section id="skills">
-          <div className="section-tag">
-            <span className="dot" />
-            <span>// 03 Skills &amp; Stack</span>
-          </div>
-          <h2 className="section-title">Programming languages, frameworks, databases, and tooling.</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <div className="section-tag" style={{ marginBottom: 0 }}>
+              <span className="dot" />
+              <span>// 03 Skills &amp; Languages</span>
+            </div>
 
-          <div className="skills-grid">
-            {[
-              { key: 'frontend', label: 'Frontend & UI' },
-              { key: 'backend', label: 'Backend & APIs' },
-              { key: 'database', label: 'Database Systems' },
-              { key: 'programming', label: 'Languages' },
-              { key: 'tools', label: 'Tooling & Workflow' },
-              { key: 'design', label: 'Design & Systems' },
-            ].map((cat) => {
-              const list = skills[cat.key as keyof typeof skills] || [];
+            <div className="skill-header-actions">
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#666672' }}>
+                {skills.languages.length} Languages (Scroll →)
+              </span>
+              <div className="skill-controls">
+                <button
+                  type="button"
+                  className="scroll-btn"
+                  onClick={() => scrollSkills('left')}
+                  aria-label="Scroll languages left"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  className="scroll-btn"
+                  onClick={() => scrollSkills('right')}
+                  aria-label="Scroll languages right"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          </div>
+          <h2 className="section-title">Programming languages and core software technologies.</h2>
+
+          <div ref={skillScrollRef} className="skill-carousel">
+            {skills.languages.map((lang, idx) => {
+              const num = String(idx + 1).padStart(2, '0');
               return (
-                <div key={cat.key} className="skill-category-card">
-                  <div className="skill-category-header">
-                    <span>{cat.label}</span>
-                    <span className="skill-count">{list.length}</span>
+                <div key={lang.name} className="skill-card">
+                  <div className="skill-preview">
+                    <img
+                      src={lang.image}
+                      alt={lang.name}
+                      className="skill-icon-img"
+                      loading="lazy"
+                    />
+                    <span className="skill-badge">{lang.tag || `LANG ${num}`}</span>
                   </div>
-                  <div className="chips">
-                    {list.map((skill) => (
-                      <span key={skill} className="chip">
-                        {skill}
-                      </span>
-                    ))}
+                  <div className="skill-body">
+                    <span className="skill-category-label">{lang.category}</span>
+                    <h4 className="skill-name">{lang.name}</h4>
+                    <p className="skill-desc">{lang.description}</p>
                   </div>
                 </div>
               );

@@ -19,6 +19,14 @@ export interface Certificate {
   verificationUrl: string;
 }
 
+export interface SkillLanguage {
+  name: string;
+  category: string;
+  description: string;
+  image: string;
+  tag: string;
+}
+
 export const portfolioData = {
   personal: {
     name: "Hanan Fathurrozaq Hidayatullah",
@@ -82,6 +90,71 @@ export const portfolioData = {
   ],
 
   skills: {
+    languages: [
+      {
+        name: "Python",
+        category: "PROGRAMMING LANGUAGE",
+        description: "Desktop GUI (Tkinter), scripting, algoritma pemrograman, dan machine learning.",
+        image: "/skills/python.svg",
+        tag: "LANG // 01",
+      },
+      {
+        name: "JavaScript",
+        category: "PROGRAMMING LANGUAGE",
+        description: "Web development modern, ES6+, DOM manipulation, dan asynchronous programming.",
+        image: "/skills/javascript.svg",
+        tag: "LANG // 02",
+      },
+      {
+        name: "TypeScript",
+        category: "TYPED LANGUAGE",
+        description: "Static typing, modular interfaces, dan scalable frontend/backend development.",
+        image: "/skills/typescript.svg",
+        tag: "LANG // 03",
+      },
+      {
+        name: "PHP",
+        category: "BACKEND LANGUAGE",
+        description: "Server-side scripting, OOP architecture, database CRUD, dan RESTful API.",
+        image: "/skills/php.svg",
+        tag: "LANG // 04",
+      },
+      {
+        name: "Java",
+        category: "OBJECT-ORIENTED LANGUAGE",
+        description: "Konsep Object-Oriented Programming (OOP), abstraksi data, dan struktur logika.",
+        image: "/skills/java.svg",
+        tag: "LANG // 05",
+      },
+      {
+        name: "C / C++",
+        category: "SYSTEMS LANGUAGE",
+        description: "Pemrograman sistem tingkat rendah, alokasi memori, dan penyelesaian masalah logis.",
+        image: "/skills/cpp.svg",
+        tag: "LANG // 06",
+      },
+      {
+        name: "HTML5",
+        category: "MARKUP LANGUAGE",
+        description: "Struktur semantik web modern, SEO-friendly, dan standar aksesibilitas WCAG.",
+        image: "/skills/html5.svg",
+        tag: "LANG // 07",
+      },
+      {
+        name: "CSS3",
+        category: "STYLESHEET LANGUAGE",
+        description: "Desain web responsif, Flexbox, Grid, animasi CSS, dan dark/light theming.",
+        image: "/skills/css3.svg",
+        tag: "LANG // 08",
+      },
+      {
+        name: "SQL",
+        category: "DATABASE QUERY LANGUAGE",
+        description: "Query relasional, normalisasi basis data, JOIN, dan optimasi data relasional.",
+        image: "/skills/sql.svg",
+        tag: "LANG // 09",
+      },
+    ],
     frontend: ["HTML5", "CSS3", "JavaScript (ES6+)", "TypeScript", "React", "Tailwind CSS"],
     backend: ["Node.js", "Express", "PHP", "Laravel", "Python", "REST APIs"],
     database: ["PostgreSQL", "MySQL", "SQLite", "Database Normalization"],
