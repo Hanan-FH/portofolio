@@ -47,7 +47,7 @@ export function App() {
     message: '',
     honey: '',
   });
-  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error' | 'activation_required'>('idle');
   const [formErrorMsg, setFormErrorMsg] = useState('');
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -78,18 +78,26 @@ export function App() {
           subject: formData.subject.trim(),
           _subject: `New Portfolio Contact — ${formData.subject.trim()}`,
           message: formData.message.trim(),
+          _captcha: 'false',
         }),
       });
 
-      const data = await res.json();
-      if (res.ok && (data.success === 'true' || data.success === true || res.status === 200)) {
+      const data = await res.json().catch(() => null);
+
+      if (data && (data.success === 'true' || data.success === true || (res.ok && res.status === 200))) {
         setFormStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '', honey: '' });
+      } else if (data && data.message && data.message.toLowerCase().includes('activation')) {
+        // FormSubmit requires a one-time activation link to be clicked by the inbox owner
+        setFormStatus('activation_required');
       } else {
-        throw new Error(data.message || 'Submission failed');
+        const errorDetail = data?.message || (res.status ? `Error status ${res.status}` : 'Pengiriman gagal');
+        throw new Error(errorDetail);
       }
-    } catch {
+    } catch (err: unknown) {
       setFormStatus('error');
+      const msg = err instanceof Error ? err.message : 'Terjadi kendala saat menghubungi server.';
+      setFormErrorMsg(msg);
     }
   };
 
@@ -580,6 +588,7 @@ export function App() {
                   <label htmlFor={nameInputId}>Your Name *</label>
                   <input
                     id={nameInputId}
+                    name="name"
                     type="text"
                     required
                     placeholder="e.g. Jane Doe"
@@ -592,6 +601,7 @@ export function App() {
                   <label htmlFor={emailInputId}>Your Email Address *</label>
                   <input
                     id={emailInputId}
+                    name="email"
                     type="email"
                     required
                     placeholder="e.g. jane@example.com"
@@ -604,6 +614,7 @@ export function App() {
                   <label htmlFor={subjectInputId}>Subject *</label>
                   <input
                     id={subjectInputId}
+                    name="subject"
                     type="text"
                     required
                     placeholder="e.g. Project Inquiry"
@@ -616,6 +627,7 @@ export function App() {
                   <label htmlFor={messageInputId}>Message *</label>
                   <textarea
                     id={messageInputId}
+                    name="message"
                     required
                     rows={4}
                     placeholder="Briefly describe your project or inquiry..."
@@ -624,25 +636,52 @@ export function App() {
                   />
                 </div>
 
-                {formErrorMsg && (
-                  <div className="alert-box alert-error" role="alert">
+                {formErrorMsg && formStatus !== 'activation_required' && formStatus !== 'error' && (
+                  <div className="alert-box alert-error" role="alert" aria-live="polite">
                     {formErrorMsg}
                   </div>
                 )}
 
+                {formStatus === 'activation_required' && (
+                  <div className="alert-box alert-warning" role="alert" aria-live="polite">
+                    <div style={{ fontWeight: 700, marginBottom: 4 }}>
+                      ⚠️ Aktivasi Formulir Diperlukan (1x Saja)
+                    </div>
+                    <div style={{ lineHeight: 1.5 }}>
+                      FormSubmit telah mengirimkan email konfirmasi ke <strong>{contact.recipientEmail}</strong>. Silakan buka kotak masuk / spam Gmail Anda, lalu klik tautan <strong>"Activate Form"</strong> agar pesan berikutnya langsung terkirim otomatis.
+                    </div>
+                    <div style={{ marginTop: 10 }}>
+                      <a
+                        href={`mailto:${contact.recipientEmail}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Nama: ${formData.name}\nEmail: ${formData.email}\n\nPesan:\n${formData.message}`)}`}
+                        className="btn-secondary"
+                        style={{ display: 'inline-flex', padding: '6px 14px', fontSize: 12 }}
+                      >
+                        Kirim Sekarang via Aplikasi Email ↗
+                      </a>
+                    </div>
+                  </div>
+                )}
+
                 {formStatus === 'success' && (
-                  <div className="alert-box alert-success" role="status">
+                  <div className="alert-box alert-success" role="status" aria-live="polite">
                     ✓ Pesan Anda telah terkirim dengan sukses. Terima kasih telah menghubungi saya!
                   </div>
                 )}
 
                 {formStatus === 'error' && (
-                  <div className="alert-box alert-error" role="alert">
-                    Terjadi kendala saat mengirimkan pesan. Silakan hubungi langsung ke{' '}
-                    <a href={`mailto:${contact.recipientEmail}`} style={{ textDecoration: 'underline' }}>
-                      {contact.recipientEmail}
-                    </a>
-                    .
+                  <div className="alert-box alert-error" role="alert" aria-live="polite">
+                    <div style={{ lineHeight: 1.5 }}>
+                      {formErrorMsg || 'Terjadi kendala saat mengirimkan pesan.'} Silakan coba lagi atau kirim pesan Anda langsung:
+                    </div>
+                    <div style={{ marginTop: 10 }}>
+                      <a
+                        href={`mailto:${contact.recipientEmail}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Nama: ${formData.name}\nEmail: ${formData.email}\n\nPesan:\n${formData.message}`)}`}
+                        className="btn-secondary"
+                        style={{ display: 'inline-flex', padding: '6px 14px', fontSize: 12 }}
+                      >
+                        Kirim via Aplikasi Email ↗
+                      </a>
+                    </div>
                   </div>
                 )}
 
@@ -652,7 +691,11 @@ export function App() {
                   disabled={formStatus === 'sending'}
                   style={{ width: '100%', justifyContent: 'center' }}
                 >
-                  {formStatus === 'sending' ? 'SENDING MESSAGE...' : 'SEND MESSAGE ✉'}
+                  {formStatus === 'sending' && 'SENDING MESSAGE...'}
+                  {formStatus === 'success' && 'MESSAGE SENT! ✓'}
+                  {formStatus === 'error' && 'FAILED — TRY AGAIN ↻'}
+                  {formStatus === 'activation_required' && 'ACTIVATION REQUIRED ⚠'}
+                  {formStatus === 'idle' && 'SEND MESSAGE ✉'}
                 </button>
               </form>
             </div>
