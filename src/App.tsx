@@ -369,27 +369,21 @@ export function App() {
           <h2 className="section-title">Programming languages and core software technologies.</h2>
 
           <div ref={skillScrollRef} className="skill-carousel">
-            {skills.languages.map((lang, idx) => {
-              const num = String(idx + 1).padStart(2, '0');
-              return (
-                <div key={lang.name} className="skill-card">
-                  <div className="skill-preview">
-                    <img
-                      src={lang.image}
-                      alt={lang.name}
-                      className="skill-icon-img"
-                      loading="lazy"
-                    />
-                    <span className="skill-badge">{lang.tag || `LANG ${num}`}</span>
-                  </div>
-                  <div className="skill-body">
-                    <span className="skill-category-label">{lang.category}</span>
-                    <h4 className="skill-name">{lang.name}</h4>
-                    <p className="skill-desc">{lang.description}</p>
-                  </div>
+            {skills.languages.map((lang) => (
+              <div key={lang.name} className="skill-card" title={lang.name}>
+                <div className="skill-preview">
+                  <img
+                    src={lang.image}
+                    alt={lang.name}
+                    className="skill-icon-img"
+                    loading="lazy"
+                  />
                 </div>
-              );
-            })}
+                <div className="skill-footer-label">
+                  <span>{lang.name}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
