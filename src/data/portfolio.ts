@@ -282,7 +282,7 @@ export const portfolioData = {
       issuer: "Code Lamp Indonesia",
       year: "2025",
       image: "/certificates/sertifikat-codelamp-roadmapping-your-game.png",
-      verificationUrl: "/certificates/sertifikat-codelamp-roadmapping-your-game.png",
+      verificationUrl: "/certificates/sertifikat-codelamp-roadmapping-your-game.pdf",
     },
     { id: 10, title: "", issuer: "", year: "", image: "", verificationUrl: "" },
   ] as Certificate[],
