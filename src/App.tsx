@@ -15,14 +15,14 @@ const ANTI_GRAVITY_PARTICLES = [
 ];
 
 export function App() {
-  const { personal, social, about, expertise, skills, education, projects, certificates, contact } = portfolioData;
+  const { personal, social, about, skills, education, projects, certificates, contact } = portfolioData;
 
-  const [activeNav, setActiveNav] = useState<'home' | 'profile' | 'portfolio' | 'contact'>('portfolio');
+  const [activeNav, setActiveNav] = useState<'home' | 'profile' | 'projects' | 'contact'>('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
-  // Update active navigation tab on scroll while keeping Portfolio highlighted by default
+  // Update active navigation tab on scroll
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY;
@@ -33,11 +33,11 @@ export function App() {
       if (contactEl && y >= contactEl.offsetTop - 240) {
         setActiveNav('contact');
       } else if (projectsEl && y >= projectsEl.offsetTop - 240) {
-        setActiveNav('portfolio');
+        setActiveNav('projects');
       } else if (aboutEl && y >= aboutEl.offsetTop - 240) {
         setActiveNav('profile');
       } else if (y < 220) {
-        setActiveNav('portfolio');
+        setActiveNav('home');
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -165,7 +165,7 @@ export function App() {
     }
 
     if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || formData.message.trim().length < 10) {
-      setFormErrorMsg('Harap lengkapi semua bidang dengan benar (pesan minimal 10 karakter).');
+      setFormErrorMsg('Please fill in all required fields (message must be at least 10 characters).');
       return;
     }
 
@@ -199,12 +199,12 @@ export function App() {
         // FormSubmit requires a one-time activation link to be clicked by the inbox owner
         setFormStatus('activation_required');
       } else {
-        const errorDetail = data?.message || (res.status ? `Error status ${res.status}` : 'Pengiriman gagal');
+        const errorDetail = data?.message || (res.status ? `Error status ${res.status}` : 'Submission failed');
         throw new Error(errorDetail);
       }
     } catch (err: unknown) {
       setFormStatus('error');
-      const msg = err instanceof Error ? err.message : 'Terjadi kendala saat menghubungi server.';
+      const msg = err instanceof Error ? err.message : 'A problem occurred while contacting the server.';
       setFormErrorMsg(msg);
     }
   };
@@ -248,7 +248,7 @@ export function App() {
       {/* Right Marginal Navigation Shortcuts */}
       <div className="marginal-right" aria-hidden="true">
         <a href="#contact">EMAIL</a>
-        <a href="#projects">PROJECTS</a>
+        <a href="#projects">PROJECT</a>
         <a href="#certificates">CERTIFICATES</a>
         <a href="#about">ABOUT</a>
       </div>
@@ -283,10 +283,10 @@ export function App() {
             </a>
             <a
               href="#projects"
-              className={`nav-link${activeNav === 'portfolio' ? ' active' : ''}`}
-              onClick={() => setActiveNav('portfolio')}
+              className={`nav-link${activeNav === 'projects' ? ' active' : ''}`}
+              onClick={() => setActiveNav('projects')}
             >
-              Portfolio
+              Project
             </a>
             <a
               href="#contact"
@@ -344,13 +344,13 @@ export function App() {
                 href="#projects"
                 className="mobile-nav-link"
                 onClick={() => {
-                  setActiveNav('portfolio');
+                  setActiveNav('projects');
                   setIsMobileMenuOpen(false);
                 }}
               >
                 <span className="mobile-nav-left">
                   <span className="mobile-nav-num">// 03</span>
-                  <span className="mobile-nav-text">Portfolio</span>
+                  <span className="mobile-nav-text">Project</span>
                 </span>
                 <span className="mobile-nav-arrow">↗</span>
               </a>
@@ -420,9 +420,9 @@ export function App() {
               <a
                 href="#projects"
                 className="btn-primary"
-                onClick={() => setActiveNav('portfolio')}
+                onClick={() => setActiveNav('projects')}
               >
-                VIEW PROJECTS ↗
+                VIEW PROJECT ↗
               </a>
               <a
                 href="#contact"
@@ -499,7 +499,7 @@ export function App() {
         </section>
 
         {/* ====================================================================
-            ABOUT & SMK PLUS PELITA NUSANTARA FUNDAMENTALS SECTION
+            ABOUT SECTION
             ==================================================================== */}
         <section id="about" className="ag-entrance">
           <div className="section-tag">
@@ -531,42 +531,10 @@ export function App() {
                   <span className="val">{about.location}</span>
                 </div>
                 <div className="telemetry-item">
-                  <span className="label">CORE FOCUS</span>
+                  <span className="label">PRIMARY FOCUS</span>
                   <span className="val">{about.currentFocus}</span>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Core Module: SMK Plus Pelita Nusantara Fundamentals */}
-          <div className="foundation-module">
-            <div className="foundation-header">
-              <div>
-                <span className="foundation-badge">
-                  <span>●</span> CORE MODULE · ACADEMIC &amp; PROFESSIONAL FOUNDATION
-                </span>
-                <h3 className="foundation-title">
-                  SMK Plus Pelita Nusantara Fundamentals
-                </h3>
-              </div>
-              <span className="foundation-meta">
-                REKAYASA PERANGKAT LUNAK · 04 CORE COMPETENCIES
-              </span>
-            </div>
-
-            <div className="expertise-grid">
-              {expertise.map((item) => (
-                <div
-                  key={item.number}
-                  className="foundation-card"
-                  onMouseMove={handleCardMouseMove}
-                  onMouseLeave={handleCardMouseLeave}
-                >
-                  <span className="expertise-num">// {item.number}</span>
-                  <h4 className="expertise-title">{item.title}</h4>
-                  <p className="expertise-desc">{item.description}</p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -605,7 +573,7 @@ export function App() {
               </div>
             </div>
           </div>
-          <h2 className="section-title">Programming languages and core software technologies.</h2>
+          <h2 className="section-title">Programming languages and modern software technologies.</h2>
 
           <div ref={skillScrollRef} className="skill-carousel">
             {skills.languages.map((lang) => (
@@ -658,21 +626,21 @@ export function App() {
         </section>
 
         {/* ====================================================================
-            PROJECTS SECTION (Horizontal Container Blocks)
+            PROJECTS SECTION (Minimalist 3-Up Grid)
             ==================================================================== */}
         <section id="projects" className="ag-entrance">
           <div className="section-head">
             <div className="section-tag">
               <span className="dot" />
-              <span>// 04 Selected Projects</span>
+              <span>// 04 Project</span>
             </div>
             <span className="section-meta">
-              EXACTLY 3 PROJECTS
+              3 SELECTED WORKS
             </span>
           </div>
           <h2 className="section-title">A showcase of software projects and development initiatives.</h2>
 
-          <div className="projects-stack">
+          <div className="projects-grid">
             {projects.map((proj, idx) => {
               const num = String(idx + 1).padStart(2, '0');
               const displayTitle = proj.title.trim() || `Project ${num} — Development Pending`;
@@ -680,51 +648,54 @@ export function App() {
               const displayYear = proj.year.trim() || 'IN DEVELOPMENT';
               const displayDesc =
                 proj.description.trim() ||
-                'Ringkasan arsitektur teknis dan dokumentasi modul proyek akan ditampilkan di sini setelah rilis publik.';
+                'Technical architecture and implementation summary will be published upon release.';
 
               return (
                 <article
                   key={proj.id}
-                  className="project-block"
+                  className="project-card"
                   onMouseMove={handleCardMouseMove}
                   onMouseLeave={handleCardMouseLeave}
+                  onClick={() => setSelectedProject(proj)}
                 >
-                  <div className="project-left">
+                  <div className="project-thumbnail-box">
                     {proj.image ? (
-                      <div className="project-thumbnail-box">
-                        <img src={proj.image} alt={displayTitle} className="project-thumb-img" />
-                        <span className="project-badge-overlay">PRJ {num}</span>
-                      </div>
+                      <img src={proj.image} alt={displayTitle} className="project-thumb-img" loading="lazy" />
                     ) : (
                       <div className="project-badge">PRJ {num}</div>
                     )}
-                    <div className="project-info">
-                      <div className="project-meta">
-                        <span className="project-category">{displayCat}</span>
-                        <span className="project-sep">•</span>
-                        <span className="project-status">{displayYear}</span>
-                      </div>
-                      <h3 className="project-title">{displayTitle}</h3>
-                      <p className="project-desc">{displayDesc}</p>
-                      {proj.technologies && proj.technologies.length > 0 && (
-                        <div className="chips chips-compact">
-                          {proj.technologies.map((tech) => (
-                            <span key={tech} className="chip">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+                    <span className="project-badge-overlay">PRJ {num}</span>
+                  </div>
+
+                  <div className="project-info">
+                    <div className="project-meta">
+                      <span className="project-category">{displayCat}</span>
+                      <span className="project-sep">•</span>
+                      <span className="project-status">{displayYear}</span>
                     </div>
+                    <h3 className="project-title">{displayTitle}</h3>
+                    <p className="project-desc">{displayDesc}</p>
+                    {proj.technologies && proj.technologies.length > 0 && (
+                      <div className="chips chips-compact">
+                        {proj.technologies.map((tech) => (
+                          <span key={tech} className="chip">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <button
                     type="button"
                     className="project-btn"
-                    onClick={() => setSelectedProject(proj)}
-                    aria-label={`Detail selengkapnya untuk Project ${num}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProject(proj);
+                    }}
+                    aria-label={`View details for Project ${num}`}
                   >
-                    <span>DETAIL SELENGKAPNYA</span> ↗
+                    <span>VIEW DETAILS</span> ↗
                   </button>
                 </article>
               );
@@ -921,17 +892,17 @@ export function App() {
                 {formStatus === 'activation_required' && (
                   <div className="alert-box alert-warning" role="alert" aria-live="polite">
                     <div className="alert-title">
-                      ⚠️ Aktivasi Formulir Diperlukan (1x Saja)
+                      ⚠️ Form Activation Required (One-Time Setup)
                     </div>
                     <div className="alert-body">
-                      FormSubmit telah mengirimkan email konfirmasi ke <strong>{contact.recipientEmail}</strong>. Silakan buka kotak masuk / spam Gmail Anda, lalu klik tautan <strong>"Activate Form"</strong> agar pesan berikutnya langsung terkirim otomatis.
+                      FormSubmit has sent a confirmation email to <strong>{contact.recipientEmail}</strong>. Please check your inbox or spam folder and click <strong>"Activate Form"</strong> to enable automatic submissions.
                     </div>
                     <div className="alert-actions">
                       <a
-                        href={`mailto:${contact.recipientEmail}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Nama: ${formData.name}\nEmail: ${formData.email}\n\nPesan:\n${formData.message}`)}`}
+                        href={`mailto:${contact.recipientEmail}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
                         className="btn-secondary btn-compact"
                       >
-                        Kirim Sekarang via Aplikasi Email ↗
+                        Send via Email App ↗
                       </a>
                     </div>
                   </div>
@@ -939,21 +910,21 @@ export function App() {
 
                 {formStatus === 'success' && (
                   <div className="alert-box alert-success" role="status" aria-live="polite">
-                    ✓ Pesan Anda telah terkirim dengan sukses. Terima kasih telah menghubungi saya!
+                    ✓ Your message has been sent successfully. Thank you for reaching out!
                   </div>
                 )}
 
                 {formStatus === 'error' && (
                   <div className="alert-box alert-error" role="alert" aria-live="polite">
                     <div className="alert-body">
-                      {formErrorMsg || 'Terjadi kendala saat mengirimkan pesan.'} Silakan coba lagi atau kirim pesan Anda langsung:
+                      {formErrorMsg || 'A problem occurred while submitting your message.'} Please try again or reach out directly:
                     </div>
                     <div className="alert-actions">
                       <a
-                        href={`mailto:${contact.recipientEmail}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Nama: ${formData.name}\nEmail: ${formData.email}\n\nPesan:\n${formData.message}`)}`}
+                        href={`mailto:${contact.recipientEmail}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
                         className="btn-secondary btn-compact"
                       >
-                        Kirim via Aplikasi Email ↗
+                        Send via Email App ↗
                       </a>
                     </div>
                   </div>
@@ -1060,7 +1031,7 @@ export function App() {
 
             <p className="modal-desc">
               {selectedProject.description ||
-                'Dokumentasi rinci proyek, skema arsitektur, dan ringkasan implementasi teknis akan dirilis setelah tahap pengujian selesai.'}
+                'Detailed project documentation and technical implementation summary will be published upon release.'}
             </p>
 
             <div className="modal-foot">
@@ -1072,10 +1043,10 @@ export function App() {
                   rel="noopener noreferrer"
                   className="modal-link"
                 >
-                  Buka Gambar Penuh ↗
+                  View Full Image ↗
                 </a>
               ) : (
-                <span>Source code &amp; live demonstration pending</span>
+                <span>Source code &amp; live demo pending</span>
               )}
             </div>
           </div>
@@ -1142,7 +1113,7 @@ export function App() {
                   rel="noopener noreferrer"
                   className="modal-link"
                 >
-                  Buka Berkas Penuh ↗
+                  View Full Credential ↗
                 </a>
               ) : (
                 <span>Verification Pending</span>

@@ -31,11 +31,11 @@ export const portfolioData = {
   personal: {
     name: "Hanan Fathurrozaq Hidayatullah",
     role: "Software Engineering Student",
-    eyebrow: "REKAYASA PERANGKAT LUNAK · SMK PLUS PELITA NUSANTARA",
+    eyebrow: "SOFTWARE ENGINEERING · SMK PLUS PELITA NUSANTARA",
     headline: "Software Engineering Student based in Bogor, Indonesia.",
-    shortBio: "Halo, saya Hanan Fathurrozaq Hidayatullah. Siswa SMK Plus Pelita Nusantara jurusan Rekayasa Perangkat Lunak yang berfokus pada web development dan pemrograman.",
+    shortBio: "Hello, I am Hanan Fathurrozaq Hidayatullah. A Software Engineering student at SMK Plus Pelita Nusantara focused on modern web development and programming.",
     location: "Bogor, Indonesia",
-    status: "Siswa SMK Plus Pelita Nusantara",
+    status: "Software Engineering Student at SMK Plus Pelita Nusantara",
     email: "hananfh77@gmail.com",
     profileImage: "/profile.jpg",
     resumeUrl: "",
@@ -49,108 +49,85 @@ export const portfolioData = {
   },
 
   contact: {
-    heading: "Hubungi Saya",
-    subheading: "Terbuka untuk diskusi proyek, kolaborasi open-source, dan kesempatan magang. Silakan hubungi saya melalui formulir di bawah ini atau email langsung.",
+    heading: "Get in Touch",
+    subheading: "Open for project inquiries, open-source collaboration, and internship opportunities. Feel free to contact me using the form below or via direct email.",
     recipientEmail: "hananfh77@gmail.com",
     formSubmitEndpoint: "https://formsubmit.co/ajax/hananfh77@gmail.com",
   },
 
   about: {
-    heading: "Fokus pada logika pemrograman dan pengembangan web.",
+    heading: "Focusing on programming logic and modern web development.",
     paragraphs: [
-      "Saya adalah siswa SMK Plus Pelita Nusantara jurusan Rekayasa Perangkat Lunak. Saya mempelajari dasar-dasar pemrograman, struktur data, dan pembuatan aplikasi web yang bersih serta responsif.",
-      "Saya suka mencoba hal-hal baru dalam pemrograman dan mempraktikkan kode dengan struktur yang rapi dan mudah dirawat.",
+      "I am a Software Engineering student at SMK Plus Pelita Nusantara. I study core programming fundamentals, data structures, and the engineering of clean, responsive web applications.",
+      "I enjoy exploring new technologies and writing structured, maintainable code with attention to detail and performance.",
     ],
-    status: "Siswa Aktif SMK Plus Pelita Nusantara",
-    currentFocus: "Pengembangan Aplikasi Web, HTML, CSS, JavaScript, React & Database",
-    location: "Bogor, Jawa Barat, Indonesia",
+    status: "Active Software Engineering Student",
+    currentFocus: "Web Application Development, TypeScript, React, Node.js & Databases",
+    location: "Bogor, West Java, Indonesia",
   },
-
-  expertise: [
-    {
-      number: "01",
-      title: "Advanced Software Development (Pemrograman Lanjut)",
-      description: "Modern Web Architectures, Object-Oriented Programming (OOP), API Integration, and Clean Code Standards.",
-    },
-    {
-      number: "02",
-      title: "Professional Graphic & UI/UX Design (Desain Grafis Profesional)",
-      description: "Visual Hierarchy, Layout Design, Editorial Typography, Color Theory, and Interactive Motion Graphics.",
-    },
-    {
-      number: "03",
-      title: "Networking & System Security (Jaringan & Keamanan Sistem)",
-      description: "Network Protocols, Cybersecurity Fundamentals, Capture The Flag (CTF) Analysis, and Server Management.",
-    },
-    {
-      number: "04",
-      title: "Work Ethics & Professionalism (Etika Kerja & Profesionalisme)",
-      description: "Agile Collaboration, Industry Standard Workflows, Version Control Discipline, and Technical Documentation.",
-    },
-  ],
 
   skills: {
     languages: [
       {
         name: "Python",
         category: "PROGRAMMING LANGUAGE",
-        description: "Desktop GUI (Tkinter), scripting, algoritma pemrograman, dan machine learning.",
+        description: "Desktop GUI (Tkinter), scripting, algorithms, and applied machine learning.",
         image: "/skills/python.svg",
         tag: "LANG // 01",
       },
       {
         name: "JavaScript",
         category: "PROGRAMMING LANGUAGE",
-        description: "Web development modern, ES6+, DOM manipulation, dan asynchronous programming.",
+        description: "Modern web development, ES6+, DOM manipulation, and asynchronous architectures.",
         image: "/skills/javascript.svg",
         tag: "LANG // 02",
       },
       {
         name: "TypeScript",
         category: "TYPED LANGUAGE",
-        description: "Static typing, modular interfaces, dan scalable frontend/backend development.",
+        description: "Static typing, scalable interfaces, and robust full-stack development.",
         image: "/skills/typescript.svg",
         tag: "LANG // 03",
       },
       {
         name: "PHP",
         category: "BACKEND LANGUAGE",
-        description: "Server-side scripting, OOP architecture, database CRUD, dan RESTful API.",
+        description: "Server-side scripting, OOP architecture, database CRUD, and RESTful APIs.",
         image: "/skills/php.svg",
         tag: "LANG // 04",
       },
       {
         name: "Java",
         category: "OBJECT-ORIENTED LANGUAGE",
-        description: "Konsep Object-Oriented Programming (OOP), abstraksi data, dan struktur logika.",
+        description: "Object-Oriented Programming (OOP), data abstraction, and algorithmic structures.",
         image: "/skills/java.svg",
         tag: "LANG // 05",
       },
       {
         name: "C / C++",
         category: "SYSTEMS LANGUAGE",
-        description: "Pemrograman sistem tingkat rendah, alokasi memori, dan penyelesaian masalah logis.",
+        description: "Systems programming, memory management, and low-level algorithmic problem solving.",
         image: "/skills/cpp.svg",
         tag: "LANG // 06",
       },
       {
         name: "HTML5",
         category: "MARKUP LANGUAGE",
-        description: "Struktur semantik web modern, SEO-friendly, dan standar aksesibilitas WCAG.",
+        description: "Semantic web structure, search engine optimization (SEO), and WCAG accessibility standards.",
         image: "/skills/html5.svg",
         tag: "LANG // 07",
       },
       {
         name: "CSS3",
         category: "STYLESHEET LANGUAGE",
-        description: "Desain web responsif, Flexbox, Grid, animasi CSS, dan dark/light theming.",
+        description: "Modern responsive design, Flexbox, Grid, CSS animations, and token-based theming.",
         image: "/skills/css3.svg",
         tag: "LANG // 08",
       },
       {
         name: "SQL",
         category: "DATABASE QUERY LANGUAGE",
-        description: "Query relasional, normalisasi basis data, JOIN, dan optimasi data relasional.",
+        description: "Relational queries, database normalization, schema design, and index optimization.",
         image: "/skills/sql.svg",
         tag: "LANG // 09",
       },
@@ -165,11 +142,11 @@ export const portfolioData = {
 
   education: [
     {
-      period: "2023 — Sekarang",
+      period: "2023 — Present",
       institution: "SMK Plus Pelita Nusantara",
-      program: "Rekayasa Perangkat Lunak (RPL)",
-      description: "Mempelajari pemrograman web, basis data, algoritma & struktur data, serta pengembangan perangkat lunak.",
-      status: "Siswa Aktif",
+      program: "Software Engineering (RPL)",
+      description: "Comprehensive coursework covering web engineering, databases, algorithms, data structures, and modern software architectures.",
+      status: "Active Student",
     },
   ],
 
@@ -179,7 +156,7 @@ export const portfolioData = {
       id: 1,
       title: "Mini Shop — 2D Store Simulator (Godot)",
       category: "GAME DEVELOPMENT",
-      description: "Game simulasi toko 2D berbasis Godot Engine dengan tema Mini Shop. Dilengkapi mekanik manajemen inventaris, sistem buka/tutup toko, interaksi rak dan kasir, kontrol karakter WASD, serta alur operasional toko harian.",
+      description: "A 2D store simulation game built with Godot Engine and GDScript. Features inventory management, daily store cycle mechanics, shelf and checkout interactions, WASD character navigation, and a streamlined operational loop.",
       year: "2026",
       image: "/projects/mini-shop-godot.png",
       technologies: ["Godot Engine", "GDScript", "2D Pixel Art", "Game Loop"],
@@ -188,9 +165,9 @@ export const portfolioData = {
     },
     {
       id: 2,
-      title: "Kalkulator Sederhana — Desktop GUI (Python)",
+      title: "Simple Calculator — Desktop GUI (Python)",
       category: "PYTHON DEVELOPMENT",
-      description: "Aplikasi kalkulator berbasis desktop dengan antarmuka grafis (GUI) yang dibangun menggunakan bahasa pemrograman Python dan library Tkinter. Dilengkapi tombol angka, operasi aritmatika dasar (tambah, kurang, kali, bagi), tombol clear (C), dan evaluasi hasil perhitungan.",
+      description: "A desktop calculator application engineered in Python using the Tkinter GUI library. Features arithmetic operations (addition, subtraction, multiplication, division), clear memory functions, and precise expression evaluation.",
       year: "2026",
       image: "/projects/kalkulator-python.png",
       technologies: ["Python", "Tkinter", "Desktop GUI", "OOP"],
@@ -199,9 +176,9 @@ export const portfolioData = {
     },
     {
       id: 3,
-      title: "SIPANDU — Layanan Pengaduan Sekolah (Web CRUD)",
-      category: "FULLSTACK CRUD WEB APP",
-      description: "Sistem informasi layanan pengaduan sekolah terpadu berbasis web dengan pengelolaan tiket pengaduan komprehensif (CRUD). Dilengkapi dashboard analitik admin, monitoring distribusi kategori (Sarpras, Bullying, Akademik), klasifikasi tingkat urgensi otomatis, live feed tiket pengaduan, dan rekap pelaporan.",
+      title: "SIPANDU — School Incident & Complaint Portal (Web CRUD)",
+      category: "FULLSTACK WEB APPLICATION",
+      description: "An integrated school complaint and incident management system featuring comprehensive ticket lifecycles (CRUD). Includes an administrative analytics dashboard, automated urgency classification, category tracking, live activity feeds, and report generation.",
       year: "2026",
       image: "/projects/sipandu-layanan-pengaduan-sekolah.png",
       technologies: ["PHP", "MySQL", "Tailwind CSS", "JavaScript", "CRUD Architecture", "Analytics Dashboard"],
@@ -214,7 +191,7 @@ export const portfolioData = {
   certificates: [
     {
       id: 1,
-      title: "Webinar Nasional: Seni Merespons Dengan Bijak untuk Membangun Komunikasi yang Nyaman",
+      title: "National Webinar: The Art of Responding Wisely for Constructive Communication",
       issuer: "Yayasan Galeria Potensi Indonesia",
       year: "2026",
       image: "/certificates/sertifikat-webinar-komunikasi-seni-merespons.png",
@@ -222,7 +199,7 @@ export const portfolioData = {
     },
     {
       id: 2,
-      title: "Webinar Nasional: Bijak dalam Merespons untuk Membangun Komunikasi yang Nyaman",
+      title: "National Webinar: Mindful Communication and Wise Responses",
       issuer: "Yayasan Galeria Potensi Indonesia",
       year: "2026",
       image: "/certificates/sertifikat-webinar-komunikasi-bijak-merespons.png",
@@ -238,7 +215,7 @@ export const portfolioData = {
     },
     {
       id: 4,
-      title: "Pemanfaatan Cloud Computing di Sektor Pendidikan",
+      title: "Cloud Computing Utilization in the Education Sector",
       issuer: "LPPM STT Terpadu Nurul Fikri",
       year: "2025",
       image: "/certificates/sertifikat-cloud-computing-stt-nf.png",
@@ -246,7 +223,7 @@ export const portfolioData = {
     },
     {
       id: 5,
-      title: "AI Skill Fest: Bangun Chatbot Buatanmu Sendiri dengan Microsoft Azure!",
+      title: "AI Skill Fest: Building Intelligent Chatbots with Microsoft Azure",
       issuer: "Trainocate",
       year: "2025",
       image: "/certificates/sertifikat-trainocate-ai-skill-fest-azure.png",
@@ -270,7 +247,7 @@ export const portfolioData = {
     },
     {
       id: 8,
-      title: "Introduction to Capture the Flag",
+      title: "Introduction to Capture the Flag (CTF)",
       issuer: "ID-Networkers (IDN.ID)",
       year: "2025",
       image: "/certificates/sertifikat-id-networkers-introduction-to-ctf.png",
