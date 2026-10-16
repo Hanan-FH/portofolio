@@ -107,53 +107,63 @@ The HTML template must NEVER contain hardcoded personal data or duplicated proje
 
 ---
 
-## 8. Color System & Theming — "Charcoal & Gold"
-The site uses a **single dark theme**: a lifted warm-charcoal canvas (not pure black) with a **professional layered gold/yellow typography palette** and a crimson accent. All tokens live in `src/index.css` (`:root`). **Do not add new hardcoded hex values** in `src/App.css` or inline styles in `src/App.tsx` — always reference a CSS variable. Existing intentional exceptions: cyan `#00D2FF` (hero decorative circle and name dot), status green `#10B981` (mobile drawer status dot), and the success/error/warning alert banner colors.
+## 8. Dual-Theme Color System — "Lifted Obsidian (Dark)" & "Professional Warm Gold (Light)"
+The website implements a **dual-theme architecture** switched via `document.documentElement[data-theme="dark" | "light"]`, persisted in `localStorage` (`portfolio-theme`), with an anti-flash inline script in `index.html` and an accessible header toggle (`GOLD ☀` / `DARK ☾`).
 
-### 8.1 Surfaces (warm charcoal)
+All design tokens live in `src/index.css`. **Do not add hardcoded hex values** in `src/App.css` or inline styles in `src/App.tsx` — always reference a CSS variable so both themes adapt seamlessly.
+
+### 8.1 Theme 1 — Dark Theme: "Lifted Obsidian" (`:root`, `[data-theme="dark"]`)
+A softened dark charcoal/obsidian canvas (brighter than pure `#000000` so surfaces breathe, while preserving a rich dark-mode aesthetic) paired with crisp neutral light typography.
+
+| Token | Value | Contrast / Role |
+|---|---|---|
+| `--bg-primary` | `#18181D` | Page canvas, scrollbar track (`site.webmanifest` theme color) |
+| `--bg-surface` | `#212128` | Cards, panels, modals, form container, scroll buttons |
+| `--bg-elevated` | `#1C1C23` | Inputs, image wells, avatar backdrop |
+| `--bg-footer` | `#141419` | Footer band |
+| `--bg-header` / `--bg-drawer` | `rgba(24,24,29,0.88)` / `rgba(24,24,29,0.98)` | Translucent blurred navigation bars |
+| `--border-subtle` / `--border-strong` | `rgba(255,255,255,0.08)` / `rgba(255,255,255,0.16)` | Hairline grid lines, dividers, card & badge borders |
+| `--text-heading` | `#F4F4F6` | **16.1:1** on primary, **14.6:1** on surface — `h1–h4`, hero display, section/project titles |
+| `--text-primary` | `#E6E6EB` | **14.2:1** on primary, **12.9:1** on surface — Body default, links, buttons, nav items |
+| `--text-secondary` | `#A6A6B4` | **7.4:1** on primary, **6.7:1** on surface — Paragraphs, descriptions, nav links |
+| `--text-label` | `#9090A0` | **5.6:1** on primary, **5.1:1** on surface — Mono uppercase labels, eyebrows, form labels |
+| `--text-muted` | `#8B8B9B` | **5.3:1** on primary, **4.8:1** on surface — Dates, meta info, footer, status pills |
+| `--text-faint` | `#626272` | Decorative / `aria-hidden` text only |
+| `--accent` / `--accent-hover` | `#FF3366` / `#E02456` | Crimson primary accent & interactive hover |
+| `--accent-cyan` | `#00D2FF` | Hero decorative circle & name dot |
+
+### 8.2 Theme 2 — Light Theme: "Professional Warm Gold" (`[data-theme="light"]`)
+Instead of a sterile white light mode, the light theme uses a **multi-layered editorial warm gold / champagne yellow surface system** paired with **deep obsidian-black professional ink typography**.
+
+#### Gold Surface Scale
 | Token | Value | Usage |
 |---|---|---|
-| `--bg-primary` | `#19181C` | Page canvas, scrollbar track, `site.webmanifest` theme/background color |
-| `--bg-surface` | `#222126` | Cards, panels, modals, form container, scroll buttons |
-| `--bg-elevated` | `#1D1C20` | Inputs, image wells, avatar backdrop |
-| `--bg-footer` | `#141316` | Footer band |
-| `--bg-card` | `rgba(226,176,74,0.03)` | Faint gold-tinted fills / placeholders |
-| Header / mobile drawer | `rgba(25,24,28,0.88)` / `rgba(25,24,28,0.98)` | Translucent blurred bars |
+| `--gold-canvas-50` (`--bg-surface`) | `#FDF7E2` | Elevated cards, panels, modals, form container, buttons |
+| `--gold-canvas-100` (`--bg-primary`) | `#F6ECC9` | Primary page canvas & scrollbar track |
+| `--gold-canvas-200` (`--bg-elevated`) | `#EFE2B4` | Recessed inputs, image wells, avatar backdrop |
+| `--bg-footer` | `#EADBA6` | Footer band |
+| `--gold-canvas-300` / `--gold-canvas-400` | `#E5D396` / `#D4BC6A` | Active fills & structural gold accents |
+| `--bg-header` / `--bg-drawer` | `rgba(246,236,201,0.88)` / `rgba(246,236,201,0.98)` | Translucent warm gold navigation bars |
+| `--border-subtle` / `--border-strong` | `rgba(28,25,18,0.12)` / `rgba(28,25,18,0.24)` | Warm ink structural hairlines & card borders |
 
-### 8.2 Gold Scale
-| Token | Value | Role |
-|---|---|---|
-| `--gold-50` | `#FFF8E1` | Text on crimson buttons (`--text-on-accent`) |
-| `--gold-100` | `#FCECC0` | Reserved highlight |
-| `--gold-200` | `#F8DC8C` | Headings (`--text-heading`) |
-| `--gold-300` | `#F0C965` | `::selection` background, `:focus-visible` outline |
-| `--gold-400` | `#E2B04A` | Base hue for all gold tints (`rgba(226,176,74,α)`) |
-| `--gold-500` | `#C8942F` | Reserved deep gold |
-| `--gold-600` | `#9A7022` | Reserved darkest gold |
-
-### 8.3 Text Hierarchy (contrast measured on `--bg-primary`)
-| Token | Value | Contrast | Used for |
+#### Professional Black / Obsidian Ink Typography (measured against `--bg-primary` `#F6ECC9` / `--bg-surface` `#FDF7E2`)
+| Token | Value | Contrast (Canvas / Surface) | Used for |
 |---|---|---|---|
-| `--text-heading` | `#F8DC8C` | 13.1:1 | `h1–h4`, hero display, section titles, project/expertise titles, brand monogram, avatar name, telemetry values |
-| `--text-primary` | `#F4E2A8` | 13.7:1 | Body default, links, card titles, buttons, nav items |
-| `--text-secondary` | `#CDBF96` | 9.7:1 | Paragraphs, descriptions, nav links |
-| `--text-label` | `#CAA65A` | 7.7:1 | Mono uppercase labels: Connect label, telemetry titles/labels, certificate issuer, form labels, mobile nav numbers, brand badge |
-| `--text-muted` | `#A69B7A` | 6.4:1 | Dates, meta info, footer, status pills |
-| `--text-faint` | `#857C62` | 4.3:1 | **Decorative / `aria-hidden` text only** (marginal running text, arrows, separators) |
-
-### 8.4 Lines & Accent
-- `--border-subtle`: `rgba(226,176,74,0.11)` — grid lines, dividers, default card borders.
-- `--border-strong`: `rgba(226,176,74,0.24)` — status badge, hero Connect divider, secondary button, telemetry card.
-- `--accent`: `#FF3366` (crimson), `--accent-hover`: `#E02456`, `--accent-glow`: `rgba(255,51,102,0.15)` — section tags, CTAs, hover states. **Unchanged; do not replace with gold.**
-- `--border-hover`: `rgba(255,51,102,0.4)` — card hover borders.
-- Pure white (`#FFFFFF` / `rgba(255,255,255,…)`) and pure black canvases are **prohibited**; use the gold scale and charcoal surfaces instead.
+| `--text-heading` | `#161512` | **15.4:1 / 17.0:1** | `h1–h4`, hero display, section/project/expertise titles, brand monogram, avatar name |
+| `--text-primary` | `#1F1D18` | **14.2:1 / 15.7:1** | Body copy, links, card titles, buttons, input values |
+| `--text-secondary` | `#474134` | **8.6:1 / 9.4:1** | Warm charcoal paragraphs, descriptions, navigation links |
+| `--text-label` | `#5E5338` | **6.4:1 / 7.1:1** | Mono uppercase labels: Connect label, telemetry titles/labels, certificate issuer, form labels |
+| `--text-muted` | `#665D47` | **5.5:1 / 6.1:1** | Dates, meta info, footer, status pills |
+| `--text-faint` | `#8A7F64` | **3.4:1 / 3.7:1** | **Decorative / `aria-hidden` text only** (marginal running text, arrows, separators) |
+| `--accent` / `--accent-hover` | `#C9184A` / `#A4133C` | **4.8:1 / 5.3:1** | Deep editorial crimson tuned for high contrast on warm gold surfaces |
+| `--accent-cyan` | `#007799` | Deep teal accent for hero circle & dot on gold canvas |
 
 ---
 
 ## 9. Accessibility (WCAG 2.2 AA)
 - Single `<h1>` on the page; logical `<h2>` and `<h3>` hierarchy.
-- Visible gold focus rings (`:focus-visible { outline: 2px solid var(--gold-300); outline-offset: 2px; }`).
-- All readable text tokens must keep ≥ 4.5:1 contrast on `--bg-primary` and `--bg-surface`; `--text-faint` is restricted to decorative content.
+- Visible theme-aware focus rings (`:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }`).
+- All readable text tokens (`heading`, `primary`, `secondary`, `label`, `muted`) maintain ≥ 4.5:1 contrast on both `--bg-primary` and `--bg-surface` in **both** Dark and Light (Gold) themes; `--text-faint` is strictly limited to decorative/`aria-hidden` elements.
 - Screen reader skip link at the top of `index.html`.
 - ARIA landmarks (`role="dialog"`, `aria-modal="true"`, `aria-expanded`).
 - `prefers-reduced-motion` compliance in both CSS and JavaScript.
@@ -186,5 +196,5 @@ The site uses a **single dark theme**: a lifted warm-charcoal canvas (not pure b
 4. **Never Invent Social URLs**: Never create fake LinkedIn handles, fabricated GitHub usernames, or dead links.
 5. **No Dependencies**: Do not add UI libraries, CSS frameworks, or animation libraries.
 6. **Maintain Performance**: Ensure `npm run build` generates clean assets without errors or warnings.
-7. **Preserve the Charcoal & Gold Palette**: Use only the tokens defined in Section 8. Do not reintroduce white text, pure-black backgrounds, or new hardcoded hex colors; new UI must map onto the existing text hierarchy (`heading → primary → secondary → label → muted → faint`).
+7. **Preserve the Dual-Theme System**: Maintain both `"Lifted Obsidian"` (`[data-theme="dark"]`) and `"Professional Warm Gold"` (`[data-theme="light"]`) in `src/index.css`. Never introduce pure white (`#FFFFFF`) page backgrounds or pure black (`#000000`) canvases, and always use semantic CSS variables (`--bg-*`, `--text-*`, `--border-*`) so both themes render with WCAG 2.2 AA contrast.
 

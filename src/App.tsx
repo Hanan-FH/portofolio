@@ -7,6 +7,29 @@ const CURRENT_YEAR = new Date().getFullYear();
 export function App() {
   const { personal, social, about, skills, education, projects, certificates, contact } = portfolioData;
 
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = window.localStorage.getItem('portfolio-theme');
+      if (saved === 'light' || saved === 'dark') {
+        return saved;
+      }
+    }
+    return 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      window.localStorage.setItem('portfolio-theme', theme);
+    } catch {
+      // Ignore storage write errors in restricted browsing modes
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
@@ -167,15 +190,28 @@ export function App() {
             <a href="#contact" className="nav-link">Contact</a>
           </nav>
 
-          <button
-            type="button"
-            className="mobile-toggle"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle Navigation"
-            aria-expanded={isMobileMenuOpen}
-          >
-            {isMobileMenuOpen ? 'CLOSE ✕' : 'MENU ☰'}
-          </button>
+          <div className="header-actions">
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to Professional Gold (Light) theme' : 'Switch to Lifted Obsidian (Dark) theme'}
+              title={theme === 'dark' ? 'Switch to Gold Theme' : 'Switch to Dark Theme'}
+            >
+              <span className="theme-toggle-dot" aria-hidden="true" />
+              <span>{theme === 'dark' ? 'GOLD ☀' : 'DARK ☾'}</span>
+            </button>
+
+            <button
+              type="button"
+              className="mobile-toggle"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Navigation"
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? 'CLOSE ✕' : 'MENU ☰'}
+            </button>
+          </div>
         </div>
 
         {/* Minimalist Developer Mobile Drawer */}
@@ -266,7 +302,7 @@ export function App() {
               </div>
               <div>I am</div>
               <div className="text-accent">
-                Hanan<span style={{ color: '#00d2ff' }}>.</span>
+                Hanan<span style={{ color: 'var(--accent-cyan)' }}>.</span>
               </div>
             </div>
 
