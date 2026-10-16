@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-10-16T14:34:02.879Z",
+  "capturedAt": "2026-10-16T14:46:36.465Z",
   "page": {
     "title": "Hanan Fathurrozaq Hidayatullah — Software Developer & Engineering Student",
     "description": "Production-grade developer portfolio of Hanan Fathurrozaq Hidayatullah, a vocational high school software engineering student at SMK Plus Pelita Nusantara, Bogor.",
@@ -506,7 +506,7 @@
   "modals": {
     "projects": [
       {
-        "text": "✕ GAME DEVELOPMENT 2026 Mini Shop — 2D Store Simulator (Godot) Godot Engine GDScript 2D Pixel Art Game Loop Game simulasi toko 2D berbasis Godot Engine dengan tema Mini Shop. Dilengkapi mekanik manajemen inventaris, sistem buka/tutup toko, interaksi rak dan kasir, kontrol karakter WASD, serta alur operasional toko harian. PRJ ID: // 01 Buka Gambar Penuh ↗",
+        "text": "✕GAME DEVELOPMENT2026Mini Shop — 2D Store Simulator (Godot)Godot EngineGDScript2D Pixel ArtGame LoopGame simulasi toko 2D berbasis Godot Engine dengan tema Mini Shop. Dilengkapi mekanik manajemen inventaris, sistem buka/tutup toko, interaksi rak dan kasir, kontrol karakter WASD, serta alur operasional toko harian.PRJ ID: // 01Buka Gambar Penuh ↗",
         "links": [
           "/projects/mini-shop-godot.png"
         ],
@@ -518,7 +518,7 @@
         ]
       },
       {
-        "text": "✕ PYTHON DEVELOPMENT 2026 Kalkulator Sederhana — Desktop GUI (Python) Python Tkinter Desktop GUI OOP Aplikasi kalkulator berbasis desktop dengan antarmuka grafis (GUI) yang dibangun menggunakan bahasa pemrograman Python dan library Tkinter. Dilengkapi tombol angka, operasi aritmatika dasar (tambah, kurang, kali, bagi), tombol clear (C), dan evaluasi hasil perhitungan. PRJ ID: // 02 Buka Gambar Penuh ↗",
+        "text": "✕PYTHON DEVELOPMENT2026Kalkulator Sederhana — Desktop GUI (Python)PythonTkinterDesktop GUIOOPAplikasi kalkulator berbasis desktop dengan antarmuka grafis (GUI) yang dibangun menggunakan bahasa pemrograman Python dan library Tkinter. Dilengkapi tombol angka, operasi aritmatika dasar (tambah, kurang, kali, bagi), tombol clear (C), dan evaluasi hasil perhitungan.PRJ ID: // 02Buka Gambar Penuh ↗",
         "links": [
           "/projects/kalkulator-python.png"
         ],
@@ -530,7 +530,7 @@
         ]
       },
       {
-        "text": "✕ FULLSTACK CRUD WEB APP 2026 SIPANDU — Layanan Pengaduan Sekolah (Web CRUD) PHP MySQL Tailwind CSS JavaScript CRUD Architecture Analytics Dashboard Sistem informasi layanan pengaduan sekolah terpadu berbasis web dengan pengelolaan tiket pengaduan komprehensif (CRUD). Dilengkapi dashboard analitik admin, monitoring distribusi kategori (Sarpras, Bullying, Akademik), klasifikasi tingkat urgensi otomatis, live feed tiket pengaduan, dan rekap pelaporan. PRJ ID: // 03 Buka Gambar Penuh ↗",
+        "text": "✕FULLSTACK CRUD WEB APP2026SIPANDU — Layanan Pengaduan Sekolah (Web CRUD)PHPMySQLTailwind CSSJavaScriptCRUD ArchitectureAnalytics DashboardSistem informasi layanan pengaduan sekolah terpadu berbasis web dengan pengelolaan tiket pengaduan komprehensif (CRUD). Dilengkapi dashboard analitik admin, monitoring distribusi kategori (Sarpras, Bullying, Akademik), klasifikasi tingkat urgensi otomatis, live feed tiket pengaduan, dan rekap pelaporan.PRJ ID: // 03Buka Gambar Penuh ↗",
         "links": [
           "/projects/sipandu-layanan-pengaduan-sekolah.png"
         ],
@@ -544,7 +544,7 @@
     ],
     "certificates": [
       {
-        "text": "✕ Issuer: Yayasan Galeria Potensi Indonesia Issued: 2026 Webinar Nasional: Seni Merespons Dengan Bijak untuk Membangun Komunikasi yang Nyaman Credential #01 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: Yayasan Galeria Potensi IndonesiaIssued: 2026Webinar Nasional: Seni Merespons Dengan Bijak untuk Membangun Komunikasi yang NyamanCredential #01Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-webinar-komunikasi-seni-merespons.png"
         ],
@@ -556,7 +556,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: Yayasan Galeria Potensi Indonesia Issued: 2026 Webinar Nasional: Bijak dalam Merespons untuk Membangun Komunikasi yang Nyaman Credential #02 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: Yayasan Galeria Potensi IndonesiaIssued: 2026Webinar Nasional: Bijak dalam Merespons untuk Membangun Komunikasi yang NyamanCredential #02Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-webinar-komunikasi-bijak-merespons.png"
         ],
@@ -568,7 +568,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: Google Developer Group - Binus University Online Issued: 2026 Micro-Frontend 101: Build, Deploy, and Communicate Between Apps Credential #03 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: Google Developer Group - Binus University OnlineIssued: 2026Micro-Frontend 101: Build, Deploy, and Communicate Between AppsCredential #03Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-gdg-binus-micro-frontend.png"
         ],
@@ -580,7 +580,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: LPPM STT Terpadu Nurul Fikri Issued: 2025 Pemanfaatan Cloud Computing di Sektor Pendidikan Credential #04 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: LPPM STT Terpadu Nurul FikriIssued: 2025Pemanfaatan Cloud Computing di Sektor PendidikanCredential #04Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-cloud-computing-stt-nf.pdf"
         ],
@@ -592,7 +592,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: Trainocate Issued: 2025 AI Skill Fest: Bangun Chatbot Buatanmu Sendiri dengan Microsoft Azure! Credential #05 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: TrainocateIssued: 2025AI Skill Fest: Bangun Chatbot Buatanmu Sendiri dengan Microsoft Azure!Credential #05Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-trainocate-ai-skill-fest-azure.png"
         ],
@@ -604,7 +604,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: Google Developer Group - Binus University Online Issued: 2026 Flutter in the Age of AI: From Developer to Product Thinker Credential #06 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: Google Developer Group - Binus University OnlineIssued: 2026Flutter in the Age of AI: From Developer to Product ThinkerCredential #06Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-gdg-binus-flutter-ai.png"
         ],
@@ -616,7 +616,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: Google Developer Group - Binus University Online Issued: 2026 Data to Decisions: Navigating and Thriving in the Massive AI Shift Credential #07 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: Google Developer Group - Binus University OnlineIssued: 2026Data to Decisions: Navigating and Thriving in the Massive AI ShiftCredential #07Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-gdg-binus-data-to-decisions-ai.png"
         ],
@@ -628,7 +628,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: ID-Networkers (IDN.ID) Issued: 2025 Introduction to Capture the Flag Credential #08 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: ID-Networkers (IDN.ID)Issued: 2025Introduction to Capture the FlagCredential #08Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-id-networkers-introduction-to-ctf.png"
         ],
@@ -640,7 +640,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: Code Lamp Indonesia Issued: 2025 Game Design: From Hobby to Hook - Hooked in Minutes, Engaged for Days Credential #09 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: Code Lamp IndonesiaIssued: 2025Game Design: From Hobby to Hook - Hooked in Minutes, Engaged for DaysCredential #09Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-codelamp-game-design.pdf"
         ],
@@ -652,7 +652,7 @@
         ]
       },
       {
-        "text": "✕ Issuer: Code Lamp Indonesia Issued: 2025 From Vision to Version 1.0: Roadmapping Your Game Effectively Credential #10 Buka Berkas Penuh ↗",
+        "text": "✕Issuer: Code Lamp IndonesiaIssued: 2025From Vision to Version 1.0: Roadmapping Your Game EffectivelyCredential #10Buka Berkas Penuh ↗",
         "links": [
           "/certificates/sertifikat-codelamp-roadmapping-your-game.pdf"
         ],
@@ -666,7 +666,7 @@
     ]
   },
   "mobileDrawer": {
-    "text": "// 01 HOME ↗ // 02 PROFILE ↗ // 03 PORTFOLIO ↗ // 04 CONTACT ↗ Siswa SMK Plus Pelita Nusantara hananfh77@gmail.com ↗",
+    "text": "// 01Home↗// 02Profile↗// 03Portfolio↗// 04Contact↗Siswa SMK Plus Pelita Nusantarahananfh77@gmail.com ↗",
     "links": [
       "#hero",
       "#about",
