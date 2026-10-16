@@ -1,145 +1,84 @@
 /* ==============================================================================
-   DUAL-THEME DESIGN TOKENS — Editorial Portfolio System
-   1. Dark Theme ("Lifted Obsidian"): Softened dark charcoal canvas with crisp
-      light typography.
-   2. Light Theme ("Professional Warm Gold"): Multi-layered editorial gold/yellow
-      canvas with deep obsidian/charcoal ink typography.
+   HANAN PERSONAL PORTFOLIO & PROFESSIONAL HUB — DESIGN SYSTEM
+   Color Strategy:
+   - Canvas / Background: Dark Slate Navy (#020617 / #0F172A)
+   - Primary Base: Deep Navy Blue (#0B192C / #1E3A8A)
+   - Secondary / Accent: Tech Cyan / Electric Blue (#3B82F6 / #06B6D4)
+   - Text Colors: Crisp White (#FFFFFF) & Soft Muted Blue-Gray (#94A3B8)
    ============================================================================== */
 
-:root,
-[data-theme="dark"] {
+:root {
   /* ---------------------------------------------------------------------------
-     DARK THEME SURFACES — Lifted Obsidian (lighter than pure black, still dark)
+     NAVY & SLATE SURFACES
      --------------------------------------------------------------------------- */
-  --bg-primary: #18181d;
-  --bg-surface: #212128;
-  --bg-elevated: #1c1c23;
-  --bg-footer: #141419;
-  --bg-header: rgba(24, 24, 29, 0.88);
-  --bg-drawer: rgba(24, 24, 29, 0.98);
-  --bg-card: rgba(255, 255, 255, 0.025);
-  --bg-subtle-fill: rgba(255, 255, 255, 0.04);
-  --bg-badge-overlay: rgba(20, 20, 25, 0.84);
-  --bg-modal-overlay: rgba(10, 10, 14, 0.82);
+  --bg-primary: #020617;
+  --bg-slate: #0f172a;
+  --bg-navy: #0b192c;
+  --bg-navy-elevated: #1e3a8a;
+  --bg-surface: rgba(11, 25, 44, 0.72);
+  --bg-elevated: #0b192c;
+  --bg-footer: #020617;
+  --nav-bg: rgba(11, 25, 44, 0.85);
+  --bg-header: rgba(11, 25, 44, 0.85);
+  --bg-drawer: rgba(2, 6, 23, 0.96);
+  --bg-card: rgba(30, 58, 138, 0.14);
+  --bg-subtle-fill: rgba(59, 130, 246, 0.08);
+  --bg-badge-overlay: rgba(2, 6, 23, 0.86);
+  --bg-modal-overlay: rgba(2, 6, 23, 0.84);
 
   /* ---------------------------------------------------------------------------
-     DARK THEME BORDERS & LINES
+     ELECTRIC BLUE & TECH CYAN ACCENTS
      --------------------------------------------------------------------------- */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --border-hover: rgba(255, 51, 102, 0.45);
-  --line-marginal: rgba(255, 255, 255, 0.22);
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-glow: rgba(59, 130, 246, 0.22);
 
   /* ---------------------------------------------------------------------------
-     DARK THEME TYPOGRAPHY — Crisp neutral scale (WCAG 2.2 AA verified)
+     BORDERS & STRUCTURAL HAIRLINES
      --------------------------------------------------------------------------- */
-  --text-heading: #f4f4f6;   /* 16.1:1 on bg-primary | 14.6:1 on bg-surface */
-  --text-primary: #e6e6eb;   /* 14.2:1 on bg-primary | 12.9:1 on bg-surface */
-  --text-secondary: #a6a6b4; /* 7.4:1  on bg-primary | 6.7:1  on bg-surface */
-  --text-label: #9090a0;     /* 5.6:1  on bg-primary | 5.1:1  on bg-surface */
-  --text-muted: #8b8b9b;     /* 5.3:1  on bg-primary | 4.8:1  on bg-surface */
-  --text-faint: #626272;     /* Decorative / aria-hidden only               */
+  --border-subtle: rgba(148, 163, 184, 0.14);
+  --border-strong: rgba(59, 130, 246, 0.32);
+  --border-hover: rgba(59, 130, 246, 0.55);
+  --line-marginal: rgba(59, 130, 246, 0.35);
+
+  /* ---------------------------------------------------------------------------
+     TYPOGRAPHY PALETTE (WCAG 2.2 AA High-Contrast)
+     --------------------------------------------------------------------------- */
+  --text-heading: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-label: #38bdf8;
+  --text-muted: #94a3b8;
+  --text-faint: #64748b;
   --text-on-accent: #ffffff;
 
   /* ---------------------------------------------------------------------------
-     DARK THEME ACCENTS & ELEVATION
+     PHYSICS, ELEVATION & ACCESSIBILITY TOKENS
      --------------------------------------------------------------------------- */
-  --accent: #ff3366;
-  --accent-hover: #e02456;
-  --accent-glow: rgba(255, 51, 102, 0.16);
-  --accent-cyan: #00d2ff;
-  --focus-ring: #ff3366;
-  --selection-bg: #ff3366;
+  --spring-easing: cubic-bezier(0.16, 1, 0.3, 1);
+  --focus-ring: #3b82f6;
+  --selection-bg: #3b82f6;
   --selection-text: #ffffff;
-  --scrollbar-thumb: rgba(255, 255, 255, 0.16);
+  --scrollbar-thumb: rgba(59, 130, 246, 0.32);
 
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.32);
-  --shadow-profile: 0 0 50px var(--accent-glow), 0 20px 40px -15px rgba(255, 51, 102, 0.2);
+  --shadow-card: 0 20px 40px rgba(59, 130, 246, 0.15);
+  --shadow-profile: 0 0 55px rgba(59, 130, 246, 0.2), 0 20px 45px -15px rgba(6, 182, 212, 0.22);
 
   /* Alert banners */
   --alert-success-bg: rgba(16, 185, 129, 0.1);
-  --alert-success-border: rgba(16, 185, 129, 0.3);
+  --alert-success-border: rgba(16, 185, 129, 0.35);
   --alert-success-text: #34d399;
   --alert-error-bg: rgba(239, 68, 68, 0.1);
-  --alert-error-border: rgba(239, 68, 68, 0.3);
+  --alert-error-border: rgba(239, 68, 68, 0.35);
   --alert-error-text: #f87171;
-  --alert-warning-bg: rgba(245, 158, 11, 0.1);
-  --alert-warning-border: rgba(245, 158, 11, 0.3);
-  --alert-warning-text: #fbbf24;
+  --alert-warning-bg: rgba(6, 182, 212, 0.12);
+  --alert-warning-border: rgba(6, 182, 212, 0.38);
+  --alert-warning-text: #38bdf8;
 
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-}
-
-/* ==============================================================================
-   LIGHT THEME — "Professional Warm Gold" (Replacing white with layered yellow
-   surfaces and deep obsidian-black professional typography)
-   ============================================================================== */
-[data-theme="light"] {
-  /* ---------------------------------------------------------------------------
-     PROFESSIONAL GOLD / YELLOW SURFACES SCALE
-     --------------------------------------------------------------------------- */
-  --gold-canvas-50: #fdf7e2;  /* Elevated card / surface ivory-gold          */
-  --gold-canvas-100: #f6ecc9; /* Primary page canvas warm champagne gold     */
-  --gold-canvas-200: #efe2b4; /* Recessed input / well / footer warm ochre   */
-  --gold-canvas-300: #e5d396; /* Active / hover tint                         */
-  --gold-canvas-400: #d4bc6a; /* Strong border / structural gold accent      */
-
-  --bg-primary: var(--gold-canvas-100);
-  --bg-surface: var(--gold-canvas-50);
-  --bg-elevated: var(--gold-canvas-200);
-  --bg-footer: #eadba6;
-  --bg-header: rgba(246, 236, 201, 0.88);
-  --bg-drawer: rgba(246, 236, 201, 0.98);
-  --bg-card: rgba(28, 25, 18, 0.035);
-  --bg-subtle-fill: rgba(28, 25, 18, 0.055);
-  --bg-badge-overlay: rgba(22, 21, 18, 0.86);
-  --bg-modal-overlay: rgba(22, 21, 18, 0.72);
-
-  /* ---------------------------------------------------------------------------
-     WARM INK BORDERS & STRUCTURAL HAIRLINES
-     --------------------------------------------------------------------------- */
-  --border-subtle: rgba(28, 25, 18, 0.12);
-  --border-strong: rgba(28, 25, 18, 0.24);
-  --border-hover: rgba(201, 24, 74, 0.45);
-  --line-marginal: rgba(28, 25, 18, 0.28);
-
-  /* ---------------------------------------------------------------------------
-     PROFESSIONAL BLACK / OBSIDIAN INK TYPOGRAPHY (WCAG 2.2 AA verified)
-     --------------------------------------------------------------------------- */
-  --text-heading: #161512;   /* 15.4:1 on bg-primary | 17.0:1 on bg-surface */
-  --text-primary: #1f1d18;   /* 14.2:1 on bg-primary | 15.7:1 on bg-surface */
-  --text-secondary: #474134; /* 8.6:1  on bg-primary | 9.4:1  on bg-surface */
-  --text-label: #5e5338;     /* 6.4:1  on bg-primary | 7.1:1  on bg-surface */
-  --text-muted: #665d47;     /* 5.5:1  on bg-primary | 6.1:1  on bg-surface */
-  --text-faint: #8a7f64;     /* Decorative / aria-hidden only               */
-  --text-on-accent: #fffdf7;
-
-  /* ---------------------------------------------------------------------------
-     LIGHT THEME ACCENTS & ELEVATION
-     --------------------------------------------------------------------------- */
-  --accent: #c9184a;         /* Deep editorial crimson (4.8:1 on gold bg)   */
-  --accent-hover: #a4133c;
-  --accent-glow: rgba(201, 24, 74, 0.12);
-  --accent-cyan: #007799;
-  --focus-ring: #161512;
-  --selection-bg: #161512;
-  --selection-text: #fdf7e2;
-  --scrollbar-thumb: rgba(28, 25, 18, 0.24);
-
-  --shadow-card: 0 10px 28px rgba(28, 25, 18, 0.09);
-  --shadow-profile: 0 18px 40px -12px rgba(28, 25, 18, 0.14), 0 0 0 1px rgba(28, 25, 18, 0.06);
-
-  /* Alert banners tuned for warm gold surfaces */
-  --alert-success-bg: rgba(6, 95, 70, 0.1);
-  --alert-success-border: rgba(6, 95, 70, 0.35);
-  --alert-success-text: #065f46;
-  --alert-error-bg: rgba(185, 28, 28, 0.1);
-  --alert-error-border: rgba(185, 28, 28, 0.35);
-  --alert-error-text: #991b1b;
-  --alert-warning-bg: rgba(146, 64, 14, 0.12);
-  --alert-warning-border: rgba(146, 64, 14, 0.38);
-  --alert-warning-text: #78350f;
 }
 
 * {
@@ -155,13 +94,17 @@ html {
 
 body {
   background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(30, 58, 138, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(11, 25, 44, 0.65) 0%, transparent 55%);
+  background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   overflow-x: hidden;
-  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 h1,
@@ -176,13 +119,13 @@ h4 {
   color: var(--selection-text);
 }
 
-/* Accessible focus ring for keyboard navigation */
+/* Electric blue focus ring for keyboard navigation */
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
-/* Minimal themed scrollbar */
+/* Minimal navy/blue scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -195,7 +138,7 @@ h4 {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--accent-blue);
 }
 
 #root {

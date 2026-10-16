@@ -4,35 +4,65 @@ import { portfolioData, type Project, type Certificate } from './data/portfolio'
 
 const CURRENT_YEAR = new Date().getFullYear();
 
+const ANTI_GRAVITY_PARTICLES = [
+  { id: 1, left: '8%', top: '78%', size: 8, duration: '15s', delay: '0s', drift: '22px', blur: false },
+  { id: 2, left: '19%', top: '86%', size: 12, duration: '18s', delay: '2.2s', drift: '-18px', blur: true },
+  { id: 3, left: '34%', top: '72%', size: 6, duration: '13s', delay: '1.1s', drift: '15px', blur: false },
+  { id: 4, left: '48%', top: '88%', size: 10, duration: '16s', delay: '3.4s', drift: '-24px', blur: true },
+  { id: 5, left: '63%', top: '82%', size: 7, duration: '14s', delay: '0.7s', drift: '20px', blur: false },
+  { id: 6, left: '77%', top: '76%', size: 14, duration: '19s', delay: '2.8s', drift: '-16px', blur: true },
+  { id: 7, left: '89%', top: '84%', size: 8, duration: '15s', delay: '1.6s', drift: '14px', blur: false },
+];
+
 export function App() {
-  const { personal, social, about, skills, education, projects, certificates, contact } = portfolioData;
+  const { personal, social, about, expertise, skills, education, projects, certificates, contact } = portfolioData;
 
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = window.localStorage.getItem('portfolio-theme');
-      if (saved === 'light' || saved === 'dark') {
-        return saved;
-      }
-    }
-    return 'dark';
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    try {
-      window.localStorage.setItem('portfolio-theme', theme);
-    } catch {
-      // Ignore storage write errors in restricted browsing modes
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
+  const [activeNav, setActiveNav] = useState<'home' | 'profile' | 'portfolio' | 'contact'>('portfolio');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+
+  // Update active navigation tab on scroll while keeping Portfolio highlighted by default
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY;
+      const contactEl = document.getElementById('contact');
+      const projectsEl = document.getElementById('projects');
+      const aboutEl = document.getElementById('about');
+
+      if (contactEl && y >= contactEl.offsetTop - 240) {
+        setActiveNav('contact');
+      } else if (projectsEl && y >= projectsEl.offsetTop - 240) {
+        setActiveNav('portfolio');
+      } else if (aboutEl && y >= aboutEl.offsetTop - 240) {
+        setActiveNav('profile');
+      } else if (y < 220) {
+        setActiveNav('portfolio');
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // High-precision magnetic 3D card tilt handler
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    const relX = (e.clientX - rect.left) / rect.width - 0.5;
+    const relY = (e.clientY - rect.top) / rect.height - 0.5;
+    el.style.setProperty('--tilt-x', `${(relX * 8).toFixed(2)}px`);
+    el.style.setProperty('--tilt-y', `${(relY * 8).toFixed(2)}px`);
+    el.style.setProperty('--rot-x', `${(-relY * 5).toFixed(2)}deg`);
+    el.style.setProperty('--rot-y', `${(relX * 5).toFixed(2)}deg`);
+  };
+
+  const handleCardMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    el.style.setProperty('--tilt-x', '0px');
+    el.style.setProperty('--tilt-y', '0px');
+    el.style.setProperty('--rot-x', '0deg');
+    el.style.setProperty('--rot-y', '0deg');
+  };
 
   // Accessible unique IDs for form controls
   const nameInputId = useId();
@@ -157,6 +187,27 @@ export function App() {
         ))}
       </div>
 
+      {/* Anti-Gravity Floating Particle Field */}
+      <div className="antigravity-field" aria-hidden="true">
+        {ANTI_GRAVITY_PARTICLES.map((p) => (
+          <span
+            key={p.id}
+            className={`ag-particle${p.blur ? ' depth-blur' : ''}`}
+            style={
+              {
+                left: p.left,
+                top: p.top,
+                width: `${p.size}px`,
+                height: `${p.size}px`,
+                '--ag-duration': p.duration,
+                '--ag-delay': p.delay,
+                '--ag-drift': p.drift,
+              } as React.CSSProperties
+            }
+          />
+        ))}
+      </div>
+
       {/* Left Marginal Telemetry */}
       <div className="marginal-left" aria-hidden="true">
         <span className="line" />
@@ -171,91 +222,117 @@ export function App() {
         <a href="#about">ABOUT</a>
       </div>
 
-      {/* Fixed Site Header */}
-      <header className="header">
-        <div className="header-inner">
-          <a href="#" className="brand" aria-label="Hanan Fathurrozaq Hidayatullah Home">
-            <span className="brand-monogram">
-              Hanan<span>.</span>
-            </span>
-            <span className="brand-badge">{personal.location.split(',')[0]}, ID</span>
+      {/* Fixed Site Header — Navbar Specification */}
+      <header className="navbar">
+        <div className="navbar-inner">
+          <a
+            href="#hero"
+            className="nav-brand"
+            aria-label="HANAN Personal Portfolio & Professional Hub"
+            onClick={() => setActiveNav('home')}
+          >
+            <span className="nav-brand-mark" aria-hidden="true">H</span>
+            <span>HANAN</span>
           </a>
 
-          <nav className="nav-menu" aria-label="Main Navigation">
-            <a href="#about" className="nav-link">About</a>
-            <a href="#skills" className="nav-link">Skills</a>
-            <a href="#education" className="nav-link">Education</a>
-            <a href="#projects" className="nav-link">Projects</a>
-            <a href="#certificates" className="nav-link">Certificates</a>
-            <a href="#contact" className="nav-link">Contact</a>
+          <nav className="nav-menu-right" aria-label="Main Navigation">
+            <a
+              href="#hero"
+              className={`nav-link${activeNav === 'home' ? ' active' : ''}`}
+              onClick={() => setActiveNav('home')}
+            >
+              Home
+            </a>
+            <a
+              href="#about"
+              className={`nav-link${activeNav === 'profile' ? ' active' : ''}`}
+              onClick={() => setActiveNav('profile')}
+            >
+              Profile
+            </a>
+            <a
+              href="#projects"
+              className={`nav-link${activeNav === 'portfolio' ? ' active' : ''}`}
+              onClick={() => setActiveNav('portfolio')}
+            >
+              Portfolio
+            </a>
+            <a
+              href="#contact"
+              className={`nav-link${activeNav === 'contact' ? ' active' : ''}`}
+              onClick={() => setActiveNav('contact')}
+            >
+              Contact
+            </a>
           </nav>
 
-          <div className="header-actions">
-            <button
-              type="button"
-              className="theme-toggle"
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to Professional Gold (Light) theme' : 'Switch to Lifted Obsidian (Dark) theme'}
-              title={theme === 'dark' ? 'Switch to Gold Theme' : 'Switch to Dark Theme'}
-            >
-              <span className="theme-toggle-dot" aria-hidden="true" />
-              <span>{theme === 'dark' ? 'GOLD ☀' : 'DARK ☾'}</span>
-            </button>
-
-            <button
-              type="button"
-              className="mobile-toggle"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle Navigation"
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? 'CLOSE ✕' : 'MENU ☰'}
-            </button>
-          </div>
+          <button
+            type="button"
+            className="mobile-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Navigation"
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? 'CLOSE ✕' : 'MENU ☰'}
+          </button>
         </div>
 
         {/* Minimalist Developer Mobile Drawer */}
         {isMobileMenuOpen && (
           <div className="mobile-drawer" role="dialog" aria-label="Mobile Navigation" aria-modal="true">
             <div className="mobile-nav-links">
-              <a href="#about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+              <a
+                href="#hero"
+                className="mobile-nav-link"
+                onClick={() => {
+                  setActiveNav('home');
+                  setIsMobileMenuOpen(false);
+                }}
+              >
                 <span className="mobile-nav-left">
                   <span className="mobile-nav-num">// 01</span>
-                  <span className="mobile-nav-text">About</span>
+                  <span className="mobile-nav-text">Home</span>
                 </span>
                 <span className="mobile-nav-arrow">↗</span>
               </a>
-              <a href="#skills" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+              <a
+                href="#about"
+                className="mobile-nav-link"
+                onClick={() => {
+                  setActiveNav('profile');
+                  setIsMobileMenuOpen(false);
+                }}
+              >
                 <span className="mobile-nav-left">
                   <span className="mobile-nav-num">// 02</span>
-                  <span className="mobile-nav-text">Skills</span>
+                  <span className="mobile-nav-text">Profile</span>
                 </span>
                 <span className="mobile-nav-arrow">↗</span>
               </a>
-              <a href="#education" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+              <a
+                href="#projects"
+                className="mobile-nav-link"
+                onClick={() => {
+                  setActiveNav('portfolio');
+                  setIsMobileMenuOpen(false);
+                }}
+              >
                 <span className="mobile-nav-left">
                   <span className="mobile-nav-num">// 03</span>
-                  <span className="mobile-nav-text">Education</span>
+                  <span className="mobile-nav-text">Portfolio</span>
                 </span>
                 <span className="mobile-nav-arrow">↗</span>
               </a>
-              <a href="#projects" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+              <a
+                href="#contact"
+                className="mobile-nav-link"
+                onClick={() => {
+                  setActiveNav('contact');
+                  setIsMobileMenuOpen(false);
+                }}
+              >
                 <span className="mobile-nav-left">
                   <span className="mobile-nav-num">// 04</span>
-                  <span className="mobile-nav-text">Projects</span>
-                </span>
-                <span className="mobile-nav-arrow">↗</span>
-              </a>
-              <a href="#certificates" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
-                <span className="mobile-nav-left">
-                  <span className="mobile-nav-num">// 05</span>
-                  <span className="mobile-nav-text">Certificates</span>
-                </span>
-                <span className="mobile-nav-arrow">↗</span>
-              </a>
-              <a href="#contact" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
-                <span className="mobile-nav-left">
-                  <span className="mobile-nav-num">// 06</span>
                   <span className="mobile-nav-text">Contact</span>
                 </span>
                 <span className="mobile-nav-arrow">↗</span>
@@ -283,7 +360,7 @@ export function App() {
         {/* ====================================================================
             HERO SECTION
             ==================================================================== */}
-        <section id="hero" className="hero-section">
+        <section id="hero" className="hero-section ag-entrance">
           <div className="hero-content">
             <div className="status-badge">
               <span className="pulse-indicator">
@@ -309,10 +386,18 @@ export function App() {
             <p className="hero-bio">{personal.shortBio}</p>
 
             <div className="hero-actions">
-              <a href="#projects" className="btn-primary">
+              <a
+                href="#projects"
+                className="btn-primary"
+                onClick={() => setActiveNav('portfolio')}
+              >
                 VIEW PROJECTS ↗
               </a>
-              <a href="#contact" className="btn-secondary">
+              <a
+                href="#contact"
+                className="btn-secondary"
+                onClick={() => setActiveNav('contact')}
+              >
                 CONTACT ME
               </a>
             </div>
@@ -346,9 +431,13 @@ export function App() {
             </div>
           </div>
 
-          {/* Right Profile Card Container with Crimson Ambient Glow */}
+          {/* Right Profile Card Container with Electric Blue Ambient Glow */}
           <div className="hero-card-col">
-            <div className="profile-card">
+            <div
+              className="profile-card"
+              onMouseMove={handleCardMouseMove}
+              onMouseLeave={handleCardMouseLeave}
+            >
               <div className="profile-card-top">
                 <span>PROFILE PHOTO</span>
                 <span className="text-accent">{personal.profileImage ? '[ONLINE]' : '[IN PROGRESS]'}</span>
@@ -379,12 +468,12 @@ export function App() {
         </section>
 
         {/* ====================================================================
-            ABOUT SECTION
+            ABOUT & SMK PLUS PELITA NUSANTARA FUNDAMENTALS SECTION
             ==================================================================== */}
-        <section id="about">
+        <section id="about" className="ag-entrance">
           <div className="section-tag">
             <span className="dot" />
-            <span>// 01 About</span>
+            <span>// 01 Profile &amp; About</span>
           </div>
 
           <div className="about-grid">
@@ -396,7 +485,11 @@ export function App() {
             </div>
 
             <div className="about-telemetry">
-              <div className="telemetry-card">
+              <div
+                className="telemetry-card"
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
+              >
                 <div className="telemetry-title">System Telemetry &amp; Specs</div>
                 <div className="telemetry-item">
                   <span className="label">STATUS</span>
@@ -411,6 +504,38 @@ export function App() {
                   <span className="val">{about.currentFocus}</span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Core Module: SMK Plus Pelita Nusantara Fundamentals */}
+          <div className="foundation-module">
+            <div className="foundation-header">
+              <div>
+                <span className="foundation-badge">
+                  <span>●</span> CORE MODULE · ACADEMIC &amp; PROFESSIONAL FOUNDATION
+                </span>
+                <h3 style={{ fontSize: 22, fontWeight: 700, marginTop: 10, letterSpacing: '-0.02em' }}>
+                  SMK Plus Pelita Nusantara Fundamentals
+                </h3>
+              </div>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-secondary)' }}>
+                REKAYASA PERANGKAT LUNAK · 04 CORE COMPETENCIES
+              </span>
+            </div>
+
+            <div className="expertise-grid">
+              {expertise.map((item) => (
+                <div
+                  key={item.number}
+                  className="foundation-card"
+                  onMouseMove={handleCardMouseMove}
+                  onMouseLeave={handleCardMouseLeave}
+                >
+                  <span className="expertise-num">// {item.number}</span>
+                  <h4 className="expertise-title">{item.title}</h4>
+                  <p className="expertise-desc">{item.description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -453,7 +578,13 @@ export function App() {
 
           <div ref={skillScrollRef} className="skill-carousel">
             {skills.languages.map((lang) => (
-              <div key={lang.name} className="skill-card" title={lang.name}>
+              <div
+                key={lang.name}
+                className="skill-card"
+                title={lang.name}
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
+              >
                 <div className="skill-preview">
                   <img
                     src={lang.image}
@@ -498,7 +629,7 @@ export function App() {
         {/* ====================================================================
             PROJECTS SECTION (Horizontal Container Blocks)
             ==================================================================== */}
-        <section id="projects">
+        <section id="projects" className="ag-entrance">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <div className="section-tag" style={{ marginBottom: 0 }}>
               <span className="dot" />
@@ -521,7 +652,12 @@ export function App() {
                 'Ringkasan arsitektur teknis dan dokumentasi modul proyek akan ditampilkan di sini setelah rilis publik.';
 
               return (
-                <article key={proj.id} className="project-block">
+                <article
+                  key={proj.id}
+                  className="project-block"
+                  onMouseMove={handleCardMouseMove}
+                  onMouseLeave={handleCardMouseLeave}
+                >
                   <div className="project-left">
                     {proj.image ? (
                       <div className="project-thumbnail-box">
@@ -568,7 +704,7 @@ export function App() {
         {/* ====================================================================
             CERTIFICATES SECTION (Horizontal Scroll Carousel)
             ==================================================================== */}
-        <section id="certificates">
+        <section id="certificates" className="ag-entrance">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <div className="section-tag" style={{ marginBottom: 0 }}>
               <span className="dot" />
@@ -613,6 +749,8 @@ export function App() {
                   key={cert.id}
                   className="cert-card"
                   onClick={() => setSelectedCert(cert)}
+                  onMouseMove={handleCardMouseMove}
+                  onMouseLeave={handleCardMouseLeave}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {

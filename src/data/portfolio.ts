@@ -69,23 +69,23 @@ export const portfolioData = {
   expertise: [
     {
       number: "01",
-      title: "Web Development",
-      description: "Developing semantic, responsive, and high-performance web applications using modern HTML5, standard CSS, Vanilla JavaScript, React, and TypeScript.",
+      title: "Advanced Software Development (Pemrograman Lanjut)",
+      description: "Modern Web Architectures, Object-Oriented Programming (OOP), API Integration, and Clean Code Standards.",
     },
     {
       number: "02",
-      title: "Software Engineering",
-      description: "Applying object-oriented design, modular architecture, algorithmic problem solving, and version control workflows to build robust, maintainable systems.",
+      title: "Professional Graphic & UI/UX Design (Desain Grafis Profesional)",
+      description: "Visual Hierarchy, Layout Design, Editorial Typography, Color Theory, and Interactive Motion Graphics.",
     },
     {
       number: "03",
-      title: "UI / UX & Accessibility",
-      description: "Crafting editorial, developer-centric interfaces adhering to WCAG 2.2 AA standards. Prioritizing visual hierarchy, keyboard navigation, focus management, and fluid responsiveness.",
+      title: "Networking & System Security (Jaringan & Keamanan Sistem)",
+      description: "Network Protocols, Cybersecurity Fundamentals, Capture The Flag (CTF) Analysis, and Server Management.",
     },
     {
       number: "04",
-      title: "Database & Backend",
-      description: "Designing structured relational schemas, RESTful API endpoints, secure authentication patterns, and scalable data models with PHP, Python, and SQL databases.",
+      title: "Work Ethics & Professionalism (Etika Kerja & Profesionalisme)",
+      description: "Agile Collaboration, Industry Standard Workflows, Version Control Discipline, and Technical Documentation.",
     },
   ],
 
