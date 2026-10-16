@@ -101,6 +101,37 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Calm scroll reveal: sections fade up once as they enter the viewport.
+  // Nothing is hidden without JS, and reduced-motion users never get hidden content.
+  useEffect(() => {
+    if (
+      typeof IntersectionObserver === 'undefined' ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return;
+    }
+    const root = document.documentElement;
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('.ag-entrance'));
+    root.classList.add('reveal-ready');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.06 },
+    );
+    targets.forEach((t) => observer.observe(t));
+    return () => {
+      observer.disconnect();
+      root.classList.remove('reveal-ready');
+      targets.forEach((t) => t.classList.remove('is-visible'));
+    };
+  }, []);
+
   // Lock body scroll when mobile menu or modal is open
   useEffect(() => {
     if (isMobileMenuOpen || selectedProject || selectedCert) {
@@ -379,7 +410,7 @@ export function App() {
               </div>
               <div>I am</div>
               <div className="text-accent">
-                Hanan<span style={{ color: 'var(--accent-cyan)' }}>.</span>
+                Hanan<span className="text-accent">.</span>
               </div>
             </div>
 
@@ -461,7 +492,7 @@ export function App() {
 
               <div className="profile-card-bottom">
                 <span>Location: {personal.location}</span>
-                <span style={{ color: 'var(--text-heading)', fontWeight: 600 }}>SMK Plus Pelita Nusantara</span>
+                <span className="profile-card-school">SMK Plus Pelita Nusantara</span>
               </div>
             </div>
           </div>
@@ -514,11 +545,11 @@ export function App() {
                 <span className="foundation-badge">
                   <span>●</span> CORE MODULE · ACADEMIC &amp; PROFESSIONAL FOUNDATION
                 </span>
-                <h3 style={{ fontSize: 22, fontWeight: 700, marginTop: 10, letterSpacing: '-0.02em' }}>
+                <h3 className="foundation-title">
                   SMK Plus Pelita Nusantara Fundamentals
                 </h3>
               </div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-secondary)' }}>
+              <span className="foundation-meta">
                 REKAYASA PERANGKAT LUNAK · 04 CORE COMPETENCIES
               </span>
             </div>
@@ -544,14 +575,14 @@ export function App() {
             SKILLS SECTION (Horizontal Scroll Carousel — Programming & Tech Languages)
             ==================================================================== */}
         <section id="skills">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div className="section-tag" style={{ marginBottom: 0 }}>
+          <div className="section-head">
+            <div className="section-tag">
               <span className="dot" />
               <span>// 02 Skills &amp; Languages</span>
             </div>
 
             <div className="skill-header-actions">
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
+              <span className="section-meta">
                 {skills.languages.length} Languages (Scroll →)
               </span>
               <div className="skill-controls">
@@ -630,12 +661,12 @@ export function App() {
             PROJECTS SECTION (Horizontal Container Blocks)
             ==================================================================== */}
         <section id="projects" className="ag-entrance">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div className="section-tag" style={{ marginBottom: 0 }}>
+          <div className="section-head">
+            <div className="section-tag">
               <span className="dot" />
               <span>// 04 Selected Projects</span>
             </div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
+            <span className="section-meta">
               EXACTLY 3 PROJECTS
             </span>
           </div>
@@ -670,15 +701,15 @@ export function App() {
                     <div className="project-info">
                       <div className="project-meta">
                         <span className="project-category">{displayCat}</span>
-                        <span style={{ color: 'var(--text-faint)' }}>•</span>
+                        <span className="project-sep">•</span>
                         <span className="project-status">{displayYear}</span>
                       </div>
                       <h3 className="project-title">{displayTitle}</h3>
                       <p className="project-desc">{displayDesc}</p>
                       {proj.technologies && proj.technologies.length > 0 && (
-                        <div className="chips" style={{ marginTop: 6 }}>
+                        <div className="chips chips-compact">
                           {proj.technologies.map((tech) => (
-                            <span key={tech} className="chip" style={{ fontSize: 10, padding: '2px 8px' }}>
+                            <span key={tech} className="chip">
                               {tech}
                             </span>
                           ))}
@@ -705,14 +736,14 @@ export function App() {
             CERTIFICATES SECTION (Horizontal Scroll Carousel)
             ==================================================================== */}
         <section id="certificates" className="ag-entrance">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div className="section-tag" style={{ marginBottom: 0 }}>
+          <div className="section-head">
+            <div className="section-tag">
               <span className="dot" />
               <span>// 05 Certifications</span>
             </div>
 
             <div className="cert-header-actions">
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
+              <span className="section-meta">
                 10 Credentials (Scroll →)
               </span>
               <div className="cert-controls">
@@ -819,7 +850,7 @@ export function App() {
             <div>
               <form className="contact-form" onSubmit={handleFormSubmit} noValidate>
                 {/* Anti-spam Honeypot */}
-                <div style={{ display: 'none' }} aria-hidden="true">
+                <div className="honeypot" aria-hidden="true">
                   <label htmlFor="honey">Leave blank</label>
                   <input
                     id="honey"
@@ -889,17 +920,16 @@ export function App() {
 
                 {formStatus === 'activation_required' && (
                   <div className="alert-box alert-warning" role="alert" aria-live="polite">
-                    <div style={{ fontWeight: 700, marginBottom: 4 }}>
+                    <div className="alert-title">
                       ⚠️ Aktivasi Formulir Diperlukan (1x Saja)
                     </div>
-                    <div style={{ lineHeight: 1.5 }}>
+                    <div className="alert-body">
                       FormSubmit telah mengirimkan email konfirmasi ke <strong>{contact.recipientEmail}</strong>. Silakan buka kotak masuk / spam Gmail Anda, lalu klik tautan <strong>"Activate Form"</strong> agar pesan berikutnya langsung terkirim otomatis.
                     </div>
-                    <div style={{ marginTop: 10 }}>
+                    <div className="alert-actions">
                       <a
                         href={`mailto:${contact.recipientEmail}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Nama: ${formData.name}\nEmail: ${formData.email}\n\nPesan:\n${formData.message}`)}`}
-                        className="btn-secondary"
-                        style={{ display: 'inline-flex', padding: '6px 14px', fontSize: 12 }}
+                        className="btn-secondary btn-compact"
                       >
                         Kirim Sekarang via Aplikasi Email ↗
                       </a>
@@ -915,14 +945,13 @@ export function App() {
 
                 {formStatus === 'error' && (
                   <div className="alert-box alert-error" role="alert" aria-live="polite">
-                    <div style={{ lineHeight: 1.5 }}>
+                    <div className="alert-body">
                       {formErrorMsg || 'Terjadi kendala saat mengirimkan pesan.'} Silakan coba lagi atau kirim pesan Anda langsung:
                     </div>
-                    <div style={{ marginTop: 10 }}>
+                    <div className="alert-actions">
                       <a
                         href={`mailto:${contact.recipientEmail}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Nama: ${formData.name}\nEmail: ${formData.email}\n\nPesan:\n${formData.message}`)}`}
-                        className="btn-secondary"
-                        style={{ display: 'inline-flex', padding: '6px 14px', fontSize: 12 }}
+                        className="btn-secondary btn-compact"
                       >
                         Kirim via Aplikasi Email ↗
                       </a>
@@ -932,9 +961,8 @@ export function App() {
 
                 <button
                   type="submit"
-                  className="btn-primary"
+                  className="btn-primary btn-block"
                   disabled={formStatus === 'sending'}
-                  style={{ width: '100%', justifyContent: 'center' }}
                 >
                   {formStatus === 'sending' && 'SENDING MESSAGE...'}
                   {formStatus === 'success' && 'MESSAGE SENT! ✓'}
@@ -951,16 +979,20 @@ export function App() {
       {/* Footer */}
       <footer>
         <div className="footer-inner">
-          <div>
+          <div className="footer-legal">
             © {CURRENT_YEAR} {personal.name}. All rights reserved.
-            <div style={{ marginTop: 4, fontSize: 11, color: 'var(--text-faint)' }}>
+            <div className="footer-sub">
               Software Engineering Student · SMK Plus Pelita Nusantara, Bogor.
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-            <a href={`mailto:${personal.email}`}>{personal.email}</a>
-            <a href="#hero" style={{ color: 'var(--accent)' }}>Back to Top ↑</a>
+          <div className="footer-links">
+            <a href={`mailto:${personal.email}`} className="footer-email">
+              {personal.email}
+            </a>
+            <a href="#hero" className="footer-top">
+              Back to Top ↑
+            </a>
           </div>
         </div>
       </footer>
@@ -996,28 +1028,28 @@ export function App() {
               </div>
             ) : (
               <div className="modal-image-placeholder">
-                <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: 12 }}>
+                <span className="modal-placeholder-tag">
                   [PROJECT 0{selectedProject.id} // PREVIEW]
                 </span>
-                <span style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 4 }}>
+                <span className="modal-placeholder-note">
                   IMAGE TO BE ADDED
                 </span>
               </div>
             )}
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 11, marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
-              <span style={{ color: 'var(--accent)', fontWeight: 700 }}>
+            <div className="modal-meta">
+              <span className="modal-meta-accent">
                 {selectedProject.category || 'SOFTWARE ARCHITECTURE'}
               </span>
-              <span style={{ color: 'var(--text-muted)' }}>{selectedProject.year || 'IN DEVELOPMENT'}</span>
+              <span className="modal-meta-muted">{selectedProject.year || 'IN DEVELOPMENT'}</span>
             </div>
 
-            <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12, letterSpacing: '-0.02em' }}>
+            <h3 className="modal-title">
               {selectedProject.title || `Project 0${selectedProject.id} — Development In Progress`}
             </h3>
 
             {selectedProject.technologies && selectedProject.technologies.length > 0 && (
-              <div className="chips" style={{ marginBottom: 16 }}>
+              <div className="chips">
                 {selectedProject.technologies.map((tech) => (
                   <span key={tech} className="chip">
                     {tech}
@@ -1026,19 +1058,19 @@ export function App() {
               </div>
             )}
 
-            <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
+            <p className="modal-desc">
               {selectedProject.description ||
                 'Dokumentasi rinci proyek, skema arsitektur, dan ringkasan implementasi teknis akan dirilis setelah tahap pengujian selesai.'}
             </p>
 
-            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
+            <div className="modal-foot">
               <span>PRJ ID: // 0{selectedProject.id}</span>
               {selectedProject.image ? (
                 <a
                   href={selectedProject.image}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: 'var(--accent)', textDecoration: 'none' }}
+                  className="modal-link"
                 >
                   Buka Gambar Penuh ↗
                 </a>
@@ -1081,34 +1113,34 @@ export function App() {
               </div>
             ) : (
               <div className="modal-image-placeholder">
-                <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: 12 }}>
+                <span className="modal-placeholder-tag">
                   [CERTIFICATE 0{selectedCert.id} // PREVIEW]
                 </span>
-                <span style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 4 }}>
+                <span className="modal-placeholder-note">
                   IMAGE TO BE ADDED
                 </span>
               </div>
             )}
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 11, marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
-              <span style={{ color: 'var(--accent)', fontWeight: 700 }}>
+            <div className="modal-meta">
+              <span className="modal-meta-accent">
                 Issuer: {selectedCert.issuer || 'SMK Plus Pelita Nusantara / Verified Issuer'}
               </span>
-              <span style={{ color: 'var(--text-muted)' }}>Issued: {selectedCert.year || 'Year Pending'}</span>
+              <span className="modal-meta-muted">Issued: {selectedCert.year || 'Year Pending'}</span>
             </div>
 
-            <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16, lineHeight: 1.4 }}>
+            <h3 className="modal-title">
               {selectedCert.title || `Certificate 0${selectedCert.id} — Accreditation In Progress`}
             </h3>
 
-            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
+            <div className="modal-foot">
               <span>Credential #{String(selectedCert.id).padStart(2, '0')}</span>
               {selectedCert.image ? (
                 <a
                   href={selectedCert.verificationUrl || selectedCert.image}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: 'var(--accent)', textDecoration: 'none' }}
+                  className="modal-link"
                 >
                   Buka Berkas Penuh ↗
                 </a>
