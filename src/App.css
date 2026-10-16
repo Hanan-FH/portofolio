@@ -62,7 +62,7 @@
 .marginal-left .line {
   width: 32px;
   height: 1px;
-  background-color: rgba(253, 230, 138, 0.2);
+  background-color: rgba(226, 176, 74, 0.3);
 }
 
 .marginal-right {
@@ -108,7 +108,7 @@
   right: 0;
   height: 72px;
   z-index: 50;
-  background-color: rgba(23, 23, 28, 0.88);
+  background-color: rgba(25, 24, 28, 0.88);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-subtle);
   transition: all 0.3s ease;
@@ -135,7 +135,7 @@
   font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.04em;
-  color: var(--text-primary);
+  color: var(--text-heading);
   transition: color 0.2s;
 }
 
@@ -149,7 +149,7 @@
 
 .brand-badge {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-label);
   border-left: 1px solid var(--border-subtle);
   padding-left: 12px;
 }
@@ -185,7 +185,7 @@ body.scroll-locked {
 
 .mobile-toggle {
   display: none;
-  background: rgba(253, 230, 138, 0.04);
+  background: rgba(226, 176, 74, 0.05);
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
   color: var(--text-primary);
@@ -230,7 +230,7 @@ body.scroll-locked {
   right: 0;
   bottom: 0;
   height: calc(100dvh - 72px);
-  background-color: rgba(23, 23, 28, 0.98);
+  background-color: rgba(25, 24, 28, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: 45;
@@ -276,7 +276,7 @@ body.scroll-locked {
 .mobile-nav-num {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-label);
   letter-spacing: 0.05em;
   font-weight: 500;
 }
@@ -398,7 +398,7 @@ section {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.15;
-  color: var(--text-primary);
+  color: var(--text-heading);
   margin-bottom: 40px;
   max-w: 680px;
 }
@@ -430,7 +430,7 @@ section {
   gap: 10px;
   padding: 6px 14px;
   border-radius: 9999px;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-strong);
   background-color: var(--bg-surface);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -475,7 +475,7 @@ section {
   letter-spacing: -0.04em;
   line-height: 0.95;
   margin-bottom: 28px;
-  color: var(--text-primary);
+  color: var(--text-heading);
 }
 
 .hero-display .line-1 {
@@ -558,18 +558,18 @@ section {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-strong);
   transition: all 0.2s ease;
 }
 
 .btn-secondary:hover {
   border-color: var(--accent);
-  background-color: rgba(253, 230, 138, 0.04);
+  background-color: rgba(226, 176, 74, 0.05);
   transform: translateY(-2px);
 }
 
 .hero-connect {
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--border-strong);
   padding-top: 24px;
   max-width: 440px;
 }
@@ -577,7 +577,7 @@ section {
 .connect-label {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-label);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-bottom: 12px;
@@ -682,7 +682,7 @@ section {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 15px;
-  color: var(--text-primary);
+  color: var(--text-heading);
   margin-bottom: 6px;
 }
 
@@ -734,7 +734,7 @@ section {
 
 .telemetry-card {
   background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-strong);
   border-radius: 14px;
   padding: 24px;
 }
@@ -744,7 +744,7 @@ section {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--text-muted);
+  color: var(--text-label);
   border-bottom: 1px solid var(--border-subtle);
   padding-bottom: 12px;
   margin-bottom: 18px;
@@ -762,14 +762,14 @@ section {
   display: block;
   font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--text-muted);
+  color: var(--text-label);
   margin-bottom: 4px;
 }
 
 .telemetry-item .val {
   font-weight: 600;
   font-size: 14px;
-  color: var(--text-primary);
+  color: var(--text-heading);
 }
 
 /* ==============================================================================
@@ -820,7 +820,7 @@ section {
   font-weight: 700;
   letter-spacing: -0.02em;
   margin-bottom: 10px;
-  color: var(--text-primary);
+  color: var(--text-heading);
 }
 
 .expertise-desc {
@@ -1002,8 +1002,8 @@ section {
   width: 64px;
   height: 64px;
   border-radius: 10px;
-  background-color: rgba(253, 230, 138, 0.04);
-  border: 1px solid rgba(253, 230, 138, 0.1);
+  background-color: rgba(226, 176, 74, 0.05);
+  border: 1px solid rgba(226, 176, 74, 0.14);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1049,7 +1049,7 @@ section {
   font-size: 9px;
   font-weight: 700;
   color: var(--accent);
-  border: 1px solid rgba(253, 230, 138, 0.12);
+  border: 1px solid rgba(226, 176, 74, 0.16);
 }
 
 .project-info {
@@ -1084,7 +1084,7 @@ section {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: var(--text-heading);
 }
 
 .project-desc {
@@ -1242,7 +1242,7 @@ section {
 .cert-issuer {
   font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--text-muted);
+  color: var(--text-label);
   text-transform: uppercase;
 }
 
@@ -1335,7 +1335,7 @@ section {
   font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--text-label);
   font-weight: 600;
 }
 
@@ -1388,7 +1388,7 @@ section {
 footer {
   border-top: 1px solid var(--border-subtle);
   padding: 40px 0;
-  background-color: #131317;
+  background-color: var(--bg-footer);
 }
 
 .footer-inner {

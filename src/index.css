@@ -1,18 +1,49 @@
 :root {
-  --bg-primary: #17171c;
-  --bg-surface: #202027;
-  --bg-elevated: #1b1b21;
-  --bg-card: rgba(253, 230, 138, 0.03);
-  --border-subtle: rgba(253, 230, 138, 0.09);
+  /* ---------------------------------------------------------------------------
+     SURFACES — warm charcoal (lifted from pure black for a softer canvas)
+     --------------------------------------------------------------------------- */
+  --bg-primary: #19181c;
+  --bg-surface: #222126;
+  --bg-elevated: #1d1c20;
+  --bg-footer: #141316;
+  --bg-card: rgba(226, 176, 74, 0.03);
+
+  /* ---------------------------------------------------------------------------
+     GOLD SCALE — professional layered yellow palette
+     --------------------------------------------------------------------------- */
+  --gold-50: #fff8e1;
+  --gold-100: #fcecc0;
+  --gold-200: #f8dc8c;
+  --gold-300: #f0c965;
+  --gold-400: #e2b04a;
+  --gold-500: #c8942f;
+  --gold-600: #9a7022;
+
+  /* ---------------------------------------------------------------------------
+     LINES & BORDERS — gold-tinted hairlines
+     --------------------------------------------------------------------------- */
+  --border-subtle: rgba(226, 176, 74, 0.11);
+  --border-strong: rgba(226, 176, 74, 0.24);
   --border-hover: rgba(255, 51, 102, 0.4);
-  --text-primary: #fde68a;
-  --text-secondary: #c2b88f;
-  --text-muted: #9a9174;
-  --text-faint: #7d7660;
-  --text-on-accent: #fff7d6;
+
+  /* ---------------------------------------------------------------------------
+     TEXT HIERARCHY — contrast ratios measured against --bg-primary
+     --------------------------------------------------------------------------- */
+  --text-heading: var(--gold-200); /* 13.1:1  headings, display, names       */
+  --text-primary: #f4e2a8;         /* 13.7:1  body copy, values, links        */
+  --text-secondary: #cdbf96;       /* 9.7:1   paragraphs, descriptions        */
+  --text-label: #caa65a;           /* 7.7:1   mono labels, eyebrows           */
+  --text-muted: #a69b7a;           /* 6.4:1   dates, meta, footer             */
+  --text-faint: #857c62;           /* 4.3:1   decorative / aria-hidden only   */
+  --text-on-accent: var(--gold-50);
+
+  /* ---------------------------------------------------------------------------
+     ACCENT — crimson (unchanged)
+     --------------------------------------------------------------------------- */
   --accent: #ff3366;
   --accent-glow: rgba(255, 51, 102, 0.15);
   --accent-hover: #e02456;
+
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
@@ -38,9 +69,22 @@ body {
   overflow-x: hidden;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  color: var(--text-heading);
+}
+
 ::selection {
-  background-color: var(--accent);
-  color: var(--text-on-accent);
+  background-color: var(--gold-300);
+  color: var(--bg-primary);
+}
+
+/* Gold focus ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--gold-300);
+  outline-offset: 2px;
 }
 
 /* Minimal dark scrollbar */
@@ -52,7 +96,7 @@ body {
   background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(253, 230, 138, 0.16);
+  background: rgba(226, 176, 74, 0.22);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {

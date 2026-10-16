@@ -107,26 +107,53 @@ The HTML template must NEVER contain hardcoded personal data or duplicated proje
 
 ---
 
-## 8. Color System & Theming
-- **Light Theme**:
-  - Canvas / Background: `#F7F7F5`
-  - Primary Text: `#111111`
-  - Secondary Text: `#666666`
-  - Borders: `#DADADA`
-  - Accent: `#1D4ED8`
-- **Dark Theme**:
-  - Canvas / Background: `#0A0A0A`
-  - Primary Text: `#F5F5F5`
-  - Secondary Text: `#A3A3A3`
-  - Borders: `#262626`
-  - Accent: `#60A5FA`
-- **Anti-Flash Implementation**: An inline script in `<head>` checks `localStorage` and `prefers-color-scheme` before the page renders, completely eliminating white/dark flashes.
+## 8. Color System & Theming — "Charcoal & Gold"
+The site uses a **single dark theme**: a lifted warm-charcoal canvas (not pure black) with a **professional layered gold/yellow typography palette** and a crimson accent. All tokens live in `src/index.css` (`:root`). **Do not add new hardcoded hex values** in `src/App.css` or inline styles in `src/App.tsx` — always reference a CSS variable. Existing intentional exceptions: cyan `#00D2FF` (hero decorative circle and name dot), status green `#10B981` (mobile drawer status dot), and the success/error/warning alert banner colors.
+
+### 8.1 Surfaces (warm charcoal)
+| Token | Value | Usage |
+|---|---|---|
+| `--bg-primary` | `#19181C` | Page canvas, scrollbar track, `site.webmanifest` theme/background color |
+| `--bg-surface` | `#222126` | Cards, panels, modals, form container, scroll buttons |
+| `--bg-elevated` | `#1D1C20` | Inputs, image wells, avatar backdrop |
+| `--bg-footer` | `#141316` | Footer band |
+| `--bg-card` | `rgba(226,176,74,0.03)` | Faint gold-tinted fills / placeholders |
+| Header / mobile drawer | `rgba(25,24,28,0.88)` / `rgba(25,24,28,0.98)` | Translucent blurred bars |
+
+### 8.2 Gold Scale
+| Token | Value | Role |
+|---|---|---|
+| `--gold-50` | `#FFF8E1` | Text on crimson buttons (`--text-on-accent`) |
+| `--gold-100` | `#FCECC0` | Reserved highlight |
+| `--gold-200` | `#F8DC8C` | Headings (`--text-heading`) |
+| `--gold-300` | `#F0C965` | `::selection` background, `:focus-visible` outline |
+| `--gold-400` | `#E2B04A` | Base hue for all gold tints (`rgba(226,176,74,α)`) |
+| `--gold-500` | `#C8942F` | Reserved deep gold |
+| `--gold-600` | `#9A7022` | Reserved darkest gold |
+
+### 8.3 Text Hierarchy (contrast measured on `--bg-primary`)
+| Token | Value | Contrast | Used for |
+|---|---|---|---|
+| `--text-heading` | `#F8DC8C` | 13.1:1 | `h1–h4`, hero display, section titles, project/expertise titles, brand monogram, avatar name, telemetry values |
+| `--text-primary` | `#F4E2A8` | 13.7:1 | Body default, links, card titles, buttons, nav items |
+| `--text-secondary` | `#CDBF96` | 9.7:1 | Paragraphs, descriptions, nav links |
+| `--text-label` | `#CAA65A` | 7.7:1 | Mono uppercase labels: Connect label, telemetry titles/labels, certificate issuer, form labels, mobile nav numbers, brand badge |
+| `--text-muted` | `#A69B7A` | 6.4:1 | Dates, meta info, footer, status pills |
+| `--text-faint` | `#857C62` | 4.3:1 | **Decorative / `aria-hidden` text only** (marginal running text, arrows, separators) |
+
+### 8.4 Lines & Accent
+- `--border-subtle`: `rgba(226,176,74,0.11)` — grid lines, dividers, default card borders.
+- `--border-strong`: `rgba(226,176,74,0.24)` — status badge, hero Connect divider, secondary button, telemetry card.
+- `--accent`: `#FF3366` (crimson), `--accent-hover`: `#E02456`, `--accent-glow`: `rgba(255,51,102,0.15)` — section tags, CTAs, hover states. **Unchanged; do not replace with gold.**
+- `--border-hover`: `rgba(255,51,102,0.4)` — card hover borders.
+- Pure white (`#FFFFFF` / `rgba(255,255,255,…)`) and pure black canvases are **prohibited**; use the gold scale and charcoal surfaces instead.
 
 ---
 
 ## 9. Accessibility (WCAG 2.2 AA)
 - Single `<h1>` on the page; logical `<h2>` and `<h3>` hierarchy.
-- Visible focus rings (`focus-visible:ring-2 focus-visible:ring-blue-600`).
+- Visible gold focus rings (`:focus-visible { outline: 2px solid var(--gold-300); outline-offset: 2px; }`).
+- All readable text tokens must keep ≥ 4.5:1 contrast on `--bg-primary` and `--bg-surface`; `--text-faint` is restricted to decorative content.
 - Screen reader skip link at the top of `index.html`.
 - ARIA landmarks (`role="dialog"`, `aria-modal="true"`, `aria-expanded`).
 - `prefers-reduced-motion` compliance in both CSS and JavaScript.
@@ -136,7 +163,8 @@ The HTML template must NEVER contain hardcoded personal data or duplicated proje
 ## 10. Contact & Social Configuration
 - **Primary Email**: `hananfh77@gmail.com`. Must be used consistently across personal config, mailto CTA, contact form recipient, and footer.
 - **GitHub Integration**: Configured as `https://github.com/Hanan-FH` in `src/data/portfolio.js` (Username: `Hanan-FH`). **CRITICAL REQUIREMENT**: The personal GitHub link appears **EXACTLY ONCE** across the entire website, located **EXCLUSIVELY in the Hero section** (`aria-label="Visit Hanan-FH on GitHub"`, `target="_blank" rel="noopener noreferrer"`). GitHub must NEVER appear in Navbar, Mobile Drawer, Contact, or Footer. Project repository URLs (`project.githubUrl`) remain empty (`""`) until projects are configured.
-- **LinkedIn Integration**: Configured as `portfolioData.social.linkedin: ""`. Strictly kept empty until a verified URL is provided. When configured, it appears exclusively in the Hero section.
+- **LinkedIn Integration**: Configured as `portfolioData.social.linkedin: "https://www.linkedin.com/in/hanan-fathurrozaq-3a643b427"` (verified URL provided by the owner). Appears **EXCLUSIVELY in the Hero section** (`aria-label="Visit Hanan Fathurrozaq on LinkedIn"`, `target="_blank" rel="noopener noreferrer"`). Never add it to Navbar, Mobile Drawer, Contact, or Footer.
+- **Hero "Connect" Row**: Contains exactly two links in this order — **GitHub ↗** then **LinkedIn ↗**. The former hero "Email" link was replaced by LinkedIn; email remains reachable via the Contact section (Direct Email box + form), the mobile drawer, and the footer.
 - **CV / Resume Button**: Configured as `portfolioData.personal.resumeUrl: ""`. Strictly hidden across all navigation and action bars when empty. Never provide a dummy or broken file path.
 - **Contact Form Architecture**:
   - **Provider**: FormSubmit AJAX endpoint (`https://formsubmit.co/ajax/hananfh77@gmail.com`).
@@ -158,4 +186,5 @@ The HTML template must NEVER contain hardcoded personal data or duplicated proje
 4. **Never Invent Social URLs**: Never create fake LinkedIn handles, fabricated GitHub usernames, or dead links.
 5. **No Dependencies**: Do not add UI libraries, CSS frameworks, or animation libraries.
 6. **Maintain Performance**: Ensure `npm run build` generates clean assets without errors or warnings.
+7. **Preserve the Charcoal & Gold Palette**: Use only the tokens defined in Section 8. Do not reintroduce white text, pure-black backgrounds, or new hardcoded hex colors; new UI must map onto the existing text hierarchy (`heading → primary → secondary → label → muted → faint`).
 

@@ -336,7 +336,7 @@ export function App() {
 
               <div className="profile-card-bottom">
                 <span>Location: {personal.location}</span>
-                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>SMK Plus Pelita Nusantara</span>
+                <span style={{ color: 'var(--text-heading)', fontWeight: 600 }}>SMK Plus Pelita Nusantara</span>
               </div>
             </div>
           </div>
