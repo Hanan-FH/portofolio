@@ -1,70 +1,69 @@
 /* ==============================================================================
-   HANAN PERSONAL PORTFOLIO & PROFESSIONAL HUB — DESIGN SYSTEM
-   Color Strategy:
-   - Canvas / Background: Dark Slate Navy (#020617 / #0F172A)
-   - Primary Base: Deep Navy Blue (#0B192C / #1E3A8A)
-   - Secondary / Accent: Tech Cyan / Electric Blue (#3B82F6 / #06B6D4)
-   - Text Colors: Crisp White (#FFFFFF) & Soft Muted Blue-Gray (#94A3B8)
+   HANAN PERSONAL PORTFOLIO & PROFESSIONAL HUB — HIGH-FIDELITY UI/UX & MOTION
+   Reverted Color Palette (Dynamic Duo):
+   - Primary Base: #000000 (Pure Black — main background, canvas, navbar container)
+   - Accent Tech: #00D1FF (Electric Cyan Blue — glow highlights, active states,
+     hover effects, particle colors, borders)
+   - Text Primary: #FFFFFF (Pure White — headings, primary links, main descriptions)
+   - Text Secondary: #A0AEC0 (Cool Gray — metadata, sub-points, inactive states)
    ============================================================================== */
 
 :root {
   /* ---------------------------------------------------------------------------
-     NAVY & SLATE SURFACES
+     PURE BLACK SURFACES & CONTAINERS
      --------------------------------------------------------------------------- */
-  --bg-primary: #020617;
-  --bg-slate: #0f172a;
-  --bg-navy: #0b192c;
-  --bg-navy-elevated: #1e3a8a;
-  --bg-surface: rgba(11, 25, 44, 0.72);
-  --bg-elevated: #0b192c;
-  --bg-footer: #020617;
-  --nav-bg: rgba(11, 25, 44, 0.85);
-  --bg-header: rgba(11, 25, 44, 0.85);
-  --bg-drawer: rgba(2, 6, 23, 0.96);
-  --bg-card: rgba(30, 58, 138, 0.14);
-  --bg-subtle-fill: rgba(59, 130, 246, 0.08);
-  --bg-badge-overlay: rgba(2, 6, 23, 0.86);
-  --bg-modal-overlay: rgba(2, 6, 23, 0.84);
+  --bg-primary: #000000;
+  --bg-surface: #070a0f;
+  --bg-elevated: #05070b;
+  --bg-footer: #000000;
+  --nav-bg: rgba(0, 0, 0, 0.88);
+  --bg-header: rgba(0, 0, 0, 0.88);
+  --bg-drawer: rgba(0, 0, 0, 0.96);
+  --bg-card: rgba(0, 209, 255, 0.04);
+  --bg-subtle-fill: rgba(0, 209, 255, 0.07);
+  --bg-badge-overlay: rgba(0, 0, 0, 0.88);
+  --bg-modal-overlay: rgba(0, 0, 0, 0.88);
 
   /* ---------------------------------------------------------------------------
-     ELECTRIC BLUE & TECH CYAN ACCENTS
+     ELECTRIC CYAN BLUE ACCENT TECH (#00D1FF)
      --------------------------------------------------------------------------- */
-  --accent-blue: #3b82f6;
-  --accent-cyan: #06b6d4;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --accent-glow: rgba(59, 130, 246, 0.22);
+  --accent-tech: #00d1ff;
+  --accent-blue: #00d1ff;
+  --accent-cyan: #00d1ff;
+  --accent: #00d1ff;
+  --accent-hover: #33daff;
+  --accent-glow: rgba(0, 209, 255, 0.24);
 
   /* ---------------------------------------------------------------------------
      BORDERS & STRUCTURAL HAIRLINES
      --------------------------------------------------------------------------- */
-  --border-subtle: rgba(148, 163, 184, 0.14);
-  --border-strong: rgba(59, 130, 246, 0.32);
-  --border-hover: rgba(59, 130, 246, 0.55);
-  --line-marginal: rgba(59, 130, 246, 0.35);
+  --border-subtle: rgba(0, 209, 255, 0.14);
+  --border-strong: rgba(0, 209, 255, 0.36);
+  --border-hover: rgba(0, 209, 255, 0.68);
+  --line-marginal: rgba(0, 209, 255, 0.35);
 
   /* ---------------------------------------------------------------------------
-     TYPOGRAPHY PALETTE (WCAG 2.2 AA High-Contrast)
+     TYPOGRAPHY PALETTE (High-Contrast Dynamic Duo)
      --------------------------------------------------------------------------- */
   --text-heading: #ffffff;
   --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --text-label: #38bdf8;
-  --text-muted: #94a3b8;
+  --text-secondary: #a0aec0;
+  --text-label: #00d1ff;
+  --text-muted: #a0aec0;
   --text-faint: #64748b;
-  --text-on-accent: #ffffff;
+  --text-on-accent: #000000;
 
   /* ---------------------------------------------------------------------------
      PHYSICS, ELEVATION & ACCESSIBILITY TOKENS
      --------------------------------------------------------------------------- */
   --spring-easing: cubic-bezier(0.16, 1, 0.3, 1);
-  --focus-ring: #3b82f6;
-  --selection-bg: #3b82f6;
-  --selection-text: #ffffff;
-  --scrollbar-thumb: rgba(59, 130, 246, 0.32);
+  --focus-ring: #00d1ff;
+  --selection-bg: #00d1ff;
+  --selection-text: #000000;
+  --scrollbar-thumb: rgba(0, 209, 255, 0.32);
 
-  --shadow-card: 0 20px 40px rgba(59, 130, 246, 0.15);
-  --shadow-profile: 0 0 55px rgba(59, 130, 246, 0.2), 0 20px 45px -15px rgba(6, 182, 212, 0.22);
+  --shadow-card: 0 20px 40px rgba(0, 209, 255, 0.16);
+  --shadow-profile: 0 0 55px rgba(0, 209, 255, 0.22), 0 20px 45px -15px rgba(0, 209, 255, 0.25);
 
   /* Alert banners */
   --alert-success-bg: rgba(16, 185, 129, 0.1);
@@ -73,11 +72,11 @@
   --alert-error-bg: rgba(239, 68, 68, 0.1);
   --alert-error-border: rgba(239, 68, 68, 0.35);
   --alert-error-text: #f87171;
-  --alert-warning-bg: rgba(6, 182, 212, 0.12);
-  --alert-warning-border: rgba(6, 182, 212, 0.38);
-  --alert-warning-text: #38bdf8;
+  --alert-warning-bg: rgba(0, 209, 255, 0.12);
+  --alert-warning-border: rgba(0, 209, 255, 0.38);
+  --alert-warning-text: #00d1ff;
 
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
@@ -95,9 +94,8 @@ html {
 body {
   background-color: var(--bg-primary);
   background-image:
-    radial-gradient(circle at 15% 15%, rgba(30, 58, 138, 0.28) 0%, transparent 45%),
-    radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(11, 25, 44, 0.65) 0%, transparent 55%);
+    radial-gradient(circle at 18% 14%, rgba(0, 209, 255, 0.11) 0%, transparent 42%),
+    radial-gradient(circle at 82% 28%, rgba(0, 209, 255, 0.08) 0%, transparent 38%);
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-sans);
@@ -119,13 +117,13 @@ h4 {
   color: var(--selection-text);
 }
 
-/* Electric blue focus ring for keyboard navigation */
+/* Electric Cyan Blue focus ring for keyboard navigation */
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
-/* Minimal navy/blue scrollbar */
+/* Minimal Pure Black & Cyan scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -138,7 +136,7 @@ h4 {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-blue);
+  background: var(--accent-tech);
 }
 
 #root {

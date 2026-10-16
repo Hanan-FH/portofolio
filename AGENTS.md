@@ -1,28 +1,34 @@
-# AGENTS.md - System & Design Specifications
+# AGENTS.md - High-Fidelity UI/UX & Motion Specifications
 
-## 1. Executive Summary & Brand Identity
+## 1. Core Identity & Visual Language (Crucial Update)
+
+### A. Reverted Color Palette (Dynamic Duo)
+Instruksi Utama: Kembalikan skema warna ke identitas asli yang *bold* dan kontras tinggi. Warna profesional biru tua sebelumnya **DIPHASE-OUT** dan diganti dengan kombinasi dinamis Hitam dan Biru Terang.
+
+| Element | Hex Code | Usage context |
+| :--- | :--- | :--- |
+| **Primary Base** | `#000000` (Pure Black) | Background utama, area kanvas portfolio, container navbar. |
+| **Accent Tech** | `#00D1FF` (Electric Cyan Blue) | Glow highlights, active states, hover effects, particle colors, borders. |
+| **Text Primary** | `#FFFFFF` (Pure White) | Headings, primary links (nav), main descriptions. |
+| **Text Secondary**| `#A0AEC0` (Cool Gray) | Metadata, sub-points, inactive states. |
+
+### B. Typography & Brand
+- **Font:** Inter atau Montserrat (Geometric Sans-Serif), dikombinasikan dengan JetBrains Mono untuk label teknis.
 - **Brand Identity:** HANAN Personal Portfolio & Professional Hub.
-- **Color Palette Strategy:**
-  - **Primary Base:** Deep Navy Blue (`#0B192C` / `#1E3A8A`) replacing all legacy yellow/gold accents.
-  - **Secondary / Accent:** Tech Cyan / Electric Blue (`#3B82F6` / `#06B6D4`) for highlights and active UI states.
-  - **Text Colors:**
-    - High contrast Crisp White (`#FFFFFF`) for key headlines and primary navigation links.
-    - Soft Muted Blue-Gray (`#94A3B8`) for secondary descriptive text and metadata.
-  - **Background / Canvas:** Dark Slate Navy (`#020617` / `#0F172A`) to ensure a polished dark-mode aesthetic.
 
 ---
 
 ## 2. Navigation Bar UI/UX Specification
 
 ### Layout & Placement
-- **Header Structure:** Sticky / Fixed Top Bar (`height: 70px`, `backdrop-filter: blur(12px)` with semi-transparent navy background).
+- **Header Structure:** Sticky / Fixed Top Bar (`height: 70px`, `backdrop-filter: blur(12px)` dengan background semi-transparan Pure Black `rgba(0, 0, 0, 0.88)`).
 - **Left Alignment (Brand Logo):**
   - Place the logo/text `"HANAN"` at the absolute far-left section with clean padding (`padding-left: 2rem` or `32px`).
-  - Maintain a modern geometric typography scale with an integrated blue icon mark.
+  - Maintain a modern geometric typography scale with an integrated Electric Cyan Blue (`#00D1FF`) icon mark.
 - **Right Alignment (Navigation Links):**
   - Links: `Home`, `Profile`, `Portfolio`, `Contact`.
   - Right padding (`padding-right: 2rem`).
-  - Active state marker (`Portfolio` active): Subtly highlighted with electric blue text and a smooth bottom glow border (`2px solid #3B82F6`).
+  - Active state marker (`Portfolio` active): Highlighted with Electric Cyan Blue (`#00D1FF`) text and a smooth bottom glow border (`2px solid #00D1FF`).
 
 ---
 
@@ -36,8 +42,8 @@
 
 2. **Animation Specs (CSS / Three.js / Motion Canvas):**
    - **Easing:** `cubic-bezier(0.16, 1, 0.3, 1)` (Fluid Apple-style spring physics).
-   - **Particle Dispersion:** 3D glowing nodes disperse dynamically from the desktop workspace upon interaction, floating outwards before settling into structured grid alignment.
-   - **Hover Interaction:** High-precision magnetic tilt on desktop view cards with smooth drop-shadow lighting response (`box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15)`).
+   - **Particle Dispersion:** 3D glowing Electric Cyan (`#00D1FF`) nodes disperse dynamically from the desktop workspace upon interaction, floating outwards before settling into structured grid alignment.
+   - **Hover Interaction:** High-precision magnetic tilt on desktop view cards with smooth drop-shadow lighting response (`box-shadow: 0 20px 40px rgba(0, 209, 255, 0.18)`).
 
 ---
 
@@ -57,14 +63,15 @@ Integrate a dedicated floating badge or structured glassmorphic card showcasing 
 
 ### Front-End Code Architecture
 ```css
-/* Color Palette Variables */
+/* Color Palette Variables (Dynamic Duo) */
 :root {
-  --bg-primary: #020617;
-  --nav-bg: rgba(11, 25, 44, 0.85);
+  --bg-primary: #000000;
+  --nav-bg: rgba(0, 0, 0, 0.88);
   --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --accent-blue: #3b82f6;
-  --accent-cyan: #06b6d4;
+  --text-secondary: #a0aec0;
+  --accent-tech: #00d1ff;
+  --accent-blue: #00d1ff;
+  --accent-cyan: #00d1ff;
 }
 
 /* Navbar Layout Settings */

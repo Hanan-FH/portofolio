@@ -611,13 +611,13 @@ section {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.28);
+  box-shadow: 0 4px 20px rgba(0, 209, 255, 0.28);
   border: none;
 }
 
 .btn-primary:hover {
   background-color: var(--accent-hover);
-  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.42);
+  box-shadow: 0 8px 30px rgba(0, 209, 255, 0.44);
   transform: translateY(-2px);
 }
 
@@ -719,7 +719,7 @@ section {
   border-radius: 50%;
   border: 2px solid var(--accent);
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.35), 0 0 20px rgba(6, 182, 212, 0.22);
+  box-shadow: 0 8px 30px rgba(0, 209, 255, 0.36), 0 0 22px rgba(0, 209, 255, 0.24);
   position: relative;
   background-color: var(--bg-elevated);
 }
@@ -742,8 +742,8 @@ section {
   height: 96px;
   margin: 0 auto 16px;
   border-radius: 50%;
-  border: 2px dashed rgba(59, 130, 246, 0.5);
-  background: rgba(59, 130, 246, 0.1);
+  border: 2px dashed rgba(0, 209, 255, 0.5);
+  background: rgba(0, 209, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -751,7 +751,7 @@ section {
   font-size: 26px;
   font-weight: 700;
   color: var(--accent);
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 209, 255, 0.24);
 }
 
 .avatar-name {
@@ -1190,7 +1190,7 @@ section {
 
 .project-btn:hover {
   background-color: var(--accent-hover);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 209, 255, 0.36);
 }
 
 @media (max-width: 768px) {
@@ -1632,14 +1632,14 @@ footer {
   height: 28px;
   border-radius: 7px;
   background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
-  box-shadow: 0 0 18px rgba(59, 130, 246, 0.45);
+  box-shadow: 0 0 18px rgba(0, 209, 255, 0.5);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 800;
-  color: #ffffff;
+  color: #000000;
   letter-spacing: 0;
   flex-shrink: 0;
 }
@@ -1676,8 +1676,8 @@ footer {
 .nav-link.active {
   color: var(--accent-blue);
   border-bottom: 2px solid var(--accent-blue);
-  text-shadow: 0 0 14px rgba(59, 130, 246, 0.45);
-  box-shadow: 0 6px 14px -6px rgba(59, 130, 246, 0.65);
+  text-shadow: 0 0 14px rgba(0, 209, 255, 0.5);
+  box-shadow: 0 6px 14px -6px rgba(0, 209, 255, 0.7);
 }
 
 /* Anti-Gravity Floating Particle Canvas */
@@ -1693,7 +1693,7 @@ footer {
   position: absolute;
   border-radius: 50%;
   background: radial-gradient(circle, var(--accent-cyan) 0%, var(--accent-blue) 60%, transparent 100%);
-  box-shadow: 0 0 16px rgba(59, 130, 246, 0.55), 0 0 30px rgba(6, 182, 212, 0.3);
+  box-shadow: 0 0 16px rgba(0, 209, 255, 0.6), 0 0 30px rgba(0, 209, 255, 0.35);
   opacity: 0.35;
   animation: agFloatUp var(--ag-duration, 14s) var(--spring-easing) infinite;
   animation-delay: var(--ag-delay, 0s);
@@ -1761,7 +1761,7 @@ footer {
 .skill-card:hover,
 .foundation-card:hover {
   border-color: var(--accent-blue);
-  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 209, 255, 0.18);
   transform: translate3d(var(--tilt-x, 0px), calc(-6px + var(--tilt-y, 0px)), 0) rotateX(var(--rot-x, 0deg)) rotateY(var(--rot-y, 0deg));
 }
 
@@ -1770,9 +1770,9 @@ footer {
   margin-top: 40px;
   padding: 28px;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(11, 25, 44, 0.82) 0%, rgba(30, 58, 138, 0.22) 100%);
+  background: linear-gradient(135deg, rgba(7, 10, 15, 0.92) 0%, rgba(0, 209, 255, 0.08) 100%);
   border: 1px solid var(--border-strong);
-  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 209, 255, 0.18);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -1794,7 +1794,7 @@ footer {
   gap: 8px;
   padding: 6px 12px;
   border-radius: 9999px;
-  background: rgba(59, 130, 246, 0.14);
+  background: rgba(0, 209, 255, 0.12);
   border: 1px solid var(--border-strong);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -1805,7 +1805,7 @@ footer {
 }
 
 .foundation-card {
-  background: rgba(11, 25, 44, 0.78);
+  background: #05080d;
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 22px;
@@ -1836,8 +1836,8 @@ footer {
   font-size: 11px;
   padding: 4px 10px;
   border-radius: 6px;
-  background: rgba(59, 130, 246, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.28);
+  background: rgba(0, 209, 255, 0.1);
+  border: 1px solid rgba(0, 209, 255, 0.28);
   color: var(--text-primary);
 }
 
