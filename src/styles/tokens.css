@@ -1,0 +1,190 @@
+/* ==============================================================================
+   DESIGN TOKENS — single source of truth for the whole look.
+   Edit values here; components (src/App.css) reference tokens only.
+
+   Language: editorial / typographic (borrowed from the reference design spec in
+   /design-audit/design-spec.md), expressed in the AGENTS.md palette:
+   black #000000, white #FFFFFF, cool gray #A0AEC0, electric cyan #00D1FF.
+   Media queries cannot read custom properties, so the breakpoints used in
+   App.css are documented here: 640px (phone), 860px (nav collapse),
+   1024px (tablet), 1360px (wide: marginal telemetry text appears).
+   ============================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------------
+     FONT FAMILIES
+     --------------------------------------------------------------------------- */
+  --font-sans: 'Inter', 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  /* ---------------------------------------------------------------------------
+     FLUID TYPE SCALE — clamp(mobile @390px, fluid, desktop @1440px)
+     Sizes fitted to the measured reference values (see design-spec.md §2).
+     --------------------------------------------------------------------------- */
+  --fs-display: clamp(3.125rem, 1.4rem + 7.05vw, 7.75rem); /* 50px → 124px */
+  --fs-title: clamp(2.3rem, 1.6rem + 2.86vw, 4.2rem); /* 37px → 67px */
+  --fs-statement: clamp(1.75rem, 1.22rem + 2.19vw, 3.2rem); /* 28px → 51px */
+  --fs-subtitle: clamp(1.25rem, 1.05rem + 0.8vw, 1.75rem); /* 20px → 28px */
+  --fs-body-lg: clamp(1.0625rem, 0.95rem + 0.45vw, 1.3125rem); /* 17px → 21px */
+  --fs-body: 1rem; /* 16px */
+  --fs-caption: 0.875rem; /* 14px */
+  --fs-label: 0.75rem; /* 12px — mono, uppercase */
+
+  --lh-display: 0.96;
+  --lh-title: 1;
+  --lh-statement: 1.05;
+  --lh-heading: 1.15;
+  --lh-snug: 1.3;
+  --lh-body: 1.55;
+
+  --ls-display: -0.055em;
+  --ls-title: -0.045em;
+  --ls-statement: -0.035em;
+  --ls-heading: -0.02em;
+  --ls-body: -0.005em;
+  --ls-label: 0.02em;
+
+  /* ---------------------------------------------------------------------------
+     COLOUR ROLES
+     --------------------------------------------------------------------------- */
+  --color-bg: #000000;
+  --color-surface: #0b0b0b;
+  --color-surface-raised: #121212;
+  --color-text: #ffffff;
+  --color-text-muted: #a0aec0;
+  --color-text-faint: #8190a5;
+  --color-border: rgba(255, 255, 255, 0.14);
+  --color-border-strong: rgba(255, 255, 255, 0.3);
+  --color-accent: #00d1ff;
+  --color-accent-hover: #33daff;
+  --color-accent-border: rgba(0, 209, 255, 0.55);
+  --color-accent-soft: rgba(0, 209, 255, 0.1);
+  --color-accent-glow: rgba(0, 209, 255, 0.18);
+  --color-button: #00d1ff;
+  --color-button-hover: #33daff;
+  --color-button-text: #000000;
+  --color-focus: #00d1ff;
+  --color-selection-bg: #00d1ff;
+  --color-selection-text: #000000;
+  --color-nav-bg: rgba(0, 0, 0, 0.88);
+  --color-drawer-bg: rgba(0, 0, 0, 0.96);
+  --color-overlay: rgba(0, 0, 0, 0.88);
+  --color-scrollbar: rgba(0, 209, 255, 0.32);
+  --color-status-live: #10b981;
+
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+  --color-success-border: rgba(16, 185, 129, 0.35);
+  --color-success-text: #34d399;
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-error-border: rgba(239, 68, 68, 0.35);
+  --color-error-text: #f87171;
+  --color-warning-bg: rgba(0, 209, 255, 0.1);
+  --color-warning-border: rgba(0, 209, 255, 0.38);
+  --color-warning-text: #00d1ff;
+
+  /* ---------------------------------------------------------------------------
+     SPACING SCALE
+     --------------------------------------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-section: clamp(4.5rem, 3rem + 6vw, 10rem); /* vertical gap between sections */
+  --space-block: clamp(2.5rem, 1.5rem + 3vw, 5rem); /* gap between blocks inside a section */
+
+  /* ---------------------------------------------------------------------------
+     LAYOUT — container, grid, header
+     --------------------------------------------------------------------------- */
+  --container-max: 1344px;
+  --page-pad: clamp(1.25rem, 0.9rem + 1.2vw, 2rem); /* 20px → 32px (2rem per AGENTS.md) */
+  --grid-gap: clamp(1rem, 0.7rem + 1vw, 1.5rem);
+  --header-height: 70px;
+  --measure-text: 38rem; /* comfortable reading width */
+  --measure-title: 56rem;
+
+  /* ---------------------------------------------------------------------------
+     RADII — media is square in the reference (measured 0)
+     --------------------------------------------------------------------------- */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-pill: 9999px;
+
+  /* ---------------------------------------------------------------------------
+     MOTION — calm and understated
+     --------------------------------------------------------------------------- */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 200ms;
+  --dur-base: 300ms;
+  --dur-slow: 700ms;
+  --dur-reveal: 800ms;
+  --reveal-distance: 24px;
+  --tilt-damp: 0.6; /* scales the JS-driven magnetic tilt (AGENTS.md hover interaction) */
+  --media-zoom: 1.03;
+
+  /* ---------------------------------------------------------------------------
+     ELEVATION & MISC
+     --------------------------------------------------------------------------- */
+  --shadow-hover: 0 20px 40px rgba(0, 209, 255, 0.18);
+  --blur-nav: 12px;
+  --blur-drawer: 20px;
+  --size-icon-btn: 2.5rem;
+  --size-avatar: 6rem;
+  --z-field: 0;
+  --z-main: 10;
+  --z-margin: 30;
+  --z-drawer: 45;
+  --z-header: 50;
+  --z-modal: 100;
+
+  /* ---------------------------------------------------------------------------
+     COMPONENT SIZING & MISC TOKENS
+     --------------------------------------------------------------------------- */
+  --color-grid-line: rgba(255, 255, 255, 0.045);
+  --hairline: 1px;
+  --ls-brand: 0.08em;
+  --ls-button: 0.08em;
+  --size-brand-mark: 1.75rem;
+  --size-dot: 0.5rem;
+  --size-dot-sm: 0.375rem;
+  --size-circle: 0.16em;
+  --aspect-media: 3 / 2;
+  --aspect-square: 1 / 1;
+  --card-w-skill: clamp(9rem, 13vw, 12rem);
+  --card-w-cert: clamp(15rem, 24vw, 21rem);
+  --modal-w: 44rem;
+  --particle-opacity: 0.45;
+  --particle-rise: -70vh;
+
+  /* ---------------------------------------------------------------------------
+     AGENTS.md NAMED ALIASES (kept so the documented variable names resolve)
+     --------------------------------------------------------------------------- */
+  --bg-primary: var(--color-bg);
+  --nav-bg: var(--color-nav-bg);
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-muted);
+  --accent-tech: var(--color-accent);
+  --accent-blue: var(--color-accent);
+  --accent-cyan: var(--color-accent);
+}
+
+/* Reduced motion: collapse durations so any transition that slips through is instant */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0.01ms;
+    --dur-base: 0.01ms;
+    --dur-slow: 0.01ms;
+    --dur-reveal: 0.01ms;
+    --reveal-distance: 0px;
+    --tilt-damp: 0;
+    --media-zoom: 1;
+  }
+}

@@ -1,0 +1,678 @@
+{
+  "capturedAt": "2026-10-16T14:46:36.465Z",
+  "page": {
+    "title": "Hanan Fathurrozaq Hidayatullah — Software Developer & Engineering Student",
+    "description": "Production-grade developer portfolio of Hanan Fathurrozaq Hidayatullah, a vocational high school software engineering student at SMK Plus Pelita Nusantara, Bogor.",
+    "lang": "en",
+    "headings": [
+      "H3:Fokus pada logika pemrograman dan pengembangan web.",
+      "H3:SMK Plus Pelita Nusantara Fundamentals",
+      "H4:Advanced Software Development (Pemrograman Lanjut)",
+      "H4:Professional Graphic & UI/UX Design (Desain Grafis Profesional)",
+      "H4:Networking & System Security (Jaringan & Keamanan Sistem)",
+      "H4:Work Ethics & Professionalism (Etika Kerja & Profesionalisme)",
+      "H2:Programming languages and core software technologies.",
+      "H2:Academic foundation and vocational software engineering background.",
+      "H3:Rekayasa Perangkat Lunak (RPL)",
+      "H2:A showcase of software projects and development initiatives.",
+      "H3:Mini Shop — 2D Store Simulator (Godot)",
+      "H3:Kalkulator Sederhana — Desktop GUI (Python)",
+      "H3:SIPANDU — Layanan Pengaduan Sekolah (Web CRUD)",
+      "H2:Technical certifications and completed coursework.",
+      "H4:Webinar Nasional: Seni Merespons Dengan Bijak untuk Membangun Komunikasi yang Nyaman",
+      "H4:Webinar Nasional: Bijak dalam Merespons untuk Membangun Komunikasi yang Nyaman",
+      "H4:Micro-Frontend 101: Build, Deploy, and Communicate Between Apps",
+      "H4:Pemanfaatan Cloud Computing di Sektor Pendidikan",
+      "H4:AI Skill Fest: Bangun Chatbot Buatanmu Sendiri dengan Microsoft Azure!",
+      "H4:Flutter in the Age of AI: From Developer to Product Thinker",
+      "H4:Data to Decisions: Navigating and Thriving in the Massive AI Shift",
+      "H4:Introduction to Capture the Flag",
+      "H4:Game Design: From Hobby to Hook - Hooked in Minutes, Engaged for Days",
+      "H4:From Vision to Version 1.0: Roadmapping Your Game Effectively",
+      "H3:Hubungi Saya"
+    ],
+    "texts": [
+      "SOFTWARE ENGINEERING STUDENT BASED IN BOGOR, INDONESIA",
+      "EMAIL",
+      "PROJECTS",
+      "CERTIFICATES",
+      "ABOUT",
+      "H",
+      "HANAN",
+      "Home",
+      "Profile",
+      "Portfolio",
+      "Contact",
+      "Siswa SMK Plus Pelita Nusantara",
+      "Hello",
+      ".",
+      "I am",
+      "Hanan",
+      ".",
+      "Halo, saya Hanan Fathurrozaq Hidayatullah. Siswa SMK Plus Pelita Nusantara jurusan Rekayasa Perangkat Lunak yang berfokus pada web development dan pemrograman.",
+      "VIEW PROJECTS ↗",
+      "CONTACT ME",
+      "Connect",
+      "GitHub",
+      "↗",
+      "LinkedIn",
+      "↗",
+      "PROFILE PHOTO",
+      "[ONLINE]",
+      "Hanan Fathurrozaq Hidayatullah",
+      "Software Engineering Student",
+      "Location:",
+      "Bogor, Indonesia",
+      "SMK Plus Pelita Nusantara",
+      "// 01 Profile & About",
+      "Fokus pada logika pemrograman dan pengembangan web.",
+      "Saya adalah siswa SMK Plus Pelita Nusantara jurusan Rekayasa Perangkat Lunak. Saya mempelajari dasar-dasar pemrograman, struktur data, dan pembuatan aplikasi web yang bersih serta responsif.",
+      "Saya suka mencoba hal-hal baru dalam pemrograman dan mempraktikkan kode dengan struktur yang rapi dan mudah dirawat.",
+      "System Telemetry & Specs",
+      "STATUS",
+      "Siswa Aktif SMK Plus Pelita Nusantara",
+      "LOCATION",
+      "Bogor, Jawa Barat, Indonesia",
+      "CORE FOCUS",
+      "Pengembangan Aplikasi Web, HTML, CSS, JavaScript, React & Database",
+      "●",
+      "CORE MODULE · ACADEMIC & PROFESSIONAL FOUNDATION",
+      "SMK Plus Pelita Nusantara Fundamentals",
+      "REKAYASA PERANGKAT LUNAK · 04 CORE COMPETENCIES",
+      "//",
+      "01",
+      "Advanced Software Development (Pemrograman Lanjut)",
+      "Modern Web Architectures, Object-Oriented Programming (OOP), API Integration, and Clean Code Standards.",
+      "//",
+      "02",
+      "Professional Graphic & UI/UX Design (Desain Grafis Profesional)",
+      "Visual Hierarchy, Layout Design, Editorial Typography, Color Theory, and Interactive Motion Graphics.",
+      "//",
+      "03",
+      "Networking & System Security (Jaringan & Keamanan Sistem)",
+      "Network Protocols, Cybersecurity Fundamentals, Capture The Flag (CTF) Analysis, and Server Management.",
+      "//",
+      "04",
+      "Work Ethics & Professionalism (Etika Kerja & Profesionalisme)",
+      "Agile Collaboration, Industry Standard Workflows, Version Control Discipline, and Technical Documentation.",
+      "// 02 Skills & Languages",
+      "9",
+      "Languages (Scroll →)",
+      "←",
+      "→",
+      "Programming languages and core software technologies.",
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "PHP",
+      "Java",
+      "C / C++",
+      "HTML5",
+      "CSS3",
+      "SQL",
+      "// 03 Education",
+      "Academic foundation and vocational software engineering background.",
+      "2023 — Sekarang",
+      "Rekayasa Perangkat Lunak (RPL)",
+      "SMK Plus Pelita Nusantara",
+      "· Siswa Aktif",
+      "Mempelajari pemrograman web, basis data, algoritma & struktur data, serta pengembangan perangkat lunak.",
+      "// 04 Selected Projects",
+      "EXACTLY 3 PROJECTS",
+      "A showcase of software projects and development initiatives.",
+      "PRJ",
+      "01",
+      "GAME DEVELOPMENT",
+      "•",
+      "2026",
+      "Mini Shop — 2D Store Simulator (Godot)",
+      "Game simulasi toko 2D berbasis Godot Engine dengan tema Mini Shop. Dilengkapi mekanik manajemen inventaris, sistem buka/tutup toko, interaksi rak dan kasir, kontrol karakter WASD, serta alur operasional toko harian.",
+      "Godot Engine",
+      "GDScript",
+      "2D Pixel Art",
+      "Game Loop",
+      "DETAIL SELENGKAPNYA",
+      "↗",
+      "PRJ",
+      "02",
+      "PYTHON DEVELOPMENT",
+      "•",
+      "2026",
+      "Kalkulator Sederhana — Desktop GUI (Python)",
+      "Aplikasi kalkulator berbasis desktop dengan antarmuka grafis (GUI) yang dibangun menggunakan bahasa pemrograman Python dan library Tkinter. Dilengkapi tombol angka, operasi aritmatika dasar (tambah, kurang, kali, bagi), tombol clear (C), dan evaluasi hasil perhitungan.",
+      "Python",
+      "Tkinter",
+      "Desktop GUI",
+      "OOP",
+      "DETAIL SELENGKAPNYA",
+      "↗",
+      "PRJ",
+      "03",
+      "FULLSTACK CRUD WEB APP",
+      "•",
+      "2026",
+      "SIPANDU — Layanan Pengaduan Sekolah (Web CRUD)",
+      "Sistem informasi layanan pengaduan sekolah terpadu berbasis web dengan pengelolaan tiket pengaduan komprehensif (CRUD). Dilengkapi dashboard analitik admin, monitoring distribusi kategori (Sarpras, Bullying, Akademik), klasifikasi tingkat urgensi otomatis, live feed tiket pengaduan, dan rekap pelaporan.",
+      "PHP",
+      "MySQL",
+      "Tailwind CSS",
+      "JavaScript",
+      "CRUD Architecture",
+      "Analytics Dashboard",
+      "DETAIL SELENGKAPNYA",
+      "↗",
+      "// 05 Certifications",
+      "10 Credentials (Scroll →)",
+      "←",
+      "→",
+      "Technical certifications and completed coursework.",
+      "Yayasan Galeria Potensi Indonesia",
+      "Webinar Nasional: Seni Merespons Dengan Bijak untuk Membangun Komunikasi yang Nyaman",
+      "View Details →",
+      "2026",
+      "Yayasan Galeria Potensi Indonesia",
+      "Webinar Nasional: Bijak dalam Merespons untuk Membangun Komunikasi yang Nyaman",
+      "View Details →",
+      "2026",
+      "Google Developer Group - Binus University Online",
+      "Micro-Frontend 101: Build, Deploy, and Communicate Between Apps",
+      "View Details →",
+      "2026",
+      "LPPM STT Terpadu Nurul Fikri",
+      "Pemanfaatan Cloud Computing di Sektor Pendidikan",
+      "View Details →",
+      "2025",
+      "Trainocate",
+      "AI Skill Fest: Bangun Chatbot Buatanmu Sendiri dengan Microsoft Azure!",
+      "View Details →",
+      "2025",
+      "Google Developer Group - Binus University Online",
+      "Flutter in the Age of AI: From Developer to Product Thinker",
+      "View Details →",
+      "2026",
+      "Google Developer Group - Binus University Online",
+      "Data to Decisions: Navigating and Thriving in the Massive AI Shift",
+      "View Details →",
+      "2026",
+      "ID-Networkers (IDN.ID)",
+      "Introduction to Capture the Flag",
+      "View Details →",
+      "2025",
+      "Code Lamp Indonesia",
+      "Game Design: From Hobby to Hook - Hooked in Minutes, Engaged for Days",
+      "View Details →",
+      "2025",
+      "Code Lamp Indonesia",
+      "From Vision to Version 1.0: Roadmapping Your Game Effectively",
+      "View Details →",
+      "2025",
+      "// 06 Contact",
+      "Hubungi Saya",
+      "Terbuka untuk diskusi proyek, kolaborasi open-source, dan kesempatan magang. Silakan hubungi saya melalui formulir di bawah ini atau email langsung.",
+      "Direct Email",
+      "✉",
+      "hananfh77@gmail.com",
+      "↗",
+      "Your Name *",
+      "Your Email Address *",
+      "Subject *",
+      "Message *",
+      "SEND MESSAGE ✉",
+      "©",
+      "2026",
+      "Hanan Fathurrozaq Hidayatullah",
+      ". All rights reserved.",
+      "Software Engineering Student · SMK Plus Pelita Nusantara, Bogor.",
+      "hananfh77@gmail.com",
+      "Back to Top ↑"
+    ],
+    "links": [
+      {
+        "text": "EMAIL",
+        "href": "#contact",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "PROJECTS",
+        "href": "#projects",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "CERTIFICATES",
+        "href": "#certificates",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "ABOUT",
+        "href": "#about",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "HHANAN",
+        "href": "#hero",
+        "target": null,
+        "rel": null,
+        "aria": "HANAN Personal Portfolio & Professional Hub"
+      },
+      {
+        "text": "Home",
+        "href": "#hero",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "Profile",
+        "href": "#about",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "Portfolio",
+        "href": "#projects",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "Contact",
+        "href": "#contact",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "VIEW PROJECTS ↗",
+        "href": "#projects",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "CONTACT ME",
+        "href": "#contact",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "GitHub ↗",
+        "href": "https://github.com/Hanan-FH",
+        "target": "_blank",
+        "rel": "noopener noreferrer",
+        "aria": "Visit Hanan-FH on GitHub"
+      },
+      {
+        "text": "LinkedIn ↗",
+        "href": "https://www.linkedin.com/in/hanan-fathurrozaq-3a643b427",
+        "target": "_blank",
+        "rel": "noopener noreferrer",
+        "aria": "Visit Hanan Fathurrozaq on LinkedIn"
+      },
+      {
+        "text": "✉hananfh77@gmail.com ↗",
+        "href": "mailto:hananfh77@gmail.com?subject=Portfolio%20Inquiry",
+        "target": null,
+        "rel": null,
+        "aria": "Send email to hananfh77@gmail.com"
+      },
+      {
+        "text": "hananfh77@gmail.com",
+        "href": "mailto:hananfh77@gmail.com",
+        "target": null,
+        "rel": null,
+        "aria": null
+      },
+      {
+        "text": "Back to Top ↑",
+        "href": "#hero",
+        "target": null,
+        "rel": null,
+        "aria": null
+      }
+    ],
+    "images": [
+      {
+        "src": "/profile.jpg",
+        "alt": "Hanan Fathurrozaq Hidayatullah",
+        "loading": null
+      },
+      {
+        "src": "/skills/python.svg",
+        "alt": "Python",
+        "loading": "lazy"
+      },
+      {
+        "src": "/skills/javascript.svg",
+        "alt": "JavaScript",
+        "loading": "lazy"
+      },
+      {
+        "src": "/skills/typescript.svg",
+        "alt": "TypeScript",
+        "loading": "lazy"
+      },
+      {
+        "src": "/skills/php.svg",
+        "alt": "PHP",
+        "loading": "lazy"
+      },
+      {
+        "src": "/skills/java.svg",
+        "alt": "Java",
+        "loading": "lazy"
+      },
+      {
+        "src": "/skills/cpp.svg",
+        "alt": "C / C++",
+        "loading": "lazy"
+      },
+      {
+        "src": "/skills/html5.svg",
+        "alt": "HTML5",
+        "loading": "lazy"
+      },
+      {
+        "src": "/skills/css3.svg",
+        "alt": "CSS3",
+        "loading": "lazy"
+      },
+      {
+        "src": "/skills/sql.svg",
+        "alt": "SQL",
+        "loading": "lazy"
+      },
+      {
+        "src": "/projects/mini-shop-godot.png",
+        "alt": "Mini Shop — 2D Store Simulator (Godot)",
+        "loading": null
+      },
+      {
+        "src": "/projects/kalkulator-python.png",
+        "alt": "Kalkulator Sederhana — Desktop GUI (Python)",
+        "loading": null
+      },
+      {
+        "src": "/projects/sipandu-layanan-pengaduan-sekolah.png",
+        "alt": "SIPANDU — Layanan Pengaduan Sekolah (Web CRUD)",
+        "loading": null
+      },
+      {
+        "src": "/certificates/sertifikat-webinar-komunikasi-seni-merespons.png",
+        "alt": "Webinar Nasional: Seni Merespons Dengan Bijak untuk Membangun Komunikasi yang Nyaman",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-webinar-komunikasi-bijak-merespons.png",
+        "alt": "Webinar Nasional: Bijak dalam Merespons untuk Membangun Komunikasi yang Nyaman",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-gdg-binus-micro-frontend.png",
+        "alt": "Micro-Frontend 101: Build, Deploy, and Communicate Between Apps",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-cloud-computing-stt-nf.png",
+        "alt": "Pemanfaatan Cloud Computing di Sektor Pendidikan",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-trainocate-ai-skill-fest-azure.png",
+        "alt": "AI Skill Fest: Bangun Chatbot Buatanmu Sendiri dengan Microsoft Azure!",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-gdg-binus-flutter-ai.png",
+        "alt": "Flutter in the Age of AI: From Developer to Product Thinker",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-gdg-binus-data-to-decisions-ai.png",
+        "alt": "Data to Decisions: Navigating and Thriving in the Massive AI Shift",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-id-networkers-introduction-to-ctf.png",
+        "alt": "Introduction to Capture the Flag",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-codelamp-game-design.png",
+        "alt": "Game Design: From Hobby to Hook - Hooked in Minutes, Engaged for Days",
+        "loading": "lazy"
+      },
+      {
+        "src": "/certificates/sertifikat-codelamp-roadmapping-your-game.png",
+        "alt": "From Vision to Version 1.0: Roadmapping Your Game Effectively",
+        "loading": "lazy"
+      }
+    ],
+    "ariaLabels": [
+      "A:HANAN Personal Portfolio & Professional Hub",
+      "NAV:Main Navigation",
+      "BUTTON:Toggle Navigation",
+      "A:Visit Hanan-FH on GitHub",
+      "A:Visit Hanan Fathurrozaq on LinkedIn",
+      "BUTTON:Scroll languages left",
+      "BUTTON:Scroll languages right",
+      "BUTTON:Detail selengkapnya untuk Project 01",
+      "BUTTON:Detail selengkapnya untuk Project 02",
+      "BUTTON:Detail selengkapnya untuk Project 03",
+      "BUTTON:Scroll left",
+      "BUTTON:Scroll right",
+      "DIV:View Certificate 01 details",
+      "DIV:View Certificate 02 details",
+      "DIV:View Certificate 03 details",
+      "DIV:View Certificate 04 details",
+      "DIV:View Certificate 05 details",
+      "DIV:View Certificate 06 details",
+      "DIV:View Certificate 07 details",
+      "DIV:View Certificate 08 details",
+      "DIV:View Certificate 09 details",
+      "DIV:View Certificate 10 details",
+      "A:Send email to hananfh77@gmail.com"
+    ],
+    "placeholders": [
+      "e.g. Jane Doe",
+      "e.g. jane@example.com",
+      "e.g. Project Inquiry",
+      "Briefly describe your project or inquiry..."
+    ],
+    "landmarks": [
+      "HEADER",
+      "NAV",
+      "MAIN",
+      "SECTION#hero",
+      "SECTION#about",
+      "SECTION#skills",
+      "SECTION#education",
+      "SECTION#projects",
+      "SECTION#certificates",
+      "SECTION#contact",
+      "FORM",
+      "FOOTER"
+    ]
+  },
+  "modals": {
+    "projects": [
+      {
+        "text": "✕GAME DEVELOPMENT2026Mini Shop — 2D Store Simulator (Godot)Godot EngineGDScript2D Pixel ArtGame LoopGame simulasi toko 2D berbasis Godot Engine dengan tema Mini Shop. Dilengkapi mekanik manajemen inventaris, sistem buka/tutup toko, interaksi rak dan kasir, kontrol karakter WASD, serta alur operasional toko harian.PRJ ID: // 01Buka Gambar Penuh ↗",
+        "links": [
+          "/projects/mini-shop-godot.png"
+        ],
+        "imgs": [
+          [
+            "/projects/mini-shop-godot.png",
+            "Mini Shop — 2D Store Simulator (Godot)"
+          ]
+        ]
+      },
+      {
+        "text": "✕PYTHON DEVELOPMENT2026Kalkulator Sederhana — Desktop GUI (Python)PythonTkinterDesktop GUIOOPAplikasi kalkulator berbasis desktop dengan antarmuka grafis (GUI) yang dibangun menggunakan bahasa pemrograman Python dan library Tkinter. Dilengkapi tombol angka, operasi aritmatika dasar (tambah, kurang, kali, bagi), tombol clear (C), dan evaluasi hasil perhitungan.PRJ ID: // 02Buka Gambar Penuh ↗",
+        "links": [
+          "/projects/kalkulator-python.png"
+        ],
+        "imgs": [
+          [
+            "/projects/kalkulator-python.png",
+            "Kalkulator Sederhana — Desktop GUI (Python)"
+          ]
+        ]
+      },
+      {
+        "text": "✕FULLSTACK CRUD WEB APP2026SIPANDU — Layanan Pengaduan Sekolah (Web CRUD)PHPMySQLTailwind CSSJavaScriptCRUD ArchitectureAnalytics DashboardSistem informasi layanan pengaduan sekolah terpadu berbasis web dengan pengelolaan tiket pengaduan komprehensif (CRUD). Dilengkapi dashboard analitik admin, monitoring distribusi kategori (Sarpras, Bullying, Akademik), klasifikasi tingkat urgensi otomatis, live feed tiket pengaduan, dan rekap pelaporan.PRJ ID: // 03Buka Gambar Penuh ↗",
+        "links": [
+          "/projects/sipandu-layanan-pengaduan-sekolah.png"
+        ],
+        "imgs": [
+          [
+            "/projects/sipandu-layanan-pengaduan-sekolah.png",
+            "SIPANDU — Layanan Pengaduan Sekolah (Web CRUD)"
+          ]
+        ]
+      }
+    ],
+    "certificates": [
+      {
+        "text": "✕Issuer: Yayasan Galeria Potensi IndonesiaIssued: 2026Webinar Nasional: Seni Merespons Dengan Bijak untuk Membangun Komunikasi yang NyamanCredential #01Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-webinar-komunikasi-seni-merespons.png"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-webinar-komunikasi-seni-merespons.png",
+            "Webinar Nasional: Seni Merespons Dengan Bijak untuk Membangun Komunikasi yang Nyaman"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: Yayasan Galeria Potensi IndonesiaIssued: 2026Webinar Nasional: Bijak dalam Merespons untuk Membangun Komunikasi yang NyamanCredential #02Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-webinar-komunikasi-bijak-merespons.png"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-webinar-komunikasi-bijak-merespons.png",
+            "Webinar Nasional: Bijak dalam Merespons untuk Membangun Komunikasi yang Nyaman"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: Google Developer Group - Binus University OnlineIssued: 2026Micro-Frontend 101: Build, Deploy, and Communicate Between AppsCredential #03Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-gdg-binus-micro-frontend.png"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-gdg-binus-micro-frontend.png",
+            "Micro-Frontend 101: Build, Deploy, and Communicate Between Apps"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: LPPM STT Terpadu Nurul FikriIssued: 2025Pemanfaatan Cloud Computing di Sektor PendidikanCredential #04Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-cloud-computing-stt-nf.pdf"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-cloud-computing-stt-nf.png",
+            "Pemanfaatan Cloud Computing di Sektor Pendidikan"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: TrainocateIssued: 2025AI Skill Fest: Bangun Chatbot Buatanmu Sendiri dengan Microsoft Azure!Credential #05Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-trainocate-ai-skill-fest-azure.png"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-trainocate-ai-skill-fest-azure.png",
+            "AI Skill Fest: Bangun Chatbot Buatanmu Sendiri dengan Microsoft Azure!"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: Google Developer Group - Binus University OnlineIssued: 2026Flutter in the Age of AI: From Developer to Product ThinkerCredential #06Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-gdg-binus-flutter-ai.png"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-gdg-binus-flutter-ai.png",
+            "Flutter in the Age of AI: From Developer to Product Thinker"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: Google Developer Group - Binus University OnlineIssued: 2026Data to Decisions: Navigating and Thriving in the Massive AI ShiftCredential #07Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-gdg-binus-data-to-decisions-ai.png"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-gdg-binus-data-to-decisions-ai.png",
+            "Data to Decisions: Navigating and Thriving in the Massive AI Shift"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: ID-Networkers (IDN.ID)Issued: 2025Introduction to Capture the FlagCredential #08Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-id-networkers-introduction-to-ctf.png"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-id-networkers-introduction-to-ctf.png",
+            "Introduction to Capture the Flag"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: Code Lamp IndonesiaIssued: 2025Game Design: From Hobby to Hook - Hooked in Minutes, Engaged for DaysCredential #09Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-codelamp-game-design.pdf"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-codelamp-game-design.png",
+            "Game Design: From Hobby to Hook - Hooked in Minutes, Engaged for Days"
+          ]
+        ]
+      },
+      {
+        "text": "✕Issuer: Code Lamp IndonesiaIssued: 2025From Vision to Version 1.0: Roadmapping Your Game EffectivelyCredential #10Buka Berkas Penuh ↗",
+        "links": [
+          "/certificates/sertifikat-codelamp-roadmapping-your-game.pdf"
+        ],
+        "imgs": [
+          [
+            "/certificates/sertifikat-codelamp-roadmapping-your-game.png",
+            "From Vision to Version 1.0: Roadmapping Your Game Effectively"
+          ]
+        ]
+      }
+    ]
+  },
+  "mobileDrawer": {
+    "text": "// 01Home↗// 02Profile↗// 03Portfolio↗// 04Contact↗Siswa SMK Plus Pelita Nusantarahananfh77@gmail.com ↗",
+    "links": [
+      "#hero",
+      "#about",
+      "#projects",
+      "#contact",
+      "mailto:hananfh77@gmail.com"
+    ]
+  }
+}

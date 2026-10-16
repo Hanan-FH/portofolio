@@ -1,109 +1,42 @@
+@import './styles/tokens.css';
+
 /* ==============================================================================
-   HANAN PERSONAL PORTFOLIO & PROFESSIONAL HUB — DESIGN SYSTEM
-   Color Strategy:
-   - Canvas / Background: Dark Slate Navy (#020617 / #0F172A)
-   - Primary Base: Deep Navy Blue (#0B192C / #1E3A8A)
-   - Secondary / Accent: Tech Cyan / Electric Blue (#3B82F6 / #06B6D4)
-   - Text Colors: Crisp White (#FFFFFF) & Soft Muted Blue-Gray (#94A3B8)
+   BASE — reset, base typography, selection, focus, scrollbar.
+   All values come from src/styles/tokens.css.
    ============================================================================== */
 
-:root {
-  /* ---------------------------------------------------------------------------
-     NAVY & SLATE SURFACES
-     --------------------------------------------------------------------------- */
-  --bg-primary: #020617;
-  --bg-slate: #0f172a;
-  --bg-navy: #0b192c;
-  --bg-navy-elevated: #1e3a8a;
-  --bg-surface: rgba(11, 25, 44, 0.72);
-  --bg-elevated: #0b192c;
-  --bg-footer: #020617;
-  --nav-bg: rgba(11, 25, 44, 0.85);
-  --bg-header: rgba(11, 25, 44, 0.85);
-  --bg-drawer: rgba(2, 6, 23, 0.96);
-  --bg-card: rgba(30, 58, 138, 0.14);
-  --bg-subtle-fill: rgba(59, 130, 246, 0.08);
-  --bg-badge-overlay: rgba(2, 6, 23, 0.86);
-  --bg-modal-overlay: rgba(2, 6, 23, 0.84);
-
-  /* ---------------------------------------------------------------------------
-     ELECTRIC BLUE & TECH CYAN ACCENTS
-     --------------------------------------------------------------------------- */
-  --accent-blue: #3b82f6;
-  --accent-cyan: #06b6d4;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --accent-glow: rgba(59, 130, 246, 0.22);
-
-  /* ---------------------------------------------------------------------------
-     BORDERS & STRUCTURAL HAIRLINES
-     --------------------------------------------------------------------------- */
-  --border-subtle: rgba(148, 163, 184, 0.14);
-  --border-strong: rgba(59, 130, 246, 0.32);
-  --border-hover: rgba(59, 130, 246, 0.55);
-  --line-marginal: rgba(59, 130, 246, 0.35);
-
-  /* ---------------------------------------------------------------------------
-     TYPOGRAPHY PALETTE (WCAG 2.2 AA High-Contrast)
-     --------------------------------------------------------------------------- */
-  --text-heading: #ffffff;
-  --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --text-label: #38bdf8;
-  --text-muted: #94a3b8;
-  --text-faint: #64748b;
-  --text-on-accent: #ffffff;
-
-  /* ---------------------------------------------------------------------------
-     PHYSICS, ELEVATION & ACCESSIBILITY TOKENS
-     --------------------------------------------------------------------------- */
-  --spring-easing: cubic-bezier(0.16, 1, 0.3, 1);
-  --focus-ring: #3b82f6;
-  --selection-bg: #3b82f6;
-  --selection-text: #ffffff;
-  --scrollbar-thumb: rgba(59, 130, 246, 0.32);
-
-  --shadow-card: 0 20px 40px rgba(59, 130, 246, 0.15);
-  --shadow-profile: 0 0 55px rgba(59, 130, 246, 0.2), 0 20px 45px -15px rgba(6, 182, 212, 0.22);
-
-  /* Alert banners */
-  --alert-success-bg: rgba(16, 185, 129, 0.1);
-  --alert-success-border: rgba(16, 185, 129, 0.35);
-  --alert-success-text: #34d399;
-  --alert-error-bg: rgba(239, 68, 68, 0.1);
-  --alert-error-border: rgba(239, 68, 68, 0.35);
-  --alert-error-text: #f87171;
-  --alert-warning-bg: rgba(6, 182, 212, 0.12);
-  --alert-warning-border: rgba(6, 182, 212, 0.38);
-  --alert-warning-text: #38bdf8;
-
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-}
-
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
+  /* The reference does not smooth-scroll (measured: auto); anchors jump with a
+     header offset instead. Smooth scroll is opt-in for motion-tolerant users. */
+  scroll-padding-top: var(--header-height);
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
-  background-color: var(--bg-primary);
-  background-image:
-    radial-gradient(circle at 15% 15%, rgba(30, 58, 138, 0.28) 0%, transparent 45%),
-    radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(11, 25, 44, 0.65) 0%, transparent 55%);
-  background-attachment: fixed;
-  color: var(--text-primary);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
   overflow-x: hidden;
 }
 
@@ -111,34 +44,44 @@ h1,
 h2,
 h3,
 h4 {
-  color: var(--text-heading);
+  color: var(--color-text);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-heading);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }
 
 ::selection {
-  background-color: var(--selection-bg);
-  color: var(--selection-text);
+  background-color: var(--color-selection-bg);
+  color: var(--color-selection-text);
 }
 
-/* Electric blue focus ring for keyboard navigation */
 :focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
 }
 
-/* Minimal navy/blue scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: var(--color-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 4px;
+  background: var(--color-scrollbar);
+  border-radius: var(--radius-sm);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-blue);
+  background: var(--color-accent);
 }
 
 #root {
@@ -154,4 +97,9 @@ a {
 button {
   font-family: inherit;
   cursor: pointer;
+}
+
+input,
+textarea {
+  font-family: inherit;
 }
