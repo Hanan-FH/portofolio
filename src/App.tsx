@@ -295,13 +295,15 @@ export function App() {
                     <span>GitHub</span> ↗
                   </a>
                 )}
-                {personal.email && (
+                {social.linkedin && (
                   <a
-                    href={`mailto:${personal.email}?subject=Portfolio%20Inquiry`}
+                    href={social.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="connect-link"
-                    aria-label={`Send email to ${personal.email}`}
+                    aria-label="Visit Hanan Fathurrozaq on LinkedIn"
                   >
-                    <span>Email</span> ↗
+                    <span>LinkedIn</span> ↗
                   </a>
                 )}
               </div>
@@ -334,7 +336,7 @@ export function App() {
 
               <div className="profile-card-bottom">
                 <span>Location: {personal.location}</span>
-                <span style={{ color: '#ededed', fontWeight: 600 }}>SMK Plus Pelita Nusantara</span>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>SMK Plus Pelita Nusantara</span>
               </div>
             </div>
           </div>
@@ -388,7 +390,7 @@ export function App() {
             </div>
 
             <div className="skill-header-actions">
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#666672' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
                 {skills.languages.length} Languages (Scroll →)
               </span>
               <div className="skill-controls">
@@ -466,7 +468,7 @@ export function App() {
               <span className="dot" />
               <span>// 04 Selected Projects</span>
             </div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#666672' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
               EXACTLY 3 PROJECTS
             </span>
           </div>
@@ -496,7 +498,7 @@ export function App() {
                     <div className="project-info">
                       <div className="project-meta">
                         <span className="project-category">{displayCat}</span>
-                        <span style={{ color: '#444450' }}>•</span>
+                        <span style={{ color: 'var(--text-faint)' }}>•</span>
                         <span className="project-status">{displayYear}</span>
                       </div>
                       <h3 className="project-title">{displayTitle}</h3>
@@ -538,7 +540,7 @@ export function App() {
             </div>
 
             <div className="cert-header-actions">
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#666672' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
                 10 Credentials (Scroll →)
               </span>
               <div className="cert-controls">
@@ -777,7 +779,7 @@ export function App() {
         <div className="footer-inner">
           <div>
             © {CURRENT_YEAR} {personal.name}. All rights reserved.
-            <div style={{ marginTop: 4, fontSize: 11, color: '#555562' }}>
+            <div style={{ marginTop: 4, fontSize: 11, color: 'var(--text-faint)' }}>
               Software Engineering Student · SMK Plus Pelita Nusantara, Bogor.
             </div>
           </div>
@@ -823,7 +825,7 @@ export function App() {
                 <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: 12 }}>
                   [PROJECT 0{selectedProject.id} // PREVIEW]
                 </span>
-                <span style={{ fontSize: 13, color: '#888892', marginTop: 4 }}>
+                <span style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 4 }}>
                   IMAGE TO BE ADDED
                 </span>
               </div>
@@ -833,7 +835,7 @@ export function App() {
               <span style={{ color: 'var(--accent)', fontWeight: 700 }}>
                 {selectedProject.category || 'SOFTWARE ARCHITECTURE'}
               </span>
-              <span style={{ color: '#777782' }}>{selectedProject.year || 'IN DEVELOPMENT'}</span>
+              <span style={{ color: 'var(--text-muted)' }}>{selectedProject.year || 'IN DEVELOPMENT'}</span>
             </div>
 
             <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12, letterSpacing: '-0.02em' }}>
@@ -855,7 +857,7 @@ export function App() {
                 'Dokumentasi rinci proyek, skema arsitektur, dan ringkasan implementasi teknis akan dirilis setelah tahap pengujian selesai.'}
             </p>
 
-            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: '#666672' }}>
+            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
               <span>PRJ ID: // 0{selectedProject.id}</span>
               {selectedProject.image ? (
                 <a
@@ -908,7 +910,7 @@ export function App() {
                 <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: 12 }}>
                   [CERTIFICATE 0{selectedCert.id} // PREVIEW]
                 </span>
-                <span style={{ fontSize: 13, color: '#888892', marginTop: 4 }}>
+                <span style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 4 }}>
                   IMAGE TO BE ADDED
                 </span>
               </div>
@@ -918,14 +920,14 @@ export function App() {
               <span style={{ color: 'var(--accent)', fontWeight: 700 }}>
                 Issuer: {selectedCert.issuer || 'SMK Plus Pelita Nusantara / Verified Issuer'}
               </span>
-              <span style={{ color: '#777782' }}>Issued: {selectedCert.year || 'Year Pending'}</span>
+              <span style={{ color: 'var(--text-muted)' }}>Issued: {selectedCert.year || 'Year Pending'}</span>
             </div>
 
             <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16, lineHeight: 1.4 }}>
               {selectedCert.title || `Certificate 0${selectedCert.id} — Accreditation In Progress`}
             </h3>
 
-            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: '#666672' }}>
+            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>
               <span>Credential #{String(selectedCert.id).padStart(2, '0')}</span>
               {selectedCert.image ? (
                 <a

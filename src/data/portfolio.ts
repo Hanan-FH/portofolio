@@ -43,7 +43,7 @@ export const portfolioData = {
 
   social: {
     github: "https://github.com/Hanan-FH",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/hanan-fathurrozaq-3a643b427",
     instagram: "",
     email: "mailto:hananfh77@gmail.com",
   },

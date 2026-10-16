@@ -1,11 +1,15 @@
 :root {
-  --bg-primary: #0a0a0c;
-  --bg-surface: #121216;
-  --bg-card: rgba(255, 255, 255, 0.02);
-  --border-subtle: rgba(255, 255, 255, 0.06);
+  --bg-primary: #17171c;
+  --bg-surface: #202027;
+  --bg-elevated: #1b1b21;
+  --bg-card: rgba(253, 230, 138, 0.03);
+  --border-subtle: rgba(253, 230, 138, 0.09);
   --border-hover: rgba(255, 51, 102, 0.4);
-  --text-primary: #ededed;
-  --text-secondary: #888892;
+  --text-primary: #fde68a;
+  --text-secondary: #c2b88f;
+  --text-muted: #9a9174;
+  --text-faint: #7d7660;
+  --text-on-accent: #fff7d6;
   --accent: #ff3366;
   --accent-glow: rgba(255, 51, 102, 0.15);
   --accent-hover: #e02456;
@@ -36,7 +40,7 @@ body {
 
 ::selection {
   background-color: var(--accent);
-  color: #ffffff;
+  color: var(--text-on-accent);
 }
 
 /* Minimal dark scrollbar */
@@ -48,7 +52,7 @@ body {
   background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(253, 230, 138, 0.16);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
