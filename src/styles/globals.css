@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   DESIGN TOKENS — THE DYNAMIC DUO (Pure Black #000000 + Electric Cyan #00D1FF)
+   An architectural, Swiss-editorial developer identity.
+   ============================================================================= */
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-ink: #000000;
+  --color-panel: #07080a;
+  --color-panel-raised: #0f1115;
+  --color-panel-highlight: #171a20;
+  --color-paper: #ffffff;
+  --color-mist: #a0aec0;
+  --color-dim: #64748b;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-strong: rgba(255, 255, 255, 0.18);
+  --color-signal: #00d1ff;
+  --color-signal-soft: rgba(0, 209, 255, 0.08);
+  --color-signal-glow: rgba(0, 209, 255, 0.22);
+  --color-success: #10b981;
+  --color-danger: #f87171;
+
+  --text-display: clamp(3rem, 7.5vw, 6.5rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.045em;
+
+  --text-statement: clamp(1.85rem, 3.5vw, 3rem);
+  --text-statement--line-height: 1.08;
+  --text-statement--letter-spacing: -0.035em;
+
+  --text-lede: clamp(1.0625rem, 1.35vw, 1.25rem);
+  --text-lede--line-height: 1.65;
+
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.14em;
+
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.45;
+  --text-meta--letter-spacing: 0.02em;
+
+  --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+  --container-site: 78rem;
+}
+
+/* =============================================================================
+   BASE ARCHITECTURE
+   ============================================================================= */
+@layer base {
+  html {
+    scroll-padding-top: 70px;
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background-color: var(--color-signal);
+    color: #000000;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #000000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e2229;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-signal);
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-paper);
+    -webkit-box-shadow: 0 0 0 1000px var(--color-ink) inset;
+    caret-color: var(--color-paper);
+  }
+}
+
+/* =============================================================================
+   ARCHITECTURAL COMPONENT PATTERNS
+   ============================================================================= */
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: var(--container-site);
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .meta-label {
+    @apply font-mono text-[0.65rem] uppercase tracking-[0.14em] text-dim;
+  }
+
+  /* Architectural Kinetic Button */
+  .btn-solid {
+    @apply inline-flex min-h-11 items-center justify-center gap-2.5 rounded-xs border border-paper/85 bg-panel-raised px-6 py-2.5 text-sm font-medium text-paper transition-all duration-200 ease-fluid hover:border-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_24px_rgba(0,209,255,0.35)];
+  }
+
+  .btn-quiet {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xs border border-line bg-panel/60 px-5 py-2.5 text-sm font-medium text-mist transition-all duration-200 ease-fluid hover:border-signal/50 hover:bg-panel-raised hover:text-paper;
+  }
+
+  .field-label {
+    @apply mb-2 block font-mono text-[0.65rem] uppercase tracking-[0.12em] text-dim;
+  }
+
+  .field {
+    @apply w-full border-b border-line bg-transparent py-2.5 text-[0.95rem] text-paper transition-colors duration-200 placeholder:text-dim/55 hover:border-line-strong focus:border-signal focus:outline-none focus:ring-1 focus:ring-signal/60;
+  }
+
+  .link-arrow {
+    @apply inline-block transition-transform duration-200 ease-fluid;
+  }
+
+  a:hover .link-arrow,
+  button:hover .link-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  /* Subtle structural background grid */
+  .bg-structural-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+}
+
+/* =============================================================================
+   KEYFRAME MOTIONS
+   ============================================================================= */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
+}
+
+.hero-rise {
+  animation: rise-in 800ms var(--ease-fluid) backwards;
+}
+
+.beacon-pulse {
+  animation: pulse-subtle 2.4s ease-in-out infinite;
+}
+
+.modal-backdrop-enter {
+  animation: fade-in 220ms ease-out backwards;
+}
+
+.modal-panel-enter {
+  animation: panel-in 300ms var(--ease-fluid) backwards;
+}
+
+.drawer-enter {
+  animation: drawer-in 320ms var(--ease-fluid) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise,
+  .beacon-pulse,
+  .modal-backdrop-enter,
+  .modal-panel-enter,
+  .drawer-enter {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  a:hover .link-arrow,
+  button:hover .link-arrow {
+    transform: none;
+  }
+}

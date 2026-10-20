@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import { type Certificate, type Project } from './data/portfolio';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { Projects } from './components/Projects';
-import { Skills } from './components/Skills';
-import { Certificates } from './components/Certificates';
-import { Contact } from './components/Contact';
-import { Footer } from './components/Footer';
+import type { Certificate, Project } from './data/portfolio';
+import { Navbar } from './components/layout/Navbar';
+import { Footer } from './components/layout/Footer';
+import { Hero } from './components/sections/Hero';
+import { About } from './components/sections/About';
+import { Projects } from './components/sections/Projects';
+import { Skills } from './components/sections/Skills';
+import { Certificates } from './components/sections/Certificates';
+import { Contact } from './components/sections/Contact';
 import { ProjectModal } from './components/ProjectModal';
 import { CertificateModal } from './components/CertificateModal';
-import { AntiGravityCanvas } from './components/ui/AntiGravityCanvas';
+import { Starfield } from './components/galaxy/Starfield';
+import { CometCursor } from './components/galaxy/CometCursor';
 
 const SECTION_IDS = ['hero', 'about', 'projects', 'skills', 'certificates', 'contact'];
 
@@ -81,9 +82,13 @@ export function App() {
         Skip to main content
       </a>
 
-      {/* Zero-gravity particle atmosphere */}
-      <AntiGravityCanvas />
+      {/* Galactic Comet Cursor with zero-lag rAF interpolation */}
+      <CometCursor />
 
+      {/* Atmospheric depth-layered galaxy starfield */}
+      <Starfield />
+
+      {/* Sticky architectural navigation bar */}
       <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
 
       <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none">
