@@ -1,3 +1,10 @@
+export interface FoundationCompetency {
+  id: string;
+  title: string;
+  localTitle: string;
+  description: string;
+}
+
 export interface Project {
   id: number;
   title: string;
@@ -64,6 +71,32 @@ export const portfolioData = {
     status: "Active Software Engineering Student",
     currentFocus: "Web Application Development, TypeScript, React, Node.js & Databases",
     location: "Bogor, West Java, Indonesia",
+    fundamentals: [
+      {
+        id: "01",
+        title: "Advanced Software Development",
+        localTitle: "Pemrograman Lanjut",
+        description: "Modern web architectures, Object-Oriented Programming (OOP), RESTful API integration, and clean code standards.",
+      },
+      {
+        id: "02",
+        title: "Professional Graphic & UI/UX Design",
+        localTitle: "Desain Grafis Profesional",
+        description: "Visual hierarchy, grid layouts, typography principles, color theory, and responsive design systems.",
+      },
+      {
+        id: "03",
+        title: "Networking & System Security",
+        localTitle: "Jaringan & Keamanan Sistem",
+        description: "Network protocols, cybersecurity fundamentals, server environments, and client-server communication.",
+      },
+      {
+        id: "04",
+        title: "Work Ethics & Professionalism",
+        localTitle: "Etika Kerja & Profesionalisme",
+        description: "Agile collaboration, industry standard workflows, version control with Git, and technical documentation.",
+      },
+    ] as FoundationCompetency[],
   },
 
   skills: {
