@@ -5,35 +5,51 @@ const CURRENT_YEAR = new Date().getFullYear();
 export function Footer() {
   const { personal } = portfolioData;
 
+  const scrollToTop = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  };
+
   return (
-    <footer className="border-t border-line">
-      <div className="container-site flex flex-col gap-8 py-10 md:flex-row md:items-end md:justify-between">
+    <footer className="border-t border-line bg-black">
+      <div className="container-site flex flex-col gap-8 py-12 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-sm font-medium text-paper">{personal.name}</p>
-          <p className="mt-1 text-xs text-dim">
+          <div className="flex items-center gap-3">
+            <span className="h-2 w-2 rounded-full bg-signal" />
+            <p className="font-mono text-sm font-semibold tracking-wider text-paper">
+              {personal.name.toUpperCase()}
+            </p>
+          </div>
+          <p className="mt-2 text-xs text-mist">
             Software Engineering Student · SMK Plus Pelita Nusantara · Bogor, West Java
           </p>
-          <p className="mt-4 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-dim">
-            © {CURRENT_YEAR} — Engineered with React, TypeScript & Tailwind CSS
+          <p className="mt-4 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-dim">
+            © {CURRENT_YEAR} — Engineered with React 19, TypeScript & Tailwind CSS v4
           </p>
         </div>
 
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-3" aria-label="Footer navigation">
+        <nav className="flex flex-wrap items-center gap-x-8 gap-y-3" aria-label="Footer navigation">
           <a
             href={`mailto:${personal.email}`}
-            className="group inline-flex items-center gap-1.5 text-sm font-medium text-mist transition-colors hover:text-signal"
+            className="group inline-flex items-center gap-1.5 font-mono text-xs font-medium text-mist transition-colors hover:text-signal"
           >
-            Email
+            Email Dispatch
             <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">
               ↗
             </span>
           </a>
-          <a
-            href="#hero"
-            className="inline-flex min-h-11 items-center font-mono text-xs text-dim transition-colors hover:text-paper"
+
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="inline-flex min-h-11 items-center font-mono text-xs text-dim transition-colors hover:text-signal focus:outline-none"
           >
-            Back to top ↑
-          </a>
+            Back to Top ↑
+          </button>
         </nav>
       </div>
     </footer>

@@ -1,52 +1,53 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   DESIGN TOKENS
-   A technical editorial system: black canvas, white type, cool-gray notation,
-   electric cyan reserved for annotation and interaction.
+   DESIGN TOKENS — THE DYNAMIC DUO (Pure Black #000000 + Electric Cyan #00D1FF)
+   An architectural, Swiss-editorial developer identity.
    ============================================================================= */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --color-ink: #000000;
-  --color-panel: #08090b;
-  --color-panel-raised: #101215;
+  --color-panel: #07080a;
+  --color-panel-raised: #0f1115;
+  --color-panel-highlight: #171a20;
   --color-paper: #ffffff;
   --color-mist: #a0aec0;
-  --color-dim: #7b8794;
-  --color-line: rgba(255, 255, 255, 0.11);
-  --color-line-strong: rgba(255, 255, 255, 0.22);
+  --color-dim: #64748b;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-strong: rgba(255, 255, 255, 0.18);
   --color-signal: #00d1ff;
-  --color-signal-soft: rgba(0, 209, 255, 0.1);
-  --color-success: #34d399;
+  --color-signal-soft: rgba(0, 209, 255, 0.08);
+  --color-signal-glow: rgba(0, 209, 255, 0.22);
+  --color-success: #10b981;
   --color-danger: #f87171;
 
-  --text-display: clamp(2.75rem, 6.2vw, 5.5rem);
-  --text-display--line-height: 0.94;
+  --text-display: clamp(3rem, 7.5vw, 6.5rem);
+  --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.045em;
 
-  --text-statement: clamp(1.75rem, 3.35vw, 2.85rem);
+  --text-statement: clamp(1.85rem, 3.5vw, 3rem);
   --text-statement--line-height: 1.08;
-  --text-statement--letter-spacing: -0.032em;
+  --text-statement--letter-spacing: -0.035em;
 
-  --text-lede: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  --text-lede: clamp(1.0625rem, 1.35vw, 1.25rem);
   --text-lede--line-height: 1.65;
 
   --text-label: 0.6875rem;
   --text-label--line-height: 1.2;
-  --text-label--letter-spacing: 0.13em;
+  --text-label--letter-spacing: 0.14em;
 
   --text-meta: 0.75rem;
   --text-meta--line-height: 1.45;
   --text-meta--letter-spacing: 0.02em;
 
   --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1);
-  --container-site: 75rem;
+  --container-site: 78rem;
 }
 
 /* =============================================================================
-   BASE
+   BASE ARCHITECTURE
    ============================================================================= */
 @layer base {
   html {
@@ -74,10 +75,7 @@
     overflow-x: clip;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
+  h1, h2, h3, h4 {
     text-wrap: balance;
   }
 
@@ -101,14 +99,15 @@
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-ink);
+    background: #000000;
   }
   ::-webkit-scrollbar-thumb {
-    background: #262b31;
+    background: #1e2229;
+    border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-signal);
@@ -125,7 +124,7 @@
 }
 
 /* =============================================================================
-   SHARED COMPONENT PATTERNS
+   ARCHITECTURAL COMPONENT PATTERNS
    ============================================================================= */
 @layer components {
   .container-site {
@@ -136,15 +135,16 @@
   }
 
   .meta-label {
-    @apply font-mono text-[0.65rem] uppercase tracking-[0.13em] text-dim;
+    @apply font-mono text-[0.65rem] uppercase tracking-[0.14em] text-dim;
   }
 
+  /* Architectural Kinetic Button */
   .btn-solid {
-    @apply inline-flex min-h-11 items-center justify-center gap-2.5 rounded-xs border border-paper/85 bg-panel-raised px-6 py-2.5 text-sm font-medium text-paper transition-all duration-200 ease-fluid hover:border-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_20px_rgba(0,209,255,0.35)];
+    @apply inline-flex min-h-11 items-center justify-center gap-2.5 rounded-xs border border-paper/85 bg-panel-raised px-6 py-2.5 text-sm font-medium text-paper transition-all duration-200 ease-fluid hover:border-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_24px_rgba(0,209,255,0.35)];
   }
 
   .btn-quiet {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xs border border-line bg-panel/60 px-5 py-2.5 text-sm font-medium text-mist transition-all duration-200 ease-fluid hover:border-line-strong hover:bg-panel-raised hover:text-paper;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xs border border-line bg-panel/60 px-5 py-2.5 text-sm font-medium text-mist transition-all duration-200 ease-fluid hover:border-signal/50 hover:bg-panel-raised hover:text-paper;
   }
 
   .field-label {
@@ -163,15 +163,23 @@
   button:hover .link-arrow {
     transform: translate(2px, -2px);
   }
+
+  /* Subtle structural background grid */
+  .bg-structural-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
 }
 
 /* =============================================================================
-   MOTION — entrance, dialog, drawer. Everything else is a short transition.
+   KEYFRAME MOTIONS
    ============================================================================= */
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -191,7 +199,7 @@
 @keyframes panel-in {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.995);
+    transform: translateY(12px) scale(0.995);
   }
   to {
     opacity: 1;
@@ -210,8 +218,23 @@
   }
 }
 
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
+}
+
 .hero-rise {
-  animation: rise-in 760ms var(--ease-fluid) backwards;
+  animation: rise-in 800ms var(--ease-fluid) backwards;
+}
+
+.beacon-pulse {
+  animation: pulse-subtle 2.4s ease-in-out infinite;
 }
 
 .modal-backdrop-enter {
@@ -228,6 +251,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-rise,
+  .beacon-pulse,
   .modal-backdrop-enter,
   .modal-panel-enter,
   .drawer-enter {
