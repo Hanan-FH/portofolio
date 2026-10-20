@@ -27,7 +27,7 @@ export function About() {
                 <dd className="flex items-start gap-2 text-sm text-paper">
                   <span
                     aria-hidden="true"
-                    className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 bg-signal shadow-[0_0_6px_rgba(0,209,255,0.6)]"
+                    className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 bg-signal shadow-[0_0_8px_rgba(0,209,255,0.7)]"
                   />
                   {about.status}
                 </dd>
@@ -62,7 +62,7 @@ export function About() {
             {education.map((item, index) => (
               <div key={index}>
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <span className="font-mono text-[0.66rem] font-medium tracking-[0.08em] text-signal">
+                  <span className="font-mono text-[0.66rem] font-semibold tracking-[0.08em] text-signal">
                     {item.period}
                   </span>
                   <span aria-hidden="true" className="h-2.5 w-px bg-line-strong" />
@@ -80,55 +80,66 @@ export function About() {
           </div>
         </div>
 
-        {/* Foundation Card: SMK Plus Pelita Nusantara Fundamentals */}
-        <div className="mt-16 grid gap-6 border-t border-line pt-8 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-3">
-            <div className="sticky top-24">
-              <span className="inline-block rounded-xs border border-signal/30 bg-signal-soft px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-signal">
-                Vocational Foundation
-              </span>
-              <h3 className="mt-3 text-base font-medium text-paper">SMK Plus Pelita Nusantara</h3>
-              <p className="mt-2 max-w-[15rem] text-sm leading-relaxed text-dim">
-                Core technical disciplines and industry competencies from the vocational software engineering curriculum.
-              </p>
-            </div>
-          </div>
-
-          <div className="lg:col-span-9">
-            <MagneticTilt
-              maxTilt={2}
-              enableGlow={true}
-              className="rounded-xs border border-line bg-panel/80 p-6 backdrop-blur-md transition-colors hover:border-signal/35 sm:p-8"
-            >
-              <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-line/60 pb-4">
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-paper">
-                  Engineering Competency Matrix
+        {/* Foundation Dossier: SMK Plus Pelita Nusantara Technical Syllabus */}
+        <div className="mt-16 border-t border-line pt-10">
+          <MagneticTilt
+            maxTilt={2}
+            enableGlow={true}
+            className="rounded-xs border border-line bg-panel/75 p-6 backdrop-blur-md transition-all duration-300 hover:border-signal/40 sm:p-9"
+          >
+            {/* Dossier Header */}
+            <div className="flex flex-col gap-4 border-b border-line pb-6 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <span className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-signal">
+                  Core Curriculum Matrix // SMK Plus Pelita Nusantara
                 </span>
-                <span className="font-mono text-[0.62rem] text-signal">
-                  RPL // 4 CORE DISCIPLINES
-                </span>
+                <h3 className="mt-2 text-xl font-medium tracking-tight text-paper sm:text-2xl">
+                  Vocational Software Engineering Foundations
+                </h3>
               </div>
+              <span className="font-mono text-[0.64rem] tracking-[0.08em] text-dim">
+                REKAYASA PERANGKAT LUNAK (RPL)
+              </span>
+            </div>
 
-              <div className="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-                {about.fundamentals.map((item) => (
-                  <article key={item.id} className="border-t border-line/60 pt-4">
-                    <div className="flex items-baseline gap-3">
-                      <span className="font-mono text-[0.65rem] font-semibold tracking-[0.1em] text-signal">
-                        {item.id}
+            {/* Linear Syllabus Registry (High-End Technical Aesthetic) */}
+            <div className="mt-6 divide-y divide-line/60">
+              {about.fundamentals.map((item) => (
+                <div
+                  key={item.id}
+                  className="group grid gap-4 py-5 transition-colors sm:grid-cols-12 sm:items-baseline sm:gap-6 hover:bg-white/[0.015]"
+                >
+                  {/* Discipline Code & Indonesian Curriculum Subject */}
+                  <div className="sm:col-span-4">
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-[0.66rem] font-bold tracking-[0.12em] text-signal">
+                        DISC-{item.id}
                       </span>
-                      <h4 className="text-[0.95rem] font-medium leading-snug text-paper">
-                        {item.title}
-                      </h4>
+                      <span aria-hidden="true" className="h-2 w-px bg-line-strong" />
+                      <span className="font-mono text-[0.68rem] tracking-[0.04em] text-paper">
+                        {item.localTitle}
+                      </span>
                     </div>
-                    <p className="mt-1 pl-6 font-mono text-[0.65rem] text-dim">{item.localTitle}</p>
-                    <p className="mt-2.5 pl-6 text-[0.84rem] leading-relaxed text-mist">
+                  </div>
+
+                  {/* English Discipline Title & Competency Scope */}
+                  <div className="sm:col-span-8">
+                    <h4 className="text-[0.96rem] font-medium text-paper transition-colors duration-200 group-hover:text-signal">
+                      {item.title}
+                    </h4>
+                    <p className="mt-1.5 text-[0.85rem] leading-relaxed text-mist">
                       {item.description}
                     </p>
-                  </article>
-                ))}
-              </div>
-            </MagneticTilt>
-          </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-line/60 pt-4 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-dim">
+              <span>Standard Vocational Curriculum Alignment</span>
+              <span className="text-signal/80">Bogor, West Java · Active Certification</span>
+            </div>
+          </MagneticTilt>
         </div>
       </div>
     </Section>
