@@ -35,7 +35,7 @@ export function Footer() {
         <nav className="flex flex-wrap items-center gap-x-8 gap-y-3" aria-label="Footer navigation">
           <a
             href={`mailto:${personal.email}`}
-            className="group inline-flex items-center gap-1.5 font-mono text-xs font-medium text-mist transition-colors hover:text-signal"
+            className="group inline-flex min-h-11 items-center gap-1.5 rounded-xs px-2 -mx-2 font-mono text-xs font-medium text-mist transition-colors hover:text-signal focus:outline-none focus-visible:ring-2 focus-visible:ring-signal"
           >
             Email Dispatch
             <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">

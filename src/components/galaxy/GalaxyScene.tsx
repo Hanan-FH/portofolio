@@ -499,7 +499,8 @@ function GalaxySceneInternal({ className = '', forceMode = 'auto' }: GalaxyScene
               e.stopPropagation();
               setActiveMode(mode);
             }}
-            className={`rounded-xs border px-2 py-0.5 uppercase transition-all duration-150 ${
+            aria-pressed={activeMode === mode}
+            className={`min-h-[28px] rounded-xs border px-2.5 py-1 uppercase transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-signal ${
               activeMode === mode
                 ? 'border-signal bg-signal/20 text-signal shadow-[0_0_8px_rgba(0,209,255,0.35)]'
                 : 'border-line bg-black/70 text-dim hover:border-line-strong hover:text-mist'

@@ -1,6 +1,10 @@
 import { portfolioData } from '../../data/portfolio';
 import { MagneticTilt } from '../ui/MagneticTilt';
-import { GalaxyScene } from '../galaxy/GalaxyScene';
+import { lazy, Suspense } from 'react';
+import { LoadingIndicator } from '../ui/LoadingIndicator';
+
+// Code-split heavy Three.js subsystem to preserve instant initial paint & Core Web Vitals
+const GalaxyScene = lazy(() => import('../galaxy/GalaxyScene'));
 
 interface HeroProps {
   onNavigate?: (id: string) => void;
@@ -117,7 +121,7 @@ export function Hero({ onNavigate }: HeroProps) {
                   href={social.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1.5 font-mono text-xs font-medium text-paper transition-colors hover:text-signal"
+                  className="group inline-flex min-h-[32px] items-center gap-1.5 rounded-xs px-2 py-1 font-mono text-xs font-medium text-paper transition-colors hover:text-signal focus:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                   aria-label="GitHub profile (opens in a new tab)"
                 >
                   GitHub
@@ -131,7 +135,7 @@ export function Hero({ onNavigate }: HeroProps) {
                   href={social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1.5 font-mono text-xs font-medium text-paper transition-colors hover:text-signal"
+                  className="group inline-flex min-h-[32px] items-center gap-1.5 rounded-xs px-2 py-1 font-mono text-xs font-medium text-paper transition-colors hover:text-signal focus:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                   aria-label="LinkedIn profile (opens in a new tab)"
                 >
                   LinkedIn
@@ -170,7 +174,7 @@ export function Hero({ onNavigate }: HeroProps) {
                 <span className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-signal">
                   Developer Identity // Real Portrait
                 </span>
-                <h3 className="mt-1 text-base font-medium text-paper">Hanan Fathurrozaq Hidayatullah</h3>
+                <h2 className="mt-1 text-base font-medium text-paper">Hanan Fathurrozaq Hidayatullah</h2>
                 <p className="mt-1 text-xs text-mist">
                   Photographed seated at the development keyboard in Bogor, West Java.
                 </p>
@@ -203,7 +207,15 @@ export function Hero({ onNavigate }: HeroProps) {
 
               {/* The Genuine Interactive 3D WebGL Canvas */}
               <div className="relative h-[380px] w-full sm:h-[440px] lg:h-[520px]">
-                <GalaxyScene className="h-full w-full" />
+                <Suspense
+                  fallback={
+                    <div className="flex h-full w-full items-center justify-center bg-panel/60">
+                      <LoadingIndicator />
+                    </div>
+                  }
+                >
+                  <GalaxyScene className="h-full w-full" />
+                </Suspense>
               </div>
 
               {/* 3D Telemetry Footer */}

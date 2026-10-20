@@ -81,7 +81,7 @@ export function About() {
                   <dd className="mt-1">
                     <a
                       href={`mailto:${personal.email}`}
-                      className="font-mono text-sm text-paper underline decoration-line-strong underline-offset-4 transition-colors hover:text-signal hover:decoration-signal"
+                      className="inline-flex min-h-[32px] items-center font-mono text-sm text-paper underline decoration-line-strong underline-offset-4 transition-colors hover:text-signal hover:decoration-signal focus:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                     >
                       {personal.email} ↗
                     </a>

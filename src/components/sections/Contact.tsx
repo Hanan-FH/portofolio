@@ -317,7 +317,7 @@ export function Contact() {
 
                   <a
                     href={mailtoFallbackUrl}
-                    className="font-mono text-xs text-dim transition-colors hover:text-signal"
+                    className="inline-flex min-h-[36px] items-center rounded-xs px-2 -mx-2 font-mono text-xs text-dim transition-colors hover:text-signal focus:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                   >
                     Fallback to local mail client ↗
                   </a>

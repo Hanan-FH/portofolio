@@ -92,7 +92,7 @@ export function Modal({ onClose, labelledBy, children, className = '' }: ModalPr
           data-autofocus
           onClick={onClose}
           aria-label="Close dialog"
-          className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center border border-white/25 bg-black/70 text-white backdrop-blur-md transition-colors duration-200 hover:border-signal hover:text-signal"
+          className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center border border-white/25 bg-black/70 text-white backdrop-blur-md transition-colors duration-200 hover:border-signal hover:text-signal focus:outline-none focus-visible:ring-2 focus-visible:ring-signal"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.5" />

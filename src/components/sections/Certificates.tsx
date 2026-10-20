@@ -43,8 +43,9 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
                 <button
                   key={cat.id}
                   type="button"
+                  aria-pressed={isActive}
                   onClick={() => setActiveFilter(cat.id)}
-                  className={`rounded-xs border px-3 py-1.5 font-mono text-[0.66rem] tracking-[0.06em] transition-all duration-200 ${
+                  className={`min-h-9 rounded-xs border px-3.5 py-1.5 font-mono text-[0.66rem] tracking-[0.06em] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-signal ${
                     isActive
                       ? 'border-signal bg-signal/15 text-signal shadow-[0_0_12px_rgba(0,209,255,0.25)]'
                       : 'border-line bg-panel-raised/60 text-mist hover:border-line-strong hover:text-paper'

@@ -88,7 +88,7 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                       <button
                         type="button"
                         onClick={() => onSelectProject(project)}
-                        className="text-left transition-colors duration-200 hover:text-signal"
+                        className="text-left transition-colors duration-200 hover:text-signal focus:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                       >
                         {project.title}
                       </button>

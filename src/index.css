@@ -14,9 +14,9 @@
   --color-panel-highlight: #171a20;
   --color-paper: #ffffff;
   --color-mist: #a0aec0;
-  --color-dim: #64748b;
-  --color-line: rgba(255, 255, 255, 0.08);
-  --color-line-strong: rgba(255, 255, 255, 0.18);
+  --color-dim: #94a3b8;
+  --color-line: rgba(255, 255, 255, 0.12);
+  --color-line-strong: rgba(255, 255, 255, 0.24);
   --color-signal: #00d1ff;
   --color-signal-soft: rgba(0, 209, 255, 0.08);
   --color-signal-glow: rgba(0, 209, 255, 0.22);
