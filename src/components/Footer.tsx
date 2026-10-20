@@ -3,7 +3,7 @@ import { portfolioData } from '../data/portfolio';
 const CURRENT_YEAR = new Date().getFullYear();
 
 export function Footer() {
-  const { personal, social } = portfolioData;
+  const { personal } = portfolioData;
 
   return (
     <footer className="border-t border-line">
@@ -11,43 +11,17 @@ export function Footer() {
         <div>
           <p className="text-sm font-medium text-paper">{personal.name}</p>
           <p className="mt-1 text-xs text-dim">
-            Software Engineering Student · Bogor, West Java
+            Software Engineering Student · SMK Plus Pelita Nusantara · Bogor, West Java
           </p>
-          <p className="mt-4 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-dim">
-            © {CURRENT_YEAR} — All rights reserved
+          <p className="mt-4 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-dim">
+            © {CURRENT_YEAR} — Engineered with React, TypeScript & Tailwind CSS
           </p>
         </div>
 
         <nav className="flex flex-wrap items-center gap-x-6 gap-y-3" aria-label="Footer navigation">
-          {social.github && (
-            <a
-              href={social.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 text-sm text-mist transition-colors hover:text-signal"
-            >
-              GitHub
-              <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          )}
-          {social.linkedin && (
-            <a
-              href={social.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 text-sm text-mist transition-colors hover:text-signal"
-            >
-              LinkedIn
-              <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          )}
           <a
             href={`mailto:${personal.email}`}
-            className="group inline-flex items-center gap-1.5 text-sm text-mist transition-colors hover:text-signal"
+            className="group inline-flex items-center gap-1.5 text-sm font-medium text-mist transition-colors hover:text-signal"
           >
             Email
             <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">
@@ -56,7 +30,7 @@ export function Footer() {
           </a>
           <a
             href="#hero"
-            className="inline-flex min-h-11 items-center text-sm text-dim transition-colors hover:text-paper"
+            className="inline-flex min-h-11 items-center font-mono text-xs text-dim transition-colors hover:text-paper"
           >
             Back to top ↑
           </a>

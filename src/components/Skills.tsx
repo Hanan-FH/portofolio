@@ -51,11 +51,11 @@ export function Skills() {
             <div key={group.id} className="border-t border-line pt-5">
               <div className="flex items-baseline justify-between gap-4">
                 <h3 className="text-[0.95rem] font-medium text-paper">{group.category}</h3>
-                <span className="font-mono text-[0.62rem] tracking-[0.1em] text-dim">
+                <span className="font-mono text-[0.62rem] font-semibold tracking-[0.1em] text-signal">
                   0{index + 1}
                 </span>
               </div>
-              <p className="mt-4 text-[0.95rem] leading-relaxed text-paper">
+              <p className="mt-4 font-mono text-[0.85rem] leading-relaxed text-paper">
                 {group.items.join(' · ')}
               </p>
               <p className="mt-3 text-[0.82rem] leading-relaxed text-dim">{group.description}</p>
@@ -63,22 +63,26 @@ export function Skills() {
           ))}
         </div>
 
-        <div className="mt-16 grid gap-6 border-t border-line pt-6 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-16 grid gap-6 border-t border-line pt-8 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-3">
-            <h3 className="meta-label">Languages studied</h3>
+            <h3 className="meta-label">Curriculum languages</h3>
             <p className="mt-3 max-w-[16rem] text-sm leading-relaxed text-dim">
-              Core languages covered across the curriculum and project work.
+              Languages studied across practical coursework, projects, and programming foundations.
             </p>
           </div>
 
           <ul className="grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:col-span-8 lg:col-start-5">
             {skills.languages.map((language) => (
-              <li key={language.name} className="group flex items-center gap-3" title={language.description}>
+              <li
+                key={language.name}
+                className="group flex items-center gap-3 py-1"
+                title={`${language.name}: ${language.description}`}
+              >
                 <img
                   src={language.image}
                   alt=""
                   aria-hidden="true"
-                  className="h-4 w-4 shrink-0 opacity-55 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                  className="h-4 w-4 shrink-0 opacity-60 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
                   width={16}
                   height={16}
                   loading="lazy"

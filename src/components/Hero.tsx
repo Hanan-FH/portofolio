@@ -1,4 +1,5 @@
 import { portfolioData } from '../data/portfolio';
+import { MagneticTilt } from './ui/MagneticTilt';
 
 interface HeroProps {
   onNavigate?: (id: string) => void;
@@ -13,7 +14,7 @@ export function Hero({ onNavigate }: HeroProps) {
   };
 
   return (
-    <section id="hero" className="scroll-mt-[70px]">
+    <section id="hero" className="relative scroll-mt-[70px]">
       <div className="container-site grid gap-14 pb-20 pt-32 md:pt-40 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-28">
         <div className="flex flex-col lg:col-span-7">
           <div
@@ -23,7 +24,7 @@ export function Hero({ onNavigate }: HeroProps) {
             <span className="inline-flex items-center gap-2.5 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-paper">
               <span
                 aria-hidden="true"
-                className="h-1.5 w-1.5 bg-signal shadow-[0_0_8px_rgba(0,209,255,0.45)]"
+                className="h-1.5 w-1.5 bg-signal shadow-[0_0_8px_rgba(0,209,255,0.7)]"
               />
               Open to internship opportunities
             </span>
@@ -44,7 +45,7 @@ export function Hero({ onNavigate }: HeroProps) {
           </h1>
 
           <p
-            className="hero-rise mt-7 text-sm text-paper"
+            className="hero-rise mt-7 text-sm font-medium text-paper"
             style={{ animationDelay: '170ms' }}
           >
             Software Engineering Student
@@ -55,8 +56,8 @@ export function Hero({ onNavigate }: HeroProps) {
             className="hero-rise mt-3 max-w-[36rem] text-lede text-mist"
             style={{ animationDelay: '220ms' }}
           >
-            I build web applications, desktop tools, and small games. My current focus is
-            TypeScript, React, and server-side development.
+            I build web applications, desktop tools, and interactive software. My current focus is
+            TypeScript, React, server-side architectures, and structured databases.
           </p>
 
           <div
@@ -79,7 +80,7 @@ export function Hero({ onNavigate }: HeroProps) {
           </div>
 
           <div
-            className="hero-rise mt-14 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4 lg:mt-auto lg:pt-5"
+            className="hero-rise mt-14 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-4 lg:mt-auto lg:pt-5"
             style={{ animationDelay: '340ms' }}
           >
             <span className="meta-label">Connect</span>
@@ -88,7 +89,7 @@ export function Hero({ onNavigate }: HeroProps) {
                 href={social.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-1.5 text-sm text-paper transition-colors hover:text-signal"
+                className="group inline-flex items-center gap-1.5 text-sm font-medium text-paper transition-colors hover:text-signal"
                 aria-label="GitHub profile (opens in a new tab)"
               >
                 GitHub
@@ -102,7 +103,7 @@ export function Hero({ onNavigate }: HeroProps) {
                 href={social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-1.5 text-sm text-paper transition-colors hover:text-signal"
+                className="group inline-flex items-center gap-1.5 text-sm font-medium text-paper transition-colors hover:text-signal"
                 aria-label="LinkedIn profile (opens in a new tab)"
               >
                 LinkedIn
@@ -118,19 +119,23 @@ export function Hero({ onNavigate }: HeroProps) {
           className="hero-rise mx-auto w-full max-w-[26rem] lg:col-span-5 lg:col-start-9 lg:mx-0"
           style={{ animationDelay: '200ms' }}
         >
-          <div className="overflow-hidden border border-line bg-panel">
+          <MagneticTilt
+            maxTilt={5}
+            enableGlow={true}
+            className="overflow-hidden border border-line bg-panel transition-colors duration-300 hover:border-signal/40"
+          >
             <img
               src={personal.profileImage}
               alt="Hanan Fathurrozaq Hidayatullah seated at a keyboard in a green-curtained room."
-              className="h-auto w-full"
+              className="h-auto w-full object-cover"
               width={960}
               height={1280}
               loading="eager"
               fetchPriority="high"
               decoding="async"
             />
-          </div>
-          <figcaption className="mt-3 flex items-center justify-between gap-4 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-dim">
+          </MagneticTilt>
+          <figcaption className="mt-3 flex items-center justify-between gap-4 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-dim">
             <span>Hanan at the keyboard</span>
             <span>Bogor, West Java</span>
           </figcaption>

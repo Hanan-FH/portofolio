@@ -10,6 +10,7 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ProjectModal } from './components/ProjectModal';
 import { CertificateModal } from './components/CertificateModal';
+import { AntiGravityCanvas } from './components/ui/AntiGravityCanvas';
 
 const SECTION_IDS = ['hero', 'about', 'projects', 'skills', 'certificates', 'contact'];
 
@@ -72,7 +73,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-ink text-paper">
+    <div className="relative min-h-screen overflow-x-clip bg-ink text-paper selection:bg-signal selection:text-black">
       <a
         href="#main-content"
         className="fixed left-4 top-[-100px] z-[300] bg-signal px-4 py-2 font-mono text-xs font-semibold text-black transition-[top] duration-200 focus:top-4"
@@ -80,9 +81,12 @@ export function App() {
         Skip to main content
       </a>
 
+      {/* Zero-gravity particle atmosphere */}
+      <AntiGravityCanvas />
+
       <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
 
-      <main id="main-content" tabIndex={-1} className="focus:outline-none">
+      <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none">
         <Hero onNavigate={handleNavigate} />
         <About />
         <Projects onSelectProject={setSelectedProject} />
@@ -91,7 +95,9 @@ export function App() {
         <Contact />
       </main>
 
-      <Footer />
+      <div className="relative z-10">
+        <Footer />
+      </div>
 
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
       <CertificateModal

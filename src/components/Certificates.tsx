@@ -29,9 +29,9 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
                 type="button"
                 onClick={() => onSelectCert(certificate)}
                 aria-label={`Open certificate ${number}: ${certificate.title}, issued by ${certificate.issuer} in ${certificate.year}`}
-                className="group grid w-full grid-cols-[6rem_1fr] items-start gap-4 border-t border-line py-5 text-left transition-colors duration-200 hover:border-line-strong sm:grid-cols-[7.5rem_1fr] sm:gap-5"
+                className="group grid w-full grid-cols-[6rem_1fr] items-start gap-4 border-t border-line py-5 text-left transition-colors duration-200 hover:border-signal/45 sm:grid-cols-[7.5rem_1fr] sm:gap-5 focus:outline-none focus-visible:ring-1 focus-visible:ring-signal"
               >
-                <span className="aspect-[4/3] w-full overflow-hidden border border-line bg-white">
+                <span className="aspect-[4/3] w-full overflow-hidden border border-line bg-white/95 transition-transform duration-300 group-hover:scale-[1.02]">
                   <img
                     src={certificate.image}
                     alt=""
@@ -46,8 +46,8 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
 
                 <span className="min-w-0">
                   <span className="flex items-center justify-between gap-3">
-                    <span className="flex items-baseline gap-2 font-mono text-[0.6rem] tracking-[0.08em] text-dim">
-                      <span className="text-signal">{number}</span>
+                    <span className="flex items-baseline gap-2 font-mono text-[0.62rem] tracking-[0.08em] text-dim">
+                      <span className="font-semibold text-signal">{number}</span>
                       <span aria-hidden="true" className="h-2.5 w-px bg-line-strong" />
                       <span>{certificate.year}</span>
                     </span>

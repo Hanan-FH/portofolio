@@ -34,7 +34,7 @@ function BrandMark() {
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
-  const { personal, social } = portfolioData;
+  const { personal } = portfolioData;
   const current = resolveActiveSection(activeSection);
 
   useEffect(() => {
@@ -91,18 +91,18 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 h-[70px] border-b border-line bg-black/[0.88] backdrop-blur-[12px]">
-        <div className="flex h-full items-center justify-between px-5 sm:px-8">
+        <div className="flex h-full items-center justify-between px-6 sm:px-8">
           <a
             href="#hero"
             onClick={(event) => {
               event.preventDefault();
               handleLinkClick('hero');
             }}
-            className="flex items-center gap-3 text-paper"
+            className="group flex items-center gap-3 text-paper transition-opacity hover:opacity-90"
             aria-label="Hanan Fathurrozaq Hidayatullah — back to top"
           >
             <BrandMark />
-            <span className="text-[1.05rem] font-semibold tracking-[0.1em]">HANAN</span>
+            <span className="text-[1.05rem] font-bold tracking-[0.1em] text-paper">HANAN</span>
           </a>
 
           <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
@@ -117,7 +117,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
                     handleLinkClick(item.id);
                   }}
                   aria-current={isActive ? 'location' : undefined}
-                  className={`group relative py-2 text-sm transition-colors duration-200 ${
+                  className={`group relative py-2 text-sm font-medium transition-colors duration-200 ${
                     isActive ? 'text-signal' : 'text-mist hover:text-paper'
                   }`}
                 >
@@ -126,7 +126,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
                     aria-hidden="true"
                     className={`absolute inset-x-0 -bottom-1 h-[2px] origin-left bg-signal transition-transform duration-300 ease-fluid ${
                       isActive
-                        ? 'scale-x-100 shadow-[0_0_10px_rgba(0,209,255,0.35)]'
+                        ? 'scale-x-100 shadow-[0_0_10px_rgba(0,209,255,0.55)]'
                         : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                   />
@@ -168,7 +168,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
           aria-label="Site navigation"
           className="drawer-enter fixed inset-0 z-[150] flex flex-col bg-black md:hidden"
         >
-          <div className="flex h-[70px] shrink-0 items-center justify-between border-b border-line px-5">
+          <div className="flex h-[70px] shrink-0 items-center justify-between border-b border-line px-6">
             <a
               href="#hero"
               onClick={(event) => {
@@ -179,7 +179,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
               aria-label="Hanan Fathurrozaq Hidayatullah — back to top"
             >
               <BrandMark />
-              <span className="text-[1.05rem] font-semibold tracking-[0.1em]">HANAN</span>
+              <span className="text-[1.05rem] font-bold tracking-[0.1em]">HANAN</span>
             </a>
             <button
               type="button"
@@ -194,7 +194,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             </button>
           </div>
 
-          <nav className="flex flex-1 flex-col justify-center px-5" aria-label="Mobile navigation">
+          <nav className="flex flex-1 flex-col justify-center px-6" aria-label="Mobile navigation">
             {NAV_ITEMS.map((item, index) => (
               <a
                 key={item.id}
@@ -226,36 +226,14 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             ))}
           </nav>
 
-          <div className="shrink-0 border-t border-line px-5 py-6">
-            <p className="meta-label mb-3">Elsewhere</p>
-            <div className="flex flex-wrap items-center gap-5 text-sm">
-              {social.github && (
-                <a
-                  href={social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-mist transition-colors hover:text-signal"
-                >
-                  GitHub ↗
-                </a>
-              )}
-              {social.linkedin && (
-                <a
-                  href={social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-mist transition-colors hover:text-signal"
-                >
-                  LinkedIn ↗
-                </a>
-              )}
-              <a
-                href={`mailto:${personal.email}`}
-                className="text-mist transition-colors hover:text-signal"
-              >
-                Email ↗
-              </a>
-            </div>
+          <div className="shrink-0 border-t border-line px-6 py-6">
+            <p className="meta-label mb-2">Direct contact</p>
+            <a
+              href={`mailto:${personal.email}`}
+              className="text-sm text-mist transition-colors hover:text-signal"
+            >
+              {personal.email} ↗
+            </a>
           </div>
         </div>
       )}

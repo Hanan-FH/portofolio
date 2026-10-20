@@ -3,7 +3,7 @@ import { portfolioData } from '../data/portfolio';
 import { Section, SectionHeading } from './ui/Section';
 
 export function Contact() {
-  const { contact, personal, social } = portfolioData;
+  const { contact, personal } = portfolioData;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -118,37 +118,6 @@ export function Contact() {
               </span>
             </a>
 
-            <div className="mt-8 flex flex-wrap items-center gap-6">
-              {social.github && (
-                <a
-                  href={social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-signal"
-                  aria-label="GitHub profile (opens in a new tab)"
-                >
-                  GitHub
-                  <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">
-                    ↗
-                  </span>
-                </a>
-              )}
-              {social.linkedin && (
-                <a
-                  href={social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-signal"
-                  aria-label="LinkedIn profile (opens in a new tab)"
-                >
-                  LinkedIn
-                  <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">
-                    ↗
-                  </span>
-                </a>
-              )}
-            </div>
-
             <dl className="mt-12 border-t border-line">
               <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-line/70 py-4">
                 <dt className="meta-label">Location</dt>
@@ -209,7 +178,6 @@ export function Contact() {
                     type="email"
                     required
                     autoComplete="email"
-                    inputMode="email"
                     placeholder="jane@example.com"
                     className="field"
                     value={formData.email}
@@ -227,7 +195,7 @@ export function Contact() {
                   name="subject"
                   type="text"
                   required
-                  placeholder="Internship inquiry, collaboration, or project question"
+                  placeholder="Project inquiry / Internship opportunity"
                   className="field"
                   value={formData.subject}
                   onChange={(event) => setFormData({ ...formData, subject: event.target.value })}
@@ -235,105 +203,111 @@ export function Contact() {
               </div>
 
               <div className="mt-7">
-                <label htmlFor={messageInputId} className="field-label">
-                  Message <span className="text-signal" aria-hidden="true">*</span>
-                </label>
+                <div className="flex items-baseline justify-between gap-4">
+                  <label htmlFor={messageInputId} className="field-label">
+                    Message <span className="text-signal" aria-hidden="true">*</span>
+                  </label>
+                  <span id={messageHelpId} className="font-mono text-[0.62rem] text-dim">
+                    {formData.message.length} chars (min 10)
+                  </span>
+                </div>
                 <textarea
                   id={messageInputId}
                   name="message"
                   required
                   rows={5}
-                  placeholder="Tell me briefly what you have in mind."
-                  className="field min-h-[9rem] resize-y"
                   aria-describedby={messageHelpId}
+                  placeholder="Tell me about your project, timeline, or inquiry..."
+                  className="field resize-y"
                   value={formData.message}
                   onChange={(event) => setFormData({ ...formData, message: event.target.value })}
                 />
-                <p id={messageHelpId} className="mt-2 font-mono text-[0.6rem] text-dim">
-                  Minimum 10 characters.
-                </p>
               </div>
 
-              {formErrorMsg && formStatus !== 'activation_required' && formStatus !== 'error' && (
+              {formErrorMsg && (
                 <div
-                  className="mt-6 border-l-2 border-danger bg-danger/5 px-4 py-3 text-sm text-danger"
                   role="alert"
-                  aria-live="polite"
+                  className="mt-6 border-l-2 border-danger bg-danger/10 px-4 py-3 text-sm text-paper"
                 >
-                  {formErrorMsg}
-                </div>
-              )}
-
-              {formStatus === 'activation_required' && (
-                <div
-                  className="mt-6 border-l-2 border-signal bg-signal-soft px-4 py-4 text-sm"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  <p className="font-medium text-paper">Form activation required</p>
-                  <p className="mt-1 text-mist">
-                    FormSubmit has sent a one-time verification link to{' '}
-                    <strong className="font-medium text-paper">{contact.recipientEmail}</strong>. Once
-                    activated, messages will deliver automatically. You can also send directly:
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-danger">
+                    Validation Notice
                   </p>
-                  <a href={mailtoFallbackUrl} className="btn-quiet mt-3 text-xs">
-                    Send via email client
-                    <span aria-hidden="true">↗</span>
-                  </a>
+                  <p className="mt-1 text-xs text-mist">{formErrorMsg}</p>
                 </div>
               )}
 
               {formStatus === 'success' && (
                 <div
-                  className="mt-6 border-l-2 border-success bg-success/5 px-4 py-3 text-sm text-success"
                   role="status"
-                  aria-live="polite"
+                  className="mt-6 border-l-2 border-success bg-success/10 px-4 py-3 text-sm text-paper"
                 >
-                  Your message has been sent. Thank you for reaching out.
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-success">
+                    Message transmitted
+                  </p>
+                  <p className="mt-1 text-xs text-mist">
+                    Thank you. Your message has been sent directly to Hanan&apos;s inbox.
+                  </p>
+                </div>
+              )}
+
+              {formStatus === 'activation_required' && (
+                <div
+                  role="status"
+                  className="mt-6 border-l-2 border-signal bg-signal/10 px-4 py-3 text-sm text-paper"
+                >
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-signal">
+                    Activation link needed
+                  </p>
+                  <p className="mt-1 text-xs text-mist">
+                    FormSubmit requires a one-time activation. Please contact directly via email in
+                    the meantime.
+                  </p>
+                  <a
+                    href={mailtoFallbackUrl}
+                    className="mt-3 inline-block font-mono text-xs text-signal underline"
+                  >
+                    Send message via email client ↗
+                  </a>
                 </div>
               )}
 
               {formStatus === 'error' && (
                 <div
-                  className="mt-6 border-l-2 border-danger bg-danger/5 px-4 py-4 text-sm"
                   role="alert"
-                  aria-live="polite"
+                  className="mt-6 border-l-2 border-danger bg-danger/10 px-4 py-3 text-sm text-paper"
                 >
-                  <p className="font-medium text-danger">Submission error</p>
-                  <p className="mt-1 text-mist">
-                    {formErrorMsg || 'A problem occurred while sending your message.'}
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-danger">
+                    Submission error
                   </p>
-                  <a href={mailtoFallbackUrl} className="btn-quiet mt-3 text-xs">
-                    Send via email client
-                    <span aria-hidden="true">↗</span>
+                  <p className="mt-1 text-xs text-mist">
+                    Unable to submit through FormSubmit. Please use the direct mailto fallback below.
+                  </p>
+                  <a
+                    href={mailtoFallbackUrl}
+                    className="mt-3 inline-block font-mono text-xs text-signal underline"
+                  >
+                    Open in default mail client ↗
                   </a>
                 </div>
               )}
 
-              <div className="mt-8 flex flex-wrap items-center gap-5">
+              <div className="mt-9 flex flex-wrap items-center gap-5">
                 <button
                   type="submit"
-                  className="btn-solid disabled:cursor-not-allowed disabled:opacity-60"
                   disabled={formStatus === 'sending'}
+                  className="btn-solid disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {formStatus === 'sending' ? (
-                    'Sending…'
-                  ) : formStatus === 'success' ? (
-                    'Message sent'
-                  ) : (
-                    <>
-                      Send message
-                      <span className="link-arrow" aria-hidden="true">
-                        ↗
-                      </span>
-                    </>
-                  )}
+                  {formStatus === 'sending' ? 'Transmitting…' : 'Send message'}
+                  <span className="link-arrow" aria-hidden="true">
+                    ↗
+                  </span>
                 </button>
+
                 <a
-                  href={`mailto:${contact.recipientEmail}`}
-                  className="text-xs text-dim transition-colors hover:text-signal"
+                  href={mailtoFallbackUrl}
+                  className="font-mono text-xs text-dim transition-colors hover:text-signal"
                 >
-                  Or email directly ↗
+                  Send via mail client instead ↗
                 </a>
               </div>
             </form>
