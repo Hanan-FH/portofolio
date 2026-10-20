@@ -91,7 +91,8 @@ async function main() {
     CHROME_PATH,
     [
       '--headless=new',
-      '--disable-gpu',
+      '--enable-webgl',
+      '--use-gl=angle',
       `--remote-debugging-port=${port}`,
       `--user-data-dir=${tempDir}`,
       '--no-first-run',

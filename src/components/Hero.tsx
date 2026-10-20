@@ -1,5 +1,6 @@
 import { portfolioData } from '../data/portfolio';
 import { MagneticTilt } from './ui/MagneticTilt';
+import { ProceduralArtifact3D } from './3d/ProceduralArtifact3D';
 
 interface HeroProps {
   onNavigate?: (id: string) => void;
@@ -35,9 +36,9 @@ export function Hero({ onNavigate }: HeroProps) {
           </div>
         </div>
 
-        {/* Main Hero Split Grid */}
-        <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-8">
-          {/* Left Column: Giant Name, Identity, and CTAs */}
+        {/* Main Hero Split Grid: Typography & Portrait Left // Prominent 3D WebGL Centerpiece Right */}
+        <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-10">
+          {/* Left Column: Developer Identity, Typography, Bio, Profile & Actions */}
           <div className="flex flex-col lg:col-span-7">
             <div className="hero-rise" style={{ animationDelay: '100ms' }}>
               <span className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-signal">
@@ -105,7 +106,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
             {/* Hero Connect Links (Exclusively in Hero per AGENTS.md Rule 6) */}
             <div
-              className="hero-rise mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-5 lg:mt-16"
+              className="hero-rise mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-5"
               style={{ animationDelay: '360ms' }}
             >
               <span className="meta-label">Connect</span>
@@ -138,45 +139,81 @@ export function Hero({ onNavigate }: HeroProps) {
                 </a>
               )}
             </div>
-          </div>
 
-          {/* Right Column: Architectural Profile Photograph Showcase */}
-          <div
-            className="hero-rise mx-auto w-full max-w-[24rem] sm:max-w-[26rem] lg:col-span-5 lg:col-start-8 lg:mx-0"
-            style={{ animationDelay: '220ms' }}
-          >
-            <div className="relative">
-              {/* Corner crosshairs for architectural staging */}
-              <span className="absolute -left-2 -top-2 font-mono text-[0.7rem] leading-none text-signal/70" aria-hidden="true">+</span>
-              <span className="absolute -right-2 -top-2 font-mono text-[0.7rem] leading-none text-signal/70" aria-hidden="true">+</span>
-              <span className="absolute -bottom-2 -left-2 font-mono text-[0.7rem] leading-none text-signal/70" aria-hidden="true">+</span>
-              <span className="absolute -bottom-2 -right-2 font-mono text-[0.7rem] leading-none text-signal/70" aria-hidden="true">+</span>
-
-              <MagneticTilt
-                maxTilt={4}
-                enableGlow={true}
-                className="overflow-hidden rounded-xs border border-line bg-panel p-2 shadow-2xl transition-all duration-300 hover:border-signal/50"
-              >
-                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[1px] bg-[#0c0d10]">
+            {/* Architectural Profile Portrait Card */}
+            <div
+              className="hero-rise mt-12 grid grid-cols-1 items-center gap-6 rounded-xs border border-line bg-panel/70 p-4 sm:grid-cols-12 sm:p-5"
+              style={{ animationDelay: '420ms' }}
+            >
+              <div className="relative mx-auto w-full max-w-[11rem] sm:col-span-4 sm:mx-0">
+                <MagneticTilt
+                  maxTilt={4}
+                  enableGlow={true}
+                  className="overflow-hidden rounded-xs border border-line bg-black"
+                >
                   <img
                     src={personal.profileImage}
                     alt="Hanan Fathurrozaq Hidayatullah seated at a keyboard in a green-curtained room."
-                    className="h-full w-full object-cover object-top transition-transform duration-700 ease-fluid hover:scale-[1.02]"
+                    className="aspect-[3/4] w-full object-cover object-top"
                     width={960}
                     height={1280}
                     loading="eager"
                     fetchPriority="high"
                     decoding="async"
                   />
-                  <div className="absolute bottom-2.5 right-2.5 rounded-xs border border-line/80 bg-black/85 px-2 py-0.5 font-mono text-[0.58rem] tracking-[0.1em] text-signal backdrop-blur-md">
-                    SENSOR // 960×1280
-                  </div>
-                </div>
-              </MagneticTilt>
+                </MagneticTilt>
+              </div>
 
-              <div className="mt-3 flex items-center justify-between font-mono text-[0.62rem] uppercase tracking-[0.1em] text-dim">
-                <span>Hanan at the keyboard</span>
-                <span>Bogor, West Java</span>
+              <div className="sm:col-span-8">
+                <span className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-signal">
+                  Developer Identity // Real Portrait
+                </span>
+                <h3 className="mt-1 text-base font-medium text-paper">Hanan Fathurrozaq Hidayatullah</h3>
+                <p className="mt-1 text-xs text-mist">
+                  Photographed seated at the development keyboard in Bogor, West Java.
+                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-3 font-mono text-[0.58rem] text-dim">
+                  <span className="rounded-xs border border-line px-2 py-0.5">SENSOR // 960×1280</span>
+                  <span className="rounded-xs border border-line px-2 py-0.5">LOCATION // BOGOR, ID</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Prominent Interactive 3D WebGL Centerpiece */}
+          <div
+            className="hero-rise flex flex-col lg:col-span-5"
+            style={{ animationDelay: '200ms' }}
+          >
+            <div className="relative overflow-hidden rounded-xs border border-line bg-panel shadow-2xl transition-all duration-300 hover:border-signal/50">
+              {/* 3D Viewport Header Bar */}
+              <div className="flex items-center justify-between border-b border-line/80 bg-panel-raised/95 px-4 py-3 backdrop-blur-md">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-signal shadow-[0_0_8px_#00d1ff]" />
+                  <span className="font-mono text-[0.65rem] font-semibold tracking-[0.08em] text-paper">
+                    PROCEDURAL CODE NEXUS // 3D
+                  </span>
+                </div>
+                <span className="font-mono text-[0.58rem] tracking-[0.06em] text-dim">
+                  THREE.JS · WEBGL
+                </span>
+              </div>
+
+              {/* The Genuine Interactive 3D WebGL Canvas */}
+              <div className="relative h-[380px] w-full sm:h-[440px] lg:h-[500px]">
+                <ProceduralArtifact3D className="h-full w-full" />
+              </div>
+
+              {/* 3D Telemetry Footer */}
+              <div className="border-t border-line/70 bg-panel-raised/80 px-4 py-3 font-mono text-[0.6rem] text-dim">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-signal/90">PBR SHADER // METALNESS: 0.95</span>
+                  <span>GYROSCOPIC TRIPLE TORUS</span>
+                </div>
+                <div className="mt-2 flex items-center justify-between border-t border-line/40 pt-2 text-[0.58rem]">
+                  <span>INTERACTIVE 360° WEBGL PERSPECTIVE</span>
+                  <span className="text-mist">DRAG TO EXPLORE</span>
+                </div>
               </div>
             </div>
           </div>
