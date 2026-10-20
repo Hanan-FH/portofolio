@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
-import './App.css';
-import { type Project, type Certificate } from './data/portfolio';
+import { useEffect, useState } from 'react';
+import { type Certificate, type Project } from './data/portfolio';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -12,51 +11,78 @@ import { Footer } from './components/Footer';
 import { ProjectModal } from './components/ProjectModal';
 import { CertificateModal } from './components/CertificateModal';
 
+const SECTION_IDS = ['hero', 'about', 'projects', 'skills', 'certificates', 'contact'];
+
 export function App() {
-  const [activeSection, setActiveSection] = useState<string>('hero');
+  const [activeSection, setActiveSection] = useState('hero');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
 
-  // Monitor scroll position to update active navbar state
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['contact', 'certificates', 'skills', 'projects', 'about'];
-      const scrollPos = window.scrollY + 200;
+    let frame = 0;
 
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
-        if (el && scrollPos >= el.offsetTop) {
-          setActiveSection(sectionId);
-          return;
+    const updateActiveSection = () => {
+      frame = 0;
+      const marker = window.scrollY + 110;
+      let next = 'hero';
+
+      for (const id of SECTION_IDS) {
+        const element = document.getElementById(id);
+        if (element && element.getBoundingClientRect().top + window.scrollY <= marker) {
+          next = id;
         }
       }
-      setActiveSection('hero');
+
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 4
+      ) {
+        next = 'contact';
+      }
+
+      setActiveSection((current) => (current === next ? current : next));
     };
 
+    const handleScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateActiveSection);
+    };
+
+    updateActiveSection();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   const handleNavigate = (sectionId: string) => {
     setActiveSection(sectionId);
     const target = document.getElementById(sectionId);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (!target) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
   };
 
   return (
-    <div className="portfolio-app">
-      {/* Keyboard Accessibility Skip Link */}
-      <a href="#main-content" className="skip-link">
+    <div className="min-h-screen overflow-x-clip bg-ink text-paper">
+      <a
+        href="#main-content"
+        className="fixed left-4 top-[-100px] z-[300] bg-signal px-4 py-2 font-mono text-xs font-semibold text-black transition-[top] duration-200 focus:top-4"
+      >
         Skip to main content
       </a>
 
-      {/* Main Navigation Header */}
       <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
 
-      {/* Main Content Body */}
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1} className="focus:outline-none">
         <Hero onNavigate={handleNavigate} />
         <About />
         <Projects onSelectProject={setSelectedProject} />
@@ -65,14 +91,9 @@ export function App() {
         <Contact />
       </main>
 
-      {/* Footer */}
       <Footer />
 
-      {/* Interactive Detail Modals */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
+      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
       <CertificateModal
         certificate={selectedCertificate}
         onClose={() => setSelectedCertificate(null)}

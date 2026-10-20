@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useId } from 'react';
 import { type Project } from '../data/portfolio';
+import { Modal } from './ui/Modal';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -7,123 +8,92 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    if (project) {
-      window.addEventListener('keydown', handleKeyDown);
-      document.body.classList.add('modal-locked');
-    }
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.classList.remove('modal-locked');
-    };
-  }, [project, onClose]);
+  const titleId = useId();
 
   if (!project) return null;
 
-  const num = String(project.id).padStart(2, '0');
+  const number = String(project.id).padStart(2, '0');
 
   return (
-    <div
-      className="modal-backdrop"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`Project details for ${project.title}`}
-    >
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <div className="modal-header-meta">
-            <span className="modal-index">PROJECT // {num}</span>
-            <span className="modal-category">{project.category}</span>
-            <span className="modal-year">{project.year}</span>
-          </div>
-          <button
-            type="button"
-            className="modal-close-btn"
-            onClick={onClose}
-            aria-label="Close project modal"
-          >
-            ✕
-          </button>
-        </div>
+    <Modal onClose={onClose} labelledBy={titleId} className="sm:max-w-4xl">
+      <div className="flex items-center justify-between gap-6 border-b border-line px-5 py-4 pr-16">
+        <span className="font-mono text-[0.64rem] uppercase tracking-[0.12em] text-signal">
+          Project {number}
+        </span>
+        <span className="truncate font-mono text-[0.6rem] uppercase tracking-[0.1em] text-dim">
+          {project.category} · {project.year}
+        </span>
+      </div>
 
-        {project.image && (
-          <div className="modal-media-frame">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="modal-image"
-              loading="lazy"
-            />
+      {project.image && (
+        <div className="border-b border-line bg-black/50 p-3 sm:p-4">
+          <img
+            src={project.image}
+            alt={`Screenshot of ${project.title}`}
+            className="mx-auto max-h-[52vh] w-full object-contain"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )}
+
+      <div className="p-5 sm:p-8">
+        <h2
+          id={titleId}
+          className="max-w-[30ch] text-2xl font-medium leading-[1.15] tracking-[-0.025em] text-paper sm:text-3xl"
+        >
+          {project.title}
+        </h2>
+        <p className="mt-4 max-w-[44rem] text-[0.92rem] leading-[1.75] text-mist">
+          {project.description}
+        </p>
+
+        {project.technologies.length > 0 && (
+          <div className="mt-7 border-t border-line pt-4">
+            <p className="meta-label">Technologies</p>
+            <p className="mt-2 font-mono text-[0.66rem] uppercase leading-relaxed tracking-[0.06em] text-mist">
+              {project.technologies.join(' · ')}
+            </p>
           </div>
         )}
 
-        <div className="modal-body">
-          <h2 className="modal-title">{project.title}</h2>
-          <p className="modal-description">{project.description}</p>
-
-          {project.technologies && project.technologies.length > 0 && (
-            <div className="modal-tech-section">
-              <span className="modal-tech-label">TECHNOLOGIES &amp; TOOLS</span>
-              <div className="tech-tags">
-                {project.technologies.map((tech) => (
-                  <span key={tech} className="tech-tag">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="modal-footer">
-            <div className="modal-links">
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary"
-                >
-                  <span>Repository</span> ↗
-                </a>
-              )}
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary"
-                >
-                  <span>Live Demo</span> ↗
-                </a>
-              )}
-              {project.image && (
-                <a
-                  href={project.image}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-link"
-                >
-                  <span>Open Full Screenshot</span> ↗
-                </a>
-              )}
-            </div>
-            <button
-              type="button"
-              className="btn-secondary"
-              onClick={onClose}
+        <div className="mt-8 flex flex-wrap items-center gap-5">
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-solid text-xs"
             >
-              Close
-            </button>
-          </div>
+              Repository
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-solid text-xs"
+            >
+              Live demo
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {project.image && (
+            <a
+              href={project.image}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-quiet text-xs"
+            >
+              Open full screenshot
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }
 

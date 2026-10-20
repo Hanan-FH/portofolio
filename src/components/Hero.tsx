@@ -7,124 +7,134 @@ interface HeroProps {
 export function Hero({ onNavigate }: HeroProps) {
   const { personal, social } = portfolioData;
 
-  const handleActionClick = (id: string) => {
-    if (onNavigate) {
-      onNavigate(id);
-    }
+  const navigate = (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    onNavigate?.(id);
   };
 
   return (
-    <section id="hero" className="hero-section">
-      <div className="hero-grid">
-        <div className="hero-content">
-          <div className="status-pill">
-            <span className="status-dot-pulse" aria-hidden="true" />
-            <span className="status-pill-text">{personal.status}</span>
+    <section id="hero" className="scroll-mt-[70px]">
+      <div className="container-site grid gap-14 pb-20 pt-32 md:pt-40 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-28">
+        <div className="flex flex-col lg:col-span-7">
+          <div
+            className="hero-rise flex flex-wrap items-center gap-x-4 gap-y-2"
+            style={{ animationDelay: '40ms' }}
+          >
+            <span className="inline-flex items-center gap-2.5 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-paper">
+              <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 bg-signal shadow-[0_0_8px_rgba(0,209,255,0.45)]"
+              />
+              Open to internship opportunities
+            </span>
+            <span aria-hidden="true" className="hidden h-3 w-px bg-line-strong sm:block" />
+            <span className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-dim">
+              Bogor, Indonesia
+            </span>
           </div>
 
-          <div className="hero-title-group">
-            <span className="hero-eyebrow">{personal.eyebrow}</span>
-            <h1 className="hero-name">{personal.name}</h1>
-          </div>
+          <h1
+            className="hero-rise mt-10 text-display font-semibold text-paper"
+            style={{ animationDelay: '100ms' }}
+            aria-label={personal.name}
+          >
+            <span className="block">Hanan</span>
+            <span className="block">Fathurrozaq</span>
+            <span className="block">Hidayatullah</span>
+          </h1>
 
-          <p className="hero-lead">
-            Software Engineering student with a strong focus on modern web architectures,
-            programming logic, and building practical digital solutions.
+          <p
+            className="hero-rise mt-7 text-sm text-paper"
+            style={{ animationDelay: '170ms' }}
+          >
+            Software Engineering Student
+            <span className="text-mist"> — SMK Plus Pelita Nusantara</span>
           </p>
 
-          <p className="hero-subtext">
-            Studying Software Engineering (Rekayasa Perangkat Lunak) at SMK Plus Pelita Nusantara in Bogor.
-            Committed to writing clean, structured code and continuously expanding full-stack engineering skills.
+          <p
+            className="hero-rise mt-3 max-w-[36rem] text-lede text-mist"
+            style={{ animationDelay: '220ms' }}
+          >
+            I build web applications, desktop tools, and small games. My current focus is
+            TypeScript, React, and server-side development.
           </p>
 
-          <div className="hero-actions">
+          <div
+            className="hero-rise mt-9 flex flex-wrap items-center gap-x-7 gap-y-4"
+            style={{ animationDelay: '280ms' }}
+          >
             <a
               href="#projects"
-              className="btn-primary"
-              onClick={() => handleActionClick('projects')}
+              onClick={navigate('projects')}
+              className="btn-solid"
             >
-              <span>View Projects</span>
-              <span className="btn-arrow" aria-hidden="true">↗</span>
+              View selected work
+              <span className="link-arrow" aria-hidden="true">
+                ↗
+              </span>
             </a>
-            <a
-              href="#contact"
-              className="btn-secondary"
-              onClick={() => handleActionClick('contact')}
-            >
-              <span>Contact Me</span>
+            <a href="#contact" onClick={navigate('contact')} className="btn-quiet">
+              Contact
             </a>
           </div>
 
-          <div className="hero-connect">
-            <span className="connect-label">Connect:</span>
-            <div className="connect-links">
-              {social.github && (
-                <a
-                  href={social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="connect-link"
-                  aria-label="Visit Hanan Fathurrozaq on GitHub"
-                >
-                  <span>GitHub</span>
-                  <span className="connect-arrow" aria-hidden="true">↗</span>
-                </a>
-              )}
-              {social.linkedin && (
-                <a
-                  href={social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="connect-link"
-                  aria-label="Visit Hanan Fathurrozaq on LinkedIn"
-                >
-                  <span>LinkedIn</span>
-                  <span className="connect-arrow" aria-hidden="true">↗</span>
-                </a>
-              )}
-            </div>
+          <div
+            className="hero-rise mt-14 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4 lg:mt-auto lg:pt-5"
+            style={{ animationDelay: '340ms' }}
+          >
+            <span className="meta-label">Connect</span>
+            {social.github && (
+              <a
+                href={social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 text-sm text-paper transition-colors hover:text-signal"
+                aria-label="GitHub profile (opens in a new tab)"
+              >
+                GitHub
+                <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            )}
+            {social.linkedin && (
+              <a
+                href={social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 text-sm text-paper transition-colors hover:text-signal"
+                aria-label="LinkedIn profile (opens in a new tab)"
+              >
+                LinkedIn
+                <span className="link-arrow text-dim group-hover:text-signal" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            )}
           </div>
         </div>
 
-        <div className="hero-visual">
-          <div className="profile-card">
-            <div className="profile-card-header">
-              <span className="profile-card-tag">// DEVELOPER PROFILE</span>
-              <span className="profile-card-badge">ACTIVE</span>
-            </div>
-
-            <div className="profile-photo-wrapper">
-              <img
-                src={personal.profileImage}
-                alt={personal.name}
-                className="profile-photo"
-                width={380}
-                height={380}
-                loading="eager"
-              />
-            </div>
-
-            <div className="profile-card-details">
-              <div className="profile-card-name">{personal.name}</div>
-              <div className="profile-card-role">{personal.role}</div>
-
-              <div className="profile-meta-list">
-                <div className="profile-meta-row">
-                  <span className="profile-meta-key">Institution</span>
-                  <span className="profile-meta-val">SMK Plus Pelita Nusantara</span>
-                </div>
-                <div className="profile-meta-row">
-                  <span className="profile-meta-key">Department</span>
-                  <span className="profile-meta-val">Rekayasa Perangkat Lunak (RPL)</span>
-                </div>
-                <div className="profile-meta-row">
-                  <span className="profile-meta-key">Location</span>
-                  <span className="profile-meta-val">{personal.location}</span>
-                </div>
-              </div>
-            </div>
+        <figure
+          className="hero-rise mx-auto w-full max-w-[26rem] lg:col-span-5 lg:col-start-9 lg:mx-0"
+          style={{ animationDelay: '200ms' }}
+        >
+          <div className="overflow-hidden border border-line bg-panel">
+            <img
+              src={personal.profileImage}
+              alt="Hanan Fathurrozaq Hidayatullah seated at a keyboard in a green-curtained room."
+              className="h-auto w-full"
+              width={960}
+              height={1280}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
-        </div>
+          <figcaption className="mt-3 flex items-center justify-between gap-4 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-dim">
+            <span>Hanan at the keyboard</span>
+            <span>Bogor, West Java</span>
+          </figcaption>
+        </figure>
       </div>
     </section>
   );

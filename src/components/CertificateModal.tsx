@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useId } from 'react';
 import { type Certificate } from '../data/portfolio';
+import { Modal } from './ui/Modal';
 
 interface CertificateModalProps {
   certificate: Certificate | null;
@@ -7,99 +8,68 @@ interface CertificateModalProps {
 }
 
 export function CertificateModal({ certificate, onClose }: CertificateModalProps) {
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    if (certificate) {
-      window.addEventListener('keydown', handleKeyDown);
-      document.body.classList.add('modal-locked');
-    }
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.classList.remove('modal-locked');
-    };
-  }, [certificate, onClose]);
+  const titleId = useId();
 
   if (!certificate) return null;
 
-  const num = String(certificate.id).padStart(2, '0');
+  const number = String(certificate.id).padStart(2, '0');
 
   return (
-    <div
-      className="modal-backdrop"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`Certificate details: ${certificate.title}`}
-    >
-      <div className="modal-container cert-modal-container" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <div className="modal-header-meta">
-            <span className="modal-index">CREDENTIAL // {num}</span>
-            <span className="modal-category">{certificate.issuer}</span>
-            <span className="modal-year">{certificate.year}</span>
-          </div>
-          <button
-            type="button"
-            className="modal-close-btn"
-            onClick={onClose}
-            aria-label="Close certificate modal"
-          >
-            ✕
-          </button>
-        </div>
+    <Modal onClose={onClose} labelledBy={titleId} className="sm:max-w-3xl">
+      <div className="flex items-center justify-between gap-6 border-b border-line px-5 py-4 pr-16">
+        <span className="font-mono text-[0.64rem] uppercase tracking-[0.12em] text-signal">
+          Credential {number}
+        </span>
+        <span className="font-mono text-[0.6rem] uppercase tracking-[0.1em] text-dim">
+          {certificate.year}
+        </span>
+      </div>
 
-        {certificate.image && (
-          <div className="modal-media-frame cert-media-frame">
-            <img
-              src={certificate.image}
-              alt={`Certificate credential for ${certificate.title}`}
-              className="modal-image cert-modal-image"
-              loading="lazy"
-            />
-          </div>
-        )}
+      <div className="border-b border-line bg-[#0c0d0f] p-3 sm:p-5">
+        <img
+          src={certificate.image}
+          alt={`Certificate: ${certificate.title}, issued by ${certificate.issuer}`}
+          className="mx-auto max-h-[58vh] w-full object-contain"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
 
-        <div className="modal-body">
-          <h2 className="modal-title">{certificate.title}</h2>
-          <div className="modal-cert-meta">
-            <div className="meta-item">
-              <span className="meta-label">Issuing Authority</span>
-              <span className="meta-value">{certificate.issuer}</span>
-            </div>
-            <div className="meta-item">
-              <span className="meta-label">Issued Year</span>
-              <span className="meta-value">{certificate.year}</span>
-            </div>
-          </div>
+      <div className="p-5 sm:p-8">
+        <h2
+          id={titleId}
+          className="max-w-[36ch] text-xl font-medium leading-[1.25] tracking-[-0.02em] text-paper sm:text-2xl"
+        >
+          {certificate.title}
+        </h2>
 
-          <div className="modal-footer">
-            <div className="modal-links">
-              {certificate.verificationUrl && (
-                <a
-                  href={certificate.verificationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary"
-                >
-                  <span>Open Full Document</span> ↗
-                </a>
-              )}
-            </div>
-            <button
-              type="button"
-              className="btn-secondary"
-              onClick={onClose}
+        <dl className="mt-6 border-t border-line">
+          <div className="grid grid-cols-[6.5rem_1fr] gap-4 border-b border-line/70 py-3">
+            <dt className="meta-label">Issuer</dt>
+            <dd className="text-sm text-mist">{certificate.issuer}</dd>
+          </div>
+          <div className="grid grid-cols-[6.5rem_1fr] gap-4 py-3">
+            <dt className="meta-label">Year</dt>
+            <dd className="text-sm text-mist">{certificate.year}</dd>
+          </div>
+        </dl>
+
+        <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+          {certificate.verificationUrl && (
+            <a
+              href={certificate.verificationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-solid text-xs"
             >
-              Close
-            </button>
-          </div>
+              Open original document
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          <span className="font-mono text-[0.6rem] text-dim">Opens in a new tab.</span>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }
 

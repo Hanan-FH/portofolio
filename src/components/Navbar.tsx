@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { portfolioData } from '../data/portfolio';
 
 interface NavbarProps {
@@ -7,136 +7,259 @@ interface NavbarProps {
 }
 
 const NAV_ITEMS = [
-  { id: 'about', label: 'About', num: '// 01' },
-  { id: 'projects', label: 'Projects', num: '// 02' },
-  { id: 'skills', label: 'Skills', num: '// 03' },
-  { id: 'certificates', label: 'Certificates', num: '// 04' },
-  { id: 'contact', label: 'Contact', num: '// 05' },
+  { id: 'hero', label: 'Home' },
+  { id: 'about', label: 'Profile' },
+  { id: 'projects', label: 'Portfolio' },
+  { id: 'contact', label: 'Contact' },
 ];
 
-export function Navbar({ activeSection, onNavigate }: NavbarProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { personal } = portfolioData;
+const FOCUSABLE =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-  // Close mobile drawer on Escape key
+function resolveActiveSection(section: string) {
+  if (section === 'skills') return 'about';
+  if (section === 'certificates') return 'projects';
+  return section;
+}
+
+function BrandMark() {
+  return (
+    <svg width="20" height="24" viewBox="0 0 20 24" fill="none" aria-hidden="true">
+      <path d="M3 2v20M3 12h11" stroke="currentColor" strokeWidth="2" />
+      <path d="M14 2v20" stroke="#00D1FF" strokeWidth="2" />
+    </svg>
+  );
+}
+
+export function Navbar({ activeSection, onNavigate }: NavbarProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const { personal, social } = portfolioData;
+  const current = resolveActiveSection(activeSection);
+
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsMobileMenuOpen(false);
+    if (!isMenuOpen) return;
+
+    const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const panel = drawerRef.current;
+    const initialFocus = panel?.querySelector<HTMLElement>('[data-autofocus]');
+    initialFocus?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setIsMenuOpen(false);
+        return;
+      }
+
+      if (event.key !== 'Tab' || !panel) return;
+
+      const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+        (element) => element.offsetParent !== null
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
-  // Prevent background scroll when mobile drawer is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.classList.add('drawer-locked');
-    } else {
-      document.body.classList.remove('drawer-locked');
-    }
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.body.classList.remove('drawer-locked');
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      trigger?.focus();
     };
-  }, [isMobileMenuOpen]);
+  }, [isMenuOpen]);
 
   const handleLinkClick = (id: string) => {
-    setIsMobileMenuOpen(false);
-    if (onNavigate) {
-      onNavigate(id);
-    }
+    setIsMenuOpen(false);
+    onNavigate?.(id);
   };
 
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
-        <a
-          href="#hero"
-          className="nav-brand"
-          aria-label="Hanan Fathurrozaq Hidayatullah - Home"
-          onClick={() => handleLinkClick('hero')}
-        >
-          <span className="nav-brand-mark" aria-hidden="true">H</span>
-          <span className="nav-brand-text">HANAN</span>
-        </a>
+    <>
+      <header className="fixed inset-x-0 top-0 z-50 h-[70px] border-b border-line bg-black/[0.88] backdrop-blur-[12px]">
+        <div className="flex h-full items-center justify-between px-5 sm:px-8">
+          <a
+            href="#hero"
+            onClick={(event) => {
+              event.preventDefault();
+              handleLinkClick('hero');
+            }}
+            className="flex items-center gap-3 text-paper"
+            aria-label="Hanan Fathurrozaq Hidayatullah — back to top"
+          >
+            <BrandMark />
+            <span className="text-[1.05rem] font-semibold tracking-[0.1em]">HANAN</span>
+          </a>
 
-        <nav className="nav-menu" aria-label="Primary Navigation">
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              className={`nav-link${activeSection === item.id ? ' active' : ''}`}
-              onClick={() => handleLinkClick(item.id)}
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+          <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
+            {NAV_ITEMS.map((item) => {
+              const isActive = current === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleLinkClick(item.id);
+                  }}
+                  aria-current={isActive ? 'location' : undefined}
+                  className={`group relative py-2 text-sm transition-colors duration-200 ${
+                    isActive ? 'text-signal' : 'text-mist hover:text-paper'
+                  }`}
+                >
+                  {item.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-0 -bottom-1 h-[2px] origin-left bg-signal transition-transform duration-300 ease-fluid ${
+                      isActive
+                        ? 'scale-x-100 shadow-[0_0_10px_rgba(0,209,255,0.35)]'
+                        : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
+                </a>
+              );
+            })}
+          </nav>
 
-        <button
-          type="button"
-          className="mobile-toggle"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={isMobileMenuOpen}
-        >
-          {isMobileMenuOpen ? 'CLOSE ✕' : 'MENU ☰'}
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation"
+            className="-mr-2 flex h-11 w-11 items-center justify-center text-paper md:hidden"
+          >
+            <span className="relative block h-3.5 w-6" aria-hidden="true">
+              <span
+                className={`absolute left-0 top-0 h-px w-6 bg-current transition-transform duration-300 ease-fluid ${
+                  isMenuOpen ? 'translate-y-[6px] rotate-45' : ''
+                }`}
+              />
+              <span
+                className={`absolute bottom-0 left-0 h-px w-6 bg-current transition-transform duration-300 ease-fluid ${
+                  isMenuOpen ? '-translate-y-[7px] -rotate-45' : ''
+                }`}
+              />
+            </span>
+          </button>
+        </div>
+      </header>
 
-      {isMobileMenuOpen && (
+      {isMenuOpen && (
         <div
-          className="mobile-drawer"
+          ref={drawerRef}
+          id="mobile-navigation"
           role="dialog"
-          aria-label="Mobile Navigation Drawer"
           aria-modal="true"
+          aria-label="Site navigation"
+          className="drawer-enter fixed inset-0 z-[150] flex flex-col bg-black md:hidden"
         >
-          <div className="mobile-nav-links">
+          <div className="flex h-[70px] shrink-0 items-center justify-between border-b border-line px-5">
             <a
               href="#hero"
-              className="mobile-nav-link"
-              onClick={() => handleLinkClick('hero')}
+              onClick={(event) => {
+                event.preventDefault();
+                handleLinkClick('hero');
+              }}
+              className="flex items-center gap-3 text-paper"
+              aria-label="Hanan Fathurrozaq Hidayatullah — back to top"
             >
-              <span className="mobile-nav-left">
-                <span className="mobile-nav-num">// 00</span>
-                <span className="mobile-nav-text">Home</span>
-              </span>
-              <span className="mobile-nav-arrow" aria-hidden="true">↗</span>
+              <BrandMark />
+              <span className="text-[1.05rem] font-semibold tracking-[0.1em]">HANAN</span>
             </a>
+            <button
+              type="button"
+              data-autofocus
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close menu"
+              className="-mr-2 flex h-11 w-11 items-center justify-center text-paper transition-colors hover:text-signal"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+            </button>
+          </div>
 
-            {NAV_ITEMS.map((item) => (
+          <nav className="flex flex-1 flex-col justify-center px-5" aria-label="Mobile navigation">
+            {NAV_ITEMS.map((item, index) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className={`mobile-nav-link${activeSection === item.id ? ' active' : ''}`}
-                onClick={() => handleLinkClick(item.id)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleLinkClick(item.id);
+                }}
+                aria-current={current === item.id ? 'location' : undefined}
+                className="group flex items-baseline gap-5 border-b border-line py-5"
               >
-                <span className="mobile-nav-left">
-                  <span className="mobile-nav-num">{item.num}</span>
-                  <span className="mobile-nav-text">{item.label}</span>
+                <span className="font-mono text-[0.68rem] tracking-[0.12em] text-signal">
+                  0{index + 1}
                 </span>
-                <span className="mobile-nav-arrow" aria-hidden="true">↗</span>
+                <span
+                  className={`text-[2rem] font-medium tracking-[-0.03em] transition-colors duration-200 ${
+                    current === item.id ? 'text-signal' : 'text-paper group-hover:text-mist'
+                  }`}
+                >
+                  {item.label}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="ml-auto text-lg text-dim transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-signal"
+                >
+                  ↗
+                </span>
               </a>
             ))}
-          </div>
+          </nav>
 
-          <div className="mobile-drawer-footer">
-            <div className="mobile-drawer-status">
-              <span className="status-dot-pulse" aria-hidden="true" />
-              <span>{personal.status}</span>
+          <div className="shrink-0 border-t border-line px-5 py-6">
+            <p className="meta-label mb-3">Elsewhere</p>
+            <div className="flex flex-wrap items-center gap-5 text-sm">
+              {social.github && (
+                <a
+                  href={social.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-mist transition-colors hover:text-signal"
+                >
+                  GitHub ↗
+                </a>
+              )}
+              {social.linkedin && (
+                <a
+                  href={social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-mist transition-colors hover:text-signal"
+                >
+                  LinkedIn ↗
+                </a>
+              )}
+              <a
+                href={`mailto:${personal.email}`}
+                className="text-mist transition-colors hover:text-signal"
+              >
+                Email ↗
+              </a>
             </div>
-            <a
-              href={`mailto:${personal.email}`}
-              className="mobile-drawer-email"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <span>{personal.email}</span> ↗
-            </a>
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }
 

@@ -1,105 +1,248 @@
-@import './styles/tokens.css';
+@import "tailwindcss";
 
-/* ==============================================================================
-   BASE — reset, base typography, selection, focus, scrollbar.
-   All values come from src/styles/tokens.css.
-   ============================================================================== */
+/* =============================================================================
+   DESIGN TOKENS
+   A technical editorial system: black canvas, white type, cool-gray notation,
+   electric cyan reserved for annotation and interaction.
+   ============================================================================= */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  --color-ink: #000000;
+  --color-panel: #08090b;
+  --color-panel-raised: #101215;
+  --color-paper: #ffffff;
+  --color-mist: #a0aec0;
+  --color-dim: #7b8794;
+  --color-line: rgba(255, 255, 255, 0.11);
+  --color-line-strong: rgba(255, 255, 255, 0.22);
+  --color-signal: #00d1ff;
+  --color-signal-soft: rgba(0, 209, 255, 0.1);
+  --color-success: #34d399;
+  --color-danger: #f87171;
+
+  --text-display: clamp(2.75rem, 6.2vw, 5.5rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.045em;
+
+  --text-statement: clamp(1.75rem, 3.35vw, 2.85rem);
+  --text-statement--line-height: 1.08;
+  --text-statement--letter-spacing: -0.032em;
+
+  --text-lede: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  --text-lede--line-height: 1.65;
+
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.13em;
+
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.45;
+  --text-meta--letter-spacing: 0.02em;
+
+  --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+  --container-site: 75rem;
 }
 
-html {
-  /* The reference does not smooth-scroll (measured: auto); anchors jump with a
-     header offset instead. Smooth scroll is opt-in for motion-tolerant users. */
-  scroll-padding-top: var(--header-height);
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-  -webkit-text-size-adjust: 100%;
-}
-
-@media (prefers-reduced-motion: no-preference) {
+/* =============================================================================
+   BASE
+   ============================================================================= */
+@layer base {
   html {
-    scroll-behavior: smooth;
+    scroll-padding-top: 70px;
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background-color: var(--color-signal);
+    color: #000000;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #262b31;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-signal);
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-paper);
+    -webkit-box-shadow: 0 0 0 1000px var(--color-ink) inset;
+    caret-color: var(--color-paper);
   }
 }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-sans);
-  font-size: var(--fs-body);
-  font-weight: var(--fw-regular);
-  line-height: var(--lh-body);
-  letter-spacing: var(--ls-body);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+/* =============================================================================
+   SHARED COMPONENT PATTERNS
+   ============================================================================= */
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: var(--container-site);
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .meta-label {
+    @apply font-mono text-[0.65rem] uppercase tracking-[0.13em] text-dim;
+  }
+
+  .btn-solid {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 bg-paper px-5 py-3 text-sm font-medium text-ink transition-colors duration-200 ease-fluid hover:bg-signal;
+  }
+
+  .btn-quiet {
+    @apply inline-flex min-h-11 items-center gap-2 border-b border-line-strong text-sm font-medium text-paper transition-colors duration-200 ease-fluid hover:border-signal hover:text-signal;
+  }
+
+  .field-label {
+    @apply mb-2 block font-mono text-[0.65rem] uppercase tracking-[0.12em] text-dim;
+  }
+
+  .field {
+    @apply w-full border-b border-line bg-transparent py-2.5 text-[0.95rem] text-paper transition-colors duration-200 placeholder:text-dim/55 hover:border-line-strong focus:border-signal focus:outline-none focus:ring-1 focus:ring-signal/60;
+  }
+
+  .link-arrow {
+    @apply inline-block transition-transform duration-200 ease-fluid;
+  }
+
+  a:hover .link-arrow,
+  button:hover .link-arrow {
+    transform: translate(2px, -2px);
+  }
 }
 
-h1,
-h2,
-h3,
-h4 {
-  color: var(--color-text);
-  font-weight: var(--fw-medium);
-  letter-spacing: var(--ls-heading);
-  text-wrap: balance;
+/* =============================================================================
+   MOTION — entrance, dialog, drawer. Everything else is a short transition.
+   ============================================================================= */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-p {
-  text-wrap: pretty;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-img {
-  display: block;
-  max-width: 100%;
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-::selection {
-  background-color: var(--color-selection-bg);
-  color: var(--color-selection-text);
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 3px;
+.hero-rise {
+  animation: rise-in 760ms var(--ease-fluid) backwards;
 }
 
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-scrollbar);
-  border-radius: var(--radius-sm);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+.modal-backdrop-enter {
+  animation: fade-in 220ms ease-out backwards;
 }
 
-#root {
-  min-height: 100vh;
-  width: 100%;
+.modal-panel-enter {
+  animation: panel-in 300ms var(--ease-fluid) backwards;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.drawer-enter {
+  animation: drawer-in 320ms var(--ease-fluid) backwards;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise,
+  .modal-backdrop-enter,
+  .modal-panel-enter,
+  .drawer-enter {
+    animation: none !important;
+  }
 
-input,
-textarea {
-  font-family: inherit;
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  a:hover .link-arrow,
+  button:hover .link-arrow {
+    transform: none;
+  }
 }
