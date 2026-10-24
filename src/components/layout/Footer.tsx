@@ -21,8 +21,8 @@ export function Footer() {
       <div className="container-site flex flex-col gap-6 py-10 md:flex-row md:items-end md:justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200 shadow-[0_0_10px_rgba(244,63,94,0.85)]" />
-            <p className="mincho-editorial text-sm text-white">{personal.name}</p>
+            <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200" />
+            <p className="mincho-editorial text-sm">{personal.name}</p>
           </div>
           <p className="mt-1.5 text-xs text-slate-400">
             {personal.role} · SMK Plus Pelita Nusantara · {personal.location}

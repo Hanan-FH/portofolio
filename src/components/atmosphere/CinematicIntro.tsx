@@ -451,11 +451,11 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
       ctx.globalAlpha = ignition;
       const sky = ctx.createLinearGradient(0, 0, 0, washHeight);
       sky.addColorStop(0.0, '#050714');
-      sky.addColorStop(0.28, '#0d1338');
-      sky.addColorStop(0.54, '#261442');
-      sky.addColorStop(0.76, '#7c124a');
-      sky.addColorStop(0.92, '#d94e16');
-      sky.addColorStop(1.0, '#fef08a');
+      sky.addColorStop(0.34, '#0d1435');
+      sky.addColorStop(0.6, '#24123e');
+      sky.addColorStop(0.78, '#6d1146');
+      sky.addColorStop(0.91, '#c2410c');
+      sky.addColorStop(1.0, '#fde047');
       ctx.fillStyle = sky;
       ctx.fillRect(0, 0, width, height);
 

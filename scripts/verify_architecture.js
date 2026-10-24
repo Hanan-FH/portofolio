@@ -49,10 +49,25 @@ assert(socialData.github === 'https://github.com/Hanan-FH', 'GitHub link preserv
 assert(socialData.linkedin.includes('hanan-fathurrozaq'), 'LinkedIn link preserved');
 assert(contactData.formSubmitEndpoint === 'https://formsubmit.co/ajax/hananfh77@gmail.com', 'FormSubmit AJAX endpoint preserved');
 
-// 4. Cold-Open Engine Governance Check (Unskippable + tiamat_intro_executed)
+// 4. Cold-Open & Motion Engine Governance Checks
 const introSource = fs.readFileSync(path.resolve('src/components/atmosphere/CinematicIntro.tsx'), 'utf8');
 assert(introSource.includes('tiamat_intro_executed'), 'CinematicIntro persists tiamat_intro_executed in sessionStorage');
 assert(!/Skip Intro|<button/i.test(introSource), 'CinematicIntro is strictly unskippable (zero skip buttons)');
+
+const appSource = fs.readFileSync(path.resolve('src/App.tsx'), 'utf8');
+assert(appSource.includes('AtmosphericScrollEngine'), 'App.tsx mounts AtmosphericScrollEngine');
+
+const certsSource = fs.readFileSync(path.resolve('src/components/sections/Certificates.tsx'), 'utf8');
+assert(
+  certsSource.includes('snap-x') && certsSource.includes('snap-mandatory'),
+  'Certificates.tsx uses lightweight CSS horizontal scroll snap'
+);
+
+const skillsSource = fs.readFileSync(path.resolve('src/components/sections/Skills.tsx'), 'utf8');
+assert(
+  skillsSource.includes('animate-marquee'),
+  'Skills.tsx runs hardware-accelerated CSS marquee ribbon'
+);
 
 // 5. Required Engine & Component Files
 const requiredFiles = [
@@ -63,7 +78,8 @@ const requiredFiles = [
   'src/data/certificates.ts',
   'src/data/portfolio.ts',
   'src/components/atmosphere/CinematicIntro.tsx',
-  'src/components/atmosphere/TwilightBackdrop.tsx',
+  'src/components/atmosphere/AtmosphericScrollEngine.tsx',
+  'src/components/atmosphere/CloudHorizonBank.tsx',
   'src/components/layout/Navbar.tsx',
   'src/components/layout/Footer.tsx',
   'src/components/sections/Hero.tsx',

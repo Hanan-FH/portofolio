@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Certificate, Project } from './data/portfolio';
 import { CinematicIntro } from './components/atmosphere/CinematicIntro';
-import { TwilightBackdrop } from './components/atmosphere/TwilightBackdrop';
+import { AtmosphericScrollEngine } from './components/atmosphere/AtmosphericScrollEngine';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Hero } from './components/sections/Hero';
@@ -30,6 +30,7 @@ export function App() {
   const [isAssembled, setIsAssembled] = useState<boolean>(isAlreadyAssembled);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
 
   const handleHandoff = useCallback(() => {
     setIsAssembled(true);
@@ -101,8 +102,8 @@ export function App() {
       {/* Unskippable 3.2s Optical Cold-Open Engine */}
       <CinematicIntro onHandoff={handleHandoff} />
 
-      {/* Persistent Katawaredoki Sky & Parallax Starfield */}
-      <TwilightBackdrop />
+      {/* Master Katawaredoki Atmosphere, Elastic Musubi Spline & Doppler Stardust Engine */}
+      <AtmosphericScrollEngine contentPlaneRef={mainRef} />
 
       {/* Atmospheric Kumihimo Glass Navigation Bar */}
       <Navbar
@@ -111,7 +112,12 @@ export function App() {
         onNavigate={handleNavigate}
       />
 
-      <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none">
+      <main
+        ref={mainRef}
+        id="main-content"
+        tabIndex={-1}
+        className="relative z-10 focus:outline-none"
+      >
         <Hero isAssembled={isAssembled} onNavigate={handleNavigate} />
         <About />
         <Skills />

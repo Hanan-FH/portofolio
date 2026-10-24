@@ -1,72 +1,67 @@
 export interface SectionHeadingProps {
   index: string;
   label: string;
-  kanji?: string;
+  ephemeris?: string;
   note?: string;
   className?: string;
 }
 
 /**
- * Shinkai Theatrical Section Header with Kumihimo Braided Trajectory Line
- * and Monospaced Astronomical Coordinate Metadata.
+ * Editorial Roadshow Section Header with 1px Kumihimo Chromatic Cord
+ * and Monospaced Astronomical Ephemeris Indices.
  */
 export function SectionHeading({
   index,
   label,
-  kanji,
+  ephemeris,
   note,
   className = '',
 }: SectionHeadingProps) {
   return (
     <div className={`relative ${className}`.trim()}>
-      {/* Kumihimo (組紐) Braided 1px Chromatic Accent */}
       <svg
-        viewBox="0 0 1200 8"
+        viewBox="0 0 1200 6"
         preserveAspectRatio="none"
         aria-hidden="true"
-        className="mb-4 block h-[6px] w-full overflow-visible opacity-90"
+        className="mb-4 block h-[5px] w-full overflow-visible opacity-80"
       >
         <defs>
-          <linearGradient id={`kumihimoA-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.85" />
-            <stop offset="45%" stopColor="#f43f5e" stopOpacity="0.7" />
-            <stop offset="82%" stopColor="#fef08a" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#d94e16" stopOpacity="0" />
+          <linearGradient id={`kumihimoCordA-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.72" />
+            <stop offset="46%" stopColor="#e11d48" stopOpacity="0.62" />
+            <stop offset="82%" stopColor="#fde047" stopOpacity="0.48" />
+            <stop offset="100%" stopColor="#c2410c" stopOpacity="0" />
           </linearGradient>
-          <linearGradient id={`kumihimoB-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.65" />
-            <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.45" />
-            <stop offset="100%" stopColor="#7c124a" stopOpacity="0" />
+          <linearGradient id={`kumihimoCordB-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.5" />
+            <stop offset="52%" stopColor="#38bdf8" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#6d1146" stopOpacity="0" />
           </linearGradient>
         </defs>
         <path
-          d="M 0 4 Q 180 0.5 360 4 T 720 4 T 1200 4"
+          d="M 0 3 Q 180 0.5 360 3 T 720 3 T 1200 3"
           fill="none"
-          stroke={`url(#kumihimoA-${index})`}
+          stroke={`url(#kumihimoCordA-${index})`}
           strokeWidth="1"
         />
         <path
-          d="M 0 4 Q 180 7.5 360 4 T 720 4 T 1200 4"
+          d="M 0 3 Q 180 5.5 360 3 T 720 3 T 1200 3"
           fill="none"
-          stroke={`url(#kumihimoB-${index})`}
-          strokeWidth="0.75"
+          stroke={`url(#kumihimoCordB-${index})`}
+          strokeWidth="0.65"
         />
       </svg>
 
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] font-medium uppercase tracking-[0.3em] text-amber-200/90">
-            {index}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="ephemeris-label text-amber-200/80">
+            ARCHIVE // {index} — {label}
           </span>
-          <span aria-hidden="true" className="h-2.5 w-px bg-white/20" />
-          <span className="astro-coord">{label}</span>
-          {kanji && (
-            <span
-              aria-hidden="true"
-              className="hidden font-serif text-[11px] tracking-[0.28em] text-sky-200/65 sm:inline"
-            >
-              {kanji}
-            </span>
+          {ephemeris && (
+            <>
+              <span aria-hidden="true" className="hidden h-2.5 w-px bg-white/15 sm:inline-block" />
+              <span className="astro-telemetry hidden sm:inline">{ephemeris}</span>
+            </>
           )}
         </div>
 

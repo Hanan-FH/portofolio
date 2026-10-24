@@ -1,5 +1,5 @@
 import { portfolioData } from '../../data/portfolio';
-import { CloudHorizonBank } from '../atmosphere/TwilightBackdrop';
+import { CloudHorizonBank } from '../atmosphere/CloudHorizonBank';
 import { MagneticTilt } from '../ui/MagneticTilt';
 
 interface HeroProps {
@@ -26,19 +26,11 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
       id="hero"
       className="relative scroll-mt-[72px] overflow-hidden pt-24 sm:pt-28 lg:pt-32"
     >
-      {/* Vertical Japanese Theatrical Release Margin Accent */}
-      <span
-        aria-hidden="true"
-        className="vertical-kanji pointer-events-none absolute right-3 top-28 hidden text-[11px] text-amber-100/40 select-none 2xl:block"
-      >
-        かたわれ時
-      </span>
-
       <div className="container-site relative z-10 pb-12 sm:pb-16 lg:pb-20">
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-12">
-          {/* Left Column: Editorial Mincho Typography & Authentic Bio */}
+          {/* Left Column: Editorial Mincho Phototypesetting & Authentic Bio */}
           <div className="flex flex-col lg:col-span-7">
-            {/* Micro-Badge: Astronomical Coordinate Notation with Pulsing Beacon */}
+            {/* Micro-Badge: Astronomical Ephemeris Notation */}
             <div
               style={staggerClass(40)}
               className={`transition-[transform,opacity] duration-700 ${
@@ -46,47 +38,49 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
               }`}
             >
               <div className="twilight-chip inline-flex flex-wrap items-center gap-2.5 px-3.5 py-1.5">
-                <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200 shadow-[0_0_10px_rgba(244,63,94,0.95)]" />
-                <span className="astro-coord">6.5950°S · 106.8166°E</span>
-                <span aria-hidden="true" className="h-2.5 w-px bg-white/20" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.26em] text-amber-100/90">
+                <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200" />
+                <span className="ephemeris-label">
+                  RA 20h 42m // DEC +45°16′ // KATAWARE_INTERVAL
+                </span>
+                <span aria-hidden="true" className="h-2.5 w-px bg-white/15" />
+                <span className="font-mono text-[9px] uppercase tracking-[0.34em] text-amber-200/85">
                   {personal.eyebrow}
                 </span>
               </div>
             </div>
 
-            {/* High-Impact Mincho Display Headline */}
+            {/* Primary Display Heading: Restrained Morisawa-Inspired Serif */}
             <div
               style={staggerClass(120)}
               className={`mt-7 transition-[transform,opacity] duration-700 ${
                 isAssembled ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
               }`}
             >
-              <h1 className="mincho-display text-[clamp(2.1rem,4.6vw,4.1rem)] text-white drop-shadow-[0_10px_32px_rgba(5,7,20,0.85)]">
+              <h1 className="mincho-display text-[clamp(2rem,4.4vw,3.9rem)]">
                 {personal.name}
               </h1>
 
-              {/* Anamorphic Optical Flare Accent */}
+              {/* 1px Anamorphic Horizon Rule */}
               <div className="my-5 max-w-md">
                 <div className="anamorphic-streak" aria-hidden="true" />
               </div>
 
-              <p className="mincho-editorial text-base text-amber-100/95 sm:text-lg lg:text-xl">
+              <p className="mincho-sub text-base text-slate-200 sm:text-lg lg:text-xl">
                 {personal.headline}
               </p>
             </div>
 
-            {/* Verbatim Authentic Biographical Introduction (Zero Filler) */}
+            {/* Verbatim Authentic Biographical Introduction */}
             <p
               style={staggerClass(200)}
-              className={`mt-5 max-w-[36rem] text-[0.98rem] leading-[1.78] text-slate-200/90 transition-[transform,opacity] duration-700 sm:text-[1.03rem] ${
+              className={`mt-5 max-w-[36rem] text-[0.95rem] leading-[1.6] text-slate-300 transition-[transform,opacity] duration-700 sm:text-base ${
                 isAssembled ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
               }`}
             >
               {personal.shortBio}
             </p>
 
-            {/* Primary Comet-Glow & Secondary Crepuscular Rim Action Buttons */}
+            {/* Primary Tiamat & Secondary Crepuscular Rim Action Controls */}
             <div
               style={staggerClass(280)}
               className={`mt-8 flex flex-wrap items-center gap-4 transition-[transform,opacity] duration-700 ${
@@ -115,7 +109,7 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                 isAssembled ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
               }`}
             >
-              <span className="astro-coord">Coordinates</span>
+              <span className="astro-coord">6.5950°S // 106.8166°E</span>
 
               {social.github && (
                 <a
@@ -123,7 +117,7 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub profile (opens in a new tab)"
-                  className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-200 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.28em] text-slate-300 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                 >
                   GitHub
                   <span className="link-arrow text-sky-300" aria-hidden="true">
@@ -138,10 +132,10 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn profile (opens in a new tab)"
-                  className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-200 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.28em] text-slate-300 hover:text-rose-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                 >
                   LinkedIn
-                  <span className="link-arrow text-pink-300" aria-hidden="true">
+                  <span className="link-arrow text-rose-300" aria-hidden="true">
                     ↗
                   </span>
                 </a>
@@ -157,13 +151,13 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
             }`}
           >
             <div className="relative flex w-full items-center justify-center py-6 sm:py-8">
-              {/* Soft Rim-Lit Horizon Backlight */}
+              {/* Restrained Low-Angle Horizon Rim Backlight */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-6 opacity-80 blur-3xl"
+                className="pointer-events-none absolute inset-8 opacity-65 blur-3xl"
                 style={{
                   background:
-                    'radial-gradient(circle at 50% 82%, rgba(254, 240, 138, 0.34) 0%, rgba(217, 78, 22, 0.28) 34%, rgba(124, 18, 74, 0.26) 64%, rgba(56, 189, 248, 0.18) 85%, transparent 100%)',
+                    'radial-gradient(circle at 50% 82%, rgba(253, 224, 71, 0.24) 0%, rgba(194, 65, 12, 0.22) 36%, rgba(109, 17, 70, 0.22) 66%, rgba(56, 189, 248, 0.14) 86%, transparent 100%)',
                 }}
               />
 
@@ -175,14 +169,14 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
               >
                 <defs>
                   <linearGradient id="astrolabeOuterRim" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#fef08a" stopOpacity="0.82" />
-                    <stop offset="45%" stopColor="#7c124a" stopOpacity="0.52" />
-                    <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.78" />
+                    <stop offset="0%" stopColor="#fde047" stopOpacity="0.72" />
+                    <stop offset="45%" stopColor="#6d1146" stopOpacity="0.52" />
+                    <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.68" />
                   </linearGradient>
                   <linearGradient id="astrolabeCounterArc" x1="100%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stopColor="#d94e16" stopOpacity="0.72" />
-                    <stop offset="52%" stopColor="#f43f5e" stopOpacity="0.48" />
-                    <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.65" />
+                    <stop offset="0%" stopColor="#c2410c" stopOpacity="0.68" />
+                    <stop offset="52%" stopColor="#e11d48" stopOpacity="0.46" />
+                    <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.58" />
                   </linearGradient>
                 </defs>
 
@@ -194,7 +188,7 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                     r="214"
                     fill="none"
                     stroke="url(#astrolabeOuterRim)"
-                    strokeWidth="0.9"
+                    strokeWidth="0.85"
                   />
                   {DEGREE_TICKS.map((deg) => {
                     const cardinal = deg % 90 === 0;
@@ -206,17 +200,24 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                         y1={cardinal ? '8' : major ? '12' : '15'}
                         x2="230"
                         y2="19"
-                        stroke={cardinal ? '#fef08a' : major ? '#f43f5e' : '#38bdf8'}
-                        strokeWidth={cardinal ? '1.4' : major ? '1.0' : '0.65'}
-                        opacity={cardinal ? '0.9' : major ? '0.68' : '0.35'}
+                        stroke={cardinal ? '#fde047' : major ? '#e11d48' : '#38bdf8'}
+                        strokeWidth={cardinal ? '1.25' : major ? '0.9' : '0.6'}
+                        opacity={cardinal ? '0.85' : major ? '0.62' : '0.32'}
                         transform={`rotate(${deg} 230 230)`}
                       />
                     );
                   })}
-                  {/* Zenith Tiamat Cyan Core Node + Anamorphic Cross */}
-                  <line x1="212" y1="16" x2="248" y2="16" stroke="#38bdf8" strokeWidth="0.9" opacity="0.85" />
-                  <circle cx="230" cy="16" r="3" fill="#ffffff" />
-                  <circle cx="230" cy="16" r="7" fill="#38bdf8" opacity="0.35" />
+                  <line
+                    x1="214"
+                    y1="16"
+                    x2="246"
+                    y2="16"
+                    stroke="#38bdf8"
+                    strokeWidth="0.85"
+                    opacity="0.75"
+                  />
+                  <circle cx="230" cy="16" r="2.6" fill="#ffffff" />
+                  <circle cx="230" cy="16" r="6" fill="#38bdf8" opacity="0.28" />
                 </g>
 
                 {/* Counter-Rotating Dashed Ecliptic Index Ring */}
@@ -227,11 +228,11 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                     r="195"
                     fill="none"
                     stroke="url(#astrolabeCounterArc)"
-                    strokeWidth="1"
+                    strokeWidth="0.9"
                     strokeDasharray="10 6 2 6"
                   />
-                  <circle cx="399" cy="132" r="2.8" fill="#f43f5e" />
-                  <circle cx="61" cy="328" r="2.5" fill="#fef08a" />
+                  <circle cx="399" cy="132" r="2.5" fill="#e11d48" />
+                  <circle cx="61" cy="328" r="2.3" fill="#fde047" />
                 </g>
 
                 {/* Inner Vernier Meridian Ring */}
@@ -241,8 +242,8 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                     cy="230"
                     r="177"
                     fill="none"
-                    stroke="rgba(255, 255, 255, 0.16)"
-                    strokeWidth="0.75"
+                    stroke="rgba(255, 255, 255, 0.14)"
+                    strokeWidth="0.7"
                     strokeDasharray="32 16"
                   />
                 </g>
@@ -269,14 +270,14 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                       className="pointer-events-none absolute inset-0"
                       style={{
                         background:
-                          'linear-gradient(180deg, transparent 58%, rgba(5, 7, 20, 0.82) 100%)',
+                          'linear-gradient(180deg, transparent 58%, rgba(5, 7, 20, 0.84) 100%)',
                       }}
                     />
 
                     {/* Minimalist Editorial Plate */}
-                    <div className="absolute inset-x-0 bottom-0 border-t border-amber-200/20 bg-[#050714]/75 px-3.5 py-2.5 backdrop-blur-md">
+                    <div className="absolute inset-x-0 bottom-0 border-t border-amber-200/18 bg-[#050714]/78 px-3.5 py-2.5 backdrop-blur-md">
                       <p className="astro-coord">{personal.role}</p>
-                      <p className="mt-0.5 truncate text-xs text-slate-200">{personal.location}</p>
+                      <p className="mt-0.5 truncate text-xs text-slate-300">{personal.location}</p>
                     </div>
                   </div>
                 </div>

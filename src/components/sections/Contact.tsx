@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import { portfolioData } from '../../data/portfolio';
-import { CloudHorizonBank } from '../atmosphere/TwilightBackdrop';
+import { CloudHorizonBank } from '../atmosphere/CloudHorizonBank';
 import { Section, SectionHeading } from '../ui/Section';
 
 export function Contact() {
@@ -107,25 +107,21 @@ export function Contact() {
             'linear-gradient(180deg, rgba(5, 7, 20, 0.56) 0%, rgba(5, 7, 20, 0.78) 45%, rgba(5, 7, 20, 0.86) 100%)',
         }}
       >
-        <Section id="contact" verticalLabel="星夜の通信">
+        <Section id="contact">
           <div className="container-site">
             <SectionHeading
               index="05"
-              label="Nightfall Contact Terminal"
-              kanji="星夜の通信"
+              label="Direct Transmission"
+              ephemeris="ZENITH // ASYNCHRONOUS CHANNEL"
               note="WIB · UTC+7"
             />
 
             <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-12">
-              {/* Left Column: Authentic Contact Copy & Glowing Social Coordinates */}
+              {/* Left Column: Authentic Contact Copy & Social Coordinates */}
               <div className="lg:col-span-5">
-                <h2 className="mincho-editorial text-2xl text-white sm:text-3xl">
-                  {contact.heading}
-                </h2>
+                <h2 className="mincho-editorial text-2xl sm:text-3xl">{contact.heading}</h2>
 
-                <p className="mt-4 text-sm leading-[1.82] text-slate-300">
-                  {contact.subheading}
-                </p>
+                <p className="mt-4 text-sm leading-[1.6] text-slate-300">{contact.subheading}</p>
 
                 <div className="rim-horizon-panel mt-8 p-5">
                   <span className="astro-coord">Direct Email</span>

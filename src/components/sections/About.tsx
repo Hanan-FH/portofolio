@@ -5,12 +5,12 @@ export function About() {
   const { about, education, personal } = portfolioData;
 
   return (
-    <Section id="about" verticalLabel="軌跡・物語">
+    <Section id="about">
       <div className="container-site">
         <SectionHeading
           index="01"
           label="Narrative & Trajectory"
-          kanji="軌跡"
+          ephemeris="EPOCH // ACADEMIC & ENGINEERING MILESTONES"
           note={about.location}
         />
 
@@ -18,11 +18,9 @@ export function About() {
         <div className="mt-12 grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-12">
           {/* Left Column: Mincho Statement, Verbatim Bio & Compact Specs */}
           <div className="lg:col-span-5">
-            <h2 className="mincho-editorial text-2xl text-white sm:text-[1.85rem]">
-              {about.heading}
-            </h2>
+            <h2 className="mincho-editorial text-2xl sm:text-[1.85rem]">{about.heading}</h2>
 
-            <div className="mt-6 space-y-4 text-[0.95rem] leading-[1.8] text-slate-200/90">
+            <div className="mt-6 space-y-4 text-[0.95rem] leading-[1.6] text-slate-300">
               {about.paragraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
@@ -35,7 +33,7 @@ export function About() {
               </div>
               <div className="py-3">
                 <dt className="astro-telemetry">Focus</dt>
-                <dd className="mt-1.5 leading-relaxed text-slate-200">{about.currentFocus}</dd>
+                <dd className="mt-1.5 leading-[1.6] text-slate-300">{about.currentFocus}</dd>
               </div>
               <div className="flex items-baseline justify-between gap-4 py-3">
                 <dt className="astro-telemetry">Location</dt>
@@ -55,15 +53,15 @@ export function About() {
             </dl>
           </div>
 
-          {/* Right Column: The Split Timeline with Luminous Planetary Nodes */}
+          {/* Right Column: Split Timeline with Restrained Planetary Nodes */}
           <div className="relative pl-7 sm:pl-10 lg:col-span-7">
-            {/* Vertical Twilight Gradient Track */}
+            {/* Vertical Katawaredoki Horizon Track */}
             <div
               aria-hidden="true"
               className="absolute bottom-3 left-[7px] top-2 w-px sm:left-[11px]"
               style={{
                 background:
-                  'linear-gradient(180deg, #38bdf8 0%, #f43f5e 45%, #d94e16 78%, rgba(254, 240, 138, 0.25) 100%)',
+                  'linear-gradient(180deg, #38bdf8 0%, #6d1146 46%, #c2410c 78%, rgba(253, 224, 71, 0.24) 100%)',
               }}
             />
 
@@ -74,53 +72,45 @@ export function About() {
                   key={`${item.institution}-${index}`}
                   className="kumihimo-panel relative p-5 sm:p-6"
                 >
-                  {/* Luminous Tiamat Planetary Node */}
                   <span
                     aria-hidden="true"
-                    className="absolute -left-[25px] top-6 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-sky-200 bg-[#050714] shadow-[0_0_14px_rgba(56,189,248,0.95)] sm:-left-[33px]"
+                    className="absolute -left-[25px] top-6 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-sky-300/80 bg-[#050714] sm:-left-[33px]"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-sky-200" />
                   </span>
 
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="astro-coord">{item.period}</span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-amber-200/90">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-amber-200/85">
                       ● {item.status}
                     </span>
                   </div>
 
-                  <h3 className="mincho-sub mt-2.5 text-lg text-white sm:text-xl">
-                    {item.program}
-                  </h3>
-                  <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.18em] text-sky-200/85">
+                  <h3 className="mincho-sub mt-2.5 text-lg sm:text-xl">{item.program}</h3>
+                  <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.22em] text-sky-200/80">
                     {item.institution}
                   </p>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                    {item.description}
-                  </p>
+                  <p className="mt-3 text-sm leading-[1.6] text-slate-300">{item.description}</p>
                 </article>
               ))}
 
               {/* 4 Authentic SMK Plus Pelita Nusantara Foundation Milestones */}
               {about.fundamentals.map((comp) => (
                 <article key={comp.id} className="kumihimo-panel relative p-5">
-                  {/* Luminous Kumihimo Rose-Gold Node */}
                   <span
                     aria-hidden="true"
-                    className="absolute -left-[23px] top-6 h-2.5 w-2.5 rounded-full border border-amber-200/80 bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.9)] sm:-left-[31px]"
+                    className="absolute -left-[23px] top-6 h-2.5 w-2.5 rounded-full border border-amber-200/75 bg-rose-500 sm:-left-[31px]"
                   />
 
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <span className="astro-coord">MILESTONE // {comp.id}</span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-200/80">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-amber-200/75">
                       {comp.localTitle}
                     </span>
                   </div>
 
-                  <h3 className="mincho-sub mt-2 text-base text-white">{comp.title}</h3>
-                  <p className="mt-2 text-xs leading-relaxed text-slate-300/90">
-                    {comp.description}
-                  </p>
+                  <h3 className="mincho-sub mt-2 text-base">{comp.title}</h3>
+                  <p className="mt-2 text-xs leading-[1.6] text-slate-300/90">{comp.description}</p>
                 </article>
               ))}
             </div>

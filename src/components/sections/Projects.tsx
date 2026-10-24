@@ -16,16 +16,21 @@ export function Projects({ onSelectProject }: ProjectsProps) {
   const { projects } = portfolioData;
 
   return (
-    <Section id="projects" verticalLabel="作品集">
+    <Section id="projects">
       <div className="container-site">
         <SectionHeading
           index="03"
-          label="Selected Works Showcase"
-          kanji="作品集"
+          label="Works"
+          ephemeris="VIEWPORTS // 16:9 CINEMATIC ARCHIVE"
           note={`0${projects.length} Widescreen Viewports`}
         />
 
-        <div className="mt-12 divide-y divide-white/10">
+        <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <h2 className="mincho-editorial text-2xl sm:text-4xl">Selected Works</h2>
+          <p className="ephemeris-label">ANAMORPHIC ASPECT // 1.78:1</p>
+        </div>
+
+        <div className="mt-10 divide-y divide-white/10">
           {projects.map((project, index) => {
             const number = String(index + 1).padStart(2, '0');
             const dims = FRAME_DIMS[project.id] ?? { width: 1280, height: 720 };
@@ -52,7 +57,7 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                               className="flex h-full w-full items-center justify-center p-4 sm:p-6"
                               style={{
                                 background:
-                                  'radial-gradient(circle at 50% 65%, rgba(124, 18, 74, 0.32) 0%, rgba(13, 19, 56, 0.45) 55%, #050714 100%)',
+                                  'radial-gradient(circle at 50% 65%, rgba(109, 17, 70, 0.3) 0%, rgba(13, 20, 53, 0.48) 55%, #050714 100%)',
                               }}
                             >
                               <img
@@ -77,13 +82,13 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                             />
                           )}
 
-                          {/* Atmospheric Depth Gradient that Recedes on Hover */}
+                          {/* Atmospheric Depth Glaze that Recedes on Hover */}
                           <div
                             aria-hidden="true"
                             className="pointer-events-none absolute inset-0 transition-opacity duration-300 group-hover:opacity-0"
                             style={{
                               background:
-                                'linear-gradient(180deg, rgba(13, 19, 56, 0.24) 0%, rgba(38, 20, 66, 0.16) 55%, rgba(5, 7, 20, 0.56) 100%)',
+                                'linear-gradient(180deg, rgba(13, 20, 53, 0.22) 0%, rgba(36, 18, 62, 0.16) 55%, rgba(5, 7, 20, 0.56) 100%)',
                             }}
                           />
                         </div>
@@ -96,13 +101,13 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                 <div className={reverse ? 'lg:col-span-5 lg:order-1' : 'lg:col-span-5'}>
                   <div className="flex items-center gap-3">
                     <span className="astro-coord">REEL // {number}</span>
-                    <span aria-hidden="true" className="h-2.5 w-px bg-white/20" />
+                    <span aria-hidden="true" className="h-2.5 w-px bg-white/15" />
                     <span className="astro-telemetry">
                       {project.category} · {project.year}
                     </span>
                   </div>
 
-                  <h2 className="mincho-sub mt-3 text-xl text-white sm:text-2xl">
+                  <h3 className="mincho-sub mt-3 text-xl sm:text-2xl">
                     <button
                       type="button"
                       onClick={() => onSelectProject(project)}
@@ -110,11 +115,9 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                     >
                       {project.title}
                     </button>
-                  </h2>
+                  </h3>
 
-                  <p className="mt-4 text-sm leading-[1.78] text-slate-200/90">
-                    {project.description}
-                  </p>
+                  <p className="mt-4 text-sm leading-[1.6] text-slate-300">{project.description}</p>
 
                   <div className="mt-5 flex flex-wrap gap-2">
                     {project.technologies.map((tech) => (

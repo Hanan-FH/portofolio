@@ -98,10 +98,10 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
             aria-label={`${personal.name} — Return to top`}
             className="group flex items-center gap-3 py-1 text-white transition-opacity hover:opacity-85 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
-            <span className="flex h-6 w-6 items-center justify-center rounded-[2px] border border-amber-200/40 bg-[#0d1338]/80 font-serif text-xs tracking-normal text-amber-100">
+            <span className="flex h-6 w-6 items-center justify-center rounded-[2px] border border-amber-200/35 bg-[#0d1435]/80 font-serif text-xs tracking-normal text-amber-100">
               H
             </span>
-            <span className="mincho-display text-xs font-medium tracking-[0.28em] text-white">
+            <span className="mincho-display text-xs font-medium tracking-[0.26em]">
               HANAN
             </span>
           </a>
@@ -138,8 +138,8 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
 
             <span aria-hidden="true" className="h-3.5 w-px bg-white/15" />
 
-            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.26em] text-pink-200/85">
-              <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200 shadow-[0_0_10px_rgba(244,63,94,0.9)]" />
+            <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.34em] text-slate-300">
+              <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200" />
               <span>RPL · Bogor</span>
             </div>
           </div>
@@ -174,7 +174,7 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
           className="h-px w-full"
           style={{
             background:
-              'linear-gradient(90deg, rgba(56, 189, 248, 0.25) 0%, rgba(124, 18, 74, 0.52) 38%, rgba(217, 78, 22, 0.65) 68%, rgba(254, 240, 138, 0.62) 86%, rgba(56, 189, 248, 0.2) 100%)',
+              'linear-gradient(90deg, rgba(56, 189, 248, 0.24) 0%, rgba(109, 17, 70, 0.52) 38%, rgba(194, 65, 12, 0.62) 68%, rgba(253, 224, 71, 0.58) 86%, rgba(56, 189, 248, 0.18) 100%)',
           }}
         />
       </header>
@@ -190,7 +190,7 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
           className="drawer-enter fixed inset-0 z-[180] flex flex-col bg-[#050714]/95 backdrop-blur-xl lg:hidden"
         >
           <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-6">
-            <span className="mincho-display text-xs tracking-[0.28em] text-white">HANAN</span>
+            <span className="mincho-display text-xs tracking-[0.26em]">HANAN</span>
             <button
               type="button"
               data-autofocus
@@ -220,8 +220,8 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
                 >
                   <span className="astro-coord">0{index + 1}</span>
                   <span
-                    className={`mincho-editorial text-2xl ${
-                      isActive ? 'text-amber-200' : 'text-white'
+                    className={`mincho-sub text-2xl ${
+                      isActive ? 'text-amber-200' : 'text-slate-100'
                     }`}
                   >
                     {item.label}
