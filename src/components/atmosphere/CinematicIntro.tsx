@@ -117,12 +117,12 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
 
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.25);
 
     const syncDimensions = () => {
       width = stage.clientWidth || window.innerWidth;
       height = stage.clientHeight || window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;

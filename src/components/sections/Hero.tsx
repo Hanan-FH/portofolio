@@ -1,6 +1,7 @@
 import { portfolioData } from '../../data/portfolio';
 import { CloudHorizonBank } from '../atmosphere/CloudHorizonBank';
 import { MagneticTilt } from '../ui/MagneticTilt';
+import { OptimizedPicture } from '../ui/OptimizedPicture';
 
 interface HeroProps {
   isAssembled?: boolean;
@@ -253,14 +254,13 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
               <MagneticTilt maxTilt={3} className="relative z-10 w-[75%] max-w-[18.75rem]">
                 <div className="rim-horizon-panel overflow-hidden p-2">
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#050714]">
-                    <img
+                    <OptimizedPicture
                       src={personal.profileImage}
                       alt={personal.name}
                       width={960}
                       height={1280}
-                      loading="eager"
+                      eager
                       fetchPriority="high"
-                      decoding="async"
                       className="h-full w-full object-cover object-top"
                     />
 

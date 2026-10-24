@@ -23,18 +23,25 @@ assert(certificatesData.length === 10, `Expected exactly 10 certificates, got ${
 assert(skillsData.languages.length === 9, `Expected exactly 9 curriculum languages, got ${skillsData.languages.length}`);
 assert(aboutData.fundamentals.length === 4, `Expected 4 foundation competencies, got ${aboutData.fundamentals.length}`);
 
-// 2. Authentic Media Assets on Disk
+// 2. Authentic Media Assets on Disk + 1:1 WebP Companions
 assert(fs.existsSync(path.resolve('public', 'profile.jpg')), 'Profile photo exists (/profile.jpg)');
+assert(fs.existsSync(path.resolve('public', 'webp', 'profile.webp')), 'WebP profile companion exists (/webp/profile.webp)');
 
 for (const prj of projectsData) {
-  const imgPath = path.resolve('public', prj.image.replace(/^\//, ''));
+  const rel = prj.image.replace(/^\//, '');
+  const imgPath = path.resolve('public', rel);
+  const webpPath = path.resolve('public', 'webp', rel.replace(/\.(png|jpe?g)$/i, '.webp'));
   assert(fs.existsSync(imgPath), `Project image exists: ${prj.image}`);
+  assert(fs.existsSync(webpPath), `Project WebP companion exists: /webp/${rel.replace(/\.(png|jpe?g)$/i, '.webp')}`);
 }
 
 for (const cert of certificatesData) {
-  const imgPath = path.resolve('public', cert.image.replace(/^\//, ''));
+  const rel = cert.image.replace(/^\//, '');
+  const imgPath = path.resolve('public', rel);
+  const webpPath = path.resolve('public', 'webp', rel.replace(/\.(png|jpe?g)$/i, '.webp'));
   const docPath = path.resolve('public', cert.verificationUrl.replace(/^\//, ''));
   assert(fs.existsSync(imgPath), `Certificate image exists: ${cert.image}`);
+  assert(fs.existsSync(webpPath), `Certificate WebP companion exists: /webp/${rel.replace(/\.(png|jpe?g)$/i, '.webp')}`);
   assert(fs.existsSync(docPath), `Certificate verification document exists: ${cert.verificationUrl}`);
 }
 
@@ -94,6 +101,7 @@ const requiredFiles = [
   'src/components/ui/Section.tsx',
   'src/components/ui/SectionHeading.tsx',
   'src/components/ui/MagneticTilt.tsx',
+  'src/components/ui/OptimizedPicture.tsx',
   'src/index.css',
 ];
 

@@ -11,19 +11,19 @@ const WHITE: RGB = [255, 255, 255];
 const SKY_FACTOR = 0.02;
 const DISTANT_FACTOR = 0.08;
 const MID_FACTOR = 0.18;
-const SKY_MAX_SHIFT = 240;
+const SKY_MAX_SHIFT = 180;
 const STAR_FACTORS = [0.02, 0.05] as const;
 
 /* Velocity-vector stardust (Z planes: background micro / midground crystal / foreground bokeh) */
 const PLANE_Z = [0.2, 1.0, 1.5] as const;
-const MAX_STARDUST = 160;
-const STARDUST_PX_PER_PARTICLE = 46;
+const MAX_STARDUST = 96;
+const STARDUST_PX_PER_PARTICLE = 56;
 const MIN_SPAWN_VELOCITY = 140;
-const DOPPLER_STEPS = 6;
+const DOPPLER_STEPS = 5;
 
 /* Musubi (結び) elastic thread — underdamped spring chain (ζ ≈ 0.26) */
 const THREAD_NODES = 11;
-const THREAD_SAMPLES = 84;
+const THREAD_SAMPLES = 72;
 const THREAD_PAD = 40;
 const THREAD_STIFFNESS = 38;
 const THREAD_DAMPING = 3.2;
@@ -34,6 +34,16 @@ const THREAD_TAUT_VELOCITY = 2600;
 /* Content-plane inertial pitch */
 const MAX_PITCH_DEG = 1.2;
 const PITCH_PER_VELOCITY = 0.0009;
+
+/* SVG path coordinates in normalized 1440-wide design space */
+const MOUNTAIN_FILL_D =
+  'M0,220 C60,200 110,170 170,178 C230,186 260,140 330,128 C400,116 430,156 500,150 C570,144 600,104 680,96 C760,88 790,132 860,128 C930,124 960,84 1040,92 C1120,100 1150,146 1220,140 C1290,134 1330,112 1380,120 C1410,124 1430,136 1440,140 L1440,300 L0,300 Z';
+const MOUNTAIN_RIM_D =
+  'M0,220 C60,200 110,170 170,178 C230,186 260,140 330,128 C400,116 430,156 500,150 C570,144 600,104 680,96 C760,88 790,132 860,128 C930,124 960,84 1040,92 C1120,100 1150,146 1220,140 C1290,134 1330,112 1380,120 C1410,124 1430,136 1440,140';
+const CUMULUS_FILL_D =
+  'M0,150 C70,128 120,104 190,112 C240,82 320,78 370,108 C430,84 500,90 540,118 C600,96 660,70 740,90 C800,62 890,64 940,100 C1000,80 1080,86 1120,112 C1180,92 1260,96 1300,120 C1350,108 1400,116 1440,128 L1440,200 L0,200 Z';
+const CUMULUS_RIM_D =
+  'M0,150 C70,128 120,104 190,112 C240,82 320,78 370,108 C430,84 500,90 540,118 C600,96 660,70 740,90 C800,62 890,64 940,100 C1000,80 1080,86 1120,112 C1180,92 1260,96 1300,120 C1350,108 1400,116 1440,128';
 
 interface SkyStar {
   nx: number;
@@ -104,61 +114,59 @@ function createRadialSprite(size: number, stops: ReadonlyArray<readonly [number,
 }
 
 /**
- * Master Scroll & Atmosphere Engine.
+ * Lightweight Consolidated Master Scroll & Atmosphere Engine.
  *
- * One rAF pipeline drives:
- *  - Plane 0 (0.02x): Katawaredoki Rayleigh sky, crepuscular rays & scintillating stars,
- *    attenuating into Zenith Abyss night as the reader descends.
- *  - Plane 1 (0.08x) / Plane 2 (0.18x): distant mountain range & rim-lit cumulus silhouettes.
- *  - Ambient Tiamat comet (behind the cloud planes).
- *  - Musubi (結び) elastic braided thread: spring-chain reacting to scroll velocity/acceleration.
- *  - Doppler stardust: DoF planes, blue-shifted on aggressive descent, red-shifting as they decay.
- *  - Content plane inertial pitch (±1.2°).
- *
- * Native scroll is only ever *read* (never intercepted). All DOM motion is transform/opacity.
+ * Uses ONE single DPR-capped (<=1.25x) HTML5 Canvas + adaptive idle sleep
+ * to keep GPU/RAM usage ultra-low while delivering locked 60/120fps motion:
+ *  - Plane 0 (0.02x): Katawaredoki Rayleigh sky, crepuscular rays & scintillating stars.
+ *  - Ambient Tiamat dual-tail falling comet (behind the cloud planes).
+ *  - Plane 1 (0.08x) & Plane 2 (0.18x): Path2D mountain range & rim-lit cumulus silhouettes.
+ *  - Musubi (結び) elastic braided spline: Catmull-Rom spring-chain physics.
+ *  - Doppler chromatic stardust dispersion across 3 DoF planes.
+ *  - Content plane transient ±1.2° inertial pitch.
  */
 export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEngineProps) {
   const skyPlaneRef = useRef<HTMLDivElement | null>(null);
   const twilightRef = useRef<HTMLDivElement | null>(null);
   const raysRef = useRef<SVGSVGElement | null>(null);
-  const skyCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const distantRef = useRef<HTMLDivElement | null>(null);
-  const midRef = useRef<HTMLDivElement | null>(null);
-  const fxCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const skyCanvas = skyCanvasRef.current;
-    const fxCanvas = fxCanvasRef.current;
-    if (!skyCanvas || !fxCanvas) return;
-    const sky = skyCanvas.getContext('2d');
-    const fx = fxCanvas.getContext('2d');
-    if (!sky || !fx) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     const animate = !reduceMotion;
     const contentPlane = contentPlaneRef?.current ?? null;
 
-    /* Pre-rendered optical sprites (replaces per-particle shadowBlur) */
+    /* Pre-rendered compact optical sprites (zero per-frame shadowBlur) */
     const bokehSprites = Array.from({ length: DOPPLER_STEPS }, (_, i) => {
       const rgb = mix(ROSE, CYAN, i / (DOPPLER_STEPS - 1));
-      return createRadialSprite(64, [
+      return createRadialSprite(44, [
         [0, `rgba(${rgb}, 0.5)`],
         [0.6, `rgba(${rgb}, 0.34)`],
         [0.82, `rgba(${rgb}, 0.62)`],
         [1, `rgba(${rgb}, 0)`],
       ]);
     });
-    const cometSprite = createRadialSprite(64, [
+    const cometSprite = createRadialSprite(44, [
       [0, 'rgba(255, 255, 255, 1)'],
       [0.22, 'rgba(56, 189, 248, 0.75)'],
       [0.6, 'rgba(56, 189, 248, 0.16)'],
       [1, 'rgba(56, 189, 248, 0)'],
     ]);
-    const knotSprite = createRadialSprite(48, [
+    const knotSprite = createRadialSprite(36, [
       [0, 'rgba(253, 224, 71, 0.95)'],
       [0.3, 'rgba(245, 158, 11, 0.45)'],
       [1, 'rgba(225, 29, 72, 0)'],
     ]);
+
+    const mountainFillPath = new Path2D(MOUNTAIN_FILL_D);
+    const mountainRimPath = new Path2D(MOUNTAIN_RIM_D);
+    const cumulusFillPath = new Path2D(CUMULUS_FILL_D);
+    const cumulusRimPath = new Path2D(CUMULUS_RIM_D);
 
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -171,6 +179,9 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     let midH = 1;
     let threadGradient: CanvasGradient | null = null;
     let threadHalo: CanvasGradient | null = null;
+    let mountainGrad: CanvasGradient | null = null;
+    let cumulusGrad: CanvasGradient | null = null;
+    let cumulusRimGrad: CanvasGradient | null = null;
 
     const stars: SkyStar[] = [];
     const dust: Stardust[] = [];
@@ -187,7 +198,7 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     let tiltApplied = false;
     let spawnAccumulator = 0;
     let comet: Comet | null = null;
-    let nextCometAt = 4.5 + Math.random() * 4;
+    let nextCometAt = 5 + Math.random() * 5;
     let elapsed = 0;
 
     const styleCache = new WeakMap<Element, Partial<Record<StyleProp, string>>>();
@@ -210,19 +221,19 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
 
     const seedStars = () => {
       stars.length = 0;
-      const total = width < 768 ? 130 : 220;
+      const total = width < 768 ? 92 : 148;
       for (let i = 0; i < total; i++) {
         const c = Math.random();
-        const r = 0.42 + Math.random() * 1.42;
+        const r = 0.44 + Math.random() * 1.38;
         stars.push({
           nx: Math.random(),
           ny: Math.pow(Math.random(), 1.2) * 0.96,
           r,
-          baseAlpha: 0.2 + Math.random() * 0.62,
-          freq: 0.85 + Math.random() * 2.15,
+          baseAlpha: 0.22 + Math.random() * 0.6,
+          freq: 0.85 + Math.random() * 2.0,
           phase: Math.random() * Math.PI * 2,
           depth: i % 3 === 0 ? 1 : 0,
-          spike: i % 22 === 0 || r > 1.62,
+          spike: i % 24 === 0 || r > 1.6,
           rgb: c < 0.24 ? '56, 189, 248' : c < 0.36 ? '244, 63, 94' : '255, 255, 255',
         });
       }
@@ -234,17 +245,13 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      for (const [canvas, ctx] of [
-        [skyCanvas, sky],
-        [fxCanvas, fx],
-      ] as const) {
-        canvas.width = Math.floor(width * dpr);
-        canvas.height = Math.floor(height * dpr);
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
+      // Cap DPR at 1.25x to keep backing buffer ~61% lighter than 2.0x with crisp antialiasing
+      dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const containerWidth = Math.min(width, 1248);
       const gutter = (width - containerWidth) / 2;
@@ -253,30 +260,47 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       distantH = height * 0.3;
       midH = height * 0.18;
 
-      threadGradient = fx.createLinearGradient(0, 0, 0, height);
+      threadGradient = ctx.createLinearGradient(0, 0, 0, height);
       threadGradient.addColorStop(0, 'rgba(225, 29, 72, 0)');
       threadGradient.addColorStop(0.16, 'rgba(225, 29, 72, 0.62)');
       threadGradient.addColorStop(0.5, 'rgba(245, 158, 11, 0.88)');
       threadGradient.addColorStop(0.84, 'rgba(225, 29, 72, 0.62)');
       threadGradient.addColorStop(1, 'rgba(225, 29, 72, 0)');
 
-      threadHalo = fx.createLinearGradient(0, 0, 0, height);
+      threadHalo = ctx.createLinearGradient(0, 0, 0, height);
       threadHalo.addColorStop(0, 'rgba(225, 29, 72, 0)');
       threadHalo.addColorStop(0.5, 'rgba(245, 158, 11, 0.14)');
       threadHalo.addColorStop(1, 'rgba(225, 29, 72, 0)');
+
+      mountainGrad = ctx.createLinearGradient(0, 0, 0, 300);
+      mountainGrad.addColorStop(0, 'rgba(109, 17, 70, 0.5)');
+      mountainGrad.addColorStop(0.45, 'rgba(36, 18, 62, 0.84)');
+      mountainGrad.addColorStop(1, 'rgba(13, 20, 53, 1)');
+
+      cumulusGrad = ctx.createLinearGradient(0, 0, 0, 200);
+      cumulusGrad.addColorStop(0, 'rgba(36, 18, 62, 0.92)');
+      cumulusGrad.addColorStop(1, 'rgba(5, 7, 20, 1)');
+
+      cumulusRimGrad = ctx.createLinearGradient(0, 0, 1440, 0);
+      cumulusRimGrad.addColorStop(0, 'rgba(56, 189, 248, 0.3)');
+      cumulusRimGrad.addColorStop(0.35, 'rgba(244, 63, 94, 0.55)');
+      cumulusRimGrad.addColorStop(0.65, 'rgba(253, 224, 71, 0.9)');
+      cumulusRimGrad.addColorStop(0.85, 'rgba(194, 65, 12, 0.7)');
+      cumulusRimGrad.addColorStop(1, 'rgba(36, 18, 62, 0.35)');
 
       seedStars();
       measureDocument();
     };
 
     /* ---------------------------------------------------------------- Musubi thread */
-    const stepThread = (dt: number) => {
+    const stepThread = (dt: number): number => {
       const taut = clamp(Math.abs(velocity) / THREAD_TAUT_VELOCITY, 0, 1);
       const lag = clamp(velocity * 0.0025, -7, 7);
       const force = clamp(accel, -40000, 40000) * THREAD_IMPULSE;
       const steps = Math.max(1, Math.ceil(dt * 120));
       const h = dt / steps;
       const last = THREAD_NODES - 1;
+      let maxNodeVel = 0;
 
       for (let s = 0; s < steps; s++) {
         for (let i = 1; i < last; i++) {
@@ -294,8 +318,11 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
             force * envelope;
           nodeVelocity[i] += a * h;
           nodeOffset[i] = clamp(nodeOffset[i] + nodeVelocity[i] * h, -restAmp * 3, restAmp * 3);
+          const absV = Math.abs(nodeVelocity[i]);
+          if (absV > maxNodeVel) maxNodeVel = absV;
         }
       }
+      return maxNodeVel;
     };
 
     const sampleThread = () => {
@@ -311,7 +338,6 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         const p3 = nodeOffset[Math.min(i + 2, last)];
         const f2 = f * f;
         const f3 = f2 * f;
-        // Uniform Catmull-Rom spline through the spring nodes
         const offset =
           0.5 *
           (2 * p1 +
@@ -324,34 +350,35 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     };
 
     const traceThread = (offsetFn?: (s: number) => number) => {
-      fx.beginPath();
+      ctx.beginPath();
       for (let s = 0; s <= THREAD_SAMPLES; s++) {
         const x = sampleX[s] + (offsetFn ? offsetFn(s) : 0);
-        if (s === 0) fx.moveTo(x, sampleY[s]);
-        else fx.lineTo(x, sampleY[s]);
+        const y = sampleY[s];
+        if (s === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
       }
     };
 
     const drawThread = (progress: number) => {
       sampleThread();
-      fx.save();
-      fx.lineCap = 'round';
-      fx.lineJoin = 'round';
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
 
-      traceThread();
       if (threadHalo) {
-        fx.strokeStyle = threadHalo;
-        fx.lineWidth = 5;
-        fx.stroke();
-      }
-      if (threadGradient) {
-        fx.strokeStyle = threadGradient;
-        fx.lineWidth = 1.5;
-        fx.stroke();
+        traceThread();
+        ctx.strokeStyle = threadHalo;
+        ctx.lineWidth = 4.5;
+        ctx.stroke();
       }
 
-      // Kumihimo braid: two counter-phased strands twisting around the core cord,
-      // flowing with document scroll (time) and a slow ambient drift.
+      if (threadGradient) {
+        traceThread();
+        ctx.strokeStyle = threadGradient;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
       const braidPhase = scrollY * 0.012 + elapsed * 0.45;
       const strands = [
         [1, 'rgba(245, 158, 11, 0.42)'],
@@ -359,12 +386,11 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       ] as const;
       for (const [sign, color] of strands) {
         traceThread((s) => Math.sin(sampleY[s] * 0.045 + braidPhase) * 2.4 * sign);
-        fx.strokeStyle = color;
-        fx.lineWidth = 0.6;
-        fx.stroke();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
       }
 
-      // Musubi knot marking reading progress along the thread
       const ky = height * (0.08 + progress * 0.84);
       const idx = clamp(
         Math.round(((ky + THREAD_PAD) / (height + THREAD_PAD * 2)) * THREAD_SAMPLES),
@@ -372,15 +398,15 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         THREAD_SAMPLES
       );
       const kx = sampleX[idx];
-      fx.globalCompositeOperation = 'lighter';
-      fx.globalAlpha = 0.9;
-      fx.drawImage(knotSprite, kx - 11, ky - 11, 22, 22);
-      fx.globalAlpha = 1;
-      fx.fillStyle = 'rgba(255, 247, 214, 0.95)';
-      fx.beginPath();
-      fx.arc(kx, ky, 1.6, 0, Math.PI * 2);
-      fx.fill();
-      fx.restore();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = 0.9;
+      ctx.drawImage(knotSprite, kx - 10, ky - 10, 20, 20);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = 'rgba(255, 247, 214, 0.95)';
+      ctx.beginPath();
+      ctx.arc(kx, ky, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     };
 
     /* ---------------------------------------------------------------- Doppler stardust */
@@ -397,25 +423,22 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       let maxLife: number;
 
       if (plane === 0) {
-        // Background micro-points drifting slowly upward
         vx = (Math.random() - 0.5) * 12;
         vy = -(14 + Math.random() * 22) - v * 0.012;
         size = 0.5 + Math.random() * 0.7;
-        maxLife = 1.6 + Math.random() * 1.2;
+        maxLife = 1.5 + Math.random() * 1.1;
       } else if (plane === 1) {
-        // Midground scintillation crystals scattering with radial inertia
         const angle = Math.atan2(y - height * 0.5, x - width * 0.5) + (Math.random() - 0.5) * 0.6;
         const radial = (50 + Math.random() * 90) * z;
         vx = Math.cos(angle) * radial;
         vy = Math.sin(angle) * radial - v * 0.14;
         size = 0.9 + Math.random() * 1.3;
-        maxLife = 0.9 + Math.random() * 0.8;
+        maxLife = 0.85 + Math.random() * 0.75;
       } else {
-        // Foreground soft bokeh passing the lens rapidly
         vx = (Math.random() - 0.5) * 60;
         vy = -v * 0.42;
-        size = 5 + Math.random() * 9;
-        maxLife = 0.55 + Math.random() * 0.5;
+        size = 5 + Math.random() * 8;
+        maxLife = 0.5 + Math.random() * 0.45;
       }
 
       dust.push({
@@ -445,8 +468,10 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         spawnAccumulator = 0;
       }
 
-      fx.save();
-      fx.globalCompositeOperation = 'lighter';
+      if (dust.length === 0) return;
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
       for (let i = dust.length - 1; i >= 0; i--) {
         const p = dust[i];
         p.life += dt;
@@ -465,38 +490,37 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         const lr = p.life / p.maxLife;
         const envelope = lr < 0.12 ? lr / 0.12 : Math.pow(1 - (lr - 0.12) / 0.88, 2);
         const speedRatio = clamp(Math.hypot(p.vx, p.vy) / p.v0, 0, 1);
-        // Doppler: forward blue-shift at velocity, decaying into ionized red-violet
         const doppler = clamp(p.shift * (0.35 + 0.65 * speedRatio) * (1 - lr * 0.55), 0, 1);
 
         if (p.plane === 0) {
-          fx.globalAlpha = envelope * 0.7;
-          fx.fillStyle = `rgb(${mix(WHITE, doppler > 0.5 ? CYAN : ROSE, 0.45)})`;
-          fx.fillRect(p.x, p.y, p.size, p.size);
+          ctx.globalAlpha = envelope * 0.7;
+          ctx.fillStyle = `rgb(${mix(WHITE, doppler > 0.5 ? CYAN : ROSE, 0.45)})`;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
         } else if (p.plane === 1) {
           const rgb = mix(ROSE, CYAN, doppler);
           const glint = 0.75 + 0.25 * Math.sin(elapsed * 18 + p.phase);
-          fx.globalAlpha = envelope * glint;
-          fx.fillStyle = `rgb(${rgb})`;
-          fx.beginPath();
-          fx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
-          fx.fill();
+          ctx.globalAlpha = envelope * glint;
+          ctx.fillStyle = `rgb(${rgb})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
+          ctx.fill();
           const arm = p.size * 3.2;
-          fx.globalAlpha = envelope * glint * 0.55;
-          fx.strokeStyle = `rgb(${rgb})`;
-          fx.lineWidth = 0.6;
-          fx.beginPath();
-          fx.moveTo(p.x - arm, p.y);
-          fx.lineTo(p.x + arm, p.y);
-          fx.moveTo(p.x, p.y - arm);
-          fx.lineTo(p.x, p.y + arm);
-          fx.stroke();
+          ctx.globalAlpha = envelope * glint * 0.55;
+          ctx.strokeStyle = `rgb(${rgb})`;
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(p.x - arm, p.y);
+          ctx.lineTo(p.x + arm, p.y);
+          ctx.moveTo(p.x, p.y - arm);
+          ctx.lineTo(p.x, p.y + arm);
+          ctx.stroke();
         } else {
           const sprite = bokehSprites[Math.round(doppler * (DOPPLER_STEPS - 1))];
-          fx.globalAlpha = envelope * 0.32;
-          fx.drawImage(sprite, p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
+          ctx.globalAlpha = envelope * 0.32;
+          ctx.drawImage(sprite, p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
         }
       }
-      fx.restore();
+      ctx.restore();
     };
 
     /* ---------------------------------------------------------------- Ambient Tiamat comet */
@@ -521,7 +545,7 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       comet.life += dt;
       if (comet.life >= comet.maxLife || comet.x < -260 || comet.y > height + 260) {
         comet = null;
-        nextCometAt = elapsed + 9 + Math.random() * 11;
+        nextCometAt = elapsed + 10 + Math.random() * 12;
       }
     };
 
@@ -533,60 +557,109 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       const dx = c.vx / speed;
       const dy = c.vy / speed;
 
-      sky.save();
-      sky.globalCompositeOperation = 'lighter';
-      sky.lineCap = 'round';
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineCap = 'round';
 
-      // Primary cyan ion tail
       const tx = c.x - dx * c.length;
       const ty = c.y - dy * c.length;
-      const ion = sky.createLinearGradient(c.x, c.y, tx, ty);
+      const ion = ctx.createLinearGradient(c.x, c.y, tx, ty);
       ion.addColorStop(0, `rgba(255, 255, 255, ${env.toFixed(3)})`);
       ion.addColorStop(0.18, `rgba(56, 189, 248, ${(0.85 * env).toFixed(3)})`);
       ion.addColorStop(0.65, `rgba(244, 63, 94, ${(0.35 * env).toFixed(3)})`);
       ion.addColorStop(1, 'rgba(244, 63, 94, 0)');
-      sky.strokeStyle = ion;
-      sky.lineWidth = 1.8;
-      sky.beginPath();
-      sky.moveTo(c.x, c.y);
-      sky.lineTo(tx, ty);
-      sky.stroke();
+      ctx.strokeStyle = ion;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.moveTo(c.x, c.y);
+      ctx.lineTo(tx, ty);
+      ctx.stroke();
 
-      // Diverging ruby-rose fragment tail
       const rot = 0.09;
       const fdx = dx * Math.cos(rot) - dy * Math.sin(rot);
       const fdy = dx * Math.sin(rot) + dy * Math.cos(rot);
       const fx2 = c.x - fdx * c.length * 0.62;
       const fy2 = c.y - fdy * c.length * 0.62;
-      const frag = sky.createLinearGradient(c.x, c.y, fx2, fy2);
+      const frag = ctx.createLinearGradient(c.x, c.y, fx2, fy2);
       frag.addColorStop(0, `rgba(244, 63, 94, ${(0.5 * env).toFixed(3)})`);
       frag.addColorStop(1, 'rgba(109, 17, 70, 0)');
-      sky.strokeStyle = frag;
-      sky.lineWidth = 1;
-      sky.beginPath();
-      sky.moveTo(c.x, c.y);
-      sky.lineTo(fx2, fy2);
-      sky.stroke();
+      ctx.strokeStyle = frag;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(c.x, c.y);
+      ctx.lineTo(fx2, fy2);
+      ctx.stroke();
 
-      // Nucleus corona + micro anamorphic streak
-      sky.globalAlpha = env;
-      sky.drawImage(cometSprite, c.x - 14, c.y - 14, 28, 28);
-      const streak = sky.createLinearGradient(c.x - 28, c.y, c.x + 28, c.y);
+      ctx.globalAlpha = env;
+      ctx.drawImage(cometSprite, c.x - 13, c.y - 13, 26, 26);
+      const streak = ctx.createLinearGradient(c.x - 26, c.y, c.x + 26, c.y);
       streak.addColorStop(0, 'rgba(56, 189, 248, 0)');
       streak.addColorStop(0.5, 'rgba(255, 255, 255, 0.55)');
       streak.addColorStop(1, 'rgba(253, 224, 71, 0)');
-      sky.fillStyle = streak;
-      sky.fillRect(c.x - 28, c.y - 0.5, 56, 1);
-      sky.fillStyle = '#ffffff';
-      sky.beginPath();
-      sky.arc(c.x, c.y, 1.6, 0, Math.PI * 2);
-      sky.fill();
-      sky.restore();
+      ctx.fillStyle = streak;
+      ctx.fillRect(c.x - 26, c.y - 0.5, 52, 1);
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     };
 
-    /* ---------------------------------------------------------------- Sky plane */
-    const drawSky = (zenith: number) => {
-      sky.clearRect(0, 0, width, height);
+    /* ---------------------------------------------------------------- Consolidated Scene Render */
+    const drawParallaxSilhouettes = () => {
+      const distantShift = animate ? scrollY * DISTANT_FACTOR : 0;
+      const distantOpacity = clamp(1 - distantShift / (distantH * 0.85), 0, 1);
+      if (distantOpacity > 0.005 && mountainGrad) {
+        const topY = height - distantH - distantShift;
+        const sx = width / 1440;
+        const sy = distantH / 300;
+        ctx.save();
+        ctx.globalAlpha = distantOpacity;
+        ctx.translate(0, topY);
+        ctx.scale(sx, sy);
+        ctx.fillStyle = mountainGrad;
+        ctx.fill(mountainFillPath);
+        ctx.strokeStyle = 'rgba(253, 224, 71, 0.26)';
+        ctx.lineWidth = 1 / Math.max(sx, sy);
+        ctx.stroke(mountainRimPath);
+        ctx.restore();
+        if (topY + distantH < height) {
+          ctx.save();
+          ctx.globalAlpha = distantOpacity;
+          ctx.fillStyle = '#0d1435';
+          ctx.fillRect(0, topY + distantH - 1, width, height - (topY + distantH) + 2);
+          ctx.restore();
+        }
+      }
+
+      const midShift = animate ? scrollY * MID_FACTOR : 0;
+      const midOpacity = clamp(1 - midShift / (midH * 0.85), 0, 1);
+      if (midOpacity > 0.005 && cumulusGrad && cumulusRimGrad) {
+        const topY = height - midH - midShift;
+        const sx = width / 1440;
+        const sy = midH / 200;
+        ctx.save();
+        ctx.globalAlpha = midOpacity;
+        ctx.translate(0, topY);
+        ctx.scale(sx, sy);
+        ctx.fillStyle = cumulusGrad;
+        ctx.fill(cumulusFillPath);
+        ctx.strokeStyle = cumulusRimGrad;
+        ctx.lineWidth = 1 / Math.max(sx, sy);
+        ctx.stroke(cumulusRimPath);
+        ctx.restore();
+        if (topY + midH < height) {
+          ctx.save();
+          ctx.globalAlpha = midOpacity;
+          ctx.fillStyle = '#050714';
+          ctx.fillRect(0, topY + midH - 1, width, height - (topY + midH) + 2);
+          ctx.restore();
+        }
+      }
+    };
+
+    const drawSkyAndClouds = (zenith: number) => {
+      ctx.clearRect(0, 0, width, height);
       const nightBoost = 1 + zenith * 0.3;
 
       for (let i = 0; i < stars.length; i++) {
@@ -597,28 +670,29 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         const py = (((s.ny * height - scrollY * factor) % height) + height) % height;
         const sx = s.nx * width;
 
-        sky.fillStyle = `rgba(${s.rgb}, ${alpha.toFixed(3)})`;
-        sky.beginPath();
-        sky.arc(sx, py, s.r, 0, Math.PI * 2);
-        sky.fill();
+        ctx.fillStyle = `rgba(${s.rgb}, ${alpha.toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(sx, py, s.r, 0, Math.PI * 2);
+        ctx.fill();
 
         if (s.spike && alpha > 0.48) {
-          const arm = s.r * 3.8;
-          sky.strokeStyle = `rgba(${s.rgb}, ${(alpha * 0.38).toFixed(3)})`;
-          sky.lineWidth = 0.6;
-          sky.beginPath();
-          sky.moveTo(sx - arm, py);
-          sky.lineTo(sx + arm, py);
-          sky.moveTo(sx, py - arm);
-          sky.lineTo(sx, py + arm);
-          sky.stroke();
+          const arm = s.r * 3.6;
+          ctx.strokeStyle = `rgba(${s.rgb}, ${(alpha * 0.38).toFixed(3)})`;
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(sx - arm, py);
+          ctx.lineTo(sx + arm, py);
+          ctx.moveTo(sx, py - arm);
+          ctx.lineTo(sx, py + arm);
+          ctx.stroke();
         }
       }
 
       if (comet) drawComet(comet);
+      drawParallaxSilhouettes();
     };
 
-    const updatePlanes = (zenith: number) => {
+    const updateSkyDom = (zenith: number) => {
       const skyShift = animate ? Math.min(scrollY * SKY_FACTOR, SKY_MAX_SHIFT) : 0;
       setStyle(skyPlaneRef.current, 'transform', `translate3d(0, ${(-skyShift).toFixed(1)}px, 0)`);
       setStyle(
@@ -627,25 +701,6 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         Math.max(0.06, 1 - Math.pow(zenith, 1.15) * 0.94).toFixed(3)
       );
       setStyle(raysRef.current, 'opacity', Math.max(0.16, 0.78 - zenith * 0.6).toFixed(3));
-
-      const distantShift = scrollY * DISTANT_FACTOR;
-      const midShift = scrollY * MID_FACTOR;
-      setStyle(
-        distantRef.current,
-        'transform',
-        `translate3d(0, ${animate ? (-distantShift).toFixed(1) : '0'}px, 0)`
-      );
-      setStyle(
-        distantRef.current,
-        'opacity',
-        clamp(1 - distantShift / (distantH * 0.85), 0, 1).toFixed(3)
-      );
-      setStyle(
-        midRef.current,
-        'transform',
-        `translate3d(0, ${animate ? (-midShift).toFixed(1) : '0'}px, 0)`
-      );
-      setStyle(midRef.current, 'opacity', clamp(1 - midShift / (midH * 0.85), 0, 1).toFixed(3));
     };
 
     const updateTilt = (dt: number) => {
@@ -673,7 +728,7 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     /* ---------------------------------------------------------------- Bootstrap */
     resize();
     for (let i = 0; i < THREAD_NODES; i++) {
-      nodeOffset[i] = restShape(i, animate ? 0.85 : 0.85);
+      nodeOffset[i] = restShape(i, 0.85);
       nodeVelocity[i] = 0;
     }
 
@@ -686,9 +741,8 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         pending = 0;
         scrollY = window.scrollY;
         const zenith = zenithRatio();
-        updatePlanes(zenith);
-        drawSky(zenith);
-        fx.clearRect(0, 0, width, height);
+        updateSkyDom(zenith);
+        drawSkyAndClouds(zenith);
         drawThread(zenith);
       };
       const schedule = () => {
@@ -708,19 +762,52 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         window.removeEventListener('scroll', schedule);
         window.removeEventListener('resize', onResize);
         docObserver.disconnect();
+        canvas.width = 0;
+        canvas.height = 0;
       };
     }
 
     let rafId = 0;
-    let running = false;
+    let idleTimerId = 0;
+    let mode: 'stopped' | 'active' | 'idle' = 'stopped';
     let lastTime = performance.now();
 
+    const enterIdle = () => {
+      if (mode !== 'active') return;
+      mode = 'idle';
+      window.cancelAnimationFrame(rafId);
+      rafId = 0;
+
+      const idleTick = () => {
+        if (mode !== 'idle') return;
+        const now = performance.now();
+        const dt = Math.min((now - lastTime) / 1000, 0.25);
+        lastTime = now;
+        elapsed += dt;
+        scrollY = window.scrollY;
+
+        updateComet(dt);
+        if (comet || Math.abs(scrollY - lastScrollY) > 0.5) {
+          wakeActive();
+          return;
+        }
+
+        const zenith = zenithRatio();
+        stepThread(Math.min(dt, 1 / 30));
+        drawSkyAndClouds(zenith);
+        drawThread(zenith);
+        idleTimerId = window.setTimeout(idleTick, 180);
+      };
+
+      idleTimerId = window.setTimeout(idleTick, 180);
+    };
+
     const frame = (now: number) => {
+      if (mode !== 'active') return;
       const dt = Math.max(1 / 240, Math.min((now - lastTime) / 1000, 1 / 20));
       lastTime = now;
       elapsed += dt;
 
-      // Read-only scroll sampling (no listeners, no interception)
       scrollY = window.scrollY;
       const raw = clamp((scrollY - lastScrollY) / dt, -6000, 6000);
       lastScrollY = scrollY;
@@ -729,47 +816,91 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       accel = (velocity - prevVelocity) / dt;
 
       const zenith = zenithRatio();
-      updatePlanes(zenith);
+      updateSkyDom(zenith);
       updateTilt(dt);
-      stepThread(dt);
+      const maxNodeVel = stepThread(dt);
       updateComet(dt);
 
-      drawSky(zenith);
-      fx.clearRect(0, 0, width, height);
+      drawSkyAndClouds(zenith);
       updateAndDrawStardust(dt);
       drawThread(zenith);
 
+      const isQuiet =
+        Math.abs(velocity) < 0.8 &&
+        Math.abs(raw) < 0.8 &&
+        !tiltApplied &&
+        dust.length === 0 &&
+        !comet &&
+        maxNodeVel < 0.35;
+
+      if (isQuiet) {
+        velocity = 0;
+        accel = 0;
+        enterIdle();
+        return;
+      }
+
       rafId = window.requestAnimationFrame(frame);
     };
 
-    const start = () => {
-      if (running) return;
-      running = true;
+    const wakeActive = () => {
+      if (document.hidden || mode === 'active') return;
+      if (idleTimerId) {
+        window.clearTimeout(idleTimerId);
+        idleTimerId = 0;
+      }
+      mode = 'active';
       lastTime = performance.now();
-      lastScrollY = window.scrollY;
       rafId = window.requestAnimationFrame(frame);
     };
 
-    const stop = () => {
-      running = false;
-      window.cancelAnimationFrame(rafId);
+    const stopAll = () => {
+      mode = 'stopped';
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+      if (idleTimerId) {
+        window.clearTimeout(idleTimerId);
+        idleTimerId = 0;
+      }
     };
 
     const onVisibility = () => {
-      if (document.hidden) stop();
-      else start();
+      if (document.hidden) stopAll();
+      else {
+        lastScrollY = window.scrollY;
+        wakeActive();
+      }
     };
 
-    window.addEventListener('resize', resize, { passive: true });
+    const onResize = () => {
+      resize();
+      wakeActive();
+    };
+
+    window.addEventListener('scroll', wakeActive, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
     document.addEventListener('visibilitychange', onVisibility);
-    if (!document.hidden) start();
+    if (!document.hidden) wakeActive();
 
     return () => {
-      stop();
-      window.removeEventListener('resize', resize);
+      stopAll();
+      window.removeEventListener('scroll', wakeActive);
+      window.removeEventListener('resize', onResize);
       document.removeEventListener('visibilitychange', onVisibility);
       docObserver.disconnect();
       dust.length = 0;
+      canvas.width = 0;
+      canvas.height = 0;
+      for (const s of bokehSprites) {
+        s.width = 0;
+        s.height = 0;
+      }
+      cometSprite.width = 0;
+      cometSprite.height = 0;
+      knotSprite.width = 0;
+      knotSprite.height = 0;
       if (contentPlane) {
         contentPlane.style.transform = '';
         contentPlane.style.transformOrigin = '';
@@ -783,7 +914,7 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       <div
         ref={skyPlaneRef}
         className="absolute inset-x-0 top-0"
-        style={{ height: `calc(100% + ${SKY_MAX_SHIFT}px)`, willChange: 'transform' }}
+        style={{ height: `calc(100% + ${SKY_MAX_SHIFT}px)` }}
       >
         <div
           className="absolute inset-0"
@@ -796,7 +927,6 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
           ref={twilightRef}
           className="absolute inset-x-0 top-0 h-screen"
           style={{
-            willChange: 'opacity',
             background: `
               radial-gradient(ellipse 92% 42% at 68% 90%, rgba(253, 224, 71, 0.2) 0%, rgba(194, 65, 12, 0.24) 30%, rgba(109, 17, 70, 0.2) 58%, transparent 80%),
               linear-gradient(180deg, #050714 0%, #0d1435 34%, #24123e 60%, #6d1146 78%, #c2410c 90%, #fde047 97%)
@@ -849,75 +979,8 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         </div>
       </div>
 
-      {/* Stars + ambient comet (behind the cloud planes) */}
-      <canvas ref={skyCanvasRef} className="absolute inset-0 h-full w-full" />
-
-      {/* Plane 1 — Distant hazy mountain range (0.08x) */}
-      <div
-        ref={distantRef}
-        className="absolute inset-x-0"
-        style={{ bottom: '-30vh', height: '60vh', willChange: 'transform, opacity' }}
-      >
-        <svg viewBox="0 0 1440 300" preserveAspectRatio="none" className="block h-1/2 w-full">
-          <defs>
-            <linearGradient id="engineRange" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#6d1146" stopOpacity="0.5" />
-              <stop offset="45%" stopColor="#24123e" stopOpacity="0.84" />
-              <stop offset="100%" stopColor="#0d1435" stopOpacity="1" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M0,220 C60,200 110,170 170,178 C230,186 260,140 330,128 C400,116 430,156 500,150 C570,144 600,104 680,96 C760,88 790,132 860,128 C930,124 960,84 1040,92 C1120,100 1150,146 1220,140 C1290,134 1330,112 1380,120 C1410,124 1430,136 1440,140 L1440,300 L0,300 Z"
-            fill="url(#engineRange)"
-          />
-          <path
-            d="M0,220 C60,200 110,170 170,178 C230,186 260,140 330,128 C400,116 430,156 500,150 C570,144 600,104 680,96 C760,88 790,132 860,128 C930,124 960,84 1040,92 C1120,100 1150,146 1220,140 C1290,134 1330,112 1380,120 C1410,124 1430,136 1440,140"
-            fill="none"
-            stroke="rgba(253, 224, 71, 0.26)"
-            strokeWidth="1"
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-        <div className="h-1/2 w-full bg-[#0d1435]" />
-      </div>
-
-      {/* Plane 2 — Mid-ground rim-lit cumulus (0.18x) */}
-      <div
-        ref={midRef}
-        className="absolute inset-x-0"
-        style={{ bottom: '-18vh', height: '36vh', willChange: 'transform, opacity' }}
-      >
-        <svg viewBox="0 0 1440 200" preserveAspectRatio="none" className="block h-1/2 w-full">
-          <defs>
-            <linearGradient id="engineCumulus" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#24123e" stopOpacity="0.92" />
-              <stop offset="100%" stopColor="#050714" stopOpacity="1" />
-            </linearGradient>
-            <linearGradient id="engineCumulusRim" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.3" />
-              <stop offset="35%" stopColor="#f43f5e" stopOpacity="0.55" />
-              <stop offset="65%" stopColor="#fde047" stopOpacity="0.9" />
-              <stop offset="85%" stopColor="#c2410c" stopOpacity="0.7" />
-              <stop offset="100%" stopColor="#24123e" stopOpacity="0.35" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M0,150 C70,128 120,104 190,112 C240,82 320,78 370,108 C430,84 500,90 540,118 C600,96 660,70 740,90 C800,62 890,64 940,100 C1000,80 1080,86 1120,112 C1180,92 1260,96 1300,120 C1350,108 1400,116 1440,128 L1440,200 L0,200 Z"
-            fill="url(#engineCumulus)"
-          />
-          <path
-            d="M0,150 C70,128 120,104 190,112 C240,82 320,78 370,108 C430,84 500,90 540,118 C600,96 660,70 740,90 C800,62 890,64 940,100 C1000,80 1080,86 1120,112 C1180,92 1260,96 1300,120 C1350,108 1400,116 1440,128"
-            fill="none"
-            stroke="url(#engineCumulusRim)"
-            strokeWidth="1"
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-        <div className="h-1/2 w-full bg-[#050714]" />
-      </div>
-
-      {/* Musubi thread + Doppler stardust */}
-      <canvas ref={fxCanvasRef} className="absolute inset-0 h-full w-full" />
+      {/* Consolidated Single Canvas: Stars, Comet, 2.5D Cloud Silhouettes, Stardust & Musubi Thread */}
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
     </div>
   );
 }

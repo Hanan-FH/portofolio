@@ -1,6 +1,7 @@
 import { useId } from 'react';
 import { type Certificate } from '../data/portfolio';
 import { Modal } from './ui/Modal';
+import { OptimizedPicture } from './ui/OptimizedPicture';
 
 interface CertificateModalProps {
   certificate: Certificate | null;
@@ -23,12 +24,11 @@ export function CertificateModal({ certificate, onClose }: CertificateModalProps
       </div>
 
       <div className="relative aspect-[16/11] w-full overflow-hidden border-b border-white/10 bg-[#050714] p-3 sm:p-5">
-        <img
+        <OptimizedPicture
           src={certificate.image}
           alt={`${certificate.title} — ${certificate.issuer}`}
+          eager
           className="h-full w-full object-contain"
-          loading="eager"
-          decoding="async"
         />
       </div>
 

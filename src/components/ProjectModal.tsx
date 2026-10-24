@@ -1,6 +1,7 @@
 import { useId } from 'react';
 import { type Project } from '../data/portfolio';
 import { Modal } from './ui/Modal';
+import { OptimizedPicture } from './ui/OptimizedPicture';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -25,12 +26,11 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
 
       {project.image && (
         <div className="relative aspect-video w-full overflow-hidden border-b border-white/10 bg-[#050714]">
-          <img
+          <OptimizedPicture
             src={project.image}
             alt={project.title}
+            eager
             className="h-full w-full object-contain p-3 sm:p-5"
-            loading="lazy"
-            decoding="async"
           />
         </div>
       )}

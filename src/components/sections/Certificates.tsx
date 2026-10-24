@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { portfolioData, type Certificate } from '../../data/portfolio';
+import { OptimizedPicture } from '../ui/OptimizedPicture';
 import { Section, SectionHeading } from '../ui/Section';
 
 interface CertificatesProps {
@@ -169,14 +170,13 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
                 className="block w-full text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-400"
               >
                 <div className="relative mb-3.5 aspect-[16/10] w-full overflow-hidden rounded-[2px] border border-white/10 bg-[#050714]">
-                  <img
+                  <OptimizedPicture
                     src={cert.image}
                     alt={cert.title}
                     width={480}
                     height={300}
-                    loading="lazy"
-                    decoding="async"
                     draggable={false}
+                    scrollRootRef={scrollRef}
                     className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
                   />
                   <div

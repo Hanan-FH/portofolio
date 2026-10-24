@@ -1,5 +1,6 @@
 import { portfolioData, type Project } from '../../data/portfolio';
 import { MagneticTilt } from '../ui/MagneticTilt';
+import { OptimizedPicture } from '../ui/OptimizedPicture';
 import { Section, SectionHeading } from '../ui/Section';
 
 interface ProjectsProps {
@@ -60,24 +61,21 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                                   'radial-gradient(circle at 50% 65%, rgba(109, 17, 70, 0.3) 0%, rgba(13, 20, 53, 0.48) 55%, #050714 100%)',
                               }}
                             >
-                              <img
+                              <OptimizedPicture
                                 src={project.image}
                                 alt={project.title}
                                 width={dims.width}
                                 height={dims.height}
-                                loading="lazy"
-                                decoding="async"
+                                pictureClassName="flex h-full items-center justify-center"
                                 className="h-full w-auto border border-white/15 object-contain shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
                               />
                             </div>
                           ) : (
-                            <img
+                            <OptimizedPicture
                               src={project.image}
                               alt={project.title}
                               width={dims.width}
                               height={dims.height}
-                              loading="lazy"
-                              decoding="async"
                               className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
                             />
                           )}
