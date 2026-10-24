@@ -11,10 +11,6 @@ interface ModalProps {
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-/**
- * Accessible Twilight Lightbox Modal: portal, scroll lock, focus entry/return,
- * Escape to close, backdrop click, and cyclic keyboard Tab focus loop.
- */
 export function Modal({ onClose, labelledBy, children, className = '' }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
@@ -74,7 +70,7 @@ export function Modal({ onClose, labelledBy, children, className = '' }: ModalPr
 
   return createPortal(
     <div
-      className="modal-backdrop-enter fixed inset-0 z-[220] flex items-end justify-center overflow-y-auto bg-[#050714]/85 p-0 backdrop-blur-xl sm:items-center sm:p-6"
+      className="modal-backdrop-enter fixed inset-0 z-[220] flex items-end justify-center overflow-y-auto bg-[#050714]/88 p-0 backdrop-blur-xl sm:items-center sm:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -85,17 +81,17 @@ export function Modal({ onClose, labelledBy, children, className = '' }: ModalPr
         aria-modal="true"
         aria-labelledby={labelledBy}
         tabIndex={-1}
-        className={`modal-panel-enter crepuscular-card relative max-h-[92dvh] w-full overflow-y-auto rounded-t-2xl focus:outline-none sm:max-w-3xl sm:rounded-2xl ${className}`.trim()}
+        className={`modal-panel-enter rim-horizon-panel relative max-h-[92dvh] w-full overflow-y-auto focus:outline-none sm:max-w-3xl ${className}`.trim()}
       >
         <button
           type="button"
           data-autofocus
           onClick={onClose}
-          aria-label="Close inspection lightbox"
-          className="absolute right-3.5 top-3.5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-[#070a18]/80 text-slate-100 backdrop-blur-md transition-transform duration-200 hover:scale-105 hover:border-sky-300/70 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+          aria-label="Close viewer"
+          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-[2px] border border-white/20 bg-[#050714]/85 text-slate-100 transition-transform duration-200 hover:scale-105 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
         >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </button>
         {children}

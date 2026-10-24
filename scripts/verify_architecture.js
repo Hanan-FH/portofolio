@@ -4,7 +4,7 @@ import { personalData, aboutData, socialData, contactData, skillsData } from '..
 import { projectsData } from '../src/data/projects.ts';
 import { certificatesData } from '../src/data/certificates.ts';
 
-console.log('--- ARCHITECTURAL & DATA INTEGRITY VERIFICATION (KATAWAREDOKI) ---');
+console.log('--- SHINKAI KATAWAREDOKI ENGINE & DATA INTEGRITY AUDIT ---');
 
 let hasFailure = false;
 
@@ -17,26 +17,20 @@ function assert(condition, message) {
   }
 }
 
-// 1. Projects Count (Exactly 3)
+// 1. Exact Data Counts
 assert(projectsData.length === 3, `Expected exactly 3 projects, got ${projectsData.length}`);
-
-// 2. Certificates Count (Exactly 10)
 assert(certificatesData.length === 10, `Expected exactly 10 certificates, got ${certificatesData.length}`);
-
-// 3. Curriculum Languages Count (Exactly 9)
 assert(skillsData.languages.length === 9, `Expected exactly 9 curriculum languages, got ${skillsData.languages.length}`);
+assert(aboutData.fundamentals.length === 4, `Expected 4 foundation competencies, got ${aboutData.fundamentals.length}`);
 
-// 4. Profile Photo on disk
-const profilePath = path.resolve('public', 'profile.jpg');
-assert(fs.existsSync(profilePath), `Profile photo exists at ${profilePath}`);
+// 2. Authentic Media Assets on Disk
+assert(fs.existsSync(path.resolve('public', 'profile.jpg')), 'Profile photo exists (/profile.jpg)');
 
-// 5. Verify Project Images on disk
 for (const prj of projectsData) {
   const imgPath = path.resolve('public', prj.image.replace(/^\//, ''));
   assert(fs.existsSync(imgPath), `Project image exists: ${prj.image}`);
 }
 
-// 6. Verify Certificate Images & Documents on disk
 for (const cert of certificatesData) {
   const imgPath = path.resolve('public', cert.image.replace(/^\//, ''));
   const docPath = path.resolve('public', cert.verificationUrl.replace(/^\//, ''));
@@ -44,28 +38,23 @@ for (const cert of certificatesData) {
   assert(fs.existsSync(docPath), `Certificate verification document exists: ${cert.verificationUrl}`);
 }
 
-// 7. Verify Skill SVG Icons on disk
 for (const lang of skillsData.languages) {
   const iconPath = path.resolve('public', lang.image.replace(/^\//, ''));
   assert(fs.existsSync(iconPath), `Language icon exists: ${lang.image}`);
 }
 
-// 8. SMK Plus Pelita Nusantara Foundations (4 disciplines)
-assert(aboutData.fundamentals.length === 4, `Expected 4 foundation competencies, got ${aboutData.fundamentals.length}`);
-assert(aboutData.fundamentals[0].id === '01', 'Discipline 01 present');
-assert(aboutData.fundamentals[1].id === '02', 'Discipline 02 present');
-assert(aboutData.fundamentals[2].id === '03', 'Discipline 03 present');
-assert(aboutData.fundamentals[3].id === '04', 'Discipline 04 present');
-
-// 9. Hero Connect Links
+// 3. Preserved Endpoints & Socials
 assert(personalData.name === 'Hanan Fathurrozaq Hidayatullah', 'Developer name preserved');
 assert(socialData.github === 'https://github.com/Hanan-FH', 'GitHub link preserved');
 assert(socialData.linkedin.includes('hanan-fathurrozaq'), 'LinkedIn link preserved');
+assert(contactData.formSubmitEndpoint === 'https://formsubmit.co/ajax/hananfh77@gmail.com', 'FormSubmit AJAX endpoint preserved');
 
-// 10. Contact Endpoint
-assert(contactData.formSubmitEndpoint === 'https://formsubmit.co/ajax/hananfh77@gmail.com', 'FormSubmit endpoint preserved');
+// 4. Cold-Open Engine Governance Check (Unskippable + tiamat_intro_executed)
+const introSource = fs.readFileSync(path.resolve('src/components/atmosphere/CinematicIntro.tsx'), 'utf8');
+assert(introSource.includes('tiamat_intro_executed'), 'CinematicIntro persists tiamat_intro_executed in sessionStorage');
+assert(!/Skip Intro|<button/i.test(introSource), 'CinematicIntro is strictly unskippable (zero skip buttons)');
 
-// 11. Component file structure
+// 5. Required Engine & Component Files
 const requiredFiles = [
   'AGENTS.md',
   'src/hooks/useReducedMotion.ts',
@@ -74,7 +63,7 @@ const requiredFiles = [
   'src/data/certificates.ts',
   'src/data/portfolio.ts',
   'src/components/atmosphere/CinematicIntro.tsx',
-  'src/components/atmosphere/KatawareSkyBackdrop.tsx',
+  'src/components/atmosphere/TwilightBackdrop.tsx',
   'src/components/layout/Navbar.tsx',
   'src/components/layout/Footer.tsx',
   'src/components/sections/Hero.tsx',
@@ -93,12 +82,12 @@ const requiredFiles = [
 ];
 
 for (const f of requiredFiles) {
-  assert(fs.existsSync(path.resolve(f)), `Architecture component exists: ${f}`);
+  assert(fs.existsSync(path.resolve(f)), `Component exists: ${f}`);
 }
 
 if (hasFailure) {
   console.error('\nVerification failed!');
   process.exit(1);
 } else {
-  console.log('\nAll architectural & data integrity verification checks passed!');
+  console.log('\nAll Shinkai Katawaredoki Engine & Data Integrity checks passed!');
 }

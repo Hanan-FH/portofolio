@@ -15,43 +15,33 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-white/10 bg-[#070a18]/95 backdrop-blur-md">
-      {/* Subtle Crepuscular Top Hairline */}
-      <div
-        aria-hidden="true"
-        className="h-px w-full"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.35) 28%, rgba(244, 63, 94, 0.4) 55%, rgba(254, 240, 138, 0.32) 78%, transparent 100%)',
-        }}
-      />
+    <footer className="relative bg-[#050714]">
+      <div className="anamorphic-streak opacity-55" aria-hidden="true" />
 
-      <div className="container-site flex flex-col gap-8 py-12 md:flex-row md:items-end md:justify-between">
+      <div className="container-site flex flex-col gap-6 py-10 md:flex-row md:items-end md:justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <span className="beacon-pulse h-2 w-2 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200 shadow-[0_0_10px_rgba(244,63,94,0.8)]" />
-            <p className="editorial-heading text-base font-semibold tracking-[0.14em] text-white">
-              {personal.name}
-            </p>
+            <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200 shadow-[0_0_10px_rgba(244,63,94,0.85)]" />
+            <p className="mincho-editorial text-sm text-white">{personal.name}</p>
           </div>
-          <p className="mt-2 text-sm text-slate-300/85">
+          <p className="mt-1.5 text-xs text-slate-400">
             {personal.role} · SMK Plus Pelita Nusantara · {personal.location}
           </p>
-          <p className="mt-4 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-slate-400">
-            © {CURRENT_YEAR} {personal.name} — 黄昏時 Katawaredoki Edition
+          <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.26em] text-slate-500">
+            © {CURRENT_YEAR} {personal.name}
           </p>
         </div>
 
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-3" aria-label="Footer navigation">
+        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2" aria-label="Footer navigation">
           {social.github && (
             <a
               href={social.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex min-h-10 items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs uppercase tracking-[0.16em] text-slate-300 transition-colors hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              className="group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 transition-opacity hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
             >
               GitHub
-              <span className="link-arrow text-slate-400 group-hover:text-sky-300" aria-hidden="true">
+              <span className="link-arrow text-sky-300" aria-hidden="true">
                 ↗
               </span>
             </a>
@@ -62,10 +52,10 @@ export function Footer() {
               href={social.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex min-h-10 items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs uppercase tracking-[0.16em] text-slate-300 transition-colors hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              className="group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 transition-opacity hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
             >
               LinkedIn
-              <span className="link-arrow text-slate-400 group-hover:text-pink-300" aria-hidden="true">
+              <span className="link-arrow text-pink-300" aria-hidden="true">
                 ↗
               </span>
             </a>
@@ -73,10 +63,10 @@ export function Footer() {
 
           <a
             href={`mailto:${personal.email}`}
-            className="group inline-flex min-h-10 items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs uppercase tracking-[0.16em] text-slate-300 transition-colors hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            className="group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 transition-opacity hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
-            {personal.email}
-            <span className="link-arrow text-slate-400 group-hover:text-amber-200" aria-hidden="true">
+            Email
+            <span className="link-arrow text-amber-200" aria-hidden="true">
               ↗
             </span>
           </a>
@@ -84,9 +74,9 @@ export function Footer() {
           <button
             type="button"
             onClick={scrollToTop}
-            className="inline-flex min-h-10 items-center rounded-full border border-white/15 bg-white/5 px-4 py-1.5 font-mono text-xs uppercase tracking-[0.16em] text-sky-200 transition-colors hover:border-sky-300/60 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            className="twilight-chip min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.24em] text-sky-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
-            Back to Top ↑
+            Top ↑
           </button>
         </nav>
       </div>

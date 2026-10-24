@@ -5,168 +5,124 @@ export function About() {
   const { about, education, personal } = portfolioData;
 
   return (
-    <Section id="about">
+    <Section id="about" verticalLabel="軌跡・物語">
       <div className="container-site">
         <SectionHeading
           index="01"
-          label="The Journey & Narrative"
+          label="Narrative & Trajectory"
           kanji="軌跡"
           note={about.location}
         />
 
-        {/* Editorial Bio & Astronomical Telemetry Split */}
-        <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-12">
-          <div className="lg:col-span-7">
-            <h2 className="editorial-heading text-2xl font-semibold text-white sm:text-3xl lg:text-[2.2rem]">
+        {/* Editorial Split Layout: Authentic Bio Left // Luminous Vertical Timeline Right */}
+        <div className="mt-12 grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-12">
+          {/* Left Column: Mincho Statement, Verbatim Bio & Compact Specs */}
+          <div className="lg:col-span-5">
+            <h2 className="mincho-editorial text-2xl text-white sm:text-[1.85rem]">
               {about.heading}
             </h2>
 
-            <div className="mt-7 space-y-5 text-[1.02rem] leading-[1.85] text-slate-200/90">
+            <div className="mt-6 space-y-4 text-[0.95rem] leading-[1.8] text-slate-200/90">
               {about.paragraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
-          </div>
 
-          {/* Right Column: Twilight Observatory Dossier */}
-          <div className="lg:col-span-5">
-            <div className="crepuscular-card rounded-2xl p-6 sm:p-7">
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <span className="astro-label">Observatory Dossier</span>
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-sky-300">
-                  ● Active Node
-                </span>
+            <dl className="rim-horizon-panel mt-8 divide-y divide-white/10 p-5 text-xs">
+              <div className="flex items-baseline justify-between gap-4 pb-3">
+                <dt className="astro-telemetry">Status</dt>
+                <dd className="text-right text-slate-100">{about.status}</dd>
               </div>
-
-              <dl className="divide-y divide-white/10">
-                <div className="py-4">
-                  <dt className="astro-meta">Current Status</dt>
-                  <dd className="mt-1.5 flex items-center gap-2.5 text-sm font-medium text-white">
-                    <span className="beacon-pulse h-2 w-2 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200 shadow-[0_0_10px_rgba(244,63,94,0.85)]" />
-                    {about.status}
-                  </dd>
-                </div>
-
-                <div className="py-4">
-                  <dt className="astro-meta">Core Focus</dt>
-                  <dd className="mt-1.5 text-sm leading-relaxed text-slate-200">
-                    {about.currentFocus}
-                  </dd>
-                </div>
-
-                <div className="py-4">
-                  <dt className="astro-meta">Coordinates</dt>
-                  <dd className="mt-1.5 text-sm text-slate-200">{about.location}</dd>
-                </div>
-
-                <div className="pt-4">
-                  <dt className="astro-meta">Direct Dispatch</dt>
-                  <dd className="mt-1.5">
-                    <a
-                      href={`mailto:${personal.email}`}
-                      className="inline-flex items-center gap-1.5 rounded font-mono text-sm text-sky-300 underline decoration-sky-400/40 underline-offset-4 transition-colors hover:text-amber-200 hover:decoration-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                    >
-                      {personal.email}
-                      <span aria-hidden="true">↗</span>
-                    </a>
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </div>
-
-        {/* Vertical Twilight Guide Line & Glowing Planetary Nodes (Education + Vocational Foundations) */}
-        <div className="mt-20">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <span className="astro-label">Academic &amp; Engineering Trajectory</span>
-              <h3 className="editorial-heading mt-2 text-xl font-semibold text-white sm:text-2xl">
-                SMK Plus Pelita Nusantara — Software Engineering (RPL)
-              </h3>
-            </div>
-            <span className="astro-meta">Orbital Timeline // 05 Nodes</span>
+              <div className="py-3">
+                <dt className="astro-telemetry">Focus</dt>
+                <dd className="mt-1.5 leading-relaxed text-slate-200">{about.currentFocus}</dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-4 py-3">
+                <dt className="astro-telemetry">Location</dt>
+                <dd className="text-right text-slate-200">{about.location}</dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-4 pt-3">
+                <dt className="astro-telemetry">Email</dt>
+                <dd>
+                  <a
+                    href={`mailto:${personal.email}`}
+                    className="font-mono text-sky-300 transition-opacity hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  >
+                    {personal.email} ↗
+                  </a>
+                </dd>
+              </div>
+            </dl>
           </div>
 
-          <div className="relative mt-10 pl-8 sm:pl-12">
-            {/* Continuous Vertical Twilight Guide Line */}
+          {/* Right Column: The Split Timeline with Luminous Planetary Nodes */}
+          <div className="relative pl-7 sm:pl-10 lg:col-span-7">
+            {/* Vertical Twilight Gradient Track */}
             <div
               aria-hidden="true"
-              className="absolute bottom-4 left-[11px] top-2 w-px sm:left-[15px]"
+              className="absolute bottom-3 left-[7px] top-2 w-px sm:left-[11px]"
               style={{
                 background:
-                  'linear-gradient(180deg, #fef08a 0%, #38bdf8 28%, #f43f5e 68%, rgba(192, 132, 252, 0.18) 100%)',
+                  'linear-gradient(180deg, #38bdf8 0%, #f43f5e 45%, #d94e16 78%, rgba(254, 240, 138, 0.25) 100%)',
               }}
             />
 
-            <div className="space-y-8">
-              {/* Primary Education Record(s) */}
-              {education.map((item, idx) => (
+            <div className="space-y-6">
+              {/* Primary Education Milestone */}
+              {education.map((item, index) => (
                 <article
-                  key={`${item.institution}-${idx}`}
-                  className="crepuscular-card-interactive relative rounded-2xl p-6 sm:p-7"
+                  key={`${item.institution}-${index}`}
+                  className="kumihimo-panel relative p-5 sm:p-6"
                 >
-                  {/* Glowing Planetary Cyan-Gold Node */}
+                  {/* Luminous Tiamat Planetary Node */}
                   <span
                     aria-hidden="true"
-                    className="absolute -left-[27px] top-7 flex h-4 w-4 items-center justify-center rounded-full border border-amber-200/80 bg-[#070a18] shadow-[0_0_18px_rgba(56,189,248,0.9)] sm:-left-[39px]"
+                    className="absolute -left-[25px] top-6 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-sky-200 bg-[#050714] shadow-[0_0_14px_rgba(56,189,248,0.95)] sm:-left-[33px]"
                   >
-                    <span className="h-2 w-2 rounded-full bg-sky-300" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
                   </span>
 
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <span className="font-mono text-xs font-medium uppercase tracking-[0.22em] text-amber-200">
-                      {item.period}
-                    </span>
-                    <span className="twilight-badge rounded-full px-3 py-0.5 font-mono text-[0.66rem] uppercase tracking-[0.18em] text-sky-200">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="astro-coord">{item.period}</span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-amber-200/90">
                       ● {item.status}
                     </span>
                   </div>
 
-                  <h4 className="editorial-heading mt-3 text-xl font-semibold text-white">
+                  <h3 className="mincho-sub mt-2.5 text-lg text-white sm:text-xl">
                     {item.program}
-                  </h4>
-                  <p className="mt-1 font-mono text-xs uppercase tracking-[0.18em] text-pink-200/85">
+                  </h3>
+                  <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.18em] text-sky-200/85">
                     {item.institution}
                   </p>
-                  <p className="mt-3 max-w-[46rem] text-[0.95rem] leading-relaxed text-slate-200/90">
+                  <p className="mt-3 text-sm leading-relaxed text-slate-300">
                     {item.description}
                   </p>
                 </article>
               ))}
 
-              {/* 4 SMK Plus Pelita Nusantara Foundation Competencies */}
-              <div className="grid gap-6 pt-2 md:grid-cols-2">
-                {about.fundamentals.map((comp) => (
-                  <article
-                    key={comp.id}
-                    className="crepuscular-card-interactive relative rounded-2xl p-6"
-                  >
-                    {/* Glowing Planetary Rose-Violet Node */}
-                    <span
-                      aria-hidden="true"
-                      className="absolute -left-[25px] top-7 h-3 w-3 rounded-full border border-pink-200/80 bg-rose-400 shadow-[0_0_14px_rgba(244,63,94,0.85)] md:hidden sm:-left-[37px]"
-                    />
+              {/* 4 Authentic SMK Plus Pelita Nusantara Foundation Milestones */}
+              {about.fundamentals.map((comp) => (
+                <article key={comp.id} className="kumihimo-panel relative p-5">
+                  {/* Luminous Kumihimo Rose-Gold Node */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-[23px] top-6 h-2.5 w-2.5 rounded-full border border-amber-200/80 bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.9)] sm:-left-[31px]"
+                  />
 
-                    <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-3">
-                      <span className="font-mono text-xs font-semibold uppercase tracking-[0.24em] text-pink-300">
-                        DISC // {comp.id}
-                      </span>
-                      <span className="font-mono text-[0.68rem] tracking-[0.12em] text-amber-200/85">
-                        {comp.localTitle}
-                      </span>
-                    </div>
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <span className="astro-coord">MILESTONE // {comp.id}</span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-200/80">
+                      {comp.localTitle}
+                    </span>
+                  </div>
 
-                    <h4 className="editorial-heading mt-4 text-lg font-semibold text-white">
-                      {comp.title}
-                    </h4>
-
-                    <p className="mt-2.5 text-sm leading-relaxed text-slate-300">
-                      {comp.description}
-                    </p>
-                  </article>
-                ))}
-              </div>
+                  <h4 className="mincho-sub mt-2 text-base text-white">{comp.title}</h4>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-300/90">
+                    {comp.description}
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
         </div>
