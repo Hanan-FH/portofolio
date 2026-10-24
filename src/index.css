@@ -134,18 +134,18 @@
     padding-inline: clamp(1.25rem, 4vw, 3rem);
   }
 
-  /* Theatrical Poster Mincho Display Headings (Wide Tracking) */
+  /* Theatrical Poster Mincho Display Headings (Wide Tracking: 0.18em - 0.28em) */
   .mincho-display {
     font-family: var(--font-serif);
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     line-height: 1.18;
   }
 
   .mincho-editorial {
     font-family: var(--font-serif);
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     line-height: 1.28;
   }
 
@@ -175,36 +175,41 @@
 
   /* Anamorphic Lens Streak (Cyan-to-White-to-Gold Chromatic Aberration) */
   .anamorphic-streak {
+    position: relative;
     height: 1px;
     width: 100%;
     background: linear-gradient(
       90deg,
       rgba(56, 189, 248, 0) 0%,
-      rgba(56, 189, 248, 0.72) 24%,
-      rgba(255, 255, 255, 0.96) 50%,
-      rgba(254, 240, 138, 0.78) 74%,
+      rgba(56, 189, 248, 0.78) 24%,
+      rgba(255, 255, 255, 0.98) 50%,
+      rgba(254, 240, 138, 0.82) 74%,
       rgba(217, 78, 22, 0) 100%
     );
     box-shadow:
-      0 0 14px rgba(56, 189, 248, 0.45),
+      0 -0.5px 0 rgba(56, 189, 248, 0.45),
+      0 0.5px 0 rgba(254, 240, 138, 0.42),
+      0 0 16px rgba(56, 189, 248, 0.45),
       0 0 28px rgba(244, 63, 94, 0.25);
   }
 
   /* Sharp Edge-Lighting Panel: 1px directional rim catching low-angle bottom-horizon sunlight */
   .rim-horizon-panel {
+    position: relative;
     border: 1px solid transparent;
     border-radius: 2px;
     background:
-      linear-gradient(180deg, rgba(8, 12, 34, 0.76) 0%, rgba(13, 19, 56, 0.68) 100%) padding-box,
+      linear-gradient(180deg, rgba(8, 12, 34, 0.78) 0%, rgba(13, 19, 56, 0.68) 100%) padding-box,
       linear-gradient(
         0deg,
-        rgba(254, 240, 138, 0.56) 0%,
-        rgba(217, 78, 22, 0.42) 22%,
-        rgba(124, 18, 74, 0.36) 58%,
-        rgba(56, 189, 248, 0.32) 100%
+        rgba(254, 240, 138, 0.62) 0%,
+        rgba(217, 78, 22, 0.46) 22%,
+        rgba(124, 18, 74, 0.38) 58%,
+        rgba(56, 189, 248, 0.34) 100%
       ) border-box;
     box-shadow:
-      inset 0 -1px 0 0 rgba(254, 240, 138, 0.14),
+      inset 0 -1px 0 0 rgba(254, 240, 138, 0.16),
+      inset 0 1px 0 0 rgba(56, 189, 248, 0.12),
       var(--shadow-abyss);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -213,50 +218,128 @@
   /* Interactive Kumihimo Chromatic Rim Container (Transform & Opacity Only) */
   .kumihimo-panel {
     position: relative;
+    overflow: hidden;
     border: 1px solid transparent;
     border-radius: 2px;
     background:
-      linear-gradient(180deg, rgba(7, 10, 29, 0.78) 0%, rgba(15, 16, 48, 0.72) 100%) padding-box,
+      linear-gradient(180deg, rgba(7, 10, 29, 0.8) 0%, rgba(15, 16, 48, 0.72) 100%) padding-box,
       linear-gradient(
         0deg,
-        rgba(254, 240, 138, 0.46) 0%,
-        rgba(244, 63, 94, 0.32) 38%,
-        rgba(56, 189, 248, 0.28) 100%
+        rgba(254, 240, 138, 0.5) 0%,
+        rgba(244, 63, 94, 0.34) 38%,
+        rgba(56, 189, 248, 0.3) 100%
       ) border-box;
-    box-shadow: var(--shadow-abyss);
+    box-shadow:
+      inset 0 -1px 0 0 rgba(254, 240, 138, 0.12),
+      var(--shadow-abyss);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: transform 320ms var(--ease-shinkai), opacity 320ms var(--ease-shinkai);
+  }
+
+  /* Subtle 1px Kumihimo Specular Rim Accent on Hover (Opacity Only — Zero Reflow) */
+  .kumihimo-panel::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      115deg,
+      rgba(56, 189, 248, 0.12) 0%,
+      rgba(244, 63, 94, 0.06) 48%,
+      rgba(254, 240, 138, 0.12) 100%
+    );
+    opacity: 0;
+    transition: opacity 320ms var(--ease-shinkai);
   }
 
   .kumihimo-panel:hover {
     transform: translate3d(0, -3px, 0);
   }
 
-  /* Refined Twilight Capability Badge with Specular Hover Glint */
+  .kumihimo-panel:hover::after {
+    opacity: 1;
+  }
+
+  /* Refined Twilight Capability Badge with Cyan/Rose Specular Hover Glint */
   .twilight-chip {
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     border: 1px solid transparent;
     border-radius: 2px;
     background:
-      linear-gradient(180deg, rgba(13, 19, 56, 0.74), rgba(7, 10, 28, 0.86)) padding-box,
+      linear-gradient(180deg, rgba(13, 19, 56, 0.76), rgba(7, 10, 28, 0.88)) padding-box,
       linear-gradient(
         0deg,
-        rgba(254, 240, 138, 0.38) 0%,
-        rgba(244, 63, 94, 0.28) 50%,
-        rgba(56, 189, 248, 0.34) 100%
+        rgba(254, 240, 138, 0.4) 0%,
+        rgba(244, 63, 94, 0.3) 50%,
+        rgba(56, 189, 248, 0.36) 100%
       ) border-box;
-    transition: transform 220ms var(--ease-shinkai), opacity 220ms var(--ease-shinkai);
+    transition: transform 240ms var(--ease-shinkai), opacity 240ms var(--ease-shinkai);
+  }
+
+  .twilight-chip::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 15%,
+      rgba(56, 189, 248, 0.24) 45%,
+      rgba(244, 63, 94, 0.22) 60%,
+      transparent 85%
+    );
+    opacity: 0;
+    transform: translate3d(-35%, 0, 0);
+    transition: transform 380ms var(--ease-shinkai), opacity 260ms var(--ease-shinkai);
   }
 
   .twilight-chip:hover {
     transform: translate3d(0, -1px, 0);
   }
 
+  .twilight-chip:hover::after {
+    opacity: 1;
+    transform: translate3d(35%, 0, 0);
+  }
+
+  /* Celestial Social Coordinate Link with Star-Glow Halo */
+  .celestial-link {
+    position: relative;
+    transition: transform 240ms var(--ease-shinkai), opacity 240ms var(--ease-shinkai);
+  }
+
+  .celestial-link::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: -4px -8px;
+    border-radius: 2px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(56, 189, 248, 0.18) 0%,
+      rgba(244, 63, 94, 0.1) 55%,
+      transparent 80%
+    );
+    opacity: 0;
+    transition: opacity 240ms var(--ease-shinkai);
+  }
+
+  .celestial-link:hover {
+    transform: translate3d(0, -1px, 0);
+  }
+
+  .celestial-link:hover::after {
+    opacity: 1;
+  }
+
   /* Primary Tiamat Comet-Glow Action Button */
   .btn-tiamat {
     position: relative;
+    overflow: hidden;
     display: inline-flex;
     min-height: 2.75rem;
     align-items: center;
@@ -276,12 +359,12 @@
       linear-gradient(
         90deg,
         rgba(56, 189, 248, 0.95) 0%,
-        rgba(255, 255, 255, 0.9) 50%,
-        rgba(254, 240, 138, 0.92) 100%
+        rgba(255, 255, 255, 0.92) 50%,
+        rgba(254, 240, 138, 0.95) 100%
       ) border-box;
     box-shadow:
-      0 0 26px -4px rgba(56, 189, 248, 0.45),
-      0 10px 28px -8px rgba(217, 78, 22, 0.5);
+      0 0 26px -4px rgba(56, 189, 248, 0.48),
+      0 10px 28px -8px rgba(217, 78, 22, 0.52);
     transition: transform 260ms var(--ease-shinkai), opacity 260ms var(--ease-shinkai);
   }
 
@@ -331,12 +414,12 @@
     border: 1px solid transparent;
     border-radius: 2px;
     background:
-      linear-gradient(180deg, rgba(5, 7, 20, 0.86), rgba(13, 19, 56, 0.56)) padding-box,
+      linear-gradient(180deg, rgba(5, 7, 20, 0.88), rgba(13, 19, 56, 0.56)) padding-box,
       linear-gradient(
         0deg,
-        rgba(254, 240, 138, 0.28) 0%,
-        rgba(124, 18, 74, 0.24) 52%,
-        rgba(56, 189, 248, 0.22) 100%
+        rgba(254, 240, 138, 0.3) 0%,
+        rgba(124, 18, 74, 0.26) 52%,
+        rgba(56, 189, 248, 0.24) 100%
       ) border-box;
     @apply w-full px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-400/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400;
   }
@@ -464,7 +547,11 @@
   }
 
   .kumihimo-panel,
+  .kumihimo-panel::after,
   .twilight-chip,
+  .twilight-chip::after,
+  .celestial-link,
+  .celestial-link::after,
   .btn-tiamat,
   .btn-crepuscular,
   .link-arrow {

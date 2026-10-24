@@ -15,8 +15,8 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative bg-[#050714]">
-      <div className="anamorphic-streak opacity-55" aria-hidden="true" />
+    <footer className="relative bg-[#050714]/82 backdrop-blur-sm">
+      <div className="anamorphic-streak opacity-65" aria-hidden="true" />
 
       <div className="container-site flex flex-col gap-6 py-10 md:flex-row md:items-end md:justify-between">
         <div>
@@ -38,7 +38,7 @@ export function Footer() {
               href={social.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 transition-opacity hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
             >
               GitHub
               <span className="link-arrow text-sky-300" aria-hidden="true">
@@ -52,7 +52,7 @@ export function Footer() {
               href={social.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 transition-opacity hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
             >
               LinkedIn
               <span className="link-arrow text-pink-300" aria-hidden="true">
@@ -63,7 +63,7 @@ export function Footer() {
 
           <a
             href={`mailto:${personal.email}`}
-            className="group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 transition-opacity hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             Email
             <span className="link-arrow text-amber-200" aria-hidden="true">

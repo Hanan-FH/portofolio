@@ -104,7 +104,7 @@ export function Contact() {
         className="relative"
         style={{
           background:
-            'linear-gradient(180deg, rgba(5, 7, 20, 0.92) 0%, #050714 38%, #050714 100%)',
+            'linear-gradient(180deg, rgba(5, 7, 20, 0.56) 0%, rgba(5, 7, 20, 0.78) 45%, rgba(5, 7, 20, 0.86) 100%)',
         }}
       >
         <Section id="contact" verticalLabel="星夜の通信">
@@ -147,7 +147,7 @@ export function Contact() {
                         href={social.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="twilight-chip px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                        className="twilight-chip min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                       >
                         GitHub ↗
                       </a>
@@ -158,7 +158,7 @@ export function Contact() {
                         href={social.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="twilight-chip px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                        className="twilight-chip min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                       >
                         LinkedIn ↗
                       </a>
@@ -166,7 +166,7 @@ export function Contact() {
 
                     <a
                       href={social.email}
-                      className="twilight-chip px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                      className="twilight-chip min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                     >
                       Email ↗
                     </a>

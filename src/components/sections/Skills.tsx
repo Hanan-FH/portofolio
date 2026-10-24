@@ -18,7 +18,7 @@ export function Skills() {
     {
       id: 'architecture',
       coord: 'MAT // 02',
-      label: 'Architecture & Data',
+      label: 'Architecture',
       items: architectureItems,
     },
     {
@@ -30,7 +30,7 @@ export function Skills() {
     {
       id: 'creative',
       coord: 'MAT // 04',
-      label: 'Creative & Interface',
+      label: 'Creative',
       items: skills.design,
     },
   ];
@@ -73,7 +73,7 @@ export function Skills() {
         {/* 9 Authentic Curriculum Languages with Original SVG Assets */}
         <div className="mt-14 border-t border-white/10 pt-10">
           <div className="flex items-center justify-between gap-4">
-            <span className="astro-coord">Core Curriculum Languages</span>
+            <h2 className="astro-coord">Core Curriculum Languages</h2>
             <span className="astro-telemetry">09 Records</span>
           </div>
 

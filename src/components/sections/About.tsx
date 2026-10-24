@@ -117,7 +117,7 @@ export function About() {
                     </span>
                   </div>
 
-                  <h4 className="mincho-sub mt-2 text-base text-white">{comp.title}</h4>
+                  <h3 className="mincho-sub mt-2 text-base text-white">{comp.title}</h3>
                   <p className="mt-2 text-xs leading-relaxed text-slate-300/90">
                     {comp.description}
                   </p>

@@ -51,8 +51,8 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setActiveFilter(cat.id)}
-                className={`min-h-8 px-3.5 py-1 font-mono text-[10px] uppercase tracking-[0.22em] focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
-                  active ? 'btn-tiamat min-h-8 px-3.5 py-1 text-[10px]' : 'twilight-chip text-slate-300'
+                className={`min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
+                  active ? 'btn-tiamat min-h-9 px-3.5 py-1.5 text-[10px]' : 'twilight-chip text-slate-300'
                 }`}
               >
                 {cat.label}
@@ -109,11 +109,11 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
                   <p className="mt-1 text-xs text-slate-400">{certificate.issuer}</p>
                 </button>
 
-                <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
+                <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-2">
                   <button
                     type="button"
                     onClick={() => onSelectCert(certificate)}
-                    className="font-mono text-[10px] uppercase tracking-[0.22em] text-sky-300 transition-opacity hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                    className="celestial-link inline-flex min-h-9 items-center font-mono text-[10px] uppercase tracking-[0.22em] text-sky-300 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                   >
                     Lightbox
                   </button>
@@ -124,7 +124,7 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Verify ${certificate.title} (opens in a new tab)`}
-                      className="font-mono text-[10px] uppercase tracking-[0.22em] text-slate-300 transition-opacity hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                      className="celestial-link inline-flex min-h-9 items-center font-mono text-[10px] uppercase tracking-[0.22em] text-slate-300 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                     >
                       Verify ↗
                     </a>

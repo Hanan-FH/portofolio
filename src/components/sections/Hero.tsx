@@ -123,7 +123,7 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub profile (opens in a new tab)"
-                  className="group inline-flex min-h-8 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-200 transition-opacity hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-200 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                 >
                   GitHub
                   <span className="link-arrow text-sky-300" aria-hidden="true">
@@ -138,7 +138,7 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn profile (opens in a new tab)"
-                  className="group inline-flex min-h-8 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-200 transition-opacity hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-200 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                 >
                   LinkedIn
                   <span className="link-arrow text-pink-300" aria-hidden="true">
