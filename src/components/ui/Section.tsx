@@ -8,13 +8,13 @@ interface SectionProps {
 }
 
 /**
- * Consistent vertical rhythm and anchor offset for every major section.
+ * Semantic section landmark with consistent anchor offset and editorial vertical cadence.
  */
 export function Section({ id, children, className = '' }: SectionProps) {
   return (
     <section
       id={id}
-      className={`scroll-mt-[70px] py-[clamp(4.75rem,8vw,8rem)] ${className}`.trim()}
+      className={`relative scroll-mt-[84px] py-[clamp(4.75rem,8vw,7.75rem)] ${className}`.trim()}
     >
       {children}
     </section>

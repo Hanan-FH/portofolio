@@ -16,68 +16,78 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
 
   return (
     <Modal onClose={onClose} labelledBy={titleId} className="sm:max-w-4xl">
-      <div className="flex items-center justify-between gap-6 border-b border-line px-5 py-4 pr-16">
-        <span className="font-mono text-[0.64rem] uppercase tracking-[0.12em] text-signal">
-          Project {number}
-        </span>
-        <span className="truncate font-mono text-[0.6rem] uppercase tracking-[0.1em] text-dim">
+      <div className="flex items-center justify-between gap-4 border-b border-white/10 px-6 py-4 pr-16">
+        <span className="astro-label">Film Still // PRJ-{number}</span>
+        <span className="truncate font-mono text-[0.68rem] uppercase tracking-[0.2em] text-sky-200/80">
           {project.category} · {project.year}
         </span>
       </div>
 
       {project.image && (
-        <div className="border-b border-line bg-black/50 p-3 sm:p-4">
+        <div className="relative aspect-video w-full overflow-hidden border-b border-white/10 bg-[#050816]">
           <img
             src={project.image}
             alt={`Screenshot of ${project.title}`}
-            className="mx-auto max-h-[52vh] w-full object-contain"
+            className="h-full w-full object-contain p-2 sm:p-4"
             loading="lazy"
             decoding="async"
           />
         </div>
       )}
 
-      <div className="p-5 sm:p-8">
+      <div className="p-6 sm:p-8">
         <h2
           id={titleId}
-          className="max-w-[30ch] text-2xl font-medium leading-[1.15] tracking-[-0.025em] text-paper sm:text-3xl"
+          className="editorial-heading text-2xl font-semibold text-white sm:text-3xl"
         >
           {project.title}
         </h2>
-        <p className="mt-4 max-w-[44rem] text-[0.92rem] leading-[1.75] text-mist">
+
+        <p className="mt-4 max-w-[46rem] text-[0.96rem] leading-relaxed text-slate-200/90">
           {project.description}
         </p>
 
         {project.technologies.length > 0 && (
-          <div className="mt-7 border-t border-line pt-4">
-            <p className="meta-label">Technologies</p>
-            <p className="mt-2 font-mono text-[0.66rem] uppercase leading-relaxed tracking-[0.06em] text-mist">
-              {project.technologies.join(' · ')}
-            </p>
+          <div className="mt-7 border-t border-white/10 pt-5">
+            <p className="astro-label">Technologies & Architecture</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {project.technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="twilight-badge rounded-full px-3 py-1 font-mono text-xs text-sky-100"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
           </div>
         )}
 
-        <div className="mt-8 flex flex-wrap items-center gap-5">
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-solid text-xs"
-            >
-              Repository
-              <span aria-hidden="true">↗</span>
-            </a>
-          )}
+        <div className="mt-8 flex flex-wrap items-center gap-4">
           {project.liveUrl && (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-solid text-xs"
+              className="btn-comet text-xs"
             >
-              Live demo
-              <span aria-hidden="true">↗</span>
+              Live Demo
+              <span className="link-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          )}
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-twilight text-xs"
+            >
+              GitHub Repository
+              <span className="link-arrow" aria-hidden="true">
+                ↗
+              </span>
             </a>
           )}
           {project.image && (
@@ -85,10 +95,12 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
               href={project.image}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-quiet text-xs"
+              className="btn-twilight text-xs"
             >
-              Open full screenshot
-              <span aria-hidden="true">↗</span>
+              Open Full-Resolution Frame
+              <span className="link-arrow" aria-hidden="true">
+                ↗
+              </span>
             </a>
           )}
         </div>

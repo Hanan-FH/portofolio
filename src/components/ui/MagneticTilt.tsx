@@ -2,9 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 
 interface MagneticTiltProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  maxTilt?: number; // Maximum rotation in degrees (default: 4)
+  maxTilt?: number;
   className?: string;
-  enableGlow?: boolean;
 }
 
 function checkCanHover(): boolean {
@@ -16,9 +15,8 @@ function checkCanHover(): boolean {
 
 export function MagneticTilt({
   children,
-  maxTilt = 4,
+  maxTilt = 3,
   className = '',
-  enableGlow = true,
   style,
   ...rest
 }: MagneticTiltProps) {
@@ -52,12 +50,8 @@ export function MagneticTilt({
 
     const rotX = (-relY * maxTilt).toFixed(2);
     const rotY = (relX * maxTilt).toFixed(2);
-    const transX = (relX * 6).toFixed(2);
-    const transY = (relY * 6).toFixed(2);
 
-    setTransform(
-      `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translate3d(${transX}px, ${transY}px, 0)`
-    );
+    setTransform(`perspective(1100px) rotateX(${rotX}deg) rotateY(${rotY}deg) translate3d(0, -2px, 0)`);
   };
 
   const handleMouseEnter = () => {
@@ -68,7 +62,7 @@ export function MagneticTilt({
   const handleMouseLeave = () => {
     if (!canHover) return;
     setIsHovered(false);
-    setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)');
+    setTransform('perspective(1100px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)');
   };
 
   return (
@@ -81,15 +75,11 @@ export function MagneticTilt({
         ...style,
         transform: canHover ? transform : undefined,
         transition: isHovered
-          ? 'transform 120ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, border-color 250ms ease'
-          : 'transform 550ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 350ms ease, border-color 250ms ease',
+          ? 'transform 140ms cubic-bezier(0.16, 1, 0.3, 1)'
+          : 'transform 520ms cubic-bezier(0.16, 1, 0.3, 1)',
         willChange: canHover && isHovered ? 'transform' : 'auto',
       }}
-      className={`relative ${
-        isHovered && enableGlow
-          ? 'shadow-[0_20px_40px_rgba(0,209,255,0.18)]'
-          : ''
-      } ${className}`}
+      className={`relative ${className}`.trim()}
       {...rest}
     >
       {children}

@@ -4,136 +4,140 @@ import { Section, SectionHeading } from '../ui/Section';
 export function Skills() {
   const { skills } = portfolioData;
 
-  const skillGroups = [
+  const capabilityDomains = [
+    {
+      id: 'programming',
+      coord: 'MAT // 01',
+      title: 'Core Engineering & Languages',
+      items: skills.programming,
+    },
     {
       id: 'frontend',
-      category: 'Frontend Engineering',
-      description:
-        'Building semantic, accessible, and high-performance user interfaces with modern client frameworks.',
+      coord: 'MAT // 02',
+      title: 'Frontend & Interface Architecture',
       items: skills.frontend,
-      telemetry: 'DOM · VDOM · CSS ENGINE',
     },
     {
       id: 'backend',
-      category: 'Backend Architectures',
-      description:
-        'Engineering server-side routing, RESTful APIs, OOP business logic, and modular runtime services.',
+      coord: 'MAT // 03',
+      title: 'Backend & Runtime Services',
       items: skills.backend,
-      telemetry: 'REST · JSON · HTTP LIFECYCLE',
     },
     {
-      id: 'databases',
-      category: 'Databases & Query Logic',
-      description:
-        'Relational schema architecture, data normalization, indices, constraints, and structured SQL operations.',
+      id: 'database',
+      coord: 'MAT // 04',
+      title: 'Relational Databases & Schemas',
       items: skills.database,
-      telemetry: 'RDBMS · SCHEMAS · DDL / DML',
+    },
+    {
+      id: 'design',
+      coord: 'MAT // 05',
+      title: 'Design Systems & Accessibility',
+      items: skills.design,
     },
     {
       id: 'tools',
-      category: 'Tooling & DevOps Workflow',
-      description:
-        'Version control workflows, API debugging, command-line environments, and modular build systems.',
+      coord: 'MAT // 06',
+      title: 'Developer Tooling & Workflows',
       items: skills.tools,
-      telemetry: 'GIT · CLI · BUILD RUNTIMES',
     },
   ];
 
   return (
     <Section id="skills">
       <div className="container-site">
-        <SectionHeading index="03" label="Technical Stack" note="Core Competencies" />
+        <SectionHeading
+          index="02"
+          label="Technical Capabilities Matrix"
+          kanji="技術体系"
+          note="Verified Stack · Zero Arbitrary Meters"
+        />
 
-        <div className="mt-10 max-w-[44rem]">
-          <h2 className="text-statement font-medium text-paper">
-            Programming languages, web technologies, and developer tooling.
+        <div className="mt-10 max-w-[46rem]">
+          <h2 className="editorial-heading text-2xl font-semibold text-white sm:text-3xl lg:text-[2.2rem]">
+            Programming languages, web architectures, and engineering tooling.
           </h2>
         </div>
 
-        {/* 4 Core Competency Quadrants */}
-        <div className="mt-14 grid gap-8 sm:grid-cols-2">
-          {skillGroups.map((group, index) => (
+        {/* 6-Domain Capabilities Matrix (Glass Badges Only — Zero Fake Progress Bars) */}
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {capabilityDomains.map((domain) => (
             <div
-              key={group.id}
-              className="group rounded-xs border border-line bg-panel/70 p-6 transition-all duration-300 hover:border-signal/45 hover:bg-panel hover:shadow-[0_8px_24px_rgba(0,209,255,0.08)] sm:p-7"
+              key={domain.id}
+              className="crepuscular-card-interactive flex flex-col justify-between rounded-2xl p-6"
             >
-              <div className="flex items-center justify-between border-b border-line/70 pb-3">
-                <span className="font-mono text-[0.66rem] font-bold tracking-[0.14em] text-signal">
-                  0{index + 1} // {group.telemetry}
-                </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-line-strong transition-colors group-hover:bg-signal" />
-              </div>
-
-              <h3 className="mt-4 text-lg font-medium text-paper transition-colors group-hover:text-signal">
-                {group.category}
-              </h3>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-xs border border-line/80 bg-panel-raised px-2.5 py-1 font-mono text-[0.68rem] tracking-[0.04em] text-paper transition-colors hover:border-signal/50"
-                  >
-                    {item}
+              <div>
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <span className="font-mono text-[0.68rem] uppercase tracking-[0.24em] text-pink-300/90">
+                    {domain.coord}
                   </span>
-                ))}
-              </div>
+                  <span className="h-1.5 w-1.5 rounded-full bg-sky-300 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
+                </div>
 
-              <p className="mt-4 text-[0.84rem] leading-relaxed text-dim">
-                {group.description}
-              </p>
+                <h3 className="editorial-heading mt-4 text-lg font-semibold text-white">
+                  {domain.title}
+                </h3>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {domain.items.map((tech) => (
+                    <span
+                      key={tech}
+                      className="twilight-badge rounded-full px-3 py-1 font-mono text-xs text-slate-100"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Curriculum Languages Grid */}
-        <div className="mt-20 border-t border-line pt-10">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        {/* 9 Authentic Curriculum Languages with Original SVG Assets */}
+        <div className="mt-20">
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <span className="font-mono text-[0.64rem] uppercase tracking-[0.16em] text-signal">
-                Curriculum Languages & Systems
-              </span>
-              <h3 className="mt-1 text-xl font-medium text-paper">
-                Languages Studied Across Practical Coursework
+              <span className="astro-label">Curriculum Language Registry</span>
+              <h3 className="editorial-heading mt-2 text-xl font-semibold text-white sm:text-2xl">
+                Core Languages Across Practical Coursework
               </h3>
             </div>
-            <span className="font-mono text-[0.64rem] tracking-[0.08em] text-dim">
-              9 CORE LANGUAGES VERIFIED
-            </span>
+            <span className="astro-meta">09 Verified Languages</span>
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {skills.languages.map((language) => (
               <div
                 key={language.name}
-                className="group flex items-start gap-4 rounded-xs border border-line/70 bg-panel/50 p-4 transition-all duration-200 hover:border-signal/40 hover:bg-panel"
+                className="crepuscular-card-interactive group flex items-start gap-4 rounded-2xl p-5"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-line bg-panel-raised p-2 transition-colors group-hover:border-signal/50">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-[#070a18]/80 p-2.5 shadow-inner">
                   <img
                     src={language.image}
-                    alt=""
-                    aria-hidden="true"
-                    className="h-full w-full object-contain filter transition duration-200 group-hover:brightness-110"
-                    width={24}
-                    height={24}
+                    alt={language.name}
+                    width={28}
+                    height={28}
                     loading="lazy"
                     decoding="async"
+                    className="h-7 w-7 object-contain"
                   />
                 </div>
 
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-medium text-paper transition-colors group-hover:text-signal">
+                    <h4 className="font-sans text-base font-semibold text-white group-hover:text-amber-200">
                       {language.name}
-                    </span>
-                    <span className="font-mono text-[0.58rem] tracking-[0.06em] text-dim">
+                    </h4>
+                    <span className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-sky-200/75">
                       {language.tag}
                     </span>
                   </div>
-                  <span className="mt-0.5 block font-mono text-[0.6rem] uppercase tracking-[0.06em] text-signal/80">
+
+                  <p className="mt-0.5 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-pink-300/85">
                     {language.category}
-                  </span>
-                  <p className="mt-1.5 text-xs leading-relaxed text-dim">
+                  </p>
+
+                  <p className="mt-2 text-xs leading-relaxed text-slate-300">
                     {language.description}
                   </p>
                 </div>

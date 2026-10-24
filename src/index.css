@@ -1,60 +1,86 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   DESIGN TOKENS — THE DYNAMIC DUO (Pure Black #000000 + Electric Cyan #00D1FF)
-   An architectural, Swiss-editorial developer identity.
+   SHINKAI "KATAWAREDOKI" (黄昏時) ATMOSPHERIC RAYLEIGH SCATTERING PALETTE
+   Target Universe: Makoto Shinkai's Kimi no Na wa. (君の名は。)
    ============================================================================= */
+:root {
+  /* Zenith Deep Space (Upper Atmosphere & Stars) */
+  --shinkai-zenith-abyss: #070a18;
+  --shinkai-zenith-indigo: #0e1433;
+  --shinkai-night-ultramarine: #181d4a;
+
+  /* Katawaredoki (黄昏時) Scattering Crest (Middle Sky Transition) */
+  --shinkai-twilight-violet: #2e1847;
+  --shinkai-twilight-plum: #52194f;
+  --shinkai-kataware-rose: #881a58;
+  --shinkai-kataware-magenta: #b51a69;
+
+  /* Solar Flare Horizon (Crepuscular Edge & Cloud Rim Lighting) */
+  --shinkai-solar-amber: #ea580c;
+  --shinkai-solar-gold: #f59e0b;
+  --shinkai-horizon-glow: #fef08a;
+
+  /* Tiamat Celestial Accents */
+  --tiamat-cyan-core: #ffffff;
+  --tiamat-cyan-plasma: #38bdf8;
+  --tiamat-cyan-corona: rgba(56, 189, 248, 0.45);
+  --tiamat-rose-fragment: #f43f5e;
+  --tiamat-violet-fragment: #c084fc;
+  --tiamat-rose-corona: rgba(244, 63, 94, 0.35);
+
+  /* Glass & Depth Surface Foundations */
+  --surface-twilight-glass: rgba(14, 20, 51, 0.65);
+  --surface-glass-border: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(244, 63, 94, 0.2) 50%,
+    rgba(56, 189, 248, 0.15) 100%
+  );
+  --rim-light-gold: rgba(254, 240, 138, 0.35);
+  --shadow-twilight-deep: 0 24px 60px -12px rgba(7, 10, 24, 0.9);
+}
+
 @theme {
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Shippori Mincho", "Cinzel", Georgia, "Times New Roman", serif;
+  --font-display: "Cinzel", "Shippori Mincho", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --color-ink: #000000;
-  --color-panel: #07080a;
-  --color-panel-raised: #0f1115;
-  --color-panel-highlight: #171a20;
-  --color-paper: #ffffff;
-  --color-mist: #a0aec0;
-  --color-dim: #94a3b8;
-  --color-line: rgba(255, 255, 255, 0.12);
-  --color-line-strong: rgba(255, 255, 255, 0.24);
-  --color-signal: #00d1ff;
-  --color-signal-soft: rgba(0, 209, 255, 0.08);
-  --color-signal-glow: rgba(0, 209, 255, 0.22);
-  --color-success: #10b981;
-  --color-danger: #f87171;
+  --color-zenith-abyss: #070a18;
+  --color-zenith-indigo: #0e1433;
+  --color-night-ultramarine: #181d4a;
+  --color-twilight-violet: #2e1847;
+  --color-twilight-plum: #52194f;
+  --color-kataware-rose: #881a58;
+  --color-kataware-magenta: #b51a69;
+  --color-solar-amber: #ea580c;
+  --color-solar-gold: #f59e0b;
+  --color-horizon-glow: #fef08a;
+  --color-tiamat-cyan: #38bdf8;
+  --color-tiamat-rose: #f43f5e;
+  --color-tiamat-violet: #c084fc;
 
-  --text-display: clamp(3rem, 7.5vw, 6.5rem);
-  --text-display--line-height: 0.92;
-  --text-display--letter-spacing: -0.045em;
+  --color-starlight: #f8fafc;
+  --color-cloud-mist: #cbd5e1;
+  --color-twilight-muted: #94a3b8;
+  --color-success: #34d399;
+  --color-danger: #fb7185;
 
-  --text-statement: clamp(1.85rem, 3.5vw, 3rem);
-  --text-statement--line-height: 1.08;
-  --text-statement--letter-spacing: -0.035em;
-
-  --text-lede: clamp(1.0625rem, 1.35vw, 1.25rem);
-  --text-lede--line-height: 1.65;
-
-  --text-label: 0.6875rem;
-  --text-label--line-height: 1.2;
-  --text-label--letter-spacing: 0.14em;
-
-  --text-meta: 0.75rem;
-  --text-meta--line-height: 1.45;
-  --text-meta--letter-spacing: 0.02em;
-
-  --ease-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-shinkai: cubic-bezier(0.16, 1, 0.3, 1);
   --container-site: 78rem;
 }
 
 /* =============================================================================
-   BASE ARCHITECTURE
+   BASE EDITORIAL & ACCESSIBILITY ARCHITECTURE
    ============================================================================= */
 @layer base {
   html {
-    scroll-padding-top: 70px;
+    scroll-padding-top: 84px;
     scrollbar-gutter: stable;
     -webkit-text-size-adjust: 100%;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: var(--shinkai-zenith-abyss);
+    color-scheme: dark;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -64,18 +90,20 @@
   }
 
   body {
-    background-color: var(--color-ink);
-    color: var(--color-paper);
+    background-color: var(--shinkai-zenith-abyss);
+    color: #f8fafc;
     font-family: var(--font-sans);
     font-size: 1rem;
-    line-height: 1.65;
-    letter-spacing: -0.005em;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     text-wrap: balance;
   }
 
@@ -89,42 +117,54 @@
   }
 
   ::selection {
-    background-color: var(--color-signal);
-    color: #000000;
+    background-color: rgba(56, 189, 248, 0.32);
+    color: #ffffff;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-signal);
+    outline: 2px solid var(--tiamat-cyan-plasma);
     outline-offset: 3px;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
+
   ::-webkit-scrollbar-track {
-    background: #000000;
+    background: var(--shinkai-zenith-abyss);
   }
+
   ::-webkit-scrollbar-thumb {
-    background: #1e2229;
-    border-radius: 3px;
+    background: linear-gradient(
+      180deg,
+      var(--shinkai-night-ultramarine),
+      var(--shinkai-kataware-rose)
+    );
+    border-radius: 9999px;
+    border: 2px solid var(--shinkai-zenith-abyss);
   }
+
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-signal);
+    background: linear-gradient(
+      180deg,
+      var(--tiamat-cyan-plasma),
+      var(--tiamat-rose-fragment)
+    );
   }
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   textarea:-webkit-autofill {
-    -webkit-text-fill-color: var(--color-paper);
-    -webkit-box-shadow: 0 0 0 1000px var(--color-ink) inset;
-    caret-color: var(--color-paper);
+    -webkit-text-fill-color: #f8fafc;
+    -webkit-box-shadow: 0 0 0 1000px #0b1029 inset;
+    caret-color: #f8fafc;
   }
 }
 
 /* =============================================================================
-   ARCHITECTURAL COMPONENT PATTERNS
+   SHINKAI VISUAL PHYSICS & CREPUSCULAR SURFACE SYSTEM
    ============================================================================= */
 @layer components {
   .container-site {
@@ -134,56 +174,258 @@
     padding-inline: clamp(1.25rem, 4vw, 3rem);
   }
 
-  .meta-label {
-    @apply font-mono text-[0.65rem] uppercase tracking-[0.14em] text-dim;
+  /* Astronomical Coordinate Micro-Labels */
+  .astro-label {
+    @apply font-mono text-xs uppercase tracking-[0.28em] text-pink-300/85;
   }
 
-  /* Architectural Kinetic Button */
-  .btn-solid {
-    @apply inline-flex min-h-11 items-center justify-center gap-2.5 rounded-xs border border-paper/85 bg-panel-raised px-6 py-2.5 text-sm font-medium text-paper transition-all duration-200 ease-fluid hover:border-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_24px_rgba(0,209,255,0.35)];
+  .astro-meta {
+    @apply font-mono text-[0.7rem] uppercase tracking-[0.2em] text-slate-300/75;
   }
 
-  .btn-quiet {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xs border border-line bg-panel/60 px-5 py-2.5 text-sm font-medium text-mist transition-all duration-200 ease-fluid hover:border-signal/50 hover:bg-panel-raised hover:text-paper;
+  /* Editorial Serif Display Headings */
+  .editorial-display {
+    font-family: var(--font-serif);
+    letter-spacing: 0.08em;
+    line-height: 1.12;
   }
 
+  .editorial-heading {
+    font-family: var(--font-serif);
+    letter-spacing: 0.1em;
+    line-height: 1.22;
+  }
+
+  /* Crepuscular Rim Highlight Glass Card (1px Solar Gold/Rose -> Cyan/Indigo Border) */
+  .crepuscular-card {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(160deg, rgba(14, 20, 51, 0.76) 0%, rgba(10, 14, 36, 0.84) 100%) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(254, 240, 138, 0.42) 0%,
+        rgba(244, 63, 94, 0.3) 42%,
+        rgba(56, 189, 248, 0.24) 78%,
+        rgba(24, 29, 74, 0.45) 100%
+      ) border-box;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 250, 230, 0.12),
+      var(--shadow-twilight-deep);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .crepuscular-card-interactive {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(160deg, rgba(14, 20, 51, 0.72) 0%, rgba(9, 13, 33, 0.84) 100%) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(254, 240, 138, 0.38) 0%,
+        rgba(244, 63, 94, 0.26) 45%,
+        rgba(56, 189, 248, 0.22) 82%,
+        rgba(24, 29, 74, 0.42) 100%
+      ) border-box;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 250, 230, 0.1),
+      var(--shadow-twilight-deep);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: transform 320ms var(--ease-shinkai), opacity 320ms var(--ease-shinkai);
+  }
+
+  .crepuscular-card-interactive:hover {
+    background:
+      linear-gradient(160deg, rgba(20, 27, 68, 0.82) 0%, rgba(14, 18, 46, 0.9) 100%) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(254, 240, 138, 0.68) 0%,
+        rgba(244, 63, 94, 0.48) 45%,
+        rgba(56, 189, 248, 0.55) 85%,
+        rgba(192, 132, 252, 0.42) 100%
+      ) border-box;
+    transform: translateY(-2px);
+  }
+
+  /* Refined Crepuscular Glass Pill / Tech Badge */
+  .twilight-badge {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(145deg, rgba(18, 25, 62, 0.78), rgba(11, 15, 38, 0.86)) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(254, 240, 138, 0.32) 0%,
+        rgba(244, 63, 94, 0.24) 48%,
+        rgba(56, 189, 248, 0.28) 100%
+      ) border-box;
+    transition: transform 220ms var(--ease-shinkai), opacity 220ms var(--ease-shinkai);
+  }
+
+  .twilight-badge:hover {
+    background:
+      linear-gradient(145deg, rgba(28, 36, 86, 0.9), rgba(18, 24, 58, 0.92)) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(254, 240, 138, 0.65) 0%,
+        rgba(56, 189, 248, 0.65) 55%,
+        rgba(244, 63, 94, 0.5) 100%
+      ) border-box;
+    transform: translateY(-1px);
+  }
+
+  /* Primary Comet-Glow Action Button */
+  .btn-comet {
+    position: relative;
+    display: inline-flex;
+    min-height: 2.875rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    border-radius: 9999px;
+    padding: 0.7rem 1.65rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(135deg, rgba(26, 54, 110, 0.92) 0%, rgba(82, 25, 79, 0.92) 58%, rgba(136, 26, 88, 0.92) 100%) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(254, 240, 138, 0.85) 0%,
+        rgba(56, 189, 248, 0.85) 48%,
+        rgba(244, 63, 94, 0.78) 100%
+      ) border-box;
+    box-shadow:
+      0 0 28px -4px rgba(56, 189, 248, 0.42),
+      0 10px 28px -8px rgba(244, 63, 94, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    transition: transform 260ms var(--ease-shinkai), opacity 260ms var(--ease-shinkai);
+  }
+
+  .btn-comet:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-comet:focus-visible {
+    outline: 2px solid var(--tiamat-cyan-plasma);
+    outline-offset: 3px;
+  }
+
+  /* Secondary Twilight Glass-Bordered Button */
+  .btn-twilight {
+    display: inline-flex;
+    min-height: 2.875rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border-radius: 9999px;
+    padding: 0.7rem 1.55rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: #f1f5f9;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(145deg, rgba(14, 20, 51, 0.72), rgba(10, 14, 34, 0.82)) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(254, 240, 138, 0.48) 0%,
+        rgba(244, 63, 94, 0.34) 50%,
+        rgba(56, 189, 248, 0.34) 100%
+      ) border-box;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: transform 260ms var(--ease-shinkai), opacity 260ms var(--ease-shinkai);
+  }
+
+  .btn-twilight:hover {
+    background:
+      linear-gradient(145deg, rgba(24, 32, 76, 0.88), rgba(16, 22, 54, 0.92)) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(254, 240, 138, 0.72) 0%,
+        rgba(56, 189, 248, 0.65) 55%,
+        rgba(244, 63, 94, 0.55) 100%
+      ) border-box;
+    transform: translateY(-2px);
+  }
+
+  .btn-twilight:focus-visible {
+    outline: 2px solid var(--tiamat-cyan-plasma);
+    outline-offset: 3px;
+  }
+
+  /* Nightfall Terminal Input Fields */
   .field-label {
-    @apply mb-2 block font-mono text-[0.65rem] uppercase tracking-[0.12em] text-dim;
+    @apply mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.22em] text-pink-200/80;
   }
 
-  .field {
-    @apply w-full border-b border-line bg-transparent py-2.5 text-[0.95rem] text-paper transition-colors duration-200 placeholder:text-dim/55 hover:border-line-strong focus:border-signal focus:outline-none focus:ring-1 focus:ring-signal/60;
+  .field-twilight {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(160deg, rgba(7, 10, 24, 0.78), rgba(14, 20, 51, 0.68)) padding-box,
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.18) 0%,
+        rgba(244, 63, 94, 0.16) 52%,
+        rgba(56, 189, 248, 0.18) 100%
+      ) border-box;
+    @apply w-full rounded-xl px-4 py-3 text-[0.95rem] text-slate-100 placeholder:text-slate-400/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400;
   }
 
   .link-arrow {
-    @apply inline-block transition-transform duration-200 ease-fluid;
+    display: inline-block;
+    transition: transform 220ms var(--ease-shinkai);
   }
 
   a:hover .link-arrow,
   button:hover .link-arrow {
     transform: translate(2px, -2px);
   }
-
-  /* Subtle structural background grid */
-  .bg-structural-grid {
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 64px 64px;
-  }
 }
 
 /* =============================================================================
-   KEYFRAME MOTIONS
+   GPU-COMPOSITED CELESTIAL & ASTROLABE KEYFRAMES (transform & opacity ONLY)
    ============================================================================= */
-@keyframes rise-in {
+@keyframes hero-unmask {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translate3d(0, 18px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes astrolabe-spin-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes astrolabe-spin-ccw {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes beacon-breathe {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
   }
 }
 
@@ -199,42 +441,35 @@
 @keyframes panel-in {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.995);
+    transform: translate3d(0, 14px, 0) scale(0.985);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes drawer-in {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse-subtle {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(0.85);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
 .hero-rise {
-  animation: rise-in 800ms var(--ease-fluid) backwards;
+  animation: hero-unmask 850ms var(--ease-shinkai) backwards;
+}
+
+.astrolabe-ring-cw {
+  animation: astrolabe-spin-cw 64s linear infinite;
+  transform-origin: center;
+}
+
+.astrolabe-ring-ccw {
+  animation: astrolabe-spin-ccw 46s linear infinite;
+  transform-origin: center;
+}
+
+.astrolabe-ring-slow {
+  animation: astrolabe-spin-cw 92s linear infinite;
+  transform-origin: center;
 }
 
 .beacon-pulse {
-  animation: pulse-subtle 2.4s ease-in-out infinite;
+  animation: beacon-breathe 2.8s ease-in-out infinite;
 }
 
 .modal-backdrop-enter {
@@ -242,15 +477,18 @@
 }
 
 .modal-panel-enter {
-  animation: panel-in 300ms var(--ease-fluid) backwards;
+  animation: panel-in 320ms var(--ease-shinkai) backwards;
 }
 
 .drawer-enter {
-  animation: drawer-in 320ms var(--ease-fluid) backwards;
+  animation: fade-in 240ms var(--ease-shinkai) backwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-rise,
+  .astrolabe-ring-cw,
+  .astrolabe-ring-ccw,
+  .astrolabe-ring-slow,
   .beacon-pulse,
   .modal-backdrop-enter,
   .modal-panel-enter,
@@ -258,15 +496,21 @@
     animation: none !important;
   }
 
+  .crepuscular-card-interactive,
+  .twilight-badge,
+  .btn-comet,
+  .btn-twilight,
+  .link-arrow {
+    transition: none !important;
+    transform: none !important;
+  }
+
   *,
   *::before,
   *::after {
     scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  a:hover .link-arrow,
-  button:hover .link-arrow {
-    transform: none;
   }
 }

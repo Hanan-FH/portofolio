@@ -1,23 +1,58 @@
 export interface SectionHeadingProps {
   index: string;
   label: string;
+  kanji?: string;
   note?: string;
   className?: string;
 }
 
 /**
- * Standard architectural section heading with index marker, section label, and metadata note.
+ * Astronomical coordinate section header with crepuscular horizon hairline.
  */
-export function SectionHeading({ index, label, note, className = '' }: SectionHeadingProps) {
+export function SectionHeading({
+  index,
+  label,
+  kanji,
+  note,
+  className = '',
+}: SectionHeadingProps) {
   return (
-    <div className={`flex items-baseline justify-between gap-6 border-t border-line pt-4 ${className}`.trim()}>
-      <div className="flex items-baseline gap-4">
-        <span className="font-mono text-[0.68rem] font-bold tracking-[0.12em] text-signal">{index}</span>
-        <span className="font-mono text-[0.66rem] uppercase tracking-[0.14em] text-mist">
-          {label}
-        </span>
+    <div className={`relative pt-5 ${className}`.trim()}>
+      <div
+        aria-hidden="true"
+        className="mb-5 h-px w-full"
+        style={{
+          background:
+            'linear-gradient(90deg, rgba(254, 240, 138, 0.52) 0%, rgba(244, 63, 94, 0.42) 34%, rgba(56, 189, 248, 0.34) 72%, rgba(56, 189, 248, 0.04) 100%)',
+        }}
+      />
+
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.28em] text-amber-200/90">
+            <span className="h-1.5 w-1.5 rounded-full bg-rose-400 shadow-[0_0_10px_rgba(244,63,94,0.85)]" />
+            {index}
+          </span>
+          <span aria-hidden="true" className="h-3 w-px bg-white/20" />
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-pink-300/85">
+            {label}
+          </span>
+          {kanji && (
+            <span
+              aria-hidden="true"
+              className="hidden font-serif text-xs tracking-[0.22em] text-sky-200/65 sm:inline"
+            >
+              · {kanji}
+            </span>
+          )}
+        </div>
+
+        {note && (
+          <span className="font-mono text-[0.68rem] uppercase tracking-[0.24em] text-sky-200/70">
+            {note}
+          </span>
+        )}
       </div>
-      {note && <span className="meta-label shrink-0 text-right">{note}</span>}
     </div>
   );
 }

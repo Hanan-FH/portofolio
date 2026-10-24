@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import type { Certificate, Project } from './data/portfolio';
+import { CinematicIntro } from './components/atmosphere/CinematicIntro';
+import { KatawareSkyBackdrop } from './components/atmosphere/KatawareSkyBackdrop';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
-import { Projects } from './components/sections/Projects';
 import { Skills } from './components/sections/Skills';
+import { Projects } from './components/sections/Projects';
 import { Certificates } from './components/sections/Certificates';
 import { Contact } from './components/sections/Contact';
 import { ProjectModal } from './components/ProjectModal';
 import { CertificateModal } from './components/CertificateModal';
-import { Starfield } from './components/galaxy/Starfield';
-import { CometCursor } from './components/galaxy/CometCursor';
 
-const SECTION_IDS = ['hero', 'about', 'projects', 'skills', 'certificates', 'contact'];
+const SECTION_IDS = ['hero', 'about', 'skills', 'projects', 'certificates', 'contact'];
 
 export function App() {
   const [activeSection, setActiveSection] = useState('hero');
@@ -25,7 +25,7 @@ export function App() {
 
     const updateActiveSection = () => {
       frame = 0;
-      const marker = window.scrollY + 110;
+      const marker = window.scrollY + 140;
       let next = 'hero';
 
       for (const id of SECTION_IDS) {
@@ -37,7 +37,7 @@ export function App() {
 
       if (
         window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 4
+        document.documentElement.scrollHeight - 8
       ) {
         next = 'contact';
       }
@@ -52,7 +52,7 @@ export function App() {
 
     updateActiveSection();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
+    window.addEventListener('resize', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -74,28 +74,29 @@ export function App() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-ink text-paper selection:bg-signal selection:text-black">
+    <div className="relative min-h-screen overflow-x-clip bg-zenith-abyss text-starlight">
+      {/* Accessible Skip-to-Content Link */}
       <a
         href="#main-content"
-        className="fixed left-4 top-[-100px] z-[300] bg-signal px-4 py-2 font-mono text-xs font-semibold text-black transition-[top] duration-200 focus:top-4"
+        className="fixed left-4 top-[-100px] z-[300] rounded-full bg-sky-300 px-5 py-2.5 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#070a18] shadow-lg transition-[top] duration-200 focus:top-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-200"
       >
         Skip to main content
       </a>
 
-      {/* Galactic Comet Cursor with zero-lag rAF interpolation */}
-      <CometCursor />
+      {/* Self-Contained HTML5 Canvas Kimi no Na wa. Opening Engine */}
+      <CinematicIntro />
 
-      {/* Atmospheric depth-layered galaxy starfield */}
-      <Starfield />
+      {/* Persistent Atmospheric Rayleigh Scattering Sky & Zenith Starfield */}
+      <KatawareSkyBackdrop />
 
-      {/* Sticky architectural navigation bar */}
+      {/* Floating Twilight Glass Navigation Bar */}
       <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
 
       <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none">
         <Hero onNavigate={handleNavigate} />
         <About />
-        <Projects onSelectProject={setSelectedProject} />
         <Skills />
+        <Projects onSelectProject={setSelectedProject} />
         <Certificates onSelectCert={setSelectedCertificate} />
         <Contact />
       </main>
