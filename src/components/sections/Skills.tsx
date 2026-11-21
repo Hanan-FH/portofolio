@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { portfolioData } from '../../data/portfolio';
 import { Section, SectionHeading } from '../ui/Section';
 
@@ -29,6 +30,22 @@ function buildUniqueSkills(
  */
 export function Skills() {
   const { skills } = portfolioData;
+  const marqueeWrapRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = marqueeWrapRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    el.classList.add('motion-paused');
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries[0]?.isIntersecting ?? true;
+        el.classList.toggle('motion-paused', !visible);
+      },
+      { rootMargin: '120px 0px', threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const primaryRibbon = buildUniqueSkills([
     { items: skills.programming, category: 'Engineering', accent: 'cyan' },
@@ -81,8 +98,8 @@ export function Skills() {
         </div>
       </div>
 
-      {/* Hardware-Accelerated Dual Infinite Marquee Ribbons */}
-      <div className="mt-9 space-y-3.5">
+      {/* Hardware-Accelerated Dual Infinite Marquee Ribbons (paused when offscreen) */}
+      <div ref={marqueeWrapRef} className="mt-9 space-y-3.5">
         <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="animate-marquee gap-3.5 py-1 hover:[animation-play-state:paused] motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:px-6">
             {primaryRibbon.map((skill) => renderMarqueeChip(skill, `p-a-${skill.name}`))}

@@ -27,6 +27,8 @@ export function CertificateModal({ certificate, onClose }: CertificateModalProps
         <OptimizedPicture
           src={certificate.image}
           alt={`${certificate.title} — ${certificate.issuer}`}
+          width={1600}
+          height={1100}
           eager
           className="h-full w-full object-contain"
         />

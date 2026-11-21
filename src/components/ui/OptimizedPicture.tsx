@@ -22,9 +22,9 @@ function toWebpSrc(src: string): string | null {
 
 /**
  * Bandwidth- & Memory-Optimized Picture Element.
- * Serves 1:1 full-resolution WebP companions (-75% to -96% payload) while keeping
- * authentic original PNG/JPG assets intact as fallback, gated by IntersectionObserver
- * so off-screen media consumes zero network data and zero decoded RGBA memory.
+ * Serves 1:1 full-resolution WebP companions while keeping authentic PNG/JPG assets
+ * as fallback, gated by IntersectionObserver so off-screen media consumes zero
+ * network bandwidth and zero decoded RGBA memory until scrolled near view.
  */
 export function OptimizedPicture({
   src,
@@ -38,84 +38,71 @@ export function OptimizedPicture({
   draggable,
   scrollRootRef,
 }: OptimizedPictureProps) {
-  const [inVerticalRange, setInVerticalRange] = useState<boolean>(eager);
   const [shouldLoad, setShouldLoad] = useState<boolean>(eager);
-  const holderRef = useRef<HTMLSpanElement | null>(null);
+  const holderRef = useRef<HTMLPictureElement | null>(null);
 
-  // Stage 1: Observe vertical proximity to viewport (220px margin)
   useEffect(() => {
-    if (inVerticalRange) return;
+    if (shouldLoad) return;
     const el = holderRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') {
-      setInVerticalRange(true);
-      return;
-    }
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setInVerticalRange(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: '220px 0px' }
-    );
-
-    io.observe(el);
-    return () => io.disconnect();
-  }, [inVerticalRange]);
-
-  // Stage 2: If inside a horizontal scroll reel, also gate by horizontal visibility
-  useEffect(() => {
-    if (shouldLoad || !inVerticalRange) return;
-    const rootEl = scrollRootRef?.current ?? null;
-    const el = holderRef.current;
-
-    if (!rootEl || !el || typeof IntersectionObserver === 'undefined') {
       setShouldLoad(true);
       return;
     }
 
-    const io = new IntersectionObserver(
+    let horizObserver: IntersectionObserver | null = null;
+    const vertObserver = new IntersectionObserver(
       (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        vertObserver.disconnect();
+
+        const rootEl = scrollRootRef?.current ?? null;
+        if (!rootEl) {
           setShouldLoad(true);
-          io.disconnect();
+          return;
         }
+
+        horizObserver = new IntersectionObserver(
+          (hEntries) => {
+            if (!hEntries.some((entry) => entry.isIntersecting)) return;
+            horizObserver?.disconnect();
+            setShouldLoad(true);
+          },
+          { root: rootEl, rootMargin: '0px 260px' }
+        );
+        horizObserver.observe(el);
       },
-      { root: rootEl, rootMargin: '0px 260px' }
+      { rootMargin: '220px 0px' }
     );
 
-    io.observe(el);
-    return () => io.disconnect();
-  }, [inVerticalRange, scrollRootRef, shouldLoad]);
+    vertObserver.observe(el);
+    return () => {
+      vertObserver.disconnect();
+      horizObserver?.disconnect();
+    };
+  }, [scrollRootRef, shouldLoad]);
 
   const webpSrc = toWebpSrc(src);
 
-  if (!shouldLoad) {
-    return (
-      <span
-        ref={holderRef}
-        aria-hidden="true"
-        className="block h-full w-full bg-[#050714]"
-      />
-    );
-  }
-
   return (
-    <picture className={pictureClassName}>
-      {webpSrc && <source srcSet={webpSrc} type="image/webp" />}
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        loading={eager ? 'eager' : 'lazy'}
-        fetchPriority={fetchPriority}
-        decoding="async"
-        draggable={draggable}
-        className={className}
-      />
+    <picture
+      ref={shouldLoad ? undefined : holderRef}
+      className={pictureClassName}
+      style={!shouldLoad && width && height ? { aspectRatio: `${width} / ${height}` } : undefined}
+    >
+      {shouldLoad && webpSrc && <source srcSet={webpSrc} type="image/webp" />}
+      {shouldLoad && (
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          loading={eager ? 'eager' : 'lazy'}
+          fetchPriority={fetchPriority}
+          decoding="async"
+          draggable={draggable}
+          className={className}
+        />
+      )}
     </picture>
   );
 }

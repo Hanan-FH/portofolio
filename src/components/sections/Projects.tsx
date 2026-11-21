@@ -51,7 +51,7 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                     className="group block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                   >
                     <MagneticTilt maxTilt={2.5}>
-                      <div className="rim-horizon-panel overflow-hidden p-1.5">
+                      <div className="rim-horizon-frame overflow-hidden p-1.5">
                         <div className="relative aspect-video w-full overflow-hidden bg-[#050714]">
                           {dims.portrait ? (
                             <div

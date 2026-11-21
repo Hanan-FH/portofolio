@@ -1,21 +1,38 @@
+import { useEffect, useRef } from 'react';
 import { portfolioData } from '../../data/portfolio';
+import { prefersReducedMotionNow } from '../../hooks/useReducedMotion';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
 export function Footer() {
   const { personal, social } = portfolioData;
+  const footerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = footerRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    el.classList.add('motion-paused');
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries[0]?.isIntersecting ?? false;
+        el.classList.toggle('motion-paused', !visible);
+      },
+      { threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const scrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.scrollTo({
       top: 0,
-      behavior: reduceMotion ? 'auto' : 'smooth',
+      behavior: prefersReducedMotionNow() ? 'auto' : 'smooth',
     });
   };
 
   return (
-    <footer className="relative bg-[#050714]/82 backdrop-blur-sm">
+    <footer ref={footerRef} className="relative bg-[#050714]/82 backdrop-blur-sm">
       <div className="anamorphic-streak opacity-65" aria-hidden="true" />
 
       <div className="container-site flex flex-col gap-6 py-10 md:flex-row md:items-end md:justify-between">

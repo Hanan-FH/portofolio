@@ -29,6 +29,8 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           <OptimizedPicture
             src={project.image}
             alt={project.title}
+            width={1280}
+            height={720}
             eager
             className="h-full w-full object-contain p-3 sm:p-5"
           />

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { portfolioData } from '../../data/portfolio';
 import { CloudHorizonBank } from '../atmosphere/CloudHorizonBank';
 import { MagneticTilt } from '../ui/MagneticTilt';
@@ -12,6 +13,21 @@ const DEGREE_TICKS = Array.from({ length: 72 }, (_, i) => i * 5);
 
 export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
   const { personal, social } = portfolioData;
+  const heroRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries[0]?.isIntersecting ?? true;
+        el.classList.toggle('motion-paused', !visible);
+      },
+      { threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const navigate = (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -24,6 +40,7 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
 
   return (
     <section
+      ref={heroRef}
       id="hero"
       className="relative scroll-mt-[72px] overflow-hidden pt-24 sm:pt-28 lg:pt-32"
     >
@@ -152,13 +169,13 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
             }`}
           >
             <div className="relative flex w-full items-center justify-center py-6 sm:py-8">
-              {/* Restrained Low-Angle Horizon Rim Backlight */}
+              {/* Restrained Low-Angle Horizon Rim Backlight (pure radial gradient, zero filter blur) */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-8 opacity-65 blur-3xl"
+                className="pointer-events-none absolute -inset-4 opacity-75"
                 style={{
                   background:
-                    'radial-gradient(circle at 50% 82%, rgba(253, 224, 71, 0.24) 0%, rgba(194, 65, 12, 0.22) 36%, rgba(109, 17, 70, 0.22) 66%, rgba(56, 189, 248, 0.14) 86%, transparent 100%)',
+                    'radial-gradient(circle at 50% 68%, rgba(253, 224, 71, 0.2) 0%, rgba(194, 65, 12, 0.16) 28%, rgba(109, 17, 70, 0.16) 52%, rgba(56, 189, 248, 0.08) 70%, transparent 86%)',
                 }}
               />
 
@@ -252,7 +269,7 @@ export function Hero({ isAssembled = true, onNavigate }: HeroProps) {
 
               {/* Preserved Real Profile Photograph (100% Fidelity, Explicit 3:4 Aspect Ratio) */}
               <MagneticTilt maxTilt={3} className="relative z-10 w-[75%] max-w-[18.75rem]">
-                <div className="rim-horizon-panel overflow-hidden p-2">
+                <div className="rim-horizon-frame overflow-hidden p-2">
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#050714]">
                     <OptimizedPicture
                       src={personal.profileImage}

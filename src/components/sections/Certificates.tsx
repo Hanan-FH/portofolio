@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { portfolioData, type Certificate } from '../../data/portfolio';
+import { prefersReducedMotionNow } from '../../hooks/useReducedMotion';
 import { OptimizedPicture } from '../ui/OptimizedPicture';
 import { Section, SectionHeading } from '../ui/Section';
 
@@ -10,55 +11,67 @@ interface CertificatesProps {
 /**
  * Minimalist Horizontal Scroll Vault (Gallery-Grade Slide-Scroll with CSS Scroll Snap).
  * Responds to native horizontal gestures, pointer drag, and keyboard navigation,
- * with a GPU transform-only Celestial Progress Trajectory.
+ * driving the GPU transform-only progress trajectory directly without React re-renders.
  */
 export function Certificates({ onSelectCert }: CertificatesProps) {
   const { certificates } = portfolioData;
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const meterRef = useRef<HTMLDivElement | null>(null);
-  const [scrollRatio, setScrollRatio] = useState(0);
-  const [meterWidth, setMeterWidth] = useState(0);
+  const progressBarRef = useRef<HTMLDivElement | null>(null);
+  const knotRef = useRef<HTMLDivElement | null>(null);
   const dragStateRef = useRef({ active: false, startX: 0, startScrollLeft: 0, moved: false });
-
-  const updateScrollRatio = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const max = el.scrollWidth - el.clientWidth;
-    setScrollRatio(max > 0 ? Math.max(0, Math.min(1, el.scrollLeft / max)) : 0);
-  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
     const meter = meterRef.current;
     if (!el) return;
 
-    updateScrollRatio();
-    if (meter) setMeterWidth(meter.clientWidth);
+    let maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+    let meterWidth = meter ? meter.clientWidth : 0;
+    let rafId = 0;
 
-    const onResize = () => {
-      updateScrollRatio();
-      if (meterRef.current) setMeterWidth(meterRef.current.clientWidth);
+    const syncProgress = () => {
+      rafId = 0;
+      const ratio = maxScroll > 0 ? Math.max(0, Math.min(1, el.scrollLeft / maxScroll)) : 0;
+      if (progressBarRef.current) {
+        progressBarRef.current.style.transform = `scaleX(${ratio.toFixed(4)})`;
+      }
+      if (knotRef.current) {
+        const knotX = Math.max(0, meterWidth - 8) * ratio;
+        knotRef.current.style.transform = `translate3d(${knotX.toFixed(1)}px, -50%, 0)`;
+      }
     };
 
-    const ro = new ResizeObserver(onResize);
+    const scheduleSync = () => {
+      if (!rafId) rafId = window.requestAnimationFrame(syncProgress);
+    };
+
+    const measure = () => {
+      maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+      if (meter) meterWidth = meter.clientWidth;
+      syncProgress();
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
     if (meter) ro.observe(meter);
 
-    el.addEventListener('scroll', updateScrollRatio, { passive: true });
+    el.addEventListener('scroll', scheduleSync, { passive: true });
     return () => {
-      el.removeEventListener('scroll', updateScrollRatio);
+      el.removeEventListener('scroll', scheduleSync);
       ro.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, [updateScrollRatio]);
+  }, []);
 
   const scrollByStep = (direction: -1 | 1) => {
     const el = scrollRef.current;
     if (!el) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const step = Math.min(el.clientWidth * 0.82, 420);
     el.scrollBy({
       left: direction * step,
-      behavior: reduce ? 'auto' : 'smooth',
+      behavior: prefersReducedMotionNow() ? 'auto' : 'smooth',
     });
   };
 
@@ -97,8 +110,6 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
   const endMouseDrag = () => {
     dragStateRef.current.active = false;
   };
-
-  const knotTranslateX = Math.max(0, meterWidth - 8) * scrollRatio;
 
   return (
     <Section id="certificates" className="overflow-hidden">
@@ -223,16 +234,18 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
         })}
       </div>
 
-      {/* Celestial Progress Trajectory (Strictly Transform-Driven — Zero Layout Reflow) */}
+      {/* Celestial Progress Trajectory (Strictly Transform-Driven — Zero Layout Reflow or Re-renders) */}
       <div className="mx-auto mt-4 max-w-xs px-6" aria-hidden="true">
         <div ref={meterRef} className="relative h-px w-full bg-white/12">
           <div
+            ref={progressBarRef}
             className="absolute inset-y-0 left-0 w-full origin-left bg-gradient-to-r from-rose-500/70 via-amber-300/80 to-sky-300/70 transition-transform duration-100"
-            style={{ transform: `scaleX(${scrollRatio.toFixed(4)})` }}
+            style={{ transform: 'scaleX(0)' }}
           />
           <div
+            ref={knotRef}
             className="absolute left-0 top-1/2 h-2 w-2 rounded-full bg-amber-200 shadow-[0_0_8px_rgba(253,224,71,0.75)] transition-transform duration-100"
-            style={{ transform: `translate3d(${knotTranslateX.toFixed(1)}px, -50%, 0)` }}
+            style={{ transform: 'translate3d(0px, -50%, 0)' }}
           />
         </div>
       </div>

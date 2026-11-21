@@ -5,7 +5,6 @@ type RGB = readonly [number, number, number];
 
 const CYAN: RGB = [56, 189, 248];
 const ROSE: RGB = [244, 63, 94];
-const WHITE: RGB = [255, 255, 255];
 
 /* 2.5D multi-plane cel parallax factors (relative to native document scroll) */
 const SKY_FACTOR = 0.02;
@@ -31,10 +30,6 @@ const THREAD_COUPLING = 22;
 const THREAD_IMPULSE = 0.0042;
 const THREAD_TAUT_VELOCITY = 2600;
 
-/* Content-plane inertial pitch */
-const MAX_PITCH_DEG = 1.2;
-const PITCH_PER_VELOCITY = 0.0009;
-
 /* SVG path coordinates in normalized 1440-wide design space */
 const MOUNTAIN_FILL_D =
   'M0,220 C60,200 110,170 170,178 C230,186 260,140 330,128 C400,116 430,156 500,150 C570,144 600,104 680,96 C760,88 790,132 860,128 C930,124 960,84 1040,92 C1120,100 1150,146 1220,140 C1290,134 1330,112 1380,120 C1410,124 1430,136 1440,140 L1440,300 L0,300 Z';
@@ -54,7 +49,7 @@ interface SkyStar {
   phase: number;
   depth: 0 | 1;
   spike: boolean;
-  rgb: string;
+  tone: 0 | 1 | 2; // 0: white, 1: cyan, 2: rose
 }
 
 interface Stardust {
@@ -81,11 +76,13 @@ interface Comet {
   length: number;
 }
 
-type StyleProp = 'transform' | 'opacity' | 'transformOrigin';
+type StyleProp = 'transform' | 'opacity';
 
 export interface AtmosphericScrollEngineProps {
-  /** Content plane receiving the ±1.2° velocity-driven inertial pitch (transform-only). */
+  /** Reference to content plane used for document height observation. */
   contentPlaneRef?: RefObject<HTMLElement | null>;
+  /** Pauses canvas animation while an opaque cold-open stage occludes the viewport. */
+  paused?: boolean;
 }
 
 function clamp(v: number, min: number, max: number): number {
@@ -113,19 +110,111 @@ function createRadialSprite(size: number, stops: ReadonlyArray<readonly [number,
   return sprite;
 }
 
+function createCrystalSprite(size: number, rgb: string): HTMLCanvasElement {
+  const sprite = document.createElement('canvas');
+  sprite.width = size;
+  sprite.height = size;
+  const g = sprite.getContext('2d');
+  if (g) {
+    const half = size / 2;
+    g.fillStyle = `rgb(${rgb})`;
+    g.beginPath();
+    g.arc(half, half, size * 0.1, 0, Math.PI * 2);
+    g.fill();
+
+    g.globalAlpha = 0.55;
+    g.strokeStyle = `rgb(${rgb})`;
+    g.lineWidth = 1;
+    g.beginPath();
+    g.moveTo(2, half);
+    g.lineTo(size - 2, half);
+    g.moveTo(half, 2);
+    g.lineTo(half, size - 2);
+    g.stroke();
+  }
+  return sprite;
+}
+
+function createCometTailSprite(): HTMLCanvasElement {
+  // Unit comet aligned along +X (head at x = 260, tail extending toward x = 0)
+  const w = 288;
+  const h = 56;
+  const headX = 260;
+  const headY = 28;
+  const tailLen = 240;
+  const sprite = document.createElement('canvas');
+  sprite.width = w;
+  sprite.height = h;
+  const g = sprite.getContext('2d');
+  if (!g) return sprite;
+
+  g.globalCompositeOperation = 'lighter';
+  g.lineCap = 'round';
+
+  const ion = g.createLinearGradient(headX, headY, headX - tailLen, headY);
+  ion.addColorStop(0, 'rgba(255, 255, 255, 1)');
+  ion.addColorStop(0.18, 'rgba(56, 189, 248, 0.85)');
+  ion.addColorStop(0.65, 'rgba(244, 63, 94, 0.35)');
+  ion.addColorStop(1, 'rgba(244, 63, 94, 0)');
+  g.strokeStyle = ion;
+  g.lineWidth = 1.8;
+  g.beginPath();
+  g.moveTo(headX, headY);
+  g.lineTo(headX - tailLen, headY);
+  g.stroke();
+
+  const rot = 0.09;
+  const fragLen = tailLen * 0.62;
+  const fx2 = headX - Math.cos(rot) * fragLen;
+  const fy2 = headY - Math.sin(rot) * fragLen;
+  const frag = g.createLinearGradient(headX, headY, fx2, fy2);
+  frag.addColorStop(0, 'rgba(244, 63, 94, 0.5)');
+  frag.addColorStop(1, 'rgba(109, 17, 70, 0)');
+  g.strokeStyle = frag;
+  g.lineWidth = 1;
+  g.beginPath();
+  g.moveTo(headX, headY);
+  g.lineTo(fx2, fy2);
+  g.stroke();
+
+  const coma = g.createRadialGradient(headX, headY, 0, headX, headY, 13);
+  coma.addColorStop(0, 'rgba(255, 255, 255, 1)');
+  coma.addColorStop(0.22, 'rgba(56, 189, 248, 0.75)');
+  coma.addColorStop(0.6, 'rgba(56, 189, 248, 0.16)');
+  coma.addColorStop(1, 'rgba(56, 189, 248, 0)');
+  g.fillStyle = coma;
+  g.fillRect(headX - 13, headY - 13, 26, 26);
+
+  const streak = g.createLinearGradient(headX - 26, headY, headX + 26, headY);
+  streak.addColorStop(0, 'rgba(56, 189, 248, 0)');
+  streak.addColorStop(0.5, 'rgba(255, 255, 255, 0.55)');
+  streak.addColorStop(1, 'rgba(253, 224, 71, 0)');
+  g.fillStyle = streak;
+  g.fillRect(headX - 26, headY - 0.5, 52, 1);
+
+  g.fillStyle = '#ffffff';
+  g.beginPath();
+  g.arc(headX, headY, 1.5, 0, Math.PI * 2);
+  g.fill();
+
+  return sprite;
+}
+
 /**
  * Lightweight Consolidated Master Scroll & Atmosphere Engine.
  *
- * Uses ONE single DPR-capped (<=1.25x) HTML5 Canvas + adaptive idle sleep
- * to keep GPU/RAM usage ultra-low while delivering locked 60/120fps motion:
+ * Uses ONE single DPR-capped (<=1.25x) HTML5 Canvas + pre-rendered optical sprites
+ * and adaptive idle sleep to keep GPU/RAM usage ultra-low:
  *  - Plane 0 (0.02x): Katawaredoki Rayleigh sky, crepuscular rays & scintillating stars.
  *  - Ambient Tiamat dual-tail falling comet (behind the cloud planes).
  *  - Plane 1 (0.08x) & Plane 2 (0.18x): Path2D mountain range & rim-lit cumulus silhouettes.
  *  - Musubi (結び) elastic braided spline: Catmull-Rom spring-chain physics.
  *  - Doppler chromatic stardust dispersion across 3 DoF planes.
- *  - Content plane transient ±1.2° inertial pitch.
  */
-export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEngineProps) {
+export function AtmosphericScrollEngine({
+  contentPlaneRef,
+  paused = false,
+}: AtmosphericScrollEngineProps) {
   const skyPlaneRef = useRef<HTMLDivElement | null>(null);
   const twilightRef = useRef<HTMLDivElement | null>(null);
   const raysRef = useRef<SVGSVGElement | null>(null);
@@ -133,6 +222,7 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (paused) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -141,27 +231,54 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     const animate = !reduceMotion;
     const contentPlane = contentPlaneRef?.current ?? null;
 
-    /* Pre-rendered compact optical sprites (zero per-frame shadowBlur) */
-    const bokehSprites = Array.from({ length: DOPPLER_STEPS }, (_, i) => {
-      const rgb = mix(ROSE, CYAN, i / (DOPPLER_STEPS - 1));
-      return createRadialSprite(44, [
-        [0, `rgba(${rgb}, 0.5)`],
-        [0.6, `rgba(${rgb}, 0.34)`],
-        [0.82, `rgba(${rgb}, 0.62)`],
-        [1, `rgba(${rgb}, 0)`],
-      ]);
-    });
-    const cometSprite = createRadialSprite(44, [
-      [0, 'rgba(255, 255, 255, 1)'],
-      [0.22, 'rgba(56, 189, 248, 0.75)'],
-      [0.6, 'rgba(56, 189, 248, 0.16)'],
-      [1, 'rgba(56, 189, 248, 0)'],
-    ]);
+    /* Pre-rendered compact optical sprites (zero per-frame gradient or path allocation) */
+    const starSprites = [
+      createRadialSprite(12, [
+        [0, 'rgba(255, 255, 255, 1)'],
+        [0.45, 'rgba(255, 255, 255, 0.85)'],
+        [1, 'rgba(255, 255, 255, 0)'],
+      ]),
+      createRadialSprite(12, [
+        [0, 'rgba(255, 255, 255, 1)'],
+        [0.4, 'rgba(56, 189, 248, 0.9)'],
+        [1, 'rgba(56, 189, 248, 0)'],
+      ]),
+      createRadialSprite(12, [
+        [0, 'rgba(255, 255, 255, 1)'],
+        [0.4, 'rgba(244, 63, 94, 0.9)'],
+        [1, 'rgba(244, 63, 94, 0)'],
+      ]),
+    ];
+    const bokehSprites = animate
+      ? Array.from({ length: DOPPLER_STEPS }, (_, i) => {
+          const rgb = mix(ROSE, CYAN, i / (DOPPLER_STEPS - 1));
+          return createRadialSprite(44, [
+            [0, `rgba(${rgb}, 0.5)`],
+            [0.6, `rgba(${rgb}, 0.34)`],
+            [0.82, `rgba(${rgb}, 0.62)`],
+            [1, `rgba(${rgb}, 0)`],
+          ]);
+        })
+      : [];
+    const crystalSprites = animate
+      ? Array.from({ length: DOPPLER_STEPS }, (_, i) =>
+          createCrystalSprite(24, mix(ROSE, CYAN, i / (DOPPLER_STEPS - 1)))
+        )
+      : [];
+    const cometTailSprite = animate ? createCometTailSprite() : null;
     const knotSprite = createRadialSprite(36, [
       [0, 'rgba(253, 224, 71, 0.95)'],
       [0.3, 'rgba(245, 158, 11, 0.45)'],
       [1, 'rgba(225, 29, 72, 0)'],
     ]);
+
+    const releaseSprites = () => {
+      if (cometTailSprite) cometTailSprite.width = 0;
+      knotSprite.width = 0;
+      for (const s of starSprites) s.width = 0;
+      for (const s of bokehSprites) s.width = 0;
+      for (const s of crystalSprites) s.width = 0;
+    };
 
     const mountainFillPath = new Path2D(MOUNTAIN_FILL_D);
     const mountainRimPath = new Path2D(MOUNTAIN_RIM_D);
@@ -172,7 +289,6 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     let height = window.innerHeight;
     let dpr = 1;
     let docHeight = document.documentElement.scrollHeight;
-    let planeTop = 0;
     let threadBaseX = 0;
     let restAmp = 16;
     let distantH = 1;
@@ -194,8 +310,6 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     let lastScrollY = scrollY;
     let velocity = 0;
     let accel = 0;
-    let pitch = 0;
-    let tiltApplied = false;
     let spawnAccumulator = 0;
     let comet: Comet | null = null;
     let nextCometAt = 5 + Math.random() * 5;
@@ -216,7 +330,6 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
 
     const measureDocument = () => {
       docHeight = document.documentElement.scrollHeight;
-      planeTop = contentPlane?.offsetTop ?? 0;
     };
 
     const seedStars = () => {
@@ -234,7 +347,7 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
           phase: Math.random() * Math.PI * 2,
           depth: i % 3 === 0 ? 1 : 0,
           spike: i % 24 === 0 || r > 1.6,
-          rgb: c < 0.24 ? '56, 189, 248' : c < 0.36 ? '244, 63, 94' : '255, 255, 255',
+          tone: c < 0.24 ? 1 : c < 0.36 ? 2 : 0,
         });
       }
     };
@@ -245,7 +358,6 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      // Cap DPR at 1.25x to keep backing buffer ~61% lighter than 2.0x with crisp antialiasing
       dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -293,11 +405,11 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     };
 
     /* ---------------------------------------------------------------- Musubi thread */
-    const stepThread = (dt: number): number => {
+    const stepThread = (dt: number, maxSubsteps = 8): number => {
       const taut = clamp(Math.abs(velocity) / THREAD_TAUT_VELOCITY, 0, 1);
       const lag = clamp(velocity * 0.0025, -7, 7);
       const force = clamp(accel, -40000, 40000) * THREAD_IMPULSE;
-      const steps = Math.max(1, Math.ceil(dt * 120));
+      const steps = Math.min(maxSubsteps, Math.max(1, Math.ceil(dt * 120)));
       const h = dt / steps;
       const last = THREAD_NODES - 1;
       let maxNodeVel = 0;
@@ -494,26 +606,14 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
 
         if (p.plane === 0) {
           ctx.globalAlpha = envelope * 0.7;
-          ctx.fillStyle = `rgb(${mix(WHITE, doppler > 0.5 ? CYAN : ROSE, 0.45)})`;
+          ctx.fillStyle = doppler > 0.5 ? '#9ce0fe' : '#fa9ead';
           ctx.fillRect(p.x, p.y, p.size, p.size);
         } else if (p.plane === 1) {
-          const rgb = mix(ROSE, CYAN, doppler);
           const glint = 0.75 + 0.25 * Math.sin(elapsed * 18 + p.phase);
+          const sprite = crystalSprites[Math.round(doppler * (DOPPLER_STEPS - 1))];
+          const drawSize = p.size * 7.2;
           ctx.globalAlpha = envelope * glint;
-          ctx.fillStyle = `rgb(${rgb})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
-          ctx.fill();
-          const arm = p.size * 3.2;
-          ctx.globalAlpha = envelope * glint * 0.55;
-          ctx.strokeStyle = `rgb(${rgb})`;
-          ctx.lineWidth = 0.6;
-          ctx.beginPath();
-          ctx.moveTo(p.x - arm, p.y);
-          ctx.lineTo(p.x + arm, p.y);
-          ctx.moveTo(p.x, p.y - arm);
-          ctx.lineTo(p.x, p.y + arm);
-          ctx.stroke();
+          ctx.drawImage(sprite, p.x - drawSize * 0.5, p.y - drawSize * 0.5, drawSize, drawSize);
         } else {
           const sprite = bokehSprites[Math.round(doppler * (DOPPLER_STEPS - 1))];
           ctx.globalAlpha = envelope * 0.32;
@@ -550,58 +650,21 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     };
 
     const drawComet = (c: Comet) => {
+      if (!cometTailSprite) return;
       const lr = c.life / c.maxLife;
       const env = Math.min(1, c.life / 0.2) * (lr > 0.55 ? 1 - (lr - 0.55) / 0.45 : 1);
       if (env <= 0) return;
-      const speed = Math.hypot(c.vx, c.vy) || 1;
-      const dx = c.vx / speed;
-      const dy = c.vy / speed;
+
+      const angle = Math.atan2(c.vy, c.vx);
+      const scaleX = c.length / 240;
 
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
-      ctx.lineCap = 'round';
-
-      const tx = c.x - dx * c.length;
-      const ty = c.y - dy * c.length;
-      const ion = ctx.createLinearGradient(c.x, c.y, tx, ty);
-      ion.addColorStop(0, `rgba(255, 255, 255, ${env.toFixed(3)})`);
-      ion.addColorStop(0.18, `rgba(56, 189, 248, ${(0.85 * env).toFixed(3)})`);
-      ion.addColorStop(0.65, `rgba(244, 63, 94, ${(0.35 * env).toFixed(3)})`);
-      ion.addColorStop(1, 'rgba(244, 63, 94, 0)');
-      ctx.strokeStyle = ion;
-      ctx.lineWidth = 1.8;
-      ctx.beginPath();
-      ctx.moveTo(c.x, c.y);
-      ctx.lineTo(tx, ty);
-      ctx.stroke();
-
-      const rot = 0.09;
-      const fdx = dx * Math.cos(rot) - dy * Math.sin(rot);
-      const fdy = dx * Math.sin(rot) + dy * Math.cos(rot);
-      const fx2 = c.x - fdx * c.length * 0.62;
-      const fy2 = c.y - fdy * c.length * 0.62;
-      const frag = ctx.createLinearGradient(c.x, c.y, fx2, fy2);
-      frag.addColorStop(0, `rgba(244, 63, 94, ${(0.5 * env).toFixed(3)})`);
-      frag.addColorStop(1, 'rgba(109, 17, 70, 0)');
-      ctx.strokeStyle = frag;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(c.x, c.y);
-      ctx.lineTo(fx2, fy2);
-      ctx.stroke();
-
       ctx.globalAlpha = env;
-      ctx.drawImage(cometSprite, c.x - 13, c.y - 13, 26, 26);
-      const streak = ctx.createLinearGradient(c.x - 26, c.y, c.x + 26, c.y);
-      streak.addColorStop(0, 'rgba(56, 189, 248, 0)');
-      streak.addColorStop(0.5, 'rgba(255, 255, 255, 0.55)');
-      streak.addColorStop(1, 'rgba(253, 224, 71, 0)');
-      ctx.fillStyle = streak;
-      ctx.fillRect(c.x - 26, c.y - 0.5, 52, 1);
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(c.x, c.y, 1.5, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.translate(c.x, c.y);
+      ctx.rotate(angle);
+      ctx.scale(scaleX, 1);
+      ctx.drawImage(cometTailSprite, -260, -28);
       ctx.restore();
     };
 
@@ -658,35 +721,36 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       }
     };
 
-    const drawSkyAndClouds = (zenith: number) => {
+    const drawSkyAndClouds = () => {
       ctx.clearRect(0, 0, width, height);
-      const nightBoost = 1 + zenith * 0.3;
 
+      ctx.save();
+      const spikePath = new Path2D();
       for (let i = 0; i < stars.length; i++) {
         const s = stars[i];
         const osc = animate ? Math.sin(elapsed * s.freq + s.phase) * 0.24 : 0;
-        const alpha = clamp((s.baseAlpha + osc) * nightBoost, 0.05, 0.98);
+        const alpha = clamp(s.baseAlpha + osc, 0.05, 0.98);
         const factor = animate ? STAR_FACTORS[s.depth] : 0;
         const py = (((s.ny * height - scrollY * factor) % height) + height) % height;
         const sx = s.nx * width;
+        const size = s.r * 3.4;
 
-        ctx.fillStyle = `rgba(${s.rgb}, ${alpha.toFixed(3)})`;
-        ctx.beginPath();
-        ctx.arc(sx, py, s.r, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalAlpha = alpha;
+        ctx.drawImage(starSprites[s.tone], sx - size * 0.5, py - size * 0.5, size, size);
 
         if (s.spike && alpha > 0.48) {
           const arm = s.r * 3.6;
-          ctx.strokeStyle = `rgba(${s.rgb}, ${(alpha * 0.38).toFixed(3)})`;
-          ctx.lineWidth = 0.6;
-          ctx.beginPath();
-          ctx.moveTo(sx - arm, py);
-          ctx.lineTo(sx + arm, py);
-          ctx.moveTo(sx, py - arm);
-          ctx.lineTo(sx, py + arm);
-          ctx.stroke();
+          spikePath.moveTo(sx - arm, py);
+          spikePath.lineTo(sx + arm, py);
+          spikePath.moveTo(sx, py - arm);
+          spikePath.lineTo(sx, py + arm);
         }
       }
+      ctx.globalAlpha = 0.28;
+      ctx.strokeStyle = '#e0f2fe';
+      ctx.lineWidth = 0.6;
+      ctx.stroke(spikePath);
+      ctx.restore();
 
       if (comet) drawComet(comet);
       drawParallaxSilhouettes();
@@ -703,26 +767,6 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       setStyle(raysRef.current, 'opacity', Math.max(0.16, 0.78 - zenith * 0.6).toFixed(3));
     };
 
-    const updateTilt = (dt: number) => {
-      if (!contentPlane) return;
-      const target = clamp(-velocity * PITCH_PER_VELOCITY, -MAX_PITCH_DEG, MAX_PITCH_DEG);
-      pitch += (target - pitch) * (1 - Math.exp(-dt * 7));
-
-      if (Math.abs(pitch) < 0.01) {
-        if (tiltApplied) {
-          contentPlane.style.transform = '';
-          contentPlane.style.transformOrigin = '';
-          tiltApplied = false;
-        }
-        pitch = 0;
-        return;
-      }
-
-      contentPlane.style.transformOrigin = `50% ${(scrollY - planeTop + height * 0.5).toFixed(0)}px`;
-      contentPlane.style.transform = `perspective(1800px) rotateX(${pitch.toFixed(3)}deg)`;
-      tiltApplied = true;
-    };
-
     const zenithRatio = () => clamp(scrollY / Math.max(1, docHeight - height), 0, 1);
 
     /* ---------------------------------------------------------------- Bootstrap */
@@ -733,7 +777,8 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
     }
 
     const docObserver = new ResizeObserver(measureDocument);
-    docObserver.observe(document.body);
+    if (contentPlane) docObserver.observe(contentPlane);
+    else docObserver.observe(document.body);
 
     if (!animate) {
       let pending = 0;
@@ -742,7 +787,7 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         scrollY = window.scrollY;
         const zenith = zenithRatio();
         updateSkyDom(zenith);
-        drawSkyAndClouds(zenith);
+        drawSkyAndClouds();
         drawThread(zenith);
       };
       const schedule = () => {
@@ -762,6 +807,7 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         window.removeEventListener('scroll', schedule);
         window.removeEventListener('resize', onResize);
         docObserver.disconnect();
+        releaseSprites();
         canvas.width = 0;
         canvas.height = 0;
       };
@@ -793,8 +839,8 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
         }
 
         const zenith = zenithRatio();
-        stepThread(Math.min(dt, 1 / 30));
-        drawSkyAndClouds(zenith);
+        stepThread(Math.min(dt, 1 / 30), 2);
+        drawSkyAndClouds();
         drawThread(zenith);
         idleTimerId = window.setTimeout(idleTick, 180);
       };
@@ -817,18 +863,16 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
 
       const zenith = zenithRatio();
       updateSkyDom(zenith);
-      updateTilt(dt);
       const maxNodeVel = stepThread(dt);
       updateComet(dt);
 
-      drawSkyAndClouds(zenith);
+      drawSkyAndClouds();
       updateAndDrawStardust(dt);
       drawThread(zenith);
 
       const isQuiet =
         Math.abs(velocity) < 0.8 &&
         Math.abs(raw) < 0.8 &&
-        !tiltApplied &&
         dust.length === 0 &&
         !comet &&
         maxNodeVel < 0.35;
@@ -893,20 +937,9 @@ export function AtmosphericScrollEngine({ contentPlaneRef }: AtmosphericScrollEn
       dust.length = 0;
       canvas.width = 0;
       canvas.height = 0;
-      for (const s of bokehSprites) {
-        s.width = 0;
-        s.height = 0;
-      }
-      cometSprite.width = 0;
-      cometSprite.height = 0;
-      knotSprite.width = 0;
-      knotSprite.height = 0;
-      if (contentPlane) {
-        contentPlane.style.transform = '';
-        contentPlane.style.transformOrigin = '';
-      }
+      releaseSprites();
     };
-  }, [reduceMotion, contentPlaneRef]);
+  }, [reduceMotion, contentPlaneRef, paused]);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">

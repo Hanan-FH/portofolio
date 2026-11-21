@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Certificate, Project } from './data/portfolio';
+import { prefersReducedMotionNow } from './hooks/useReducedMotion';
 import { CinematicIntro } from './components/atmosphere/CinematicIntro';
 import { AtmosphericScrollEngine } from './components/atmosphere/AtmosphericScrollEngine';
 import { Navbar } from './components/layout/Navbar';
@@ -13,11 +14,11 @@ import { Contact } from './components/sections/Contact';
 import { ProjectModal } from './components/ProjectModal';
 import { CertificateModal } from './components/CertificateModal';
 
-const SECTION_IDS = ['hero', 'about', 'skills', 'projects', 'certificates', 'contact'];
+const SECTION_IDS = ['hero', 'about', 'skills', 'projects', 'certificates', 'contact'] as const;
 
 function isAlreadyAssembled(): boolean {
   if (typeof window === 'undefined') return true;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+  if (prefersReducedMotionNow()) return true;
   try {
     return window.sessionStorage.getItem('tiamat_intro_executed') === '1';
   } catch {
@@ -38,23 +39,29 @@ export function App() {
 
   useEffect(() => {
     let frame = 0;
+    let offsets: Array<{ id: string; top: number }> = [];
+    let bottomLimit = 0;
+
+    const measureSections = () => {
+      const scrollTop = window.scrollY;
+      offsets = SECTION_IDS.map((id) => {
+        const el = document.getElementById(id);
+        return { id, top: el ? el.getBoundingClientRect().top + scrollTop : Infinity };
+      });
+      bottomLimit = document.documentElement.scrollHeight - 8;
+    };
 
     const updateActiveSection = () => {
       frame = 0;
-      const marker = window.scrollY + 120;
+      const scrollY = window.scrollY;
+      const marker = scrollY + 120;
       let next = 'hero';
 
-      for (const id of SECTION_IDS) {
-        const element = document.getElementById(id);
-        if (element && element.getBoundingClientRect().top + window.scrollY <= marker) {
-          next = id;
-        }
+      for (let i = 0; i < offsets.length; i++) {
+        if (offsets[i].top <= marker) next = offsets[i].id;
       }
 
-      if (
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 8
-      ) {
+      if (window.innerHeight + scrollY >= bottomLimit) {
         next = 'contact';
       }
 
@@ -66,13 +73,33 @@ export function App() {
       frame = window.requestAnimationFrame(updateActiveSection);
     };
 
+    const handleResize = () => {
+      measureSections();
+      handleScroll();
+    };
+
+    measureSections();
     updateActiveSection();
+
+    let cancelled = false;
+    document.fonts?.ready.then(() => {
+      if (!cancelled) {
+        measureSections();
+        updateActiveSection();
+      }
+    });
+
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(handleResize) : null;
+    if (ro && mainRef.current) ro.observe(mainRef.current);
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
+      cancelled = true;
+      ro?.disconnect();
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
+      window.removeEventListener('resize', handleResize);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -82,9 +109,8 @@ export function App() {
     const target = document.getElementById(sectionId);
     if (!target) return;
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     target.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
+      behavior: prefersReducedMotionNow() ? 'auto' : 'smooth',
       block: 'start',
     });
   };
@@ -103,7 +129,7 @@ export function App() {
       <CinematicIntro onHandoff={handleHandoff} />
 
       {/* Master Katawaredoki Atmosphere, Elastic Musubi Spline & Doppler Stardust Engine */}
-      <AtmosphericScrollEngine contentPlaneRef={mainRef} />
+      <AtmosphericScrollEngine contentPlaneRef={mainRef} paused={!isAssembled} />
 
       {/* Atmospheric Kumihimo Glass Navigation Bar */}
       <Navbar

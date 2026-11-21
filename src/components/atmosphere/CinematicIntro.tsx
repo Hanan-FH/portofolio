@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { prefersReducedMotionNow } from '../../hooks/useReducedMotion';
 
 const SESSION_KEY = 'tiamat_intro_executed';
 const DURATION_SEC = 3.2;
@@ -12,7 +13,7 @@ interface ScintillatingStar {
   freq: number;
   phase: number;
   spike: boolean;
-  hue: 'white' | 'cyan' | 'rose';
+  hue: 0 | 1 | 2; // 0: white, 1: cyan, 2: rose
 }
 
 interface IonParticle {
@@ -23,7 +24,7 @@ interface IonParticle {
   life: number;
   maxLife: number;
   size: number;
-  tone: 'cyan' | 'rose' | 'magenta' | 'gold';
+  tone: 0 | 1 | 2 | 3; // 0: cyan, 1: rose, 2: magenta, 3: gold
 }
 
 interface Vec2 {
@@ -37,10 +38,7 @@ export interface CinematicIntroProps {
 
 function shouldExecuteColdOpen(): boolean {
   if (typeof window === 'undefined') return false;
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    return false;
-  }
+  if (prefersReducedMotionNow()) return false;
 
   try {
     if (window.sessionStorage.getItem(SESSION_KEY) === '1') {
@@ -73,6 +71,79 @@ function easeOutQuart(t: number): number {
 function easeInOutCubic(t: number): number {
   const c = clamp(t, 0, 1);
   return c < 0.5 ? 4 * c * c * c : 1 - Math.pow(-2 * c + 2, 3) / 2;
+}
+
+function makeOffscreen(w: number, h: number): HTMLCanvasElement {
+  const c = document.createElement('canvas');
+  c.width = w;
+  c.height = h;
+  return c;
+}
+
+function createGlowDotSprite(size: number, rgb: string, coreRatio = 0.35): HTMLCanvasElement {
+  const c = makeOffscreen(size, size);
+  const g = c.getContext('2d');
+  if (g) {
+    const half = size / 2;
+    const grad = g.createRadialGradient(half, half, 0, half, half, half);
+    grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    grad.addColorStop(coreRatio, `rgba(${rgb}, 0.92)`);
+    grad.addColorStop(0.72, `rgba(${rgb}, 0.25)`);
+    grad.addColorStop(1, `rgba(${rgb}, 0)`);
+    g.fillStyle = grad;
+    g.fillRect(0, 0, size, size);
+  }
+  return c;
+}
+
+function createNucleusSprite(coronaRgb: string): HTMLCanvasElement {
+  const w = 360;
+  const h = 120;
+  const c = makeOffscreen(w, h);
+  const g = c.getContext('2d');
+  if (!g) return c;
+
+  const cx = w / 2;
+  const cy = h / 2;
+  g.globalCompositeOperation = 'lighter';
+
+  const radial = g.createRadialGradient(cx, cy, 0, cx, cy, 56);
+  radial.addColorStop(0, 'rgba(255, 255, 255, 0.99)');
+  radial.addColorStop(0.18, `rgba(${coronaRgb}, 0.88)`);
+  radial.addColorStop(0.52, `rgba(${coronaRgb}, 0.26)`);
+  radial.addColorStop(1, `rgba(${coronaRgb}, 0)`);
+  g.fillStyle = radial;
+  g.beginPath();
+  g.arc(cx, cy, 56, 0, Math.PI * 2);
+  g.fill();
+
+  const cyanStreak = g.createLinearGradient(0, cy, w, cy);
+  cyanStreak.addColorStop(0, 'rgba(56, 189, 248, 0)');
+  cyanStreak.addColorStop(0.5, 'rgba(56, 189, 248, 0.68)');
+  cyanStreak.addColorStop(1, 'rgba(56, 189, 248, 0)');
+  g.fillStyle = cyanStreak;
+  g.fillRect(0, cy - 1.7, w, 1.2);
+
+  const goldStreak = g.createLinearGradient(0, cy, w, cy);
+  goldStreak.addColorStop(0, 'rgba(254, 240, 138, 0)');
+  goldStreak.addColorStop(0.5, 'rgba(254, 240, 138, 0.62)');
+  goldStreak.addColorStop(1, 'rgba(254, 240, 138, 0)');
+  g.fillStyle = goldStreak;
+  g.fillRect(0, cy + 0.5, w, 1.15);
+
+  const coreStreak = g.createLinearGradient(cx - w * 0.39, cy, cx + w * 0.39, cy);
+  coreStreak.addColorStop(0, 'rgba(255, 255, 255, 0)');
+  coreStreak.addColorStop(0.5, 'rgba(255, 255, 255, 0.97)');
+  coreStreak.addColorStop(1, 'rgba(255, 255, 255, 0)');
+  g.fillStyle = coreStreak;
+  g.fillRect(cx - w * 0.39, cy - 0.7, w * 0.78, 1.45);
+
+  g.fillStyle = '#ffffff';
+  g.beginPath();
+  g.arc(cx, cy, 5, 0, Math.PI * 2);
+  g.fill();
+
+  return c;
 }
 
 /**
@@ -119,6 +190,150 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
     let height = window.innerHeight;
     let dpr = Math.min(window.devicePixelRatio || 1, 1.25);
 
+    /* Pre-rendered optical sprites & cached backdrop surfaces (zero per-frame gradient allocation) */
+    const starSprites = [
+      createGlowDotSprite(16, '255, 255, 255', 0.45),
+      createGlowDotSprite(16, '56, 189, 248', 0.4),
+      createGlowDotSprite(16, '244, 63, 94', 0.4),
+    ];
+    const particleSprites = [
+      createGlowDotSprite(16, '56, 189, 248', 0.35),
+      createGlowDotSprite(16, '244, 63, 94', 0.35),
+      createGlowDotSprite(16, '192, 132, 252', 0.35),
+      createGlowDotSprite(16, '254, 240, 138', 0.35),
+    ];
+    const leadNucleusSprite = createNucleusSprite('56, 189, 248');
+    const fragNucleusSprite = createNucleusSprite('244, 63, 94');
+
+    const skyGradCache = makeOffscreen(1, 256);
+    {
+      const sg = skyGradCache.getContext('2d');
+      if (sg) {
+        const sky = sg.createLinearGradient(0, 0, 0, 256);
+        sky.addColorStop(0.0, '#050714');
+        sky.addColorStop(0.34, '#0d1435');
+        sky.addColorStop(0.6, '#24123e');
+        sky.addColorStop(0.78, '#6d1146');
+        sky.addColorStop(0.91, '#c2410c');
+        sky.addColorStop(1.0, '#fde047');
+        sg.fillStyle = sky;
+        sg.fillRect(0, 0, 1, 256);
+      }
+    }
+
+    let nebulaCache = makeOffscreen(1, 1);
+    let cloudCache = makeOffscreen(1, 1);
+    let horizonStreakGrad: CanvasGradient | null = null;
+
+    const rebuildCaches = () => {
+      const cw = Math.max(1, Math.floor(width * dpr));
+      const ch = Math.max(1, Math.floor(height * dpr));
+
+      nebulaCache = makeOffscreen(cw, ch);
+      const ng = nebulaCache.getContext('2d');
+      if (ng) {
+        ng.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const nebula = ng.createLinearGradient(width * 0.05, 0, width * 0.82, height * 0.85);
+        nebula.addColorStop(0, 'rgba(56, 189, 248, 0.09)');
+        nebula.addColorStop(0.45, 'rgba(124, 18, 74, 0.11)');
+        nebula.addColorStop(1, 'rgba(254, 240, 138, 0)');
+        ng.fillStyle = nebula;
+        ng.fillRect(0, 0, width, height);
+
+        const flareGlow = ng.createRadialGradient(
+          width * 0.68,
+          height * 0.94,
+          0,
+          width * 0.68,
+          height * 0.94,
+          Math.max(width, height) * 0.54
+        );
+        flareGlow.addColorStop(0, 'rgba(254, 240, 138, 0.48)');
+        flareGlow.addColorStop(0.24, 'rgba(217, 78, 22, 0.32)');
+        flareGlow.addColorStop(0.58, 'rgba(124, 18, 74, 0.15)');
+        flareGlow.addColorStop(1, 'rgba(5, 7, 20, 0)');
+        ng.fillStyle = flareGlow;
+        ng.fillRect(0, 0, width, height);
+      }
+
+      cloudCache = makeOffscreen(cw, ch);
+      const cg = cloudCache.getContext('2d');
+      if (cg) {
+        cg.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        cg.save();
+        cg.globalCompositeOperation = 'lighter';
+        const originX = width * 0.68;
+        const originY = height * 0.98;
+        const rayAngles = [-1.02, -0.74, -0.48, -0.22, 0.04, 0.28, 0.52];
+        const len = Math.max(width, height) * 0.94;
+        const rayGrad = cg.createRadialGradient(originX, originY, 10, originX, originY, len * 0.8);
+        rayGrad.addColorStop(0, 'rgba(254, 240, 138, 0.18)');
+        rayGrad.addColorStop(0.35, 'rgba(217, 78, 22, 0.09)');
+        rayGrad.addColorStop(1, 'rgba(124, 18, 74, 0)');
+        cg.fillStyle = rayGrad;
+
+        for (let r = 0; r < rayAngles.length; r++) {
+          const ang = rayAngles[r] - Math.PI / 2;
+          const spread = 0.052 + (r % 2) * 0.026;
+          cg.beginPath();
+          cg.moveTo(originX, originY);
+          cg.lineTo(originX + Math.cos(ang - spread) * len, originY + Math.sin(ang - spread) * len);
+          cg.lineTo(originX + Math.cos(ang + spread) * len, originY + Math.sin(ang + spread) * len);
+          cg.closePath();
+          cg.fill();
+        }
+        cg.restore();
+
+        cg.beginPath();
+        cg.moveTo(0, height);
+        cg.lineTo(0, height * 0.84);
+        cg.bezierCurveTo(width * 0.18, height * 0.78, width * 0.34, height * 0.85, width * 0.54, height * 0.77);
+        cg.bezierCurveTo(width * 0.69, height * 0.71, width * 0.83, height * 0.76, width, height * 0.81);
+        cg.lineTo(width, height);
+        cg.closePath();
+        const distantCloud = cg.createLinearGradient(0, height * 0.71, 0, height);
+        distantCloud.addColorStop(0, 'rgba(38, 20, 66, 0.85)');
+        distantCloud.addColorStop(0.5, 'rgba(13, 19, 56, 0.95)');
+        distantCloud.addColorStop(1, '#050714');
+        cg.fillStyle = distantCloud;
+        cg.fill();
+
+        cg.beginPath();
+        cg.moveTo(0, height);
+        cg.lineTo(0, height * 0.88);
+        cg.bezierCurveTo(width * 0.16, height * 0.84, width * 0.31, height * 0.9, width * 0.48, height * 0.845);
+        cg.bezierCurveTo(width * 0.63, height * 0.795, width * 0.77, height * 0.825, width * 0.9, height * 0.865);
+        cg.lineTo(width, height * 0.845);
+        cg.lineTo(width, height);
+        cg.closePath();
+
+        const cloudFill = cg.createLinearGradient(0, height * 0.79, 0, height);
+        cloudFill.addColorStop(0, '#120d2b');
+        cloudFill.addColorStop(0.55, '#07091c');
+        cloudFill.addColorStop(1, '#050714');
+        cg.fillStyle = cloudFill;
+        cg.fill();
+
+        const rimStroke = cg.createLinearGradient(0, 0, width, 0);
+        rimStroke.addColorStop(0, 'rgba(56, 189, 248, 0.38)');
+        rimStroke.addColorStop(0.42, 'rgba(244, 63, 94, 0.72)');
+        rimStroke.addColorStop(0.68, 'rgba(254, 240, 138, 0.96)');
+        rimStroke.addColorStop(0.86, 'rgba(217, 78, 22, 0.78)');
+        rimStroke.addColorStop(1, 'rgba(124, 18, 74, 0.42)');
+        cg.strokeStyle = rimStroke;
+        cg.lineWidth = 1.5;
+        cg.stroke();
+      }
+
+      horizonStreakGrad = ctx.createLinearGradient(0, 0, width, 0);
+      horizonStreakGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
+      horizonStreakGrad.addColorStop(0.24, 'rgba(56, 189, 248, 0.46)');
+      horizonStreakGrad.addColorStop(0.55, 'rgba(255, 255, 255, 0.84)');
+      horizonStreakGrad.addColorStop(0.82, 'rgba(254, 240, 138, 0.52)');
+      horizonStreakGrad.addColorStop(1, 'rgba(217, 78, 22, 0)');
+    };
+
     const syncDimensions = () => {
       width = stage.clientWidth || window.innerWidth;
       height = stage.clientHeight || window.innerHeight;
@@ -128,6 +343,7 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      rebuildCaches();
     };
 
     syncDimensions();
@@ -149,8 +365,7 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
     const STAR_COUNT = 212;
     const stars: ScintillatingStar[] = Array.from({ length: STAR_COUNT }, (_, idx) => {
       const pick = Math.random();
-      const hue: ScintillatingStar['hue'] =
-        pick < 0.25 ? 'cyan' : pick < 0.38 ? 'rose' : 'white';
+      const hue: ScintillatingStar['hue'] = pick < 0.25 ? 1 : pick < 0.38 ? 2 : 0;
       const r = 0.42 + Math.random() * 1.48;
       return {
         nx: Math.random(),
@@ -176,7 +391,7 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
     let splitOriginX = 0;
     let splitOriginY = 0;
 
-    const drawDustComaFan = (pts: Vec2[], intensity: number) => {
+    const drawDustComaFan = (pts: Vec2[]) => {
       if (pts.length < 6) return;
       const head = pts[pts.length - 1];
       const tail = pts[0];
@@ -185,9 +400,9 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
       const comaGrad = ctx.createLinearGradient(head.x, head.y, tail.x, tail.y);
-      comaGrad.addColorStop(0, `rgba(255, 255, 255, ${(0.28 * intensity).toFixed(3)})`);
-      comaGrad.addColorStop(0.28, `rgba(56, 189, 248, ${(0.18 * intensity).toFixed(3)})`);
-      comaGrad.addColorStop(0.65, `rgba(254, 240, 138, ${(0.08 * intensity).toFixed(3)})`);
+      comaGrad.addColorStop(0, 'rgba(255, 255, 255, 0.28)');
+      comaGrad.addColorStop(0.28, 'rgba(56, 189, 248, 0.18)');
+      comaGrad.addColorStop(0.65, 'rgba(254, 240, 138, 0.08)');
       comaGrad.addColorStop(1, 'rgba(124, 18, 74, 0)');
 
       ctx.fillStyle = comaGrad;
@@ -205,208 +420,54 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
       pts: Vec2[],
       baseThickness: number,
       coreRgb: string,
-      coronaRgb: string,
-      intensity: number
+      coronaRgb: string
     ) => {
       if (pts.length < 2) return;
+      const bands = 8;
+      const totalSegs = pts.length - 1;
+
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
 
-      for (let i = 1; i < pts.length; i++) {
-        const u = i / pts.length;
-        const a = pts[i - 1];
-        const b = pts[i];
+      for (let b = 0; b < bands; b++) {
+        const startIdx = Math.floor((b * totalSegs) / bands);
+        const endIdx = Math.min(totalSegs, Math.floor(((b + 1) * totalSegs) / bands));
+        if (endIdx <= startIdx) continue;
+        const u = (b + 1) / bands;
 
         ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
+        ctx.moveTo(pts[startIdx].x, pts[startIdx].y);
+        for (let i = startIdx + 1; i <= endIdx; i++) {
+          ctx.lineTo(pts[i].x, pts[i].y);
+        }
+
         ctx.lineWidth = baseThickness * u * 3.3;
-        ctx.strokeStyle = `rgba(${coronaRgb}, ${(u * u * 0.36 * intensity).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(${coronaRgb}, ${(u * u * 0.36).toFixed(2)})`;
         ctx.stroke();
 
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
         ctx.lineWidth = Math.max(0.8, baseThickness * Math.pow(u, 1.35));
-        ctx.strokeStyle = `rgba(${coreRgb}, ${(Math.pow(u, 1.28) * 0.94 * intensity).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(${coreRgb}, ${(Math.pow(u, 1.28) * 0.94).toFixed(2)})`;
         ctx.stroke();
       }
       ctx.restore();
     };
 
     const drawAnamorphicNucleus = (
+      sprite: HTMLCanvasElement,
       x: number,
       y: number,
-      radius: number,
-      coronaRgb: string,
+      scale: number,
       streakHalfWidth: number,
       alpha: number
     ) => {
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
-
-      // Multi-stop optical corona
-      const radial = ctx.createRadialGradient(x, y, 0, x, y, radius * 11);
-      radial.addColorStop(0, `rgba(255, 255, 255, ${(0.99 * alpha).toFixed(3)})`);
-      radial.addColorStop(0.18, `rgba(${coronaRgb}, ${(0.88 * alpha).toFixed(3)})`);
-      radial.addColorStop(0.52, `rgba(${coronaRgb}, ${(0.26 * alpha).toFixed(3)})`);
-      radial.addColorStop(1, `rgba(${coronaRgb}, 0)`);
-      ctx.fillStyle = radial;
-      ctx.beginPath();
-      ctx.arc(x, y, radius * 11, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Chromatic-aberrated horizontal anamorphic lens flare (cyan top / white core / solar gold bottom)
-      const cyanStreak = ctx.createLinearGradient(x - streakHalfWidth, y, x + streakHalfWidth, y);
-      cyanStreak.addColorStop(0, 'rgba(56, 189, 248, 0)');
-      cyanStreak.addColorStop(0.5, `rgba(56, 189, 248, ${(0.68 * alpha).toFixed(3)})`);
-      cyanStreak.addColorStop(1, 'rgba(56, 189, 248, 0)');
-      ctx.fillStyle = cyanStreak;
-      ctx.fillRect(x - streakHalfWidth, y - 1.7, streakHalfWidth * 2, 1.2);
-
-      const goldStreak = ctx.createLinearGradient(x - streakHalfWidth, y, x + streakHalfWidth, y);
-      goldStreak.addColorStop(0, 'rgba(254, 240, 138, 0)');
-      goldStreak.addColorStop(0.5, `rgba(254, 240, 138, ${(0.62 * alpha).toFixed(3)})`);
-      goldStreak.addColorStop(1, 'rgba(254, 240, 138, 0)');
-      ctx.fillStyle = goldStreak;
-      ctx.fillRect(x - streakHalfWidth, y + 0.5, streakHalfWidth * 2, 1.15);
-
-      const coreStreak = ctx.createLinearGradient(
-        x - streakHalfWidth * 0.78,
-        y,
-        x + streakHalfWidth * 0.78,
-        y
-      );
-      coreStreak.addColorStop(0, 'rgba(255, 255, 255, 0)');
-      coreStreak.addColorStop(0.5, `rgba(255, 255, 255, ${(0.97 * alpha).toFixed(3)})`);
-      coreStreak.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      ctx.fillStyle = coreStreak;
-      ctx.fillRect(x - streakHalfWidth * 0.78, y - 0.7, streakHalfWidth * 1.56, 1.45);
-
-      // Crystalline white core
-      ctx.fillStyle = `rgba(255, 255, 255, ${alpha.toFixed(3)})`;
-      ctx.beginPath();
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.restore();
-    };
-
-    const drawBacklitCloudHorizon = (wash: number) => {
-      ctx.save();
-      ctx.globalAlpha = wash;
-
-      // Volumetric Crepuscular Rays (God Rays) cast upward from behind horizon clouds
-      ctx.save();
-      ctx.globalCompositeOperation = 'lighter';
-      const originX = width * 0.68;
-      const originY = height * 0.98;
-      const rayAngles = [-1.02, -0.74, -0.48, -0.22, 0.04, 0.28, 0.52];
-      for (let r = 0; r < rayAngles.length; r++) {
-        const ang = rayAngles[r] - Math.PI / 2;
-        const spread = 0.052 + (r % 2) * 0.026;
-        const len = Math.max(width, height) * 0.94;
-        const rayGrad = ctx.createRadialGradient(
-          originX,
-          originY,
-          10,
-          originX,
-          originY,
-          len * 0.8
-        );
-        rayGrad.addColorStop(0, 'rgba(254, 240, 138, 0.18)');
-        rayGrad.addColorStop(0.35, 'rgba(217, 78, 22, 0.09)');
-        rayGrad.addColorStop(1, 'rgba(124, 18, 74, 0)');
-
-        ctx.fillStyle = rayGrad;
-        ctx.beginPath();
-        ctx.moveTo(originX, originY);
-        ctx.lineTo(
-          originX + Math.cos(ang - spread) * len,
-          originY + Math.sin(ang - spread) * len
-        );
-        ctx.lineTo(
-          originX + Math.cos(ang + spread) * len,
-          originY + Math.sin(ang + spread) * len
-        );
-        ctx.closePath();
-        ctx.fill();
-      }
-      ctx.restore();
-
-      // Distant Ozone Cumulonimbus Anvil Silhouette
-      ctx.beginPath();
-      ctx.moveTo(0, height);
-      ctx.lineTo(0, height * 0.84);
-      ctx.bezierCurveTo(
-        width * 0.18,
-        height * 0.78,
-        width * 0.34,
-        height * 0.85,
-        width * 0.54,
-        height * 0.77
-      );
-      ctx.bezierCurveTo(
-        width * 0.69,
-        height * 0.71,
-        width * 0.83,
-        height * 0.76,
-        width,
-        height * 0.81
-      );
-      ctx.lineTo(width, height);
-      ctx.closePath();
-      const distantCloud = ctx.createLinearGradient(0, height * 0.71, 0, height);
-      distantCloud.addColorStop(0, 'rgba(38, 20, 66, 0.85)');
-      distantCloud.addColorStop(0.5, 'rgba(13, 19, 56, 0.95)');
-      distantCloud.addColorStop(1, '#050714');
-      ctx.fillStyle = distantCloud;
-      ctx.fill();
-
-      // Foreground Backlit Cumulus Silhouette Ridge (occludes descending comet trajectory)
-      ctx.beginPath();
-      ctx.moveTo(0, height);
-      ctx.lineTo(0, height * 0.88);
-      ctx.bezierCurveTo(
-        width * 0.16,
-        height * 0.84,
-        width * 0.31,
-        height * 0.9,
-        width * 0.48,
-        height * 0.845
-      );
-      ctx.bezierCurveTo(
-        width * 0.63,
-        height * 0.795,
-        width * 0.77,
-        height * 0.825,
-        width * 0.9,
-        height * 0.865
-      );
-      ctx.lineTo(width, height * 0.845);
-      ctx.lineTo(width, height);
-      ctx.closePath();
-
-      const cloudFill = ctx.createLinearGradient(0, height * 0.79, 0, height);
-      cloudFill.addColorStop(0, '#120d2b');
-      cloudFill.addColorStop(0.55, '#07091c');
-      cloudFill.addColorStop(1, '#050714');
-      ctx.fillStyle = cloudFill;
-      ctx.fill();
-
-      // Sharp Crepuscular Solar-Gold Rim Highlight along Cloud Crest
-      const rimStroke = ctx.createLinearGradient(0, 0, width, 0);
-      rimStroke.addColorStop(0, 'rgba(56, 189, 248, 0.38)');
-      rimStroke.addColorStop(0.42, 'rgba(244, 63, 94, 0.72)');
-      rimStroke.addColorStop(0.68, 'rgba(254, 240, 138, 0.96)');
-      rimStroke.addColorStop(0.86, 'rgba(217, 78, 22, 0.78)');
-      rimStroke.addColorStop(1, 'rgba(124, 18, 74, 0.42)');
-      ctx.strokeStyle = rimStroke;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
+      ctx.globalAlpha = alpha;
+      const drawW = streakHalfWidth * 2;
+      const drawH = 120 * scale;
+      ctx.drawImage(sprite, x - streakHalfWidth, y - drawH * 0.5, drawW, drawH);
       ctx.restore();
     };
 
@@ -427,101 +488,55 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
         return;
       }
 
-      // [0.0s - 0.8s] Deep Stratosphere Ignition wash factor
       const ignition = easeOutQuart(elapsed / 0.8);
 
-      // [2.2s - 3.2s] Seamless Horizon Scale & Alpha Dissolve
       if (elapsed >= HANDOFF_SEC) {
         const d = easeInOutCubic((elapsed - HANDOFF_SEC) / (DURATION_SEC - HANDOFF_SEC));
-        const alpha = 1 - d;
-        const scale = 1 + d * 0.045;
-        stage.style.opacity = alpha.toFixed(3);
-        stage.style.transform = `scale(${scale.toFixed(4)})`;
+        stage.style.opacity = (1 - d).toFixed(3);
+        stage.style.transform = `scale(${(1 + d * 0.045).toFixed(4)})`;
       }
 
-      ctx.clearRect(0, 0, width, height);
-
-      // Base Zenith Void
+      // Base Zenith Void + Cached Rayleigh Sky & Nebula Wash
       ctx.fillStyle = '#050714';
       ctx.fillRect(0, 0, width, height);
 
-      // Multi-stop Katawaredoki Rayleigh Scattering Wash
       const washHeight = height * (0.35 + 0.65 * ignition);
       ctx.save();
       ctx.globalAlpha = ignition;
-      const sky = ctx.createLinearGradient(0, 0, 0, washHeight);
-      sky.addColorStop(0.0, '#050714');
-      sky.addColorStop(0.34, '#0d1435');
-      sky.addColorStop(0.6, '#24123e');
-      sky.addColorStop(0.78, '#6d1146');
-      sky.addColorStop(0.91, '#c2410c');
-      sky.addColorStop(1.0, '#fde047');
-      ctx.fillStyle = sky;
-      ctx.fillRect(0, 0, width, height);
-
-      // Diagonal Stratospheric Nebula / Milky Way Veil along Orbital Axis
-      const nebula = ctx.createLinearGradient(width * 0.05, 0, width * 0.82, height * 0.85);
-      nebula.addColorStop(0, 'rgba(56, 189, 248, 0.09)');
-      nebula.addColorStop(0.45, 'rgba(124, 18, 74, 0.11)');
-      nebula.addColorStop(1, 'rgba(254, 240, 138, 0)');
-      ctx.fillStyle = nebula;
-      ctx.fillRect(0, 0, width, height);
-
-      // Solar Horizon Flare Radial Bloom
-      const flareGlow = ctx.createRadialGradient(
-        width * 0.68,
-        height * 0.94,
-        0,
-        width * 0.68,
-        height * 0.94,
-        Math.max(width, height) * 0.54
-      );
-      flareGlow.addColorStop(0, 'rgba(254, 240, 138, 0.48)');
-      flareGlow.addColorStop(0.24, 'rgba(217, 78, 22, 0.32)');
-      flareGlow.addColorStop(0.58, 'rgba(124, 18, 74, 0.15)');
-      flareGlow.addColorStop(1, 'rgba(5, 7, 20, 0)');
-      ctx.fillStyle = flareGlow;
-      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(skyGradCache, 0, 0, width, washHeight);
+      ctx.drawImage(nebulaCache, 0, 0, width, height);
       ctx.restore();
 
-      // 212 Scintillating Stars with Sine-Modulated Alpha & 4-Point Diffraction Glints
+      // 212 Scintillating Stars using pre-rendered sprites + batched diffraction spikes
       ctx.save();
+      const spikePath = new Path2D();
       for (let i = 0; i < stars.length; i++) {
         const s = stars[i];
         const osc = Math.sin(elapsed * s.freq + s.phase) * 0.3;
         const a = clamp((s.baseAlpha + osc) * ignition, 0.04, 0.98);
         const sx = s.nx * width;
         const sy = s.ny * height;
+        const size = s.r * 3.8;
 
-        const rgb =
-          s.hue === 'cyan'
-            ? '56, 189, 248'
-            : s.hue === 'rose'
-              ? '244, 63, 94'
-              : '255, 255, 255';
-
-        ctx.beginPath();
-        ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${rgb}, ${a.toFixed(3)})`;
-        ctx.fill();
+        ctx.globalAlpha = a;
+        ctx.drawImage(starSprites[s.hue], sx - size * 0.5, sy - size * 0.5, size, size);
 
         if (s.spike && a > 0.45) {
           const arm = s.r * 4.2;
-          ctx.strokeStyle = `rgba(${rgb}, ${(a * 0.45).toFixed(3)})`;
-          ctx.lineWidth = 0.65;
-          ctx.beginPath();
-          ctx.moveTo(sx - arm, sy);
-          ctx.lineTo(sx + arm, sy);
-          ctx.moveTo(sx, sy - arm);
-          ctx.lineTo(sx, sy + arm);
-          ctx.stroke();
+          spikePath.moveTo(sx - arm, sy);
+          spikePath.lineTo(sx + arm, sy);
+          spikePath.moveTo(sx, sy - arm);
+          spikePath.lineTo(sx, sy + arm);
         }
       }
+      ctx.globalAlpha = 0.36 * ignition;
+      ctx.strokeStyle = '#e0f2fe';
+      ctx.lineWidth = 0.65;
+      ctx.stroke(spikePath);
       ctx.restore();
 
       // [0.8s - 2.2s+] Tiamat Splintering Trajectory (descends behind cloud silhouette)
       if (elapsed >= 0.8) {
-        // Normalized trajectory t: reaches 1.0 at 2.45s as nucleus dips behind backlit clouds
         const tNorm = clamp((elapsed - 0.8) / 1.65, 0, 1);
 
         const x0 = width * 0.08;
@@ -530,9 +545,7 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
         const yEnd = height * 0.91;
         const hArc = height * 0.18;
 
-        // Exact Parabolic Vector Traversal Formula:
-        // X(t) = X0 + (X_end - X0) * t
-        // Y(t) = Y0 + (Y_end - Y0) * t^1.3 - H_arc * sin(PI * t)
+        // Exact Parabolic Vector Traversal Formula
         const leadX = x0 + (xEnd - x0) * tNorm;
         const leadY =
           y0 + (yEnd - y0) * Math.pow(tNorm, 1.3) - hArc * Math.sin(Math.PI * tNorm);
@@ -545,6 +558,7 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
 
           const emitCount = width < 640 ? 3 : 5;
           for (let e = 0; e < emitCount; e++) {
+            if (particles.length >= 160) break;
             particles.push({
               x: leadX + (Math.random() - 0.5) * 4,
               y: leadY + (Math.random() - 0.5) * 4,
@@ -553,14 +567,13 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
               life: 0,
               maxLife: 0.48 + Math.random() * 0.66,
               size: 0.9 + Math.random() * 2.1,
-              tone: e === 0 ? 'gold' : 'cyan',
+              tone: e === 0 ? 3 : 0,
             });
           }
         } else if (leadRibbon.length > 0) {
           leadRibbon.shift();
         }
 
-        // Secondary Ruby-Rose Fragment Splitting at t = 0.25
         const splitT = 0.25;
         if (tNorm >= splitT) {
           const s = (tNorm - splitT) / (1 - splitT);
@@ -582,12 +595,11 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
                 life: 0,
                 maxLife: 0.55 + Math.random() * 0.78,
                 size: 1.1 + Math.random() * 2.3,
-                tone: k % 3 === 0 ? 'gold' : k % 2 === 0 ? 'rose' : 'magenta',
+                tone: k % 3 === 0 ? 3 : k % 2 === 0 ? 1 : 2,
               });
             }
           }
 
-          // Expanding Optical Fragmentation Shockwave Ring
           const shockAge = elapsed - splitShockElapsed;
           if (shockAge >= 0 && shockAge < 0.75) {
             const pShock = shockAge / 0.75;
@@ -597,7 +609,7 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
             ctx.globalCompositeOperation = 'lighter';
             ctx.beginPath();
             ctx.arc(splitOriginX, splitOriginY, ringR, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(244, 63, 94, ${ringAlpha.toFixed(3)})`;
+            ctx.strokeStyle = `rgba(244, 63, 94, ${ringAlpha.toFixed(2)})`;
             ctx.lineWidth = 1.4 * (1 - pShock * 0.6);
             ctx.stroke();
             ctx.restore();
@@ -609,6 +621,7 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
 
             const fragCount = width < 640 ? 2 : 4;
             for (let f = 0; f < fragCount; f++) {
+              if (particles.length >= 160) break;
               particles.push({
                 x: fragX + (Math.random() - 0.5) * 4,
                 y: fragY + (Math.random() - 0.5) * 4,
@@ -617,118 +630,104 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
                 life: 0,
                 maxLife: 0.52 + Math.random() * 0.72,
                 size: 0.9 + Math.random() * 2.0,
-                tone: Math.random() < 0.68 ? 'rose' : 'magenta',
+                tone: Math.random() < 0.68 ? 1 : 2,
               });
             }
           } else if (fragmentRibbon.length > 0) {
             fragmentRibbon.shift();
           }
 
-          drawIonPlume(fragmentRibbon, 4.1, '255, 225, 236', '244, 63, 94', 0.96);
+          drawIonPlume(fragmentRibbon, 4.1, '255, 225, 236', '244, 63, 94');
           if (activeFlight) {
             drawAnamorphicNucleus(
+              fragNucleusSprite,
               fragX,
               fragY,
-              3.2,
-              '244, 63, 94',
+              0.68,
               width < 640 ? 48 : 88,
               0.92
             );
           }
         }
 
-        drawDustComaFan(leadRibbon, 1.0);
-        drawIonPlume(leadRibbon, 6.4, '255, 255, 255', '56, 189, 248', 1.0);
+        drawDustComaFan(leadRibbon);
+        drawIonPlume(leadRibbon, 6.4, '255, 255, 255', '56, 189, 248');
         if (activeFlight) {
           drawAnamorphicNucleus(
+            leadNucleusSprite,
             leadX,
             leadY,
-            4.9,
-            '56, 189, 248',
+            1.0,
             width < 640 ? 82 : 156,
             1.0
           );
         }
 
         // Peak-Velocity Full-Horizon Anamorphic Lens Streak Wipe & Optical Ghosts (1.20s - 2.25s)
-        if (elapsed >= 1.2 && elapsed <= 2.25) {
+        if (elapsed >= 1.2 && elapsed <= 2.25 && horizonStreakGrad) {
           const flareWave = Math.sin(((elapsed - 1.2) / 1.05) * Math.PI);
           const flareY = leadY;
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
-
-          const hGrad = ctx.createLinearGradient(0, flareY, width, flareY);
-          hGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
-          hGrad.addColorStop(0.24, `rgba(56, 189, 248, ${(0.46 * flareWave).toFixed(3)})`);
-          hGrad.addColorStop(0.55, `rgba(255, 255, 255, ${(0.84 * flareWave).toFixed(3)})`);
-          hGrad.addColorStop(0.82, `rgba(254, 240, 138, ${(0.52 * flareWave).toFixed(3)})`);
-          hGrad.addColorStop(1, 'rgba(217, 78, 22, 0)');
-
-          ctx.fillStyle = hGrad;
+          ctx.globalAlpha = flareWave;
+          ctx.fillStyle = horizonStreakGrad;
           ctx.fillRect(0, flareY - 1.2, width, 2.4);
 
-          // Subtle Shinkai Optical Lens Ghosts mirrored through viewport center
           const cx = width * 0.5;
           const cy = height * 0.5;
-          const dx = cx - leadX;
-          const dy = cy - leadY;
-          const ghost1X = cx + dx * 0.45;
-          const ghost1Y = cy + dy * 0.45;
-          const ghost2X = cx + dx * 0.82;
-          const ghost2Y = cy + dy * 0.82;
+          const ghost1X = cx + (cx - leadX) * 0.45;
+          const ghost1Y = cy + (cy - leadY) * 0.45;
+          const ghost2X = cx + (cx - leadX) * 0.82;
+          const ghost2Y = cy + (cy - leadY) * 0.82;
 
+          ctx.globalAlpha = flareWave * 0.1;
+          ctx.fillStyle = '#38bdf8';
           ctx.beginPath();
           ctx.arc(ghost1X, ghost1Y, 18, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(56, 189, 248, ${(0.09 * flareWave).toFixed(3)})`;
           ctx.fill();
 
+          ctx.globalAlpha = flareWave * 0.12;
+          ctx.strokeStyle = '#fef08a';
+          ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.arc(ghost2X, ghost2Y, 32, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(254, 240, 138, ${(0.12 * flareWave).toFixed(3)})`;
-          ctx.lineWidth = 1;
           ctx.stroke();
-
           ctx.restore();
         }
       }
 
-      // Aerodynamic-Drag Stardust & Ion Particles
-      ctx.save();
-      ctx.globalCompositeOperation = 'lighter';
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.life += dt;
-        if (p.life >= p.maxLife) {
-          particles.splice(i, 1);
-          continue;
+      // Aerodynamic-Drag Stardust & Ion Particles (O(1) swap-pop, sprite-blitted)
+      if (particles.length > 0) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.life += dt;
+          if (p.life >= p.maxLife) {
+            particles[i] = particles[particles.length - 1];
+            particles.pop();
+            continue;
+          }
+
+          const drag = Math.exp(-2.1 * dt);
+          p.vx *= drag;
+          p.vy = p.vy * drag + 26 * dt;
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+
+          const rem = 1 - p.life / p.maxLife;
+          const size = p.size * (0.4 + 0.6 * rem) * 3.4;
+          ctx.globalAlpha = rem * rem * 0.92;
+          ctx.drawImage(particleSprites[p.tone], p.x - size * 0.5, p.y - size * 0.5, size, size);
         }
-
-        const drag = Math.exp(-2.1 * dt);
-        p.vx *= drag;
-        p.vy = p.vy * drag + 26 * dt;
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
-
-        const rem = 1 - p.life / p.maxLife;
-        const alpha = rem * rem * 0.92;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * (0.4 + 0.6 * rem), 0, Math.PI * 2);
-        if (p.tone === 'cyan') {
-          ctx.fillStyle = `rgba(56, 189, 248, ${alpha.toFixed(3)})`;
-        } else if (p.tone === 'rose') {
-          ctx.fillStyle = `rgba(244, 63, 94, ${alpha.toFixed(3)})`;
-        } else if (p.tone === 'gold') {
-          ctx.fillStyle = `rgba(254, 240, 138, ${alpha.toFixed(3)})`;
-        } else {
-          ctx.fillStyle = `rgba(192, 132, 252, ${alpha.toFixed(3)})`;
-        }
-        ctx.fill();
+        ctx.restore();
       }
-      ctx.restore();
 
-      // Foreground Backlit Cloud Silhouette & Crepuscular God Rays (occludes descending comet)
-      drawBacklitCloudHorizon(ignition);
+      // Cached Foreground Backlit Cloud Silhouette & Crepuscular God Rays
+      ctx.save();
+      ctx.globalAlpha = ignition;
+      ctx.drawImage(cloudCache, 0, 0, width, height);
+      ctx.restore();
 
       rafId = window.requestAnimationFrame(tick);
     };
@@ -744,6 +743,13 @@ export function CinematicIntro({ onHandoff }: CinematicIntroProps) {
       fragmentRibbon.length = 0;
       canvas.width = 0;
       canvas.height = 0;
+      skyGradCache.width = 0;
+      nebulaCache.width = 0;
+      cloudCache.width = 0;
+      leadNucleusSprite.width = 0;
+      fragNucleusSprite.width = 0;
+      for (const s of starSprites) s.width = 0;
+      for (const s of particleSprites) s.width = 0;
     };
   }, [mounted]);
 

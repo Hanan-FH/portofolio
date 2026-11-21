@@ -81,7 +81,7 @@ export function Modal({ onClose, labelledBy, children, className = '' }: ModalPr
         aria-modal="true"
         aria-labelledby={labelledBy}
         tabIndex={-1}
-        className={`modal-panel-enter rim-horizon-panel relative max-h-[92dvh] w-full overflow-y-auto focus:outline-none sm:max-w-3xl ${className}`.trim()}
+        className={`modal-panel-enter rim-horizon-frame relative max-h-[92dvh] w-full overflow-y-auto focus:outline-none sm:max-w-3xl ${className}`.trim()}
       >
         <button
           type="button"

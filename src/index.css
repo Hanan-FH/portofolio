@@ -22,11 +22,37 @@
   --shadow-editorial: 0 24px 60px -18px rgba(5, 7, 20, 0.92);
 }
 
+@font-face {
+  font-family: "Shippori Mincho Fallback";
+  src: local("Georgia"), local("Times New Roman");
+  size-adjust: 111%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans Fallback";
+  src: local("Segoe UI"), local("Arial");
+  size-adjust: 103%;
+  ascent-override: 98%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "JetBrains Mono Fallback";
+  src: local("Consolas"), local("Courier New");
+  size-adjust: 105%;
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
 @theme {
-  --font-serif: "Shippori Mincho", Georgia, "Times New Roman", serif;
-  --font-display: "Shippori Mincho", "Playfair Display", "Cinzel", Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-serif: "Shippori Mincho", "Shippori Mincho Fallback", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --color-zenith-void: #050714;
   --color-twilight-indigo: #0d1435;
@@ -46,7 +72,6 @@
    ============================================================================= */
 @layer base {
   html {
-    scroll-padding-top: 72px;
     scrollbar-gutter: stable;
     -webkit-text-size-adjust: 100%;
     background-color: var(--zenith-void);
@@ -194,12 +219,13 @@
   }
 
   /* Architectural Editorial Panel: 1px bottom-horizon rim shading, zero SaaS roundness */
+  .rim-horizon-frame,
   .rim-horizon-panel {
     position: relative;
     border: 1px solid transparent;
     border-radius: 2px;
     background:
-      linear-gradient(180deg, rgba(5, 7, 20, 0.78) 0%, rgba(13, 20, 53, 0.62) 100%) padding-box,
+      linear-gradient(180deg, rgba(5, 7, 20, 0.86) 0%, rgba(13, 20, 53, 0.72) 100%) padding-box,
       linear-gradient(
         0deg,
         rgba(253, 224, 71, 0.36) 0%,
@@ -210,6 +236,18 @@
     box-shadow:
       inset 0 -1px 0 0 rgba(253, 224, 71, 0.1),
       var(--shadow-editorial);
+  }
+
+  .rim-horizon-panel {
+    background:
+      linear-gradient(180deg, rgba(5, 7, 20, 0.78) 0%, rgba(13, 20, 53, 0.62) 100%) padding-box,
+      linear-gradient(
+        0deg,
+        rgba(253, 224, 71, 0.36) 0%,
+        rgba(194, 65, 12, 0.28) 24%,
+        rgba(109, 17, 70, 0.24) 60%,
+        rgba(255, 255, 255, 0.12) 100%
+      ) border-box;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
@@ -438,19 +476,14 @@
   animation: marquee-reverse 42s linear infinite;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.motion-paused,
+.motion-paused * {
+  animation-play-state: paused !important;
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.motion-paused .animate-marquee,
+.motion-paused .animate-marquee-reverse {
+  will-change: auto;
 }
 
 @keyframes stage-assemble {
@@ -552,7 +585,6 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-marquee-reverse,
-  .animate-fadeIn,
   .stage-reveal,
   .astrolabe-cw,
   .astrolabe-ccw,
