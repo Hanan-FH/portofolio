@@ -1,53 +1,50 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   MONOCHROME MANGA / SWISS EDITORIAL BRUTALIST DESIGN SYSTEM
-   Paper & Ink Polarity Architecture · Zero Blur · 60fps GPU Primitives
+   JAPANESE MANGA / MODERN EDITORIAL STUDIO DESIGN SYSTEM
+   Razor-Sharp 1px Hairlines · Kinetic Choreography · 60fps GPU Primitives
    ============================================================================= */
 :root,
 [data-theme="paper"] {
   --bg-primary: #F4F4F1;
   --bg-surface: #FFFFFF;
-  --bg-subtle: #EAEAE4;
-  --bg-inverted: #0A0A0A;
-  --ink-primary: #0A0A0A;
-  --ink-secondary: #4A4A4A;
-  --ink-muted: #737373;
-  --border-strong: #0A0A0A;
-  --border-subtle: #D4D4D0;
-  --border-inverted: #333333;
-  --accent-indigo: #5B58EB;
-  --halftone-opacity: 0.085;
+  --bg-subtle: #ECECE7;
+  --bg-ink: #090909;
+  --ink-primary: #090909;
+  --ink-secondary: #474747;
+  --ink-muted: #7A7A7A;
+  --line-hairline: rgba(9, 9, 9, 0.16);
+  --line-strong: #090909;
+  --accent-purple: #5B58EB;
   color-scheme: light;
 }
 
 [data-theme="ink"] {
-  --bg-primary: #0A0A0A;
-  --bg-surface: #141414;
-  --bg-subtle: #1C1C1C;
-  --bg-inverted: #F4F4F1;
+  --bg-primary: #090909;
+  --bg-surface: #121212;
+  --bg-subtle: #181818;
+  --bg-ink: #F4F4F1;
   --ink-primary: #F4F4F1;
-  --ink-secondary: #C2C2BD;
-  --ink-muted: #9A9A95;
-  --border-strong: #F4F4F1;
-  --border-subtle: #2A2A2A;
-  --border-inverted: #CCCCC6;
-  --accent-indigo: #5B58EB;
-  --halftone-opacity: 0.1;
+  --ink-secondary: #BEBEB8;
+  --ink-muted: #8A8A84;
+  --line-hairline: rgba(244, 244, 241, 0.16);
+  --line-strong: #F4F4F1;
+  --accent-purple: #5B58EB;
   color-scheme: dark;
 }
 
 @theme {
-  --font-display: "Archivo Black", "Arial Black", "Impact", system-ui, sans-serif;
+  --font-display: "Archivo Black", "Arial Black", system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snappy: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --container-site: 80rem;
+  --container-site: 84rem;
 }
 
 /* =============================================================================
-   BASE RESET & TYPOGRAPHIC DISCIPLINE
+   BASE EDITORIAL RESET
    ============================================================================= */
 @layer base {
   html {
@@ -80,14 +77,14 @@
   h4 {
     font-family: var(--font-display);
     font-weight: 400;
-    letter-spacing: -0.035em;
-    line-height: 0.98;
+    letter-spacing: -0.04em;
+    line-height: 0.94;
     color: var(--ink-primary);
     text-wrap: balance;
   }
 
   p {
-    max-width: 65ch;
+    max-width: 64ch;
     text-wrap: pretty;
   }
 
@@ -97,25 +94,23 @@
     max-width: 100%;
   }
 
-  /* STRICT 3% ELECTRIC INDIGO MICRO-ACCENT: Selection & Focus-Visible Only */
   ::selection {
-    background-color: var(--accent-indigo);
+    background-color: var(--accent-purple);
     color: #FFFFFF;
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent-indigo);
-    outline-offset: 2px;
+    outline: 2px solid var(--accent-purple);
+    outline-offset: 3px;
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
     background: var(--bg-primary);
-    border-left: 1px solid var(--border-subtle);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -125,12 +120,12 @@
   dialog {
     color: var(--ink-primary);
     background: var(--bg-surface);
-    border: 2px solid var(--border-strong);
+    border: 1.5px solid var(--line-strong);
     padding: 0;
   }
 
   dialog::backdrop {
-    background-color: rgba(10, 10, 10, 0.84);
+    background-color: rgba(9, 9, 9, 0.86);
   }
 
   input:-webkit-autofill,
@@ -144,223 +139,341 @@
 }
 
 /* =============================================================================
-   MANGA-PANEL FRAMES, HALFTONES & BRUTALIST PRIMITIVES (ZERO BLUR)
+   EDITORIAL TYPOGRAPHY, TEXTURES & KINETIC INTERACTIVE PRIMITIVES
    ============================================================================= */
 @layer components {
   .container-site {
     width: 100%;
     max-width: var(--container-site);
     margin-inline: auto;
-    padding-inline: clamp(1rem, 4vw, 3rem);
+    padding-inline: clamp(1.25rem, 4vw, 3.5rem);
   }
 
-  .display-hero {
-    font-family: var(--font-display);
-    letter-spacing: -0.04em;
-    line-height: 0.95;
-  }
-
-  .display-section {
-    font-family: var(--font-display);
-    letter-spacing: -0.035em;
-    line-height: 1.0;
-  }
-
-  .display-card {
-    font-family: var(--font-display);
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-  }
-
-  .mono-label {
+  .mono-index {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 500;
     line-height: 1.3;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
-  /* Structural 1.5px Manga-Panel Container */
-  .manga-frame {
-    border: 1.5px solid var(--border-strong);
-    border-radius: 0px;
-    background-color: var(--bg-surface);
-  }
-
-  /* Hard Neo-Brutalist Card (Zero Blur) */
-  .manga-card {
-    border: 1.5px solid var(--border-strong);
-    border-radius: 0px;
-    background-color: var(--bg-surface);
-    box-shadow: 4px 4px 0px var(--border-strong);
-  }
-
-  .manga-card-interactive {
-    border: 1.5px solid var(--border-strong);
-    border-radius: 0px;
-    background-color: var(--bg-surface);
-    box-shadow: 4px 4px 0px var(--border-strong);
-    transition: transform 180ms var(--ease-snappy), opacity 180ms var(--ease-snappy);
-  }
-
-  .manga-card-interactive:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 7px 7px 0px var(--border-strong);
-  }
-
-  .manga-card-interactive:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0px var(--border-strong);
-  }
-
-  /* Pure CSS Halftone / Screentone Texture */
-  .halftone-surface {
+  /* Barely-visible (0.04) pure CSS micro-halftone & editorial paper grain */
+  .editorial-halftone {
     position: relative;
     isolation: isolate;
   }
 
-  .halftone-surface::before {
+  .editorial-halftone::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: radial-gradient(var(--ink-primary) 1px, transparent 1px);
-    background-size: 8px 8px;
-    opacity: var(--halftone-opacity);
+    background-image: radial-gradient(var(--ink-primary) 0.9px, transparent 0.9px);
+    background-size: 7px 7px;
+    opacity: 0.04;
   }
 
-  .halftone-pattern {
-    background-image: radial-gradient(var(--ink-primary) 1px, transparent 1px);
-    background-size: 8px 8px;
+  .editorial-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23090909' fill-opacity='0.04'%3E%3Ccircle cx='12' cy='18' r='1'/%3E%3Ccircle cx='58' cy='8' r='1'/%3E%3Ccircle cx='102' cy='26' r='1'/%3E%3Ccircle cx='34' cy='52' r='1'/%3E%3Ccircle cx='84' cy='64' r='1'/%3E%3Ccircle cx='18' cy='96' r='1'/%3E%3Ccircle cx='66' cy='108' r='1'/%3E%3Ccircle cx='110' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
   }
 
-  /* Primary Solid Ink CTA Button */
-  .btn-ink {
-    display: inline-flex;
-    min-height: 2.75rem;
-    align-items: center;
-    justify-content: center;
-    gap: 0.625rem;
-    border: 1.5px solid var(--border-strong);
-    border-radius: 0px;
-    background-color: var(--bg-inverted);
-    color: var(--bg-primary);
-    padding: 0.625rem 1.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    box-shadow: 4px 4px 0px var(--border-strong);
-    transition: transform 180ms var(--ease-snappy), opacity 180ms var(--ease-snappy);
-    cursor: pointer;
+  /* Kinetic Vertical Slot-Roll Text */
+  .roll-mask {
+    position: relative;
+    display: inline-grid;
+    overflow: hidden;
+    vertical-align: bottom;
+    line-height: 1.2;
   }
 
-  .btn-ink:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 7px 7px 0px var(--border-strong);
-  }
-
-  .btn-ink:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0px var(--border-strong);
-  }
-
-  /* Secondary Outlined Paper CTA Button */
-  .btn-paper {
-    display: inline-flex;
-    min-height: 2.75rem;
-    align-items: center;
-    justify-content: center;
-    gap: 0.625rem;
-    border: 1.5px solid var(--border-strong);
-    border-radius: 0px;
-    background-color: var(--bg-surface);
-    color: var(--ink-primary);
-    padding: 0.625rem 1.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    box-shadow: 4px 4px 0px var(--border-strong);
-    transition: transform 180ms var(--ease-snappy), opacity 180ms var(--ease-snappy);
-    cursor: pointer;
-  }
-
-  .btn-paper:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 7px 7px 0px var(--border-strong);
-    background-color: var(--bg-inverted);
-    color: var(--bg-primary);
-  }
-
-  .btn-paper:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0px var(--border-strong);
-  }
-
-  .btn-arrow {
+  .roll-primary,
+  .roll-clone {
+    grid-area: 1 / 1;
     display: inline-block;
-    transition: transform 180ms var(--ease-snappy);
+    transition: transform 380ms var(--ease-expo);
+    will-change: transform;
   }
 
-  .btn-ink:hover .btn-arrow,
-  .btn-paper:hover .btn-arrow,
-  a:hover .btn-arrow,
-  button:hover .btn-arrow {
-    transform: translateX(4px);
+  .roll-clone {
+    transform: translate3d(0, 108%, 0);
   }
 
-  /* Monospace Tech Stack Pill */
-  .mono-pill {
+  .roll-trigger:hover .roll-primary,
+  .roll-trigger:focus-visible .roll-primary,
+  .btn-kinetic-ink:hover .roll-primary,
+  .btn-kinetic-ink:focus-visible .roll-primary,
+  .btn-kinetic-outline:hover .roll-primary,
+  .btn-kinetic-outline:focus-visible .roll-primary {
+    transform: translate3d(0, -108%, 0);
+  }
+
+  .roll-trigger:hover .roll-clone,
+  .roll-trigger:focus-visible .roll-clone,
+  .btn-kinetic-ink:hover .roll-clone,
+  .btn-kinetic-ink:focus-visible .roll-clone,
+  .btn-kinetic-outline:hover .roll-clone,
+  .btn-kinetic-outline:focus-visible .roll-clone {
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Primary Button: Solid Ink Base + Liquid Purple-Ink Wipe Fill */
+  .btn-kinetic-ink {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border: 1px solid var(--line-strong);
+    background-color: var(--bg-ink);
+    color: var(--bg-primary);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 240ms var(--ease-expo);
+  }
+
+  .btn-kinetic-ink::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--accent-purple);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 420ms var(--ease-expo);
+  }
+
+  .btn-kinetic-ink:hover::before,
+  .btn-kinetic-ink:focus-visible::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .btn-kinetic-ink:hover,
+  .btn-kinetic-ink:focus-visible {
+    color: #FFFFFF;
+    border-color: var(--accent-purple);
+  }
+
+  /* Secondary Button: Hairline Outline + Liquid Solid-Ink Wipe Fill */
+  .btn-kinetic-outline {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border: 1px solid var(--line-strong);
+    background-color: transparent;
+    color: var(--ink-primary);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 240ms var(--ease-expo);
+  }
+
+  .btn-kinetic-outline::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--bg-ink);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 420ms var(--ease-expo);
+  }
+
+  .btn-kinetic-outline:hover::before,
+  .btn-kinetic-outline:focus-visible::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .btn-kinetic-outline:hover,
+  .btn-kinetic-outline:focus-visible {
+    color: var(--bg-primary);
+  }
+
+  .kinetic-arrow {
+    display: inline-block;
+    transition: transform 320ms var(--ease-expo);
+  }
+
+  .btn-kinetic-ink:hover .kinetic-arrow,
+  .btn-kinetic-outline:hover .kinetic-arrow,
+  .roll-trigger:hover .kinetic-arrow,
+  .group:hover .kinetic-arrow {
+    transform: translate3d(4px, -2px, 0);
+  }
+
+  /* Minimalist Hairline Tech Pill */
+  .editorial-pill {
     display: inline-flex;
     align-items: center;
-    border: 1px solid var(--border-strong);
-    border-radius: 0px;
-    background-color: var(--bg-primary);
-    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--line-hairline);
+    padding: 0.25rem 0.625rem;
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--ink-primary);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+    transition: transform 220ms var(--ease-expo);
   }
 
-  /* Editorial Input Fields */
-  .editorial-input {
+  /* Clean Architectural Form Input */
+  .editorial-field {
     width: 100%;
-    border: 1.5px solid var(--border-strong);
-    border-radius: 0px;
-    background-color: var(--bg-primary);
-    padding: 0.75rem 0.875rem;
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+    background-color: transparent;
+    padding: 0.875rem 0.25rem;
     font-family: var(--font-sans);
-    font-size: 0.9375rem;
+    font-size: 0.95rem;
     color: var(--ink-primary);
   }
 
-  .editorial-input::placeholder {
+  .editorial-field::placeholder {
     color: var(--ink-muted);
   }
 
-  /* Non-Destructive Monochrome Editorial Asset Filter -> Original Color on Hover/Focus */
-  .editorial-media {
-    filter: grayscale(100%) contrast(1.06);
-    transition: transform 220ms var(--ease-snappy), opacity 220ms var(--ease-snappy);
+  .editorial-field:focus {
+    outline: none;
+    border-bottom-color: var(--accent-purple);
   }
 
-  .group:hover .editorial-media,
-  .group:focus-within .editorial-media,
-  .editorial-media:hover {
+  /* Project Thumbnail Monochrome-to-Color + Smooth 1.05 Scale */
+  .project-thumb {
+    filter: grayscale(100%) contrast(1.08);
+    transform: scale(1.001);
+    transition: transform 650ms var(--ease-expo);
+    will-change: transform;
+  }
+
+  .project-card:hover .project-thumb,
+  .project-card:focus-within .project-thumb {
     filter: none;
+    transform: scale(1.05);
   }
 
-  /* Below-the-Fold Content Visibility Optimization */
-  .section-defer {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 760px;
+  /* Sharp Corner Crop-Marks (┌ ┐ └ ┘) */
+  .crop-corner {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    border-color: var(--accent-purple);
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 340ms var(--ease-expo), opacity 240ms ease;
+  }
+
+  .crop-tl {
+    top: 10px;
+    left: 10px;
+    border-top-width: 1.5px;
+    border-left-width: 1.5px;
+    transform: translate3d(6px, 6px, 0);
+  }
+
+  .crop-tr {
+    top: 10px;
+    right: 10px;
+    border-top-width: 1.5px;
+    border-right-width: 1.5px;
+    transform: translate3d(-6px, 6px, 0);
+  }
+
+  .crop-bl {
+    bottom: 10px;
+    left: 10px;
+    border-bottom-width: 1.5px;
+    border-left-width: 1.5px;
+    transform: translate3d(6px, -6px, 0);
+  }
+
+  .crop-br {
+    bottom: 10px;
+    right: 10px;
+    border-bottom-width: 1.5px;
+    border-right-width: 1.5px;
+    transform: translate3d(-6px, -6px, 0);
+  }
+
+  .project-card:hover .crop-corner,
+  .project-card:focus-within .crop-corner,
+  .cert-card:hover .crop-corner,
+  .cert-card:focus-within .crop-corner {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Hero Centerpiece Permanent Corner Marks that Snap Outward on Hover */
+  .hero-art-stage .hero-crop {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: var(--line-strong);
+    pointer-events: none;
+    transition: transform 380ms var(--ease-expo);
+  }
+
+  .hero-art-stage:hover .hero-crop-tl {
+    transform: translate3d(-6px, -6px, 0);
+    border-color: var(--accent-purple);
+  }
+
+  .hero-art-stage:hover .hero-crop-tr {
+    transform: translate3d(6px, -6px, 0);
+    border-color: var(--accent-purple);
+  }
+
+  .hero-art-stage:hover .hero-crop-bl {
+    transform: translate3d(-6px, 6px, 0);
+    border-color: var(--accent-purple);
+  }
+
+  .hero-art-stage:hover .hero-crop-br {
+    transform: translate3d(6px, 6px, 0);
+    border-color: var(--accent-purple);
+  }
+
+  .hero-ink-plate {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+    transition: transform 420ms var(--ease-expo), opacity 320ms var(--ease-expo);
+  }
+
+  .hero-art-stage:hover .hero-ink-plate {
+    transform: translate3d(10px, 10px, 0);
+    opacity: 1;
+  }
+
+  /* Outlined-to-Solid Display Marquee Typography */
+  .marquee-outline-word {
+    font-family: var(--font-display);
+    -webkit-text-stroke: 1.2px var(--ink-primary);
+    color: transparent;
+    transition: opacity 220ms ease;
+  }
+
+  .marquee-outline-word:hover {
+    -webkit-text-stroke: 1.2px var(--accent-purple);
+    color: var(--accent-purple);
   }
 
   .no-scrollbar {
@@ -374,20 +487,148 @@
 }
 
 /* =============================================================================
-   ONE-SHOT SCROLL REVEAL & PURE-CSS MARQUEE (GPU TRANSFORM & OPACITY ONLY)
+   SNAPPY INTRO CURTAIN, HERO STAGGER & SCROLL CHOREOGRAPHY (60FPS GPU ONLY)
    ============================================================================= */
-[data-reveal] {
-  opacity: 0;
-  transform: translate3d(0, 14px, 0);
-  transition: opacity 240ms var(--ease-snappy), transform 240ms var(--ease-snappy);
+@keyframes ink-curtain-lift {
+  0% {
+    clip-path: inset(0 0 0% 0);
+  }
+  100% {
+    clip-path: inset(0 0 100% 0);
+  }
 }
 
-[data-reveal].is-visible {
+.ink-curtain {
+  animation: ink-curtain-lift 750ms var(--ease-expo) 40ms forwards;
+  will-change: clip-path;
+}
+
+@keyframes hero-line-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 106%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.hero-mask-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+
+.hero-mask-inner {
+  display: block;
+  animation: hero-line-rise 760ms var(--ease-expo) var(--delay, 160ms) backwards;
+  will-change: transform, opacity;
+}
+
+@keyframes hero-panel-wipe {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.2;
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes hero-image-settle {
+  0% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hero-panel-reveal {
+  animation: hero-panel-wipe 820ms var(--ease-expo) 220ms backwards;
+}
+
+.hero-image-entrance {
+  animation: hero-image-settle 960ms var(--ease-expo) 220ms backwards;
+}
+
+@keyframes hero-fade-up {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.hero-stagger-fade {
+  animation: hero-fade-up 720ms var(--ease-expo) var(--delay, 320ms) backwards;
+}
+
+/* One-Shot IntersectionObserver Scroll Reveals */
+[data-reveal="line"] {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 820ms var(--ease-expo) var(--delay, 0ms);
+}
+
+[data-reveal="line"].is-visible {
+  transform: scaleX(1);
+}
+
+[data-reveal="up"] {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity 640ms var(--ease-expo) var(--delay, 0ms),
+    transform 640ms var(--ease-expo) var(--delay, 0ms);
+}
+
+[data-reveal="up"].is-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
 
-@keyframes marquee {
+[data-reveal="wipe"] {
+  opacity: 0;
+  clip-path: inset(0 0 18% 0);
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 680ms var(--ease-expo) var(--delay, 0ms),
+    clip-path 680ms var(--ease-expo) var(--delay, 0ms),
+    transform 680ms var(--ease-expo) var(--delay, 0ms);
+}
+
+[data-reveal="wipe"].is-visible {
+  opacity: 1;
+  clip-path: inset(0 0 0% 0);
+  transform: translate3d(0, 0, 0);
+}
+
+[data-reveal="mask"] {
+  overflow: hidden;
+}
+
+[data-reveal="mask"] > .reveal-mask-child {
+  display: block;
+  transform: translate3d(0, 105%, 0);
+  opacity: 0;
+  transition:
+    transform 720ms var(--ease-expo) var(--delay, 0ms),
+    opacity 540ms var(--ease-expo) var(--delay, 0ms);
+}
+
+[data-reveal="mask"].is-visible > .reveal-mask-child {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+/* Dual-Row Infinite CSS Marquee */
+@keyframes marquee-left {
   0% {
     transform: translate3d(0, 0, 0);
   }
@@ -396,47 +637,93 @@
   }
 }
 
-.animate-marquee {
+@keyframes marquee-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-left {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: marquee 34s linear infinite;
+  animation: marquee-left 36s linear infinite;
 }
 
-.animate-marquee:hover,
-.animate-marquee:focus-within {
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-right 40s linear infinite;
+}
+
+.marquee-track:hover .animate-marquee-left,
+.marquee-track:hover .animate-marquee-right,
+.marquee-track:focus-within .animate-marquee-left,
+.marquee-track:focus-within .animate-marquee-right {
   animation-play-state: paused;
 }
 
+/* Native <dialog> Entrance */
+@keyframes dialog-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translate3d(0, 8px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+dialog[open] {
+  animation: dialog-pop 280ms var(--ease-expo) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  .ink-curtain {
+    display: none !important;
+  }
+
+  .hero-mask-inner,
+  .hero-panel-reveal,
+  .hero-image-entrance,
+  .hero-stagger-fade,
+  dialog[open] {
+    animation: none !important;
+    clip-path: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  [data-reveal],
+  [data-reveal="mask"] > .reveal-mask-child {
     opacity: 1 !important;
     transform: none !important;
+    clip-path: none !important;
     transition: none !important;
   }
 
-  .animate-marquee {
+  .animate-marquee-left,
+  .animate-marquee-right {
     animation: none !important;
     will-change: auto !important;
     width: 100% !important;
     flex-wrap: wrap !important;
   }
 
-  .manga-card-interactive,
-  .btn-ink,
-  .btn-paper,
-  .btn-arrow,
-  .editorial-media {
+  .roll-primary,
+  .roll-clone,
+  .btn-kinetic-ink::before,
+  .btn-kinetic-outline::before,
+  .kinetic-arrow,
+  .project-thumb,
+  .crop-corner,
+  .hero-crop,
+  .hero-ink-plate {
     transition: none !important;
-    transform: none !important;
-  }
-
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
 }

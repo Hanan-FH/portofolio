@@ -28,7 +28,7 @@ function applyDocumentPolarity(mode: ThemePolarity): void {
   document.documentElement.dataset.theme = mode;
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) {
-    meta.setAttribute('content', mode === 'ink' ? '#0A0A0A' : '#F4F4F1');
+    meta.setAttribute('content', mode === 'ink' ? '#090909' : '#F4F4F1');
   }
 }
 

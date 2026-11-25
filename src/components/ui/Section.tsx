@@ -5,16 +5,13 @@ interface SectionProps {
   id: string;
   children: ReactNode;
   className?: string;
-  defer?: boolean;
 }
 
-export function Section({ id, children, className = '', defer = false }: SectionProps) {
+export function Section({ id, children, className = '' }: SectionProps) {
   return (
     <section
       id={id}
-      className={`relative scroll-mt-16 border-t border-[var(--border-subtle)] py-16 sm:py-20 lg:py-24 ${
-        defer ? 'section-defer' : ''
-      } ${className}`.trim()}
+      className={`relative scroll-mt-16 py-24 sm:py-28 lg:py-36 ${className}`.trim()}
     >
       {children}
     </section>

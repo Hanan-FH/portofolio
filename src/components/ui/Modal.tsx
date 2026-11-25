@@ -9,8 +9,8 @@ interface ModalProps {
 }
 
 /**
- * Zero-dependency Native HTML <dialog> Lightbox Modal.
- * Supports ESC to close, backdrop click to close, and crisp brutalist framing with zero blur.
+ * Animated Zero-Dependency Native HTML <dialog> Lightbox.
+ * Opens with crisp scale(0.95 -> 1) + opacity entrance, zero blur, ESC & backdrop dismiss.
  */
 export function Modal({ open, onClose, labelledBy, children, className = '' }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
@@ -56,18 +56,18 @@ export function Modal({ open, onClose, labelledBy, children, className = '' }: M
           onCloseRef.current();
         }
       }}
-      className={`m-auto max-h-[92dvh] w-[calc(100%-1.5rem)] max-w-4xl overflow-y-auto border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] p-0 text-[var(--ink-primary)] shadow-[8px_8px_0px_var(--border-strong)] focus:outline-none ${className}`.trim()}
+      className={`m-auto max-h-[92dvh] w-[calc(100%-1.5rem)] max-w-4xl overflow-y-auto border-[1.5px] border-[var(--line-strong)] bg-[var(--bg-surface)] p-0 text-[var(--ink-primary)] focus:outline-none ${className}`.trim()}
     >
       <div className="relative">
         <button
           type="button"
           onClick={onClose}
           aria-label="Close preview modal"
-          className="absolute right-3 top-3 z-20 inline-flex h-9 items-center gap-1.5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] px-2.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--ink-primary)] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
+          className="roll-trigger absolute right-4 top-3 z-20 inline-flex h-8 items-center gap-2 border border-[var(--line-hairline)] bg-[var(--bg-surface)] px-3 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-[var(--ink-primary)] hover:border-[var(--accent-purple)] hover:bg-[var(--accent-purple)] hover:text-white cursor-pointer"
         >
           <span>ESC</span>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.75" />
+          <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         </button>
         {children}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { portfolioData } from '../../data/portfolio';
 import type { ThemePolarity } from '../../hooks/useThemePolarity';
+import { RollingText } from '../ui/RollingText';
 
 interface NavbarProps {
   activeSection: string;
@@ -31,7 +32,7 @@ export function Navbar({
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const { personal } = portfolioData;
 
-  /* GPU-composited scaleX() reading progress bar — zero React re-renders */
+  /* Razor-thin 2px GPU-composited scroll progress bar at top of viewport */
   useEffect(() => {
     let rafId = 0;
 
@@ -109,9 +110,18 @@ export function Navbar({
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)]">
+      <header className="sticky top-0 z-50 border-b border-[var(--line-hairline)] bg-[var(--bg-primary)]">
+        {/* Razor-Thin 2px Top Scroll Progress Line */}
+        <div aria-hidden="true" className="h-[2px] w-full bg-transparent">
+          <div
+            ref={progressRef}
+            className="h-full w-full origin-left bg-[var(--accent-purple)]"
+            style={{ transform: 'scaleX(0)', willChange: 'transform' }}
+          />
+        </div>
+
         <div className="container-site flex h-16 items-center justify-between gap-4">
-          {/* Editorial Brand / Monogram */}
+          {/* Minimalist Editorial Brand Lockup */}
           <a
             href="#hero"
             onClick={(event) => {
@@ -119,23 +129,18 @@ export function Navbar({
               handleLinkClick('hero');
             }}
             aria-label={`${personal.name} — Return to top`}
-            className="group inline-flex items-center gap-3 py-1"
+            className="roll-trigger inline-flex items-baseline gap-2.5 py-1"
           >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] font-display text-sm text-[var(--bg-primary)]">
-              H
+            <span className="font-display text-base uppercase tracking-[-0.04em] text-[var(--ink-primary)] sm:text-lg">
+              <RollingText text="HANAN F.H." />
             </span>
-            <span className="flex flex-col">
-              <span className="font-display text-sm uppercase tracking-tight text-[var(--ink-primary)] sm:text-base">
-                HANAN F.H.
-              </span>
-              <span className="hidden font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--ink-muted)] sm:block">
-                RPL // BOGOR
-              </span>
+            <span className="hidden font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--ink-muted)] sm:inline">
+              / BOGOR
             </span>
           </a>
 
-          {/* Desktop Monospace Navigation with Instant Ink-Invert Hover */}
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
+          {/* Kinetic Rolling-Text Navigation */}
+          <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.id;
               return (
@@ -147,50 +152,58 @@ export function Navbar({
                     handleLinkClick(item.id);
                   }}
                   aria-current={isActive ? 'location' : undefined}
-                  className={`px-3 py-1.5 font-mono text-xs font-medium uppercase tracking-[0.08em] ${
+                  className={`roll-trigger relative inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] uppercase tracking-[0.1em] ${
                     isActive
-                      ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
-                      : 'text-[var(--ink-primary)] hover:bg-[var(--ink-primary)] hover:text-[var(--bg-primary)]'
+                      ? 'font-semibold text-[var(--ink-primary)]'
+                      : 'text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]'
                   }`}
                 >
-                  <span className="opacity-65">{item.index}</span> {item.label}
+                  <span
+                    className={`text-[10px] ${
+                      isActive ? 'text-[var(--accent-purple)]' : 'text-[var(--ink-muted)]'
+                    }`}
+                  >
+                    {item.index}
+                  </span>
+                  <RollingText text={item.label} />
+                  <span
+                    aria-hidden="true"
+                    className={`absolute -bottom-1 left-0 h-[1.5px] w-full origin-left bg-[var(--accent-purple)] transition-transform duration-300 ${
+                      isActive ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
                 </a>
               );
             })}
           </nav>
 
-          {/* Right Controls: PAPER / INK Polarity Toggle + Mobile Menu Trigger */}
-          <div className="flex items-center gap-2">
+          {/* Right Controls: PAPER / INK Polarity Switch + Mobile Menu Trigger */}
+          <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={onTogglePolarity}
               aria-label={`Switch theme polarity (currently ${polarity} mode)`}
               aria-pressed={polarity === 'ink'}
-              className="inline-flex h-9 items-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] cursor-pointer"
+              className="roll-trigger inline-flex h-8 items-center border border-[var(--line-hairline)] bg-[var(--bg-surface)] font-mono text-[10px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
             >
               <span
-                className={`flex h-full items-center gap-1.5 px-2.5 ${
+                className={`flex h-full items-center px-2.5 transition-opacity ${
                   polarity === 'paper'
-                    ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
-                    : 'text-[var(--ink-muted)] hover:text-[var(--ink-primary)]'
+                    ? 'bg-[var(--bg-ink)] font-semibold text-[var(--bg-primary)]'
+                    : 'text-[var(--ink-muted)]'
                 }`}
               >
-                {polarity === 'paper' && <span aria-hidden="true">■</span>}
-                <span>Paper</span>
+                Paper
               </span>
+              <span aria-hidden="true" className="h-full w-px bg-[var(--line-hairline)]" />
               <span
-                aria-hidden="true"
-                className="h-full w-[1.5px] bg-[var(--border-strong)]"
-              />
-              <span
-                className={`flex h-full items-center gap-1.5 px-2.5 ${
+                className={`flex h-full items-center px-2.5 transition-opacity ${
                   polarity === 'ink'
-                    ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
-                    : 'text-[var(--ink-muted)] hover:text-[var(--ink-primary)]'
+                    ? 'bg-[var(--bg-ink)] font-semibold text-[var(--bg-primary)]'
+                    : 'text-[var(--ink-muted)]'
                 }`}
               >
-                {polarity === 'ink' && <span aria-hidden="true">■</span>}
-                <span>Ink</span>
+                Ink
               </span>
             </button>
 
@@ -200,32 +213,23 @@ export function Navbar({
               aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-navigation"
-              className="flex h-9 w-9 items-center justify-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--ink-primary)] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)] lg:hidden"
+              className="flex h-8 w-8 items-center justify-center border border-[var(--line-hairline)] text-[var(--ink-primary)] hover:border-[var(--line-strong)] lg:hidden"
             >
               {isMenuOpen ? (
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M2.5 2.5L13.5 13.5M13.5 2.5L2.5 13.5" stroke="currentColor" strokeWidth="1.75" />
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M2.5 2.5L13.5 13.5M13.5 2.5L2.5 13.5" stroke="currentColor" strokeWidth="1.5" />
                 </svg>
               ) : (
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M2 4H14M2 8H14M2 12H14" stroke="currentColor" strokeWidth="1.75" />
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M2 4.5H14M2 8H14M2 11.5H14" stroke="currentColor" strokeWidth="1.5" />
                 </svg>
               )}
             </button>
           </div>
         </div>
-
-        {/* 2px GPU-Composited Reading Progress Line */}
-        <div aria-hidden="true" className="h-[2px] w-full bg-transparent">
-          <div
-            ref={progressRef}
-            className="h-full w-full origin-left bg-[var(--accent-indigo)]"
-            style={{ transform: 'scaleX(0)', willChange: 'transform' }}
-          />
-        </div>
       </header>
 
-      {/* Accessible Mobile Editorial Index Sheet */}
+      {/* Mobile Editorial Navigation Sheet */}
       {isMenuOpen && (
         <div
           ref={drawerRef}
@@ -235,39 +239,33 @@ export function Navbar({
           aria-label="Site navigation"
           className="fixed inset-0 z-[180] flex flex-col bg-[var(--bg-primary)] lg:hidden"
         >
-          <div className="flex h-16 shrink-0 items-center justify-between border-b-[1.5px] border-[var(--border-strong)] px-4 sm:px-6">
-            <span className="font-display text-sm uppercase tracking-tight text-[var(--ink-primary)]">
-              INDEX // NAVIGATION
-            </span>
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-[var(--line-hairline)] px-5">
+            <span className="mono-index text-[var(--ink-muted)]">INDEX / NAVIGATION</span>
             <button
               type="button"
               data-autofocus
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close navigation menu"
-              className="inline-flex h-9 items-center gap-1.5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--ink-primary)] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
+              className="inline-flex h-8 items-center gap-1.5 border border-[var(--line-hairline)] px-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--ink-primary)]"
             >
               <span>Close</span>
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.75" />
+              <svg width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.5" />
               </svg>
             </button>
           </div>
 
-          <nav className="flex flex-1 flex-col justify-center divide-y divide-[var(--border-subtle)] px-4 sm:px-6" aria-label="Mobile navigation">
+          <nav className="flex flex-1 flex-col justify-center divide-y divide-[var(--line-hairline)] px-5" aria-label="Mobile navigation">
             <a
               href="#hero"
               onClick={(event) => {
                 event.preventDefault();
                 handleLinkClick('hero');
               }}
-              className={`flex items-baseline justify-between py-4 px-3 ${
-                activeSection === 'hero'
-                  ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
-                  : 'text-[var(--ink-primary)] hover:bg-[var(--ink-primary)] hover:text-[var(--bg-primary)]'
-              }`}
+              className="flex items-baseline justify-between py-4"
             >
-              <span className="font-mono text-xs uppercase tracking-[0.08em]">00 // COVER</span>
-              <span className="font-display text-2xl uppercase">Home</span>
+              <span className="mono-index text-[var(--accent-purple)]">00</span>
+              <span className="font-display text-3xl uppercase tracking-[-0.04em]">Cover</span>
             </a>
 
             {NAV_ITEMS.map((item) => {
@@ -281,34 +279,40 @@ export function Navbar({
                     handleLinkClick(item.id);
                   }}
                   aria-current={isActive ? 'location' : undefined}
-                  className={`flex items-baseline justify-between py-4 px-3 ${
-                    isActive
-                      ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
-                      : 'text-[var(--ink-primary)] hover:bg-[var(--ink-primary)] hover:text-[var(--bg-primary)]'
-                  }`}
+                  className="flex items-baseline justify-between py-4"
                 >
-                  <span className="font-mono text-xs uppercase tracking-[0.08em]">
-                    {item.index} // SECTION
+                  <span
+                    className={`mono-index ${
+                      isActive ? 'text-[var(--accent-purple)]' : 'text-[var(--ink-muted)]'
+                    }`}
+                  >
+                    {item.index}
                   </span>
-                  <span className="font-display text-2xl uppercase">{item.label}</span>
+                  <span
+                    className={`font-display text-3xl uppercase tracking-[-0.04em] ${
+                      isActive ? 'text-[var(--accent-purple)]' : 'text-[var(--ink-primary)]'
+                    }`}
+                  >
+                    {item.label}
+                  </span>
                 </a>
               );
             })}
           </nav>
 
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-4 sm:px-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--line-hairline)] px-5 py-5">
             <a
               href={`mailto:${personal.email}`}
-              className="font-mono text-xs font-medium uppercase tracking-[0.06em] text-[var(--ink-primary)] underline underline-offset-4"
+              className="mono-index text-[var(--ink-primary)] underline underline-offset-4"
             >
               {personal.email} ↗
             </a>
             <button
               type="button"
               onClick={onTogglePolarity}
-              className="border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]"
+              className="border border-[var(--line-strong)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.1em]"
             >
-              Mode: {polarity}
+              Polarity: {polarity}
             </button>
           </div>
         </div>

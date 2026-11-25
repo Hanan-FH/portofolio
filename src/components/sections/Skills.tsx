@@ -13,90 +13,107 @@ export function Skills() {
     { id: '06', label: 'DESIGN & ARCHITECTURE', items: skills.design },
   ];
 
-  const marqueeItems = Array.from(
-    new Set([
-      ...skills.programming,
-      ...skills.frontend,
-      ...skills.backend,
-      ...skills.database,
-      ...skills.tools,
-      ...skills.design,
-    ])
+  const rowOne = Array.from(
+    new Set([...skills.programming, ...skills.frontend, ...skills.backend])
+  );
+  const rowTwo = Array.from(
+    new Set([...skills.database, ...skills.tools, ...skills.design])
   );
 
+  const renderMarqueeWord = (word: string, index: number, prefix: string, hidden = false) => {
+    const outlined = index % 2 === 1;
+    return (
+      <span
+        key={`${prefix}-${word}-${index}`}
+        aria-hidden={hidden || undefined}
+        className="inline-flex shrink-0 items-center gap-6 px-4 py-2"
+      >
+        <span
+          className={`text-[clamp(1.85rem,4.2vw,3.5rem)] uppercase leading-none tracking-[-0.04em] ${
+            outlined
+              ? 'marquee-outline-word'
+              : 'font-display text-[var(--ink-primary)] hover:text-[var(--accent-purple)]'
+          }`}
+        >
+          {word}
+        </span>
+        <span aria-hidden="true" className="font-mono text-xs text-[var(--ink-muted)]">
+          /
+        </span>
+      </span>
+    );
+  };
+
   return (
-    <Section id="skills" defer className="overflow-hidden">
+    <Section id="skills" className="overflow-hidden">
       <div className="container-site">
         <SectionHeading
           index="03"
           label="SKILLS"
-          title="Technical Stack & Languages"
-          note="09 LANGUAGES // 06 DOMAINS"
+          title="Capabilities & Stack"
+          note="09 LANGUAGES / 06 DOMAINS"
         />
       </div>
 
-      {/* Pure-CSS Infinite Marquee Ribbon (translate3d, pauses on hover, disabled on reduced motion) */}
+      {/* Dual-Direction Infinite CSS Velocity Marquee (Outlined-to-Solid Hover) */}
       <div
-        data-reveal
-        className="border-y-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] py-3 text-[var(--bg-primary)]"
+        data-reveal="up"
+        className="marquee-track divide-y divide-[var(--line-hairline)] border-y border-[var(--line-hairline)] bg-[var(--bg-surface)]"
       >
-        <div className="overflow-hidden">
-          <div className="animate-marquee items-center motion-reduce:justify-center motion-reduce:gap-2 motion-reduce:px-4">
+        <div className="overflow-hidden py-2">
+          <div className="animate-marquee-left items-center motion-reduce:justify-center motion-reduce:px-4">
             <div className="flex shrink-0 items-center motion-reduce:flex-wrap motion-reduce:justify-center">
-              {marqueeItems.map((item) => (
-                <span
-                  key={`a-${item}`}
-                  className="inline-flex items-center gap-4 px-4 py-1 font-mono text-xs font-semibold uppercase tracking-[0.08em]"
-                >
-                  <span>{item}</span>
-                  <span aria-hidden="true" className="opacity-45">
-                    //
-                  </span>
-                </span>
-              ))}
+              {rowOne.map((item, i) => renderMarqueeWord(item, i, 'r1a'))}
             </div>
-            <div
-              aria-hidden="true"
-              className="flex shrink-0 items-center motion-reduce:hidden"
-            >
-              {marqueeItems.map((item) => (
-                <span
-                  key={`b-${item}`}
-                  className="inline-flex items-center gap-4 px-4 py-1 font-mono text-xs font-semibold uppercase tracking-[0.08em]"
-                >
-                  <span>{item}</span>
-                  <span className="opacity-45">//</span>
-                </span>
-              ))}
+            <div aria-hidden="true" className="flex shrink-0 items-center motion-reduce:hidden">
+              {rowOne.map((item, i) => renderMarqueeWord(item, i, 'r1b', true))}
+            </div>
+          </div>
+        </div>
+
+        <div className="overflow-hidden py-2">
+          <div className="animate-marquee-right items-center motion-reduce:justify-center motion-reduce:px-4">
+            <div className="flex shrink-0 items-center motion-reduce:flex-wrap motion-reduce:justify-center">
+              {rowTwo.map((item, i) => renderMarqueeWord(item, i + 1, 'r2a'))}
+            </div>
+            <div aria-hidden="true" className="flex shrink-0 items-center motion-reduce:hidden">
+              {rowTwo.map((item, i) => renderMarqueeWord(item, i + 1, 'r2b', true))}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container-site mt-12 space-y-12">
-        {/* Categorized Editorial Matrix (Preserves 100% of Frontend, Backend, Database, Programming, Tools, Design) */}
+      <div className="container-site mt-20 space-y-20">
+        {/* Open 6-Domain Architectural Matrix (1px Hairlines Only) */}
         <div
-          data-reveal
-          className="manga-frame grid divide-y divide-[var(--border-subtle)] sm:grid-cols-2 lg:grid-cols-3"
+          data-reveal="up"
+          className="grid border-t border-[var(--line-hairline)] sm:grid-cols-2 lg:grid-cols-3"
         >
           {skillCategories.map((group, idx) => (
             <div
               key={group.id}
-              className={`p-5 sm:p-6 ${
-                idx % 3 !== 0 ? 'lg:border-l lg:border-[var(--border-subtle)]' : ''
-              } ${idx % 2 !== 0 ? 'sm:max-lg:border-l sm:max-lg:border-[var(--border-subtle)]' : ''}`}
+              className={`border-b border-[var(--line-hairline)] py-8 ${
+                idx % 3 !== 0 ? 'lg:border-l lg:border-[var(--line-hairline)] lg:pl-8' : 'lg:pr-8'
+              } ${
+                idx % 3 === 1 ? 'lg:pr-8' : ''
+              } ${
+                idx % 2 !== 0
+                  ? 'sm:max-lg:border-l sm:max-lg:border-[var(--line-hairline)] sm:max-lg:pl-6'
+                  : 'sm:max-lg:pr-6'
+              }`}
             >
-              <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-2.5">
-                <span className="mono-label font-semibold text-[var(--ink-primary)]">
-                  {group.id} // {group.label}
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="mono-index text-[var(--ink-primary)]">
+                  <span className="text-[var(--accent-purple)]">{group.id}</span> / {group.label}
                 </span>
-                <span className="font-mono text-[11px] text-[var(--ink-muted)]">
-                  [{String(group.items.length).padStart(2, '0')}]
+                <span className="mono-index text-[var(--ink-muted)]">
+                  0{group.items.length}
                 </span>
               </div>
-              <div className="mt-4 flex flex-wrap gap-2">
+
+              <div className="mt-5 flex flex-wrap gap-2">
                 {group.items.map((skill) => (
-                  <span key={skill} className="mono-pill">
+                  <span key={skill} className="editorial-pill">
                     {skill}
                   </span>
                 ))}
@@ -105,46 +122,59 @@ export function Skills() {
           ))}
         </div>
 
-        {/* 9 Core Curriculum Languages with Intact SVG Assets */}
-        <div data-reveal>
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-b-[1.5px] border-[var(--border-strong)] pb-2.5">
-            <h3 className="mono-label font-semibold text-[var(--ink-primary)]">
-              INDEX // CORE CURRICULUM LANGUAGES
+        {/* 9 Core Curriculum Languages with Intact SVG Icons */}
+        <div>
+          <div
+            data-reveal="up"
+            className="mb-8 flex flex-wrap items-center justify-between gap-2 border-b border-[var(--line-hairline)] pb-4"
+          >
+            <h3 className="mono-index text-[var(--ink-primary)]">
+              CURRICULUM LEDGER / CORE LANGUAGES
             </h3>
-            <span className="mono-label text-[var(--ink-muted)]">
-              09 VERIFIED RECORDS
-            </span>
+            <span className="mono-index text-[var(--ink-muted)]">09 VERIFIED RECORDS</span>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {skills.languages.map((language) => (
+          <div className="grid border-t border-[var(--line-hairline)] sm:grid-cols-2 lg:grid-cols-3">
+            {skills.languages.map((language, index) => (
               <article
                 key={language.name}
-                className="manga-card group flex items-start gap-4 p-5"
+                data-reveal="wipe"
+                style={{ '--delay': `${(index % 3) * 70}ms` } as React.CSSProperties}
+                className={`group flex items-start gap-4 border-b border-[var(--line-hairline)] py-7 ${
+                  index % 3 !== 0 ? 'lg:border-l lg:border-[var(--line-hairline)] lg:pl-7' : 'lg:pr-7'
+                } ${
+                  index % 3 === 1 ? 'lg:pr-7' : ''
+                } ${
+                  index % 2 !== 0
+                    ? 'sm:max-lg:border-l sm:max-lg:border-[var(--line-hairline)] sm:max-lg:pl-6'
+                    : 'sm:max-lg:pr-6'
+                }`}
               >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] p-2">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-[var(--line-hairline)] bg-[var(--bg-surface)] p-2">
                   <img
                     src={language.image}
                     alt={language.name}
-                    width={28}
-                    height={28}
+                    width={26}
+                    height={26}
                     loading="lazy"
                     decoding="async"
-                    className="editorial-media h-7 w-7 object-contain"
+                    className="h-6 w-6 object-contain grayscale group-hover:grayscale-0"
                   />
                 </div>
 
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline justify-between gap-2">
-                    <h4 className="display-card text-lg">{language.name}</h4>
-                    <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--ink-muted)]">
+                    <h4 className="text-lg uppercase leading-none tracking-[-0.03em]">
+                      {language.name}
+                    </h4>
+                    <span className="mono-index text-[var(--ink-muted)] group-hover:text-[var(--accent-purple)]">
                       {language.tag}
                     </span>
                   </div>
-                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.06em] text-[var(--ink-muted)]">
+                  <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--ink-muted)]">
                     {language.category}
                   </p>
-                  <p className="mt-2 text-sm leading-[1.6] text-[var(--ink-secondary)]">
+                  <p className="mt-2.5 text-sm leading-[1.6] text-[var(--ink-secondary)]">
                     {language.description}
                   </p>
                 </div>

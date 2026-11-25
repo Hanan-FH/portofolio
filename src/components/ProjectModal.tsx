@@ -2,6 +2,7 @@ import { useId } from 'react';
 import { type Project } from '../data/portfolio';
 import { Modal } from './ui/Modal';
 import { OptimizedPicture } from './ui/OptimizedPicture';
+import { RollingText } from './ui/RollingText';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -18,17 +19,17 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
 
   return (
     <Modal open={Boolean(project)} onClose={onClose} labelledBy={titleId}>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-5 py-3.5 pr-24">
-        <span className="inline-flex bg-[var(--bg-inverted)] px-2 py-0.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]">
-          PANEL {number}
-        </span>
-        <span className="mono-label text-[var(--ink-secondary)]">
-          {project.category} // {project.year}
-        </span>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line-hairline)] px-6 py-4 pr-24">
+        <div className="flex items-center gap-2.5">
+          <span className="mono-index font-semibold text-[var(--accent-purple)]">{number}</span>
+          <span aria-hidden="true" className="mono-index text-[var(--ink-muted)]">/</span>
+          <span className="mono-index text-[var(--ink-primary)]">{project.category}</span>
+        </div>
+        <span className="mono-index text-[var(--ink-muted)]">{project.year}</span>
       </div>
 
       {project.image && (
-        <div className="halftone-surface relative aspect-video w-full overflow-hidden border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-subtle)] p-4 sm:p-6">
+        <div className="editorial-halftone relative aspect-video w-full overflow-hidden border-b border-[var(--line-hairline)] bg-[var(--bg-subtle)] p-4 sm:p-6">
           <OptimizedPicture
             src={project.image}
             alt={project.title}
@@ -40,8 +41,8 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
         </div>
       )}
 
-      <div className="p-6 sm:p-8">
-        <h2 id={titleId} className="display-card text-2xl sm:text-3xl">
+      <div className="p-6 sm:p-10">
+        <h2 id={titleId} className="text-2xl uppercase leading-[0.98] tracking-[-0.03em] sm:text-3xl">
           {project.title}
         </h2>
 
@@ -50,28 +51,26 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
         </p>
 
         {project.technologies.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-2 border-t border-[var(--border-subtle)] pt-5">
+          <div className="mt-6 flex flex-wrap gap-2 border-t border-[var(--line-hairline)] pt-5">
             {project.technologies.map((tech) => (
-              <span key={tech} className="mono-pill">
+              <span key={tech} className="editorial-pill">
                 {tech}
               </span>
             ))}
           </div>
         )}
 
-        <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t-[1.5px] border-[var(--border-strong)] pt-5">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--line-hairline)] pt-6">
           <div className="flex flex-wrap items-center gap-3">
             {project.liveUrl && (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-ink"
+                className="btn-kinetic-ink"
               >
-                <span>Live Demo</span>
-                <span className="btn-arrow" aria-hidden="true">
-                  ↗
-                </span>
+                <RollingText text="Live Demo" />
+                <span className="kinetic-arrow" aria-hidden="true">↗</span>
               </a>
             )}
             {project.githubUrl && (
@@ -79,12 +78,10 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-paper"
+                className="btn-kinetic-outline"
               >
-                <span>GitHub</span>
-                <span className="btn-arrow" aria-hidden="true">
-                  ↗
-                </span>
+                <RollingText text="GitHub" />
+                <span className="kinetic-arrow" aria-hidden="true">↗</span>
               </a>
             )}
             {project.image && (
@@ -92,12 +89,10 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
                 href={project.image}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-paper"
+                className="btn-kinetic-outline"
               >
-                <span>Open Full Image</span>
-                <span className="btn-arrow" aria-hidden="true">
-                  ↗
-                </span>
+                <RollingText text="Full Resolution" />
+                <span className="kinetic-arrow" aria-hidden="true">↗</span>
               </a>
             )}
           </div>
@@ -108,17 +103,17 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
                 type="button"
                 onClick={() => onStep(-1)}
                 aria-label="Previous project"
-                className="inline-flex h-10 items-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
+                className="roll-trigger inline-flex h-10 items-center border border-[var(--line-hairline)] px-3.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
               >
-                ← Prev
+                <RollingText text="← Prev" />
               </button>
               <button
                 type="button"
                 onClick={() => onStep(1)}
                 aria-label="Next project"
-                className="inline-flex h-10 items-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
+                className="roll-trigger inline-flex h-10 items-center border border-[var(--line-hairline)] px-3.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
               >
-                Next →
+                <RollingText text="Next →" />
               </button>
             </div>
           )}

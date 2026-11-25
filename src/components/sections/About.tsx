@@ -1,4 +1,5 @@
 import { portfolioData } from '../../data/portfolio';
+import { RollingText } from '../ui/RollingText';
 import { Section, SectionHeading } from '../ui/Section';
 
 export function About() {
@@ -10,94 +11,107 @@ export function About() {
         <SectionHeading
           index="01"
           label="ABOUT"
-          title="Profile & Curriculum"
+          title="Narrative & Discipline"
           note={about.location}
         />
 
-        <div data-reveal className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
-          {/* Left Column: Editorial Statement, Verbatim Bio & Specification Table */}
-          <div className="lg:col-span-5">
-            <h3 className="display-card text-2xl sm:text-3xl">
+        {/* Open 12-Column Editorial Spread — Generous Whitespace & 1px Hairlines */}
+        <div className="grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16">
+          {/* Left Column: Statement, Bio & Clean Hairline Dossier */}
+          <div data-reveal="up" className="lg:col-span-5">
+            <h3 className="text-2xl uppercase leading-[1.04] tracking-[-0.03em] sm:text-3xl">
               {about.heading}
             </h3>
 
-            <div className="mt-5 space-y-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
+            <div className="mt-6 space-y-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
               {about.paragraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
 
-            <dl className="manga-card mt-8 divide-y divide-[var(--border-subtle)] text-sm">
-              <div className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-                <dt className="mono-label text-[var(--ink-muted)]">Status</dt>
-                <dd className="font-semibold text-[var(--ink-primary)]">{about.status}</dd>
+            <dl className="mt-10 divide-y divide-[var(--line-hairline)] border-y border-[var(--line-hairline)] text-sm">
+              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt className="mono-index text-[var(--ink-muted)]">Status</dt>
+                <dd className="font-medium text-[var(--ink-primary)]">{about.status}</dd>
               </div>
-              <div className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-                <dt className="mono-label text-[var(--ink-muted)]">Focus</dt>
+              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt className="mono-index text-[var(--ink-muted)]">Focus</dt>
                 <dd className="leading-[1.6] text-[var(--ink-secondary)]">{about.currentFocus}</dd>
               </div>
-              <div className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-                <dt className="mono-label text-[var(--ink-muted)]">Location</dt>
+              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt className="mono-index text-[var(--ink-muted)]">Location</dt>
                 <dd className="text-[var(--ink-primary)]">{about.location}</dd>
               </div>
-              <div className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-                <dt className="mono-label text-[var(--ink-muted)]">Email</dt>
+              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt className="mono-index text-[var(--ink-muted)]">Direct</dt>
                 <dd>
                   <a
                     href={`mailto:${personal.email}`}
-                    className="font-mono text-xs font-semibold text-[var(--ink-primary)] underline underline-offset-4 hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
+                    className="roll-trigger inline-flex items-center gap-1.5 font-mono text-xs font-medium text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
                   >
-                    {personal.email} ↗
+                    <RollingText text={personal.email} />
+                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
                   </a>
                 </dd>
               </div>
             </dl>
           </div>
 
-          {/* Right Column: Academic Record & 4 Foundation Competencies Matrix */}
-          <div className="space-y-6 lg:col-span-7">
+          {/* Right Column: Academic Record & Open 2x2 Curriculum Grid */}
+          <div className="lg:col-span-7">
             {education.map((item, index) => (
-              <article key={`${item.institution}-${index}`} className="manga-card overflow-hidden">
-                <div className="halftone-surface flex flex-wrap items-center justify-between gap-2 border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-5 py-3">
-                  <span className="mono-label text-[var(--ink-primary)]">
-                    EDUCATION // {item.period}
+              <article
+                key={`${item.institution}-${index}`}
+                data-reveal="wipe"
+                className="border-t border-[var(--line-hairline)] pb-10 pt-6"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="mono-index text-[var(--ink-muted)]">
+                    EDUCATION / {item.period}
                   </span>
-                  <span className="inline-flex bg-[var(--bg-inverted)] px-2 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]">
+                  <span className="mono-index font-semibold text-[var(--accent-purple)]">
                     {item.status}
                   </span>
                 </div>
 
-                <div className="p-5 sm:p-6">
-                  <h3 className="display-card text-xl sm:text-2xl">{item.program}</h3>
-                  <p className="mt-1.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--ink-muted)]">
-                    {item.institution}
-                  </p>
-                  <p className="mt-3 text-base leading-[1.65] text-[var(--ink-secondary)]">
-                    {item.description}
-                  </p>
-                </div>
+                <h3 className="mt-3 text-2xl uppercase leading-[1.02] tracking-[-0.03em] sm:text-3xl">
+                  {item.program}
+                </h3>
+                <p className="mt-1.5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)]">
+                  {item.institution}
+                </p>
+                <p className="mt-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
+                  {item.description}
+                </p>
               </article>
             ))}
 
-            {/* 2x2 Manga-Panel Grid of 4 SMK Plus Pelita Nusantara Foundation Competencies */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              {about.fundamentals.map((comp) => (
-                <article key={comp.id} className="manga-card flex flex-col justify-between p-5">
-                  <div>
-                    <div className="flex items-baseline justify-between gap-2 border-b border-[var(--border-subtle)] pb-2.5">
-                      <span className="font-display text-2xl leading-none text-[var(--ink-primary)]">
-                        {comp.id}
-                      </span>
-                      <span className="font-mono text-[11px] font-medium uppercase tracking-[0.06em] text-[var(--ink-muted)]">
-                        {comp.localTitle}
-                      </span>
-                    </div>
-
-                    <h4 className="display-card mt-3.5 text-lg">{comp.title}</h4>
-                    <p className="mt-2.5 text-sm leading-[1.65] text-[var(--ink-secondary)]">
-                      {comp.description}
-                    </p>
+            {/* 4 Authentic SMK Plus Pelita Nusantara Foundation Competencies */}
+            <div className="grid border-t border-[var(--line-hairline)] sm:grid-cols-2">
+              {about.fundamentals.map((comp, index) => (
+                <article
+                  key={comp.id}
+                  data-reveal="wipe"
+                  style={{ '--delay': `${index * 70}ms` } as React.CSSProperties}
+                  className={`group border-b border-[var(--line-hairline)] py-7 ${
+                    index % 2 === 0 ? 'sm:pr-8' : 'sm:border-l sm:border-[var(--line-hairline)] sm:pl-8'
+                  }`}
+                >
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="font-display text-2xl leading-none text-[var(--ink-primary)] group-hover:text-[var(--accent-purple)]">
+                      {comp.id}
+                    </span>
+                    <span className="mono-index text-[var(--ink-muted)]">
+                      {comp.localTitle}
+                    </span>
                   </div>
+
+                  <h4 className="mt-4 text-lg uppercase leading-[1.06] tracking-[-0.03em]">
+                    {comp.title}
+                  </h4>
+                  <p className="mt-2.5 text-sm leading-[1.65] text-[var(--ink-secondary)]">
+                    {comp.description}
+                  </p>
                 </article>
               ))}
             </div>

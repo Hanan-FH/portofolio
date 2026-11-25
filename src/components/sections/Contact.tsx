@@ -1,5 +1,6 @@
 import { useId, useState } from 'react';
 import { portfolioData } from '../../data/portfolio';
+import { RollingText } from '../ui/RollingText';
 import { Section, SectionHeading } from '../ui/Section';
 
 export function Contact() {
@@ -97,82 +98,78 @@ export function Contact() {
   )}`;
 
   return (
-    <Section id="contact" defer>
+    <Section id="contact">
       <div className="container-site">
         <SectionHeading
           index="05"
           label="CONTACT"
           title={contact.heading}
-          note="WIB // UTC+7"
+          note="WIB / UTC+7"
         />
 
-        <div data-reveal className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
-          {/* Left Column: Direct Dispatch Card & Authentic Social Channels */}
-          <div className="lg:col-span-5">
+        <div className="grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16">
+          {/* Left Column: Open Editorial Dispatch Copy & Direct Channels */}
+          <div data-reveal="up" className="lg:col-span-5">
             <p className="text-base leading-[1.65] text-[var(--ink-secondary)]">
               {contact.subheading}
             </p>
 
-            <div className="manga-card mt-8 overflow-hidden">
-              <div className="halftone-surface border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-5 py-3">
-                <span className="mono-label font-semibold text-[var(--ink-primary)]">
-                  DIRECT CHANNEL // EMAIL
+            <div className="mt-10 border-t border-[var(--line-hairline)] pt-7">
+              <span className="mono-index text-[var(--ink-muted)]">DIRECT ADDRESS</span>
+              <a
+                href={`mailto:${contact.recipientEmail}?subject=Portfolio%20Inquiry`}
+                aria-label={`Send an email directly to ${contact.recipientEmail}`}
+                className="roll-trigger mt-3 inline-flex max-w-full items-center gap-2 overflow-hidden font-display text-[clamp(1rem,2.4vw,1.6rem)] uppercase tracking-[-0.03em] text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
+              >
+                <RollingText text={contact.recipientEmail} />
+                <span className="kinetic-arrow shrink-0 font-mono text-lg" aria-hidden="true">
+                  ↗
                 </span>
-              </div>
+              </a>
 
-              <div className="p-5 sm:p-6">
-                <a
-                  href={`mailto:${contact.recipientEmail}?subject=Portfolio%20Inquiry`}
-                  aria-label={`Send an email directly to ${contact.recipientEmail}`}
-                  className="block break-all font-display text-lg uppercase text-[var(--ink-primary)] underline underline-offset-4 hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)] sm:text-xl"
-                >
-                  {contact.recipientEmail} ↗
-                </a>
+              <p className="mt-4 mono-index text-[var(--ink-muted)]">
+                {personal.location} · WIB (UTC+7)
+              </p>
 
-                <p className="mt-4 font-mono text-xs uppercase tracking-[0.08em] text-[var(--ink-muted)]">
-                  {personal.location} · WIB (UTC+7)
-                </p>
-
-                <div className="mt-6 flex flex-wrap items-center gap-2.5 border-t border-[var(--border-subtle)] pt-5">
-                  {social.github && (
-                    <a
-                      href={social.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-paper min-h-9 px-3 py-1.5"
-                    >
-                      <span>GitHub</span>
-                      <span aria-hidden="true">↗</span>
-                    </a>
-                  )}
-
-                  {social.linkedin && (
-                    <a
-                      href={social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-paper min-h-9 px-3 py-1.5"
-                    >
-                      <span>LinkedIn</span>
-                      <span aria-hidden="true">↗</span>
-                    </a>
-                  )}
-
-                  <a href={social.email} className="btn-paper min-h-9 px-3 py-1.5">
-                    <span>Email</span>
-                    <span aria-hidden="true">↗</span>
+              <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-[var(--line-hairline)] pt-6">
+                {social.github && (
+                  <a
+                    href={social.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-kinetic-outline min-h-10 px-4 py-2"
+                  >
+                    <RollingText text="GitHub" />
+                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
                   </a>
-                </div>
+                )}
+
+                {social.linkedin && (
+                  <a
+                    href={social.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-kinetic-outline min-h-10 px-4 py-2"
+                  >
+                    <RollingText text="LinkedIn" />
+                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                  </a>
+                )}
+
+                <a href={social.email} className="btn-kinetic-outline min-h-10 px-4 py-2">
+                  <RollingText text="Email" />
+                  <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Preserved FormSubmit AJAX Endpoint & Validation */}
-          <div className="lg:col-span-7">
+          {/* Right Column: Clean Hairline Editorial Form (Preserved FormSubmit AJAX Endpoint) */}
+          <div data-reveal="wipe" className="lg:col-span-7">
             <form
               onSubmit={handleFormSubmit}
               noValidate
-              className="manga-card p-6 sm:p-8"
+              className="border-t border-[var(--line-hairline)] pt-6"
             >
               <div
                 className="honeypot absolute h-0 w-0 overflow-hidden opacity-0"
@@ -190,13 +187,13 @@ export function Contact() {
                 />
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid gap-8 sm:grid-cols-2">
                 <div>
                   <label
                     htmlFor={nameInputId}
-                    className="mono-label mb-2 block text-[var(--ink-primary)]"
+                    className="mono-index block text-[var(--ink-muted)]"
                   >
-                    Name <span aria-hidden="true">*</span>
+                    01 / Name <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id={nameInputId}
@@ -205,7 +202,7 @@ export function Contact() {
                     required
                     autoComplete="name"
                     placeholder="Jane Doe"
-                    className="editorial-input"
+                    className="editorial-field"
                     value={formData.name}
                     onChange={(event) =>
                       setFormData({ ...formData, name: event.target.value })
@@ -216,9 +213,9 @@ export function Contact() {
                 <div>
                   <label
                     htmlFor={emailInputId}
-                    className="mono-label mb-2 block text-[var(--ink-primary)]"
+                    className="mono-index block text-[var(--ink-muted)]"
                   >
-                    Email <span aria-hidden="true">*</span>
+                    02 / Email <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id={emailInputId}
@@ -227,7 +224,7 @@ export function Contact() {
                     required
                     autoComplete="email"
                     placeholder="jane@example.com"
-                    className="editorial-input"
+                    className="editorial-field"
                     value={formData.email}
                     onChange={(event) =>
                       setFormData({ ...formData, email: event.target.value })
@@ -236,12 +233,12 @@ export function Contact() {
                 </div>
               </div>
 
-              <div className="mt-5">
+              <div className="mt-8">
                 <label
                   htmlFor={subjectInputId}
-                  className="mono-label mb-2 block text-[var(--ink-primary)]"
+                  className="mono-index block text-[var(--ink-muted)]"
                 >
-                  Subject <span aria-hidden="true">*</span>
+                  03 / Subject <span aria-hidden="true">*</span>
                 </label>
                 <input
                   id={subjectInputId}
@@ -249,7 +246,7 @@ export function Contact() {
                   type="text"
                   required
                   placeholder="Project inquiry / Internship"
-                  className="editorial-input"
+                  className="editorial-field"
                   value={formData.subject}
                   onChange={(event) =>
                     setFormData({ ...formData, subject: event.target.value })
@@ -257,26 +254,26 @@ export function Contact() {
                 />
               </div>
 
-              <div className="mt-5">
-                <div className="mb-2 flex items-baseline justify-between gap-4">
+              <div className="mt-8">
+                <div className="flex items-baseline justify-between gap-4">
                   <label
                     htmlFor={messageInputId}
-                    className="mono-label text-[var(--ink-primary)]"
+                    className="mono-index text-[var(--ink-muted)]"
                   >
-                    Message <span aria-hidden="true">*</span>
+                    04 / Message <span aria-hidden="true">*</span>
                   </label>
-                  <span id={messageHelpId} className="mono-label text-[var(--ink-muted)]">
-                    {formData.message.length} / 10+ CHARS
+                  <span id={messageHelpId} className="mono-index text-[var(--ink-muted)]">
+                    {formData.message.length} / 10+
                   </span>
                 </div>
                 <textarea
                   id={messageInputId}
                   name="message"
                   required
-                  rows={5}
+                  rows={4}
                   aria-describedby={messageHelpId}
                   placeholder="Write your message..."
-                  className="editorial-input resize-y"
+                  className="editorial-field resize-y"
                   value={formData.message}
                   onChange={(event) =>
                     setFormData({ ...formData, message: event.target.value })
@@ -287,7 +284,7 @@ export function Contact() {
               {formErrorMsg && (
                 <div
                   role="alert"
-                  className="mt-5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-3 font-mono text-xs text-[var(--ink-primary)]"
+                  className="mt-6 border-l-2 border-[var(--accent-purple)] bg-[var(--bg-surface)] px-4 py-3 font-mono text-xs text-[var(--ink-primary)]"
                 >
                   {formErrorMsg}
                 </div>
@@ -296,7 +293,7 @@ export function Contact() {
               {formStatus === 'success' && (
                 <div
                   role="status"
-                  className="mt-5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] px-4 py-3 font-mono text-xs text-[var(--bg-primary)]"
+                  className="mt-6 border-l-2 border-[var(--accent-purple)] bg-[var(--bg-surface)] px-4 py-3 font-mono text-xs text-[var(--ink-primary)]"
                 >
                   Message transmitted successfully to Hanan&apos;s inbox.
                 </div>
@@ -305,7 +302,7 @@ export function Contact() {
               {formStatus === 'activation_required' && (
                 <div
                   role="status"
-                  className="mt-5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-3 text-xs text-[var(--ink-primary)]"
+                  className="mt-6 border-l-2 border-[var(--accent-purple)] bg-[var(--bg-surface)] px-4 py-3 text-xs text-[var(--ink-primary)]"
                 >
                   <p className="font-mono">FormSubmit activation pending.</p>
                   <a
@@ -320,7 +317,7 @@ export function Contact() {
               {formStatus === 'error' && (
                 <div
                   role="alert"
-                  className="mt-5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-3 text-xs text-[var(--ink-primary)]"
+                  className="mt-6 border-l-2 border-[var(--accent-purple)] bg-[var(--bg-surface)] px-4 py-3 text-xs text-[var(--ink-primary)]"
                 >
                   <p className="font-mono">Unable to transmit via FormSubmit.</p>
                   <a
@@ -332,23 +329,24 @@ export function Contact() {
                 </div>
               )}
 
-              <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--border-subtle)] pt-5">
+              <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
                 <button
                   type="submit"
                   disabled={formStatus === 'sending'}
-                  className="btn-ink disabled:cursor-not-allowed disabled:opacity-60"
+                  className="btn-kinetic-ink disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <span>{formStatus === 'sending' ? 'Sending...' : 'Send Message'}</span>
-                  <span className="btn-arrow" aria-hidden="true">
-                    →
-                  </span>
+                  <RollingText
+                    text={formStatus === 'sending' ? 'Transmitting...' : 'Send Message'}
+                  />
+                  <span className="kinetic-arrow" aria-hidden="true">→</span>
                 </button>
 
                 <a
                   href={mailtoFallbackUrl}
-                  className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-[var(--ink-secondary)] underline underline-offset-4 hover:text-[var(--ink-primary)]"
+                  className="roll-trigger inline-flex items-center gap-1.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-[var(--ink-muted)] hover:text-[var(--ink-primary)]"
                 >
-                  Direct Mailto Fallback ↗
+                  <RollingText text="Mailto Fallback" />
+                  <span className="kinetic-arrow" aria-hidden="true">↗</span>
                 </a>
               </div>
             </form>

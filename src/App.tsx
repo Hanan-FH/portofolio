@@ -3,6 +3,8 @@ import { portfolioData, type Certificate, type Project } from './data/portfolio'
 import { prefersReducedMotionNow } from './hooks/useReducedMotion';
 import { useScrollReveal } from './hooks/useScrollReveal';
 import { useThemePolarity } from './hooks/useThemePolarity';
+import { InkCurtain } from './components/ui/InkCurtain';
+import { CustomCursor } from './components/ui/CustomCursor';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Hero } from './components/sections/Hero';
@@ -98,10 +100,16 @@ export function App() {
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--bg-primary)] text-[var(--ink-primary)]">
+      {/* Snappy ~0.75s Non-Blocking Manga Ink Curtain */}
+      <InkCurtain />
+
+      {/* Minimalist 60fps Difference-Blend Custom Cursor (@media (pointer: fine)) */}
+      <CustomCursor />
+
       {/* Keyboard Skip-to-Content Link */}
       <a
         href="#main-content"
-        className="fixed left-4 top-4 z-[300] -translate-y-28 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)] transition-transform duration-150 focus:translate-y-0"
+        className="fixed left-4 top-4 z-[300] -translate-y-28 bg-[var(--accent-purple)] px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white transition-transform duration-150 focus:translate-y-0"
       >
         Skip to main content
       </a>

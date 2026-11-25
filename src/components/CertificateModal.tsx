@@ -2,6 +2,7 @@ import { useId } from 'react';
 import { type Certificate } from '../data/portfolio';
 import { Modal } from './ui/Modal';
 import { OptimizedPicture } from './ui/OptimizedPicture';
+import { RollingText } from './ui/RollingText';
 
 interface CertificateModalProps {
   certificate: Certificate | null;
@@ -19,16 +20,17 @@ export function CertificateModal({ certificate, onClose, onStep }: CertificateMo
 
   return (
     <Modal open={Boolean(certificate)} onClose={onClose} labelledBy={titleId}>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-5 py-3.5 pr-24">
-        <span className="inline-flex bg-[var(--bg-inverted)] px-2 py-0.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]">
-          CERTIFICATE {number}
-        </span>
-        <span className="mono-label text-[var(--ink-secondary)]">
-          ISSUED // {certificate.year}
-        </span>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line-hairline)] px-6 py-4 pr-24">
+        <div className="flex items-center gap-2.5">
+          <span className="mono-index font-semibold text-[var(--accent-purple)]">{number}</span>
+          <span aria-hidden="true" className="mono-index text-[var(--ink-muted)]">/</span>
+          <span className="mono-index text-[var(--ink-primary)]">CREDENTIAL</span>
+        </div>
+        <span className="mono-index text-[var(--ink-muted)]">{certificate.year}</span>
       </div>
 
-      <div className="halftone-surface relative aspect-[16/11] w-full overflow-hidden border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-subtle)] p-3 sm:p-6">
+      {/* Full Clarity Certificate Viewport — Never Grayscale */}
+      <div className="editorial-halftone relative aspect-[16/11] w-full overflow-hidden border-b border-[var(--line-hairline)] bg-[var(--bg-subtle)] p-4 sm:p-6">
         <OptimizedPicture
           src={certificate.image}
           alt={`${certificate.title} — ${certificate.issuer}`}
@@ -39,36 +41,34 @@ export function CertificateModal({ certificate, onClose, onStep }: CertificateMo
         />
       </div>
 
-      <div className="p-6 sm:p-8">
-        <h2 id={titleId} className="display-card text-xl sm:text-2xl">
+      <div className="p-6 sm:p-10">
+        <h2 id={titleId} className="text-xl uppercase leading-[1.02] tracking-[-0.03em] sm:text-2xl">
           {certificate.title}
         </h2>
 
-        <dl className="mt-5 divide-y divide-[var(--border-subtle)] border-y-[1.5px] border-[var(--border-strong)] text-sm">
-          <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-            <dt className="mono-label text-[var(--ink-muted)]">Issuer</dt>
+        <dl className="mt-6 divide-y divide-[var(--line-hairline)] border-y border-[var(--line-hairline)] text-sm">
+          <div className="grid grid-cols-1 gap-1 py-3.5 sm:grid-cols-[9rem_1fr] sm:gap-4">
+            <dt className="mono-index text-[var(--ink-muted)]">Issuer</dt>
             <dd className="font-medium text-[var(--ink-primary)]">{certificate.issuer}</dd>
           </div>
-          <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-            <dt className="mono-label text-[var(--ink-muted)]">Year</dt>
-            <dd className="font-mono text-xs font-semibold text-[var(--ink-primary)]">
+          <div className="grid grid-cols-1 gap-1 py-3.5 sm:grid-cols-[9rem_1fr] sm:gap-4">
+            <dt className="mono-index text-[var(--ink-muted)]">Issued</dt>
+            <dd className="font-mono text-xs font-medium text-[var(--ink-primary)]">
               {certificate.year}
             </dd>
           </div>
         </dl>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
           {certificate.verificationUrl && (
             <a
               href={certificate.verificationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ink"
+              className="btn-kinetic-ink"
             >
-              <span>{isPdf ? 'Open Official PDF' : 'Open Full Certificate'}</span>
-              <span className="btn-arrow" aria-hidden="true">
-                ↗
-              </span>
+              <RollingText text={isPdf ? 'Verify PDF Document' : 'Open Original Certificate'} />
+              <span className="kinetic-arrow" aria-hidden="true">↗</span>
             </a>
           )}
 
@@ -78,17 +78,17 @@ export function CertificateModal({ certificate, onClose, onStep }: CertificateMo
                 type="button"
                 onClick={() => onStep(-1)}
                 aria-label="Previous certificate"
-                className="inline-flex h-10 items-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
+                className="roll-trigger inline-flex h-10 items-center border border-[var(--line-hairline)] px-3.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
               >
-                ← Prev
+                <RollingText text="← Prev" />
               </button>
               <button
                 type="button"
                 onClick={() => onStep(1)}
                 aria-label="Next certificate"
-                className="inline-flex h-10 items-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
+                className="roll-trigger inline-flex h-10 items-center border border-[var(--line-hairline)] px-3.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
               >
-                Next →
+                <RollingText text="Next →" />
               </button>
             </div>
           )}

@@ -14,28 +14,32 @@ export function SectionHeading({
   className = '',
 }: SectionHeadingProps) {
   return (
-    <header data-reveal className={`mb-10 sm:mb-12 ${className}`.trim()}>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t-[1.5px] border-[var(--border-strong)] pt-3">
+    <header className={`mb-14 sm:mb-20 ${className}`.trim()}>
+      {/* Architectural Hairline Draw */}
+      <div
+        data-reveal="line"
+        aria-hidden="true"
+        className="h-px w-full bg-[var(--line-strong)] opacity-25"
+      />
+
+      <div data-reveal="up" className="mt-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center bg-[var(--bg-inverted)] px-2.5 py-1 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]">
-            {index} // {label}
+          <span className="mono-index font-semibold text-[var(--accent-purple)]">
+            {index}
           </span>
+          <span aria-hidden="true" className="mono-index text-[var(--ink-muted)]">
+            /
+          </span>
+          <span className="mono-index text-[var(--ink-primary)]">{label}</span>
         </div>
-        {note && (
-          <span className="mono-label text-[var(--ink-muted)]">
-            {note}
-          </span>
-        )}
+
+        {note && <span className="mono-index text-[var(--ink-muted)]">{note}</span>}
       </div>
 
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <h2 className="display-section text-[clamp(2rem,4.2vw,3.35rem)] uppercase">
+      <div data-reveal="mask" className="mt-6 sm:mt-8">
+        <h2 className="reveal-mask-child text-[clamp(2.4rem,6.2vw,5.4rem)] uppercase leading-[0.92] tracking-[-0.04em]">
           {title}
         </h2>
-        <div
-          aria-hidden="true"
-          className="hidden h-[3px] w-12 shrink-0 bg-[var(--ink-primary)] sm:block"
-        />
       </div>
     </header>
   );

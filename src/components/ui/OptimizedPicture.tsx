@@ -12,15 +12,13 @@ export interface OptimizedPictureProps {
 
 function toWebpSrc(src: string): string | null {
   if (!src.startsWith('/') || src.startsWith('/webp/')) return null;
+  if (!src.startsWith('/projects/') && !src.startsWith('/certificates/') && src !== '/profile.jpg') {
+    return null;
+  }
   if (!/\.(png|jpe?g)$/i.test(src)) return null;
   return `/webp${src.replace(/\.(png|jpe?g)$/i, '.webp')}`;
 }
 
-/**
- * Non-destructive responsive picture wrapper.
- * Serves existing WebP companions when present while preserving 100% original
- * PNG/JPG asset paths and native lazy/async decoding.
- */
 export function OptimizedPicture({
   src,
   alt,
