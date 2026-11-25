@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="paper">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,8 +8,8 @@
       name="description"
       content="Production-grade developer portfolio of Hanan Fathurrozaq Hidayatullah, a vocational high school software engineering student at SMK Plus Pelita Nusantara, Bogor."
     />
-    <meta name="theme-color" content="#050714" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#F4F4F1" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="author" content="Hanan Fathurrozaq Hidayatullah" />
     <meta property="og:title" content="Hanan Fathurrozaq Hidayatullah — Software Developer &amp; Engineering Student" />
     <meta
@@ -29,30 +29,24 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="preload" as="image" href="/webp/profile.webp" type="image/webp" fetchpriority="high" />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme-polarity');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var mode = saved === 'ink' || saved === 'paper' ? saved : prefersDark ? 'ink' : 'paper';
+          document.documentElement.dataset.theme = mode;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', mode === 'ink' ? '#0A0A0A' : '#F4F4F1');
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
     />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:;!?%26/()-%E2%80%94'%22%2B%C2%B7%20"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:;!?%26/()-%E2%80%94'%22%2B%C2%B7%20"
-        rel="stylesheet"
-      />
-    </noscript>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

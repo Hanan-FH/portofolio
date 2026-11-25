@@ -1,81 +1,60 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   SHINKAI KATAWAREDOKI (かたわれ時) ULTRA-EDITORIAL OPTICAL SYSTEM
-   Makoto Shinkai's Kimi no Na wa. (君の名は。) — Tokyo Roadshow Phototypesetting
+   MONOCHROME MANGA / SWISS EDITORIAL BRUTALIST DESIGN SYSTEM
+   Paper & Ink Polarity Architecture · Zero Blur · 60fps GPU Primitives
    ============================================================================= */
-:root {
-  /* Katawaredoki Rayleigh Scattering Palette */
-  --zenith-void: #050714;
-  --twilight-indigo: #0d1435;
-  --ozone-violet: #24123e;
-  --kataware-rose: #6d1146;
-  --horizon-flare: #c2410c;
-  --solar-gold: #fde047;
-  --tiamat-cyan: #38bdf8;
-  --musubi-red: #e11d48;
-  --musubi-amber: #f59e0b;
-
-  /* Architectural Abyss Surfaces */
-  --surface-abyss: rgba(5, 7, 20, 0.76);
-  --surface-twilight: rgba(13, 20, 53, 0.54);
-  --shadow-editorial: 0 24px 60px -18px rgba(5, 7, 20, 0.92);
+:root,
+[data-theme="paper"] {
+  --bg-primary: #F4F4F1;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #EAEAE4;
+  --bg-inverted: #0A0A0A;
+  --ink-primary: #0A0A0A;
+  --ink-secondary: #4A4A4A;
+  --ink-muted: #737373;
+  --border-strong: #0A0A0A;
+  --border-subtle: #D4D4D0;
+  --border-inverted: #333333;
+  --accent-indigo: #5B58EB;
+  --halftone-opacity: 0.085;
+  color-scheme: light;
 }
 
-@font-face {
-  font-family: "Shippori Mincho Fallback";
-  src: local("Georgia"), local("Times New Roman");
-  size-adjust: 111%;
-  ascent-override: 92%;
-  descent-override: 24%;
-  line-gap-override: 0%;
-}
-
-@font-face {
-  font-family: "Plus Jakarta Sans Fallback";
-  src: local("Segoe UI"), local("Arial");
-  size-adjust: 103%;
-  ascent-override: 98%;
-  descent-override: 22%;
-  line-gap-override: 0%;
-}
-
-@font-face {
-  font-family: "JetBrains Mono Fallback";
-  src: local("Consolas"), local("Courier New");
-  size-adjust: 105%;
-  ascent-override: 96%;
-  descent-override: 24%;
-  line-gap-override: 0%;
+[data-theme="ink"] {
+  --bg-primary: #0A0A0A;
+  --bg-surface: #141414;
+  --bg-subtle: #1C1C1C;
+  --bg-inverted: #F4F4F1;
+  --ink-primary: #F4F4F1;
+  --ink-secondary: #C2C2BD;
+  --ink-muted: #9A9A95;
+  --border-strong: #F4F4F1;
+  --border-subtle: #2A2A2A;
+  --border-inverted: #CCCCC6;
+  --accent-indigo: #5B58EB;
+  --halftone-opacity: 0.1;
+  color-scheme: dark;
 }
 
 @theme {
-  --font-serif: "Shippori Mincho", "Shippori Mincho Fallback", Georgia, "Times New Roman", serif;
-  --font-sans: "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-display: "Archivo Black", "Arial Black", "Impact", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --color-zenith-void: #050714;
-  --color-twilight-indigo: #0d1435;
-  --color-ozone-violet: #24123e;
-  --color-kataware-rose: #6d1146;
-  --color-horizon-flare: #c2410c;
-  --color-solar-gold: #fde047;
-  --color-tiamat-cyan: #38bdf8;
-  --color-tiamat-rose: #f43f5e;
-
-  --ease-shinkai: cubic-bezier(0.16, 1, 0.3, 1);
-  --container-site: 76rem;
+  --ease-snappy: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --container-site: 80rem;
 }
 
 /* =============================================================================
-   BASE EDITORIAL ARCHITECTURE
+   BASE RESET & TYPOGRAPHIC DISCIPLINE
    ============================================================================= */
 @layer base {
   html {
     scrollbar-gutter: stable;
     -webkit-text-size-adjust: 100%;
-    background-color: var(--zenith-void);
-    color-scheme: dark;
+    background-color: var(--bg-primary);
+    color: var(--ink-primary);
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -85,11 +64,11 @@
   }
 
   body {
-    background-color: var(--zenith-void);
-    color: #cbd5e1;
+    background-color: var(--bg-primary);
+    color: var(--ink-primary);
     font-family: var(--font-sans);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
@@ -99,336 +78,289 @@
   h2,
   h3,
   h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    color: var(--ink-primary);
     text-wrap: balance;
-    font-kerning: normal;
-    font-feature-settings: "kern" 1, "liga" 1;
   }
 
   p {
+    max-width: 65ch;
     text-wrap: pretty;
   }
 
-  img {
+  img,
+  svg {
     display: block;
     max-width: 100%;
   }
 
+  /* STRICT 3% ELECTRIC INDIGO MICRO-ACCENT: Selection & Focus-Visible Only */
   ::selection {
-    background-color: rgba(56, 189, 248, 0.28);
-    color: #ffffff;
+    background-color: var(--accent-indigo);
+    color: #FFFFFF;
   }
 
   :focus-visible {
-    outline: 1.5px solid var(--tiamat-cyan);
-    outline-offset: 3px;
+    outline: 2px solid var(--accent-indigo);
+    outline-offset: 2px;
   }
 
   ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--zenith-void);
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border-subtle);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #0d1435 0%, #6d1146 65%, #c2410c 100%);
+    background: var(--ink-primary);
+  }
+
+  dialog {
+    color: var(--ink-primary);
+    background: var(--bg-surface);
+    border: 2px solid var(--border-strong);
+    padding: 0;
+  }
+
+  dialog::backdrop {
+    background-color: rgba(10, 10, 10, 0.84);
   }
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   textarea:-webkit-autofill {
-    -webkit-text-fill-color: #f1f5f9;
-    -webkit-box-shadow: 0 0 0 1000px #060919 inset;
-    caret-color: #f1f5f9;
+    -webkit-text-fill-color: var(--ink-primary);
+    -webkit-box-shadow: 0 0 0 1000px var(--bg-surface) inset;
+    caret-color: var(--ink-primary);
   }
 }
 
 /* =============================================================================
-   HIGH-FASHION EDITORIAL TYPOGRAPHY & ARCHITECTURAL SURFACES (ANTI-KITSCH)
+   MANGA-PANEL FRAMES, HALFTONES & BRUTALIST PRIMITIVES (ZERO BLUR)
    ============================================================================= */
 @layer components {
   .container-site {
     width: 100%;
     max-width: var(--container-site);
     margin-inline: auto;
-    padding-inline: clamp(1.5rem, 4.5vw, 3.25rem);
+    padding-inline: clamp(1rem, 4vw, 3rem);
   }
 
-  /* Primary Display Headings: Morisawa Ryumin / Classical Japanese Phototypesetting
-     Tight optical kerning, disciplined tracking (0.08em - 0.15em), crepuscular fill,
-     and imperceptible 1px horizon rim backlight. */
-  .mincho-display {
-    font-family: var(--font-serif);
-    font-weight: 500;
-    letter-spacing: 0.11em;
-    line-height: 1.16;
-    background-image: linear-gradient(180deg, #ffffff 30%, #e2e8f0 75%, #cbd5e1 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 1px 0 rgba(253, 224, 71, 0.14));
+  .display-hero {
+    font-family: var(--font-display);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
   }
 
-  .mincho-editorial {
-    font-family: var(--font-serif);
-    font-weight: 500;
-    letter-spacing: 0.09em;
-    line-height: 1.24;
-    background-image: linear-gradient(180deg, #ffffff 30%, #e2e8f0 75%, #cbd5e1 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 1px 0 rgba(253, 224, 71, 0.12));
+  .display-section {
+    font-family: var(--font-display);
+    letter-spacing: -0.035em;
+    line-height: 1.0;
   }
 
-  .mincho-sub {
-    font-family: var(--font-serif);
+  .display-card {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     font-weight: 500;
+    line-height: 1.3;
     letter-spacing: 0.08em;
-    line-height: 1.32;
-    color: #f1f5f9;
+    text-transform: uppercase;
   }
 
-  /* Monospaced Astronomical Ephemeris Indices */
-  .ephemeris-label,
-  .astro-coord {
-    @apply font-mono text-[9px] uppercase tracking-[0.4em] text-slate-400;
+  /* Structural 1.5px Manga-Panel Container */
+  .manga-frame {
+    border: 1.5px solid var(--border-strong);
+    border-radius: 0px;
+    background-color: var(--bg-surface);
   }
 
-  .astro-telemetry {
-    @apply font-mono text-[9px] uppercase tracking-[0.34em] text-slate-400/85;
+  /* Hard Neo-Brutalist Card (Zero Blur) */
+  .manga-card {
+    border: 1.5px solid var(--border-strong);
+    border-radius: 0px;
+    background-color: var(--bg-surface);
+    box-shadow: 4px 4px 0px var(--border-strong);
   }
 
-  /* Restrained 1px Anamorphic Horizon Rule */
-  .anamorphic-streak {
-    height: 1px;
-    width: 100%;
-    background: linear-gradient(
-      90deg,
-      rgba(56, 189, 248, 0) 0%,
-      rgba(56, 189, 248, 0.52) 24%,
-      rgba(255, 255, 255, 0.86) 50%,
-      rgba(253, 224, 71, 0.56) 76%,
-      rgba(194, 65, 12, 0) 100%
-    );
+  .manga-card-interactive {
+    border: 1.5px solid var(--border-strong);
+    border-radius: 0px;
+    background-color: var(--bg-surface);
+    box-shadow: 4px 4px 0px var(--border-strong);
+    transition: transform 180ms var(--ease-snappy), opacity 180ms var(--ease-snappy);
   }
 
-  /* Architectural Editorial Panel: 1px bottom-horizon rim shading, zero SaaS roundness */
-  .rim-horizon-frame,
-  .rim-horizon-panel {
+  .manga-card-interactive:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0px var(--border-strong);
+  }
+
+  .manga-card-interactive:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--border-strong);
+  }
+
+  /* Pure CSS Halftone / Screentone Texture */
+  .halftone-surface {
     position: relative;
-    border: 1px solid transparent;
-    border-radius: 2px;
-    background:
-      linear-gradient(180deg, rgba(5, 7, 20, 0.86) 0%, rgba(13, 20, 53, 0.72) 100%) padding-box,
-      linear-gradient(
-        0deg,
-        rgba(253, 224, 71, 0.36) 0%,
-        rgba(194, 65, 12, 0.28) 24%,
-        rgba(109, 17, 70, 0.24) 60%,
-        rgba(255, 255, 255, 0.12) 100%
-      ) border-box;
-    box-shadow:
-      inset 0 -1px 0 0 rgba(253, 224, 71, 0.1),
-      var(--shadow-editorial);
+    isolation: isolate;
   }
 
-  .rim-horizon-panel {
-    background:
-      linear-gradient(180deg, rgba(5, 7, 20, 0.78) 0%, rgba(13, 20, 53, 0.62) 100%) padding-box,
-      linear-gradient(
-        0deg,
-        rgba(253, 224, 71, 0.36) 0%,
-        rgba(194, 65, 12, 0.28) 24%,
-        rgba(109, 17, 70, 0.24) 60%,
-        rgba(255, 255, 255, 0.12) 100%
-      ) border-box;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-
-  /* Interactive Kumihimo Frame (Transform & Opacity Only — Zero GPU Blur Overhead) */
-  .kumihimo-panel {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid transparent;
-    border-radius: 2px;
-    background:
-      linear-gradient(180deg, rgba(5, 7, 20, 0.88) 0%, rgba(13, 20, 53, 0.78) 100%) padding-box,
-      linear-gradient(
-        0deg,
-        rgba(253, 224, 71, 0.3) 0%,
-        rgba(225, 29, 72, 0.22) 42%,
-        rgba(56, 189, 248, 0.18) 100%
-      ) border-box;
-    box-shadow: var(--shadow-editorial);
-    transition: transform 320ms var(--ease-shinkai), opacity 320ms var(--ease-shinkai);
-  }
-
-  .kumihimo-panel::after {
+  .halftone-surface::before {
     content: "";
-    pointer-events: none;
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      115deg,
-      rgba(56, 189, 248, 0.08) 0%,
-      transparent 48%,
-      rgba(253, 224, 71, 0.08) 100%
-    );
-    opacity: 0;
-    transition: opacity 320ms var(--ease-shinkai);
-  }
-
-  .kumihimo-panel:hover {
-    transform: translate3d(0, -2px, 0);
-  }
-
-  .kumihimo-panel:hover::after {
-    opacity: 1;
-  }
-
-  /* Minimalist Twilight Tag (Zero Per-Chip Backdrop Blur for Lightweight Marquee) */
-  .twilight-chip {
-    position: relative;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.11);
-    border-radius: 2px;
-    background-color: rgba(6, 10, 28, 0.84);
-    transition: transform 240ms var(--ease-shinkai), opacity 240ms var(--ease-shinkai);
-  }
-
-  .twilight-chip::after {
-    content: "";
+    z-index: -1;
     pointer-events: none;
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      105deg,
-      transparent 15%,
-      rgba(56, 189, 248, 0.16) 48%,
-      rgba(244, 63, 94, 0.14) 64%,
-      transparent 88%
-    );
-    opacity: 0;
-    transform: translate3d(-35%, 0, 0);
-    transition: transform 380ms var(--ease-shinkai), opacity 240ms var(--ease-shinkai);
+    background-image: radial-gradient(var(--ink-primary) 1px, transparent 1px);
+    background-size: 8px 8px;
+    opacity: var(--halftone-opacity);
   }
 
-  .twilight-chip:hover {
-    transform: translate3d(0, -1px, 0);
+  .halftone-pattern {
+    background-image: radial-gradient(var(--ink-primary) 1px, transparent 1px);
+    background-size: 8px 8px;
   }
 
-  .twilight-chip:hover::after {
-    opacity: 1;
-    transform: translate3d(35%, 0, 0);
-  }
-
-  /* Subtle Editorial Coordinate Link */
-  .celestial-link {
-    position: relative;
-    transition: transform 220ms var(--ease-shinkai), opacity 220ms var(--ease-shinkai);
-  }
-
-  .celestial-link:hover {
-    transform: translate3d(0, -1px, 0);
-  }
-
-  /* Primary Editorial Action Button (Crepuscular Rim, Zero Excess Neon) */
-  .btn-tiamat {
-    position: relative;
-    overflow: hidden;
+  /* Primary Solid Ink CTA Button */
+  .btn-ink {
     display: inline-flex;
     min-height: 2.75rem;
     align-items: center;
     justify-content: center;
-    gap: 0.65rem;
-    border-radius: 2px;
-    padding: 0.65rem 1.5rem;
+    gap: 0.625rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 0px;
+    background-color: var(--bg-inverted);
+    color: var(--bg-primary);
+    padding: 0.625rem 1.25rem;
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.24em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #f8fafc;
-    border: 1px solid transparent;
-    background:
-      linear-gradient(120deg, #0d1435 0%, #6d1146 62%, #c2410c 100%) padding-box,
-      linear-gradient(
-        90deg,
-        rgba(56, 189, 248, 0.72) 0%,
-        rgba(255, 255, 255, 0.75) 50%,
-        rgba(253, 224, 71, 0.78) 100%
-      ) border-box;
-    box-shadow: 0 12px 28px -12px rgba(5, 7, 20, 0.9);
-    transition: transform 260ms var(--ease-shinkai), opacity 260ms var(--ease-shinkai);
+    box-shadow: 4px 4px 0px var(--border-strong);
+    transition: transform 180ms var(--ease-snappy), opacity 180ms var(--ease-snappy);
+    cursor: pointer;
   }
 
-  .btn-tiamat:hover {
-    transform: translate3d(0, -2px, 0);
+  .btn-ink:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0px var(--border-strong);
   }
 
-  /* Secondary Architectural Glass Button */
-  .btn-crepuscular {
+  .btn-ink:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--border-strong);
+  }
+
+  /* Secondary Outlined Paper CTA Button */
+  .btn-paper {
     display: inline-flex;
     min-height: 2.75rem;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    border-radius: 2px;
-    padding: 0.65rem 1.45rem;
+    gap: 0.625rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 0px;
+    background-color: var(--bg-surface);
+    color: var(--ink-primary);
+    padding: 0.625rem 1.25rem;
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.24em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #e2e8f0;
-    border: 1px solid transparent;
-    background:
-      linear-gradient(180deg, rgba(13, 20, 53, 0.64), rgba(5, 7, 20, 0.84)) padding-box,
-      linear-gradient(
-        0deg,
-        rgba(253, 224, 71, 0.42) 0%,
-        rgba(109, 17, 70, 0.34) 52%,
-        rgba(56, 189, 248, 0.32) 100%
-      ) border-box;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: transform 260ms var(--ease-shinkai), opacity 260ms var(--ease-shinkai);
+    box-shadow: 4px 4px 0px var(--border-strong);
+    transition: transform 180ms var(--ease-snappy), opacity 180ms var(--ease-snappy);
+    cursor: pointer;
   }
 
-  .btn-crepuscular:hover {
-    transform: translate3d(0, -2px, 0);
+  .btn-paper:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0px var(--border-strong);
+    background-color: var(--bg-inverted);
+    color: var(--bg-primary);
   }
 
-  /* Nightfall Terminal Input Fields */
-  .terminal-label {
-    @apply mb-2 block font-mono text-[9px] uppercase tracking-[0.38em] text-slate-400;
+  .btn-paper:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--border-strong);
   }
 
-  .terminal-input {
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-bottom-color: rgba(253, 224, 71, 0.28);
-    border-radius: 2px;
-    background-color: rgba(5, 7, 20, 0.78);
-    @apply w-full px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-400;
-  }
-
-  .link-arrow {
+  .btn-arrow {
     display: inline-block;
-    transition: transform 220ms var(--ease-shinkai);
+    transition: transform 180ms var(--ease-snappy);
   }
 
-  a:hover .link-arrow,
-  button:hover .link-arrow {
-    transform: translate3d(2px, -2px, 0);
+  .btn-ink:hover .btn-arrow,
+  .btn-paper:hover .btn-arrow,
+  a:hover .btn-arrow,
+  button:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Monospace Tech Stack Pill */
+  .mono-pill {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--border-strong);
+    border-radius: 0px;
+    background-color: var(--bg-primary);
+    padding: 0.25rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink-primary);
+  }
+
+  /* Editorial Input Fields */
+  .editorial-input {
+    width: 100%;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 0px;
+    background-color: var(--bg-primary);
+    padding: 0.75rem 0.875rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    color: var(--ink-primary);
+  }
+
+  .editorial-input::placeholder {
+    color: var(--ink-muted);
+  }
+
+  /* Non-Destructive Monochrome Editorial Asset Filter -> Original Color on Hover/Focus */
+  .editorial-media {
+    filter: grayscale(100%) contrast(1.06);
+    transition: transform 220ms var(--ease-snappy), opacity 220ms var(--ease-snappy);
+  }
+
+  .group:hover .editorial-media,
+  .group:focus-within .editorial-media,
+  .editorial-media:hover {
+    filter: none;
+  }
+
+  /* Below-the-Fold Content Visibility Optimization */
+  .section-defer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 760px;
   }
 
   .no-scrollbar {
@@ -442,8 +374,19 @@
 }
 
 /* =============================================================================
-   60FPS/120FPS HARDWARE-ACCELERATED KEYFRAMES (STRICTLY TRANSFORM & OPACITY)
+   ONE-SHOT SCROLL REVEAL & PURE-CSS MARQUEE (GPU TRANSFORM & OPACITY ONLY)
    ============================================================================= */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 240ms var(--ease-snappy), transform 240ms var(--ease-snappy);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
 @keyframes marquee {
   0% {
     transform: translate3d(0, 0, 0);
@@ -453,157 +396,37 @@
   }
 }
 
-@keyframes marquee-reverse {
-  0% {
-    transform: translate3d(-50%, 0, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
 .animate-marquee {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: marquee 36s linear infinite;
+  animation: marquee 34s linear infinite;
 }
 
-.animate-marquee-reverse {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-  animation: marquee-reverse 42s linear infinite;
-}
-
-.motion-paused,
-.motion-paused * {
-  animation-play-state: paused !important;
-}
-
-.motion-paused .animate-marquee,
-.motion-paused .animate-marquee-reverse {
-  will-change: auto;
-}
-
-@keyframes stage-assemble {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 14px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes astrolabe-cw {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes astrolabe-ccw {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes celestial-pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.4;
-    transform: scale(0.82);
-  }
-}
-
-@keyframes modal-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes modal-scale {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 10px, 0) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-.stage-reveal {
-  animation: stage-assemble 820ms var(--ease-shinkai) backwards;
-}
-
-.astrolabe-cw {
-  animation: astrolabe-cw 78s linear infinite;
-  transform-origin: center;
-}
-
-.astrolabe-ccw {
-  animation: astrolabe-ccw 52s linear infinite;
-  transform-origin: center;
-}
-
-.astrolabe-slow {
-  animation: astrolabe-cw 116s linear infinite;
-  transform-origin: center;
-}
-
-.beacon-pulse {
-  animation: celestial-pulse 2.8s ease-in-out infinite;
-}
-
-.modal-backdrop-enter {
-  animation: modal-fade 220ms ease-out backwards;
-}
-
-.modal-panel-enter {
-  animation: modal-scale 300ms var(--ease-shinkai) backwards;
-}
-
-.drawer-enter {
-  animation: modal-fade 220ms var(--ease-shinkai) backwards;
+.animate-marquee:hover,
+.animate-marquee:focus-within {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee,
-  .animate-marquee-reverse,
-  .stage-reveal,
-  .astrolabe-cw,
-  .astrolabe-ccw,
-  .astrolabe-slow,
-  .beacon-pulse,
-  .modal-backdrop-enter,
-  .modal-panel-enter,
-  .drawer-enter {
-    animation: none !important;
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 
-  .kumihimo-panel,
-  .kumihimo-panel::after,
-  .twilight-chip,
-  .twilight-chip::after,
-  .celestial-link,
-  .btn-tiamat,
-  .btn-crepuscular,
-  .link-arrow {
+  .animate-marquee {
+    animation: none !important;
+    will-change: auto !important;
+    width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+
+  .manga-card-interactive,
+  .btn-ink,
+  .btn-paper,
+  .btn-arrow,
+  .editorial-media {
     transition: none !important;
     transform: none !important;
   }

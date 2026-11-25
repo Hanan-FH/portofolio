@@ -1,6 +1,5 @@
 import { useId, useState } from 'react';
 import { portfolioData } from '../../data/portfolio';
-import { CloudHorizonBank } from '../atmosphere/CloudHorizonBank';
 import { Section, SectionHeading } from '../ui/Section';
 
 export function Contact() {
@@ -77,7 +76,8 @@ export function Contact() {
         setFormStatus('activation_required');
       } else {
         const errorDetail =
-          data?.message || (response.status ? `Error status ${response.status}` : 'Submission failed');
+          data?.message ||
+          (response.status ? `Error status ${response.status}` : 'Submission failed');
         throw new Error(errorDetail);
       }
     } catch (error: unknown) {
@@ -97,258 +97,265 @@ export function Contact() {
   )}`;
 
   return (
-    <div className="relative">
-      <CloudHorizonBank variant="zenith" />
+    <Section id="contact" defer>
+      <div className="container-site">
+        <SectionHeading
+          index="05"
+          label="CONTACT"
+          title={contact.heading}
+          note="WIB // UTC+7"
+        />
 
-      <div
-        className="relative"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(5, 7, 20, 0.56) 0%, rgba(5, 7, 20, 0.78) 45%, rgba(5, 7, 20, 0.86) 100%)',
-        }}
-      >
-        <Section id="contact">
-          <div className="container-site">
-            <SectionHeading
-              index="05"
-              label="Direct Transmission"
-              ephemeris="ZENITH // ASYNCHRONOUS CHANNEL"
-              note="WIB · UTC+7"
-            />
+        <div data-reveal className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
+          {/* Left Column: Direct Dispatch Card & Authentic Social Channels */}
+          <div className="lg:col-span-5">
+            <p className="text-base leading-[1.65] text-[var(--ink-secondary)]">
+              {contact.subheading}
+            </p>
 
-            <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-12">
-              {/* Left Column: Authentic Contact Copy & Social Coordinates */}
-              <div className="lg:col-span-5">
-                <h2 className="mincho-editorial text-2xl sm:text-3xl">{contact.heading}</h2>
-
-                <p className="mt-4 text-sm leading-[1.6] text-slate-300">{contact.subheading}</p>
-
-                <div className="rim-horizon-panel mt-8 p-5">
-                  <span className="astro-coord">Direct Email</span>
-                  <a
-                    href={`mailto:${contact.recipientEmail}?subject=Portfolio%20Inquiry`}
-                    aria-label={`Send an email directly to ${contact.recipientEmail}`}
-                    className="mt-2 block break-all font-mono text-base text-white transition-opacity hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 sm:text-lg"
-                  >
-                    {contact.recipientEmail} ↗
-                  </a>
-
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.24em] text-slate-400">
-                    {personal.location} · WIB (UTC+7)
-                  </p>
-
-                  <div className="mt-5 flex flex-wrap items-center gap-2.5 border-t border-white/10 pt-4">
-                    {social.github && (
-                      <a
-                        href={social.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="twilight-chip min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                      >
-                        GitHub ↗
-                      </a>
-                    )}
-
-                    {social.linkedin && (
-                      <a
-                        href={social.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="twilight-chip min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                      >
-                        LinkedIn ↗
-                      </a>
-                    )}
-
-                    <a
-                      href={social.email}
-                      className="twilight-chip min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-100 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                    >
-                      Email ↗
-                    </a>
-                  </div>
-                </div>
+            <div className="manga-card mt-8 overflow-hidden">
+              <div className="halftone-surface border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-5 py-3">
+                <span className="mono-label font-semibold text-[var(--ink-primary)]">
+                  DIRECT CHANNEL // EMAIL
+                </span>
               </div>
 
-              {/* Right Column: Preserved FormSubmit AJAX Handler */}
-              <div className="lg:col-span-7">
-                <form
-                  onSubmit={handleFormSubmit}
-                  noValidate
-                  className="rim-horizon-panel p-6 sm:p-8"
+              <div className="p-5 sm:p-6">
+                <a
+                  href={`mailto:${contact.recipientEmail}?subject=Portfolio%20Inquiry`}
+                  aria-label={`Send an email directly to ${contact.recipientEmail}`}
+                  className="block break-all font-display text-lg uppercase text-[var(--ink-primary)] underline underline-offset-4 hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)] sm:text-xl"
                 >
-                  <div
-                    className="honeypot absolute h-0 w-0 overflow-hidden opacity-0"
-                    aria-hidden="true"
-                  >
-                    <label htmlFor="honey">Leave blank</label>
-                    <input
-                      id="honey"
-                      name="_honey"
-                      type="text"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={formData.honey}
-                      onChange={(event) => setFormData({ ...formData, honey: event.target.value })}
-                    />
-                  </div>
+                  {contact.recipientEmail} ↗
+                </a>
 
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <div>
-                      <label htmlFor={nameInputId} className="terminal-label">
-                        Name <span className="text-rose-400" aria-hidden="true">*</span>
-                      </label>
-                      <input
-                        id={nameInputId}
-                        name="name"
-                        type="text"
-                        required
-                        autoComplete="name"
-                        placeholder="Jane Doe"
-                        className="terminal-input"
-                        value={formData.name}
-                        onChange={(event) =>
-                          setFormData({ ...formData, name: event.target.value })
-                        }
-                      />
-                    </div>
+                <p className="mt-4 font-mono text-xs uppercase tracking-[0.08em] text-[var(--ink-muted)]">
+                  {personal.location} · WIB (UTC+7)
+                </p>
 
-                    <div>
-                      <label htmlFor={emailInputId} className="terminal-label">
-                        Email <span className="text-rose-400" aria-hidden="true">*</span>
-                      </label>
-                      <input
-                        id={emailInputId}
-                        name="email"
-                        type="email"
-                        required
-                        autoComplete="email"
-                        placeholder="jane@example.com"
-                        className="terminal-input"
-                        value={formData.email}
-                        onChange={(event) =>
-                          setFormData({ ...formData, email: event.target.value })
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mt-5">
-                    <label htmlFor={subjectInputId} className="terminal-label">
-                      Subject <span className="text-rose-400" aria-hidden="true">*</span>
-                    </label>
-                    <input
-                      id={subjectInputId}
-                      name="subject"
-                      type="text"
-                      required
-                      placeholder="Project inquiry / Internship"
-                      className="terminal-input"
-                      value={formData.subject}
-                      onChange={(event) =>
-                        setFormData({ ...formData, subject: event.target.value })
-                      }
-                    />
-                  </div>
-
-                  <div className="mt-5">
-                    <div className="flex items-baseline justify-between gap-4">
-                      <label htmlFor={messageInputId} className="terminal-label">
-                        Message <span className="text-rose-400" aria-hidden="true">*</span>
-                      </label>
-                      <span id={messageHelpId} className="astro-telemetry">
-                        {formData.message.length} / 10+
-                      </span>
-                    </div>
-                    <textarea
-                      id={messageInputId}
-                      name="message"
-                      required
-                      rows={5}
-                      aria-describedby={messageHelpId}
-                      placeholder="Your message..."
-                      className="terminal-input resize-y"
-                      value={formData.message}
-                      onChange={(event) =>
-                        setFormData({ ...formData, message: event.target.value })
-                      }
-                    />
-                  </div>
-
-                  {formErrorMsg && (
-                    <div
-                      role="alert"
-                      className="mt-5 border-l-2 border-rose-400 bg-rose-500/10 px-4 py-3 text-xs text-slate-200"
-                    >
-                      {formErrorMsg}
-                    </div>
-                  )}
-
-                  {formStatus === 'success' && (
-                    <div
-                      role="status"
-                      className="mt-5 border-l-2 border-emerald-400 bg-emerald-500/10 px-4 py-3 text-xs text-slate-200"
-                    >
-                      Message transmitted successfully to Hanan&apos;s inbox.
-                    </div>
-                  )}
-
-                  {formStatus === 'activation_required' && (
-                    <div
-                      role="status"
-                      className="mt-5 border-l-2 border-sky-400 bg-sky-500/10 px-4 py-3 text-xs text-slate-200"
-                    >
-                      <p>FormSubmit activation pending.</p>
-                      <a
-                        href={mailtoFallbackUrl}
-                        className="mt-2 inline-block font-mono text-amber-200 underline"
-                      >
-                        Send via mail client ↗
-                      </a>
-                    </div>
-                  )}
-
-                  {formStatus === 'error' && (
-                    <div
-                      role="alert"
-                      className="mt-5 border-l-2 border-rose-400 bg-rose-500/10 px-4 py-3 text-xs text-slate-200"
-                    >
-                      <p>Unable to transmit via FormSubmit.</p>
-                      <a
-                        href={mailtoFallbackUrl}
-                        className="mt-2 inline-block font-mono text-amber-200 underline"
-                      >
-                        Open default mail client ↗
-                      </a>
-                    </div>
-                  )}
-
-                  <div className="mt-7 flex flex-wrap items-center gap-4">
-                    <button
-                      type="submit"
-                      disabled={formStatus === 'sending'}
-                      className="btn-tiamat disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      <span>{formStatus === 'sending' ? 'Transmitting…' : 'Send Message'}</span>
-                      <span className="link-arrow" aria-hidden="true">
-                        ↗
-                      </span>
-                    </button>
-
+                <div className="mt-6 flex flex-wrap items-center gap-2.5 border-t border-[var(--border-subtle)] pt-5">
+                  {social.github && (
                     <a
-                      href={mailtoFallbackUrl}
-                      className="font-mono text-[10px] uppercase tracking-[0.22em] text-slate-400 transition-opacity hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                      href={social.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-paper min-h-9 px-3 py-1.5"
                     >
-                      Mailto Fallback ↗
+                      <span>GitHub</span>
+                      <span aria-hidden="true">↗</span>
                     </a>
-                  </div>
-                </form>
+                  )}
+
+                  {social.linkedin && (
+                    <a
+                      href={social.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-paper min-h-9 px-3 py-1.5"
+                    >
+                      <span>LinkedIn</span>
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+
+                  <a href={social.email} className="btn-paper min-h-9 px-3 py-1.5">
+                    <span>Email</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </Section>
+
+          {/* Right Column: Preserved FormSubmit AJAX Endpoint & Validation */}
+          <div className="lg:col-span-7">
+            <form
+              onSubmit={handleFormSubmit}
+              noValidate
+              className="manga-card p-6 sm:p-8"
+            >
+              <div
+                className="honeypot absolute h-0 w-0 overflow-hidden opacity-0"
+                aria-hidden="true"
+              >
+                <label htmlFor="honey">Leave blank</label>
+                <input
+                  id="honey"
+                  name="_honey"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.honey}
+                  onChange={(event) => setFormData({ ...formData, honey: event.target.value })}
+                />
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor={nameInputId}
+                    className="mono-label mb-2 block text-[var(--ink-primary)]"
+                  >
+                    Name <span aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id={nameInputId}
+                    name="name"
+                    type="text"
+                    required
+                    autoComplete="name"
+                    placeholder="Jane Doe"
+                    className="editorial-input"
+                    value={formData.name}
+                    onChange={(event) =>
+                      setFormData({ ...formData, name: event.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor={emailInputId}
+                    className="mono-label mb-2 block text-[var(--ink-primary)]"
+                  >
+                    Email <span aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id={emailInputId}
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="jane@example.com"
+                    className="editorial-input"
+                    value={formData.email}
+                    onChange={(event) =>
+                      setFormData({ ...formData, email: event.target.value })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <label
+                  htmlFor={subjectInputId}
+                  className="mono-label mb-2 block text-[var(--ink-primary)]"
+                >
+                  Subject <span aria-hidden="true">*</span>
+                </label>
+                <input
+                  id={subjectInputId}
+                  name="subject"
+                  type="text"
+                  required
+                  placeholder="Project inquiry / Internship"
+                  className="editorial-input"
+                  value={formData.subject}
+                  onChange={(event) =>
+                    setFormData({ ...formData, subject: event.target.value })
+                  }
+                />
+              </div>
+
+              <div className="mt-5">
+                <div className="mb-2 flex items-baseline justify-between gap-4">
+                  <label
+                    htmlFor={messageInputId}
+                    className="mono-label text-[var(--ink-primary)]"
+                  >
+                    Message <span aria-hidden="true">*</span>
+                  </label>
+                  <span id={messageHelpId} className="mono-label text-[var(--ink-muted)]">
+                    {formData.message.length} / 10+ CHARS
+                  </span>
+                </div>
+                <textarea
+                  id={messageInputId}
+                  name="message"
+                  required
+                  rows={5}
+                  aria-describedby={messageHelpId}
+                  placeholder="Write your message..."
+                  className="editorial-input resize-y"
+                  value={formData.message}
+                  onChange={(event) =>
+                    setFormData({ ...formData, message: event.target.value })
+                  }
+                />
+              </div>
+
+              {formErrorMsg && (
+                <div
+                  role="alert"
+                  className="mt-5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-3 font-mono text-xs text-[var(--ink-primary)]"
+                >
+                  {formErrorMsg}
+                </div>
+              )}
+
+              {formStatus === 'success' && (
+                <div
+                  role="status"
+                  className="mt-5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] px-4 py-3 font-mono text-xs text-[var(--bg-primary)]"
+                >
+                  Message transmitted successfully to Hanan&apos;s inbox.
+                </div>
+              )}
+
+              {formStatus === 'activation_required' && (
+                <div
+                  role="status"
+                  className="mt-5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-3 text-xs text-[var(--ink-primary)]"
+                >
+                  <p className="font-mono">FormSubmit activation pending.</p>
+                  <a
+                    href={mailtoFallbackUrl}
+                    className="mt-2 inline-block font-mono font-semibold underline"
+                  >
+                    Send via mail client ↗
+                  </a>
+                </div>
+              )}
+
+              {formStatus === 'error' && (
+                <div
+                  role="alert"
+                  className="mt-5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-3 text-xs text-[var(--ink-primary)]"
+                >
+                  <p className="font-mono">Unable to transmit via FormSubmit.</p>
+                  <a
+                    href={mailtoFallbackUrl}
+                    className="mt-2 inline-block font-mono font-semibold underline"
+                  >
+                    Open default mail client ↗
+                  </a>
+                </div>
+              )}
+
+              <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--border-subtle)] pt-5">
+                <button
+                  type="submit"
+                  disabled={formStatus === 'sending'}
+                  className="btn-ink disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <span>{formStatus === 'sending' ? 'Sending...' : 'Send Message'}</span>
+                  <span className="btn-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </button>
+
+                <a
+                  href={mailtoFallbackUrl}
+                  className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-[var(--ink-secondary)] underline underline-offset-4 hover:text-[var(--ink-primary)]"
+                >
+                  Direct Mailto Fallback ↗
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </Section>
   );
 }
 

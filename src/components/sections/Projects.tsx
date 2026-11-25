@@ -1,5 +1,5 @@
+import { useMemo, useState } from 'react';
 import { portfolioData, type Project } from '../../data/portfolio';
-import { MagneticTilt } from '../ui/MagneticTilt';
 import { OptimizedPicture } from '../ui/OptimizedPicture';
 import { Section, SectionHeading } from '../ui/Section';
 
@@ -15,158 +15,211 @@ const FRAME_DIMS: Record<number, { width: number; height: number; portrait?: boo
 
 export function Projects({ onSelectProject }: ProjectsProps) {
   const { projects } = portfolioData;
+  const [activeCategory, setActiveCategory] = useState<string>('ALL');
+
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(projects.map((p) => p.category)));
+    return ['ALL', ...unique];
+  }, [projects]);
+
+  const filteredProjects = useMemo(
+    () =>
+      activeCategory === 'ALL'
+        ? projects
+        : projects.filter((project) => project.category === activeCategory),
+    [activeCategory, projects]
+  );
 
   return (
     <Section id="projects">
       <div className="container-site">
         <SectionHeading
-          index="03"
-          label="Works"
-          ephemeris="VIEWPORTS // 16:9 CINEMATIC ARCHIVE"
-          note={`0${projects.length} Widescreen Viewports`}
+          index="02"
+          label="PROJECTS"
+          title="Selected Works"
+          note={`0${projects.length} ARCHIVED WORKS`}
         />
 
-        <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="mincho-editorial text-2xl sm:text-4xl">Selected Works</h2>
-          <p className="ephemeris-label">ANAMORPHIC ASPECT // 1.78:1</p>
+        {/* Sharp Monospace Category Filter Tabs */}
+        <div
+          data-reveal
+          role="tablist"
+          aria-label="Filter projects by category"
+          className="mb-8 flex flex-wrap items-center gap-2"
+        >
+          {categories.map((category) => {
+            const isSelected = activeCategory === category;
+            const count =
+              category === 'ALL'
+                ? projects.length
+                : projects.filter((p) => p.category === category).length;
+
+            return (
+              <button
+                key={category}
+                type="button"
+                role="tab"
+                aria-selected={isSelected}
+                onClick={() => setActiveCategory(category)}
+                className={`inline-flex min-h-9 items-center gap-2 border-[1.5px] border-[var(--border-strong)] px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] cursor-pointer ${
+                  isSelected
+                    ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
+                    : 'bg-[var(--bg-surface)] text-[var(--ink-primary)] hover:bg-[var(--ink-primary)] hover:text-[var(--bg-primary)]'
+                }`}
+              >
+                <span>{category}</span>
+                <span className="opacity-65">[{String(count).padStart(2, '0')}]</span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="mt-10 divide-y divide-white/10">
-          {projects.map((project, index) => {
-            const number = String(index + 1).padStart(2, '0');
+        {/* Asymmetrical Manga-Panel Editorial Grid */}
+        <div data-reveal className="grid gap-6 lg:grid-cols-12 lg:gap-8">
+          {filteredProjects.map((project) => {
+            const number = String(project.id).padStart(2, '0');
             const dims = FRAME_DIMS[project.id] ?? { width: 1280, height: 720 };
-            const reverse = index % 2 === 1;
+            const isWideSpread = activeCategory !== 'ALL' || project.id === 3;
+            const colSpanClass = isWideSpread
+              ? 'lg:col-span-12'
+              : project.id === 1
+                ? 'lg:col-span-7'
+                : 'lg:col-span-5';
 
             return (
               <article
                 key={project.id}
-                className="grid items-center gap-8 py-12 first:pt-2 last:pb-0 lg:grid-cols-12 lg:gap-12 lg:py-16"
+                className={`manga-card-interactive group flex flex-col justify-between overflow-hidden ${colSpanClass}`}
               >
-                {/* 16:9 Cinematic Widescreen Viewport */}
-                <div className={reverse ? 'lg:col-span-7 lg:order-2' : 'lg:col-span-7'}>
-                  <button
-                    type="button"
-                    onClick={() => onSelectProject(project)}
-                    aria-label={`Inspect ${project.title}`}
-                    className="group block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                {/* Manga Panel Index Bar */}
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-2.5 sm:px-5">
+                  <div className="flex items-center gap-2.5">
+                    <span className="inline-flex bg-[var(--bg-inverted)] px-2 py-0.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]">
+                      {number}
+                    </span>
+                    <span className="mono-label text-[var(--ink-primary)]">
+                      {project.category}
+                    </span>
+                  </div>
+                  <span className="mono-label text-[var(--ink-muted)]">{project.year}</span>
+                </div>
+
+                <div
+                  className={
+                    isWideSpread
+                      ? 'grid flex-1 lg:grid-cols-12'
+                      : 'flex flex-1 flex-col justify-between'
+                  }
+                >
+                  {/* Framed Thumbnail Viewport */}
+                  <div
+                    className={
+                      isWideSpread
+                        ? 'border-b-[1.5px] border-[var(--border-strong)] lg:col-span-7 lg:border-b-0 lg:border-r-[1.5px]'
+                        : 'border-b-[1.5px] border-[var(--border-strong)]'
+                    }
                   >
-                    <MagneticTilt maxTilt={2.5}>
-                      <div className="rim-horizon-frame overflow-hidden p-1.5">
-                        <div className="relative aspect-video w-full overflow-hidden bg-[#050714]">
-                          {dims.portrait ? (
-                            <div
-                              className="flex h-full w-full items-center justify-center p-4 sm:p-6"
-                              style={{
-                                background:
-                                  'radial-gradient(circle at 50% 65%, rgba(109, 17, 70, 0.3) 0%, rgba(13, 20, 53, 0.48) 55%, #050714 100%)',
-                              }}
-                            >
-                              <OptimizedPicture
-                                src={project.image}
-                                alt={project.title}
-                                width={dims.width}
-                                height={dims.height}
-                                pictureClassName="flex h-full items-center justify-center"
-                                className="h-full w-auto border border-white/15 object-contain shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
-                              />
-                            </div>
-                          ) : (
+                    <button
+                      type="button"
+                      onClick={() => onSelectProject(project)}
+                      aria-label={`Open preview for ${project.title}`}
+                      className="block h-full w-full text-left cursor-pointer"
+                    >
+                      <div className="halftone-surface relative aspect-video w-full overflow-hidden bg-[var(--bg-subtle)]">
+                        {dims.portrait ? (
+                          <div className="flex h-full w-full items-center justify-center p-4 sm:p-6">
                             <OptimizedPicture
                               src={project.image}
                               alt={project.title}
                               width={dims.width}
                               height={dims.height}
-                              className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
+                              pictureClassName="flex h-full items-center justify-center"
+                              className="editorial-media h-full w-auto border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] object-contain shadow-[4px_4px_0px_var(--border-strong)]"
                             />
-                          )}
-
-                          {/* Atmospheric Depth Glaze that Recedes on Hover */}
-                          <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-0 transition-opacity duration-300 group-hover:opacity-0"
-                            style={{
-                              background:
-                                'linear-gradient(180deg, rgba(13, 20, 53, 0.22) 0%, rgba(36, 18, 62, 0.16) 55%, rgba(5, 7, 20, 0.56) 100%)',
-                            }}
+                          </div>
+                        ) : (
+                          <OptimizedPicture
+                            src={project.image}
+                            alt={project.title}
+                            width={dims.width}
+                            height={dims.height}
+                            className="editorial-media h-full w-full object-cover object-top"
                           />
-                        </div>
+                        )}
                       </div>
-                    </MagneticTilt>
-                  </button>
-                </div>
-
-                {/* Editorial Details: Exact Title, Untouched Description & Links */}
-                <div className={reverse ? 'lg:col-span-5 lg:order-1' : 'lg:col-span-5'}>
-                  <div className="flex items-center gap-3">
-                    <span className="astro-coord">REEL // {number}</span>
-                    <span aria-hidden="true" className="h-2.5 w-px bg-white/15" />
-                    <span className="astro-telemetry">
-                      {project.category} · {project.year}
-                    </span>
+                    </button>
                   </div>
 
-                  <h3 className="mincho-sub mt-3 text-xl sm:text-2xl">
-                    <button
-                      type="button"
-                      onClick={() => onSelectProject(project)}
-                      className="text-left transition-opacity hover:text-amber-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                    >
-                      {project.title}
-                    </button>
-                  </h3>
+                  {/* Project Copy, Monospace Tech Stack Pills & Crisp Action Links */}
+                  <div
+                    className={`flex flex-col justify-between p-5 sm:p-6 ${
+                      isWideSpread ? 'lg:col-span-5 lg:p-8' : 'flex-1'
+                    }`}
+                  >
+                    <div>
+                      <h3 className="display-card text-xl sm:text-2xl">
+                        <button
+                          type="button"
+                          onClick={() => onSelectProject(project)}
+                          className="text-left hover:underline underline-offset-4 cursor-pointer"
+                        >
+                          {project.title}
+                        </button>
+                      </h3>
 
-                  <p className="mt-4 text-sm leading-[1.6] text-slate-300">{project.description}</p>
+                      <p className="mt-3.5 text-sm leading-[1.65] text-[var(--ink-secondary)] sm:text-base">
+                        {project.description}
+                      </p>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="twilight-chip px-2.5 py-1 font-mono text-[11px] text-slate-200"
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {project.technologies.map((tech) => (
+                          <span key={tech} className="mono-pill">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-[var(--border-subtle)] pt-4">
+                      <button
+                        type="button"
+                        onClick={() => onSelectProject(project)}
+                        className="btn-ink"
                       >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="mt-7 flex flex-wrap items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => onSelectProject(project)}
-                      className="btn-crepuscular"
-                    >
-                      <span>Inspect Still</span>
-                      <span className="link-arrow text-amber-200" aria-hidden="true">
-                        ↗
-                      </span>
-                    </button>
-
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-tiamat"
-                      >
-                        <span>Live Demo</span>
-                        <span className="link-arrow" aria-hidden="true">
-                          ↗
+                        <span>Details</span>
+                        <span className="btn-arrow" aria-hidden="true">
+                          →
                         </span>
-                      </a>
-                    )}
+                      </button>
 
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-crepuscular"
-                      >
-                        <span>GitHub</span>
-                        <span className="link-arrow" aria-hidden="true">
-                          ↗
-                        </span>
-                      </a>
-                    )}
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-paper"
+                        >
+                          <span>Live Demo</span>
+                          <span className="btn-arrow" aria-hidden="true">
+                            ↗
+                          </span>
+                        </a>
+                      )}
+
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-paper"
+                        >
+                          <span>GitHub</span>
+                          <span className="btn-arrow" aria-hidden="true">
+                            ↗
+                          </span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </article>

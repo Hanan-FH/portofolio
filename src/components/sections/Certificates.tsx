@@ -8,26 +8,17 @@ interface CertificatesProps {
   onSelectCert: (certificate: Certificate) => void;
 }
 
-/**
- * Minimalist Horizontal Scroll Vault (Gallery-Grade Slide-Scroll with CSS Scroll Snap).
- * Responds to native horizontal gestures, pointer drag, and keyboard navigation,
- * driving the GPU transform-only progress trajectory directly without React re-renders.
- */
 export function Certificates({ onSelectCert }: CertificatesProps) {
   const { certificates } = portfolioData;
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const meterRef = useRef<HTMLDivElement | null>(null);
   const progressBarRef = useRef<HTMLDivElement | null>(null);
-  const knotRef = useRef<HTMLDivElement | null>(null);
   const dragStateRef = useRef({ active: false, startX: 0, startScrollLeft: 0, moved: false });
 
   useEffect(() => {
     const el = scrollRef.current;
-    const meter = meterRef.current;
     if (!el) return;
 
     let maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
-    let meterWidth = meter ? meter.clientWidth : 0;
     let rafId = 0;
 
     const syncProgress = () => {
@@ -35,10 +26,6 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
       const ratio = maxScroll > 0 ? Math.max(0, Math.min(1, el.scrollLeft / maxScroll)) : 0;
       if (progressBarRef.current) {
         progressBarRef.current.style.transform = `scaleX(${ratio.toFixed(4)})`;
-      }
-      if (knotRef.current) {
-        const knotX = Math.max(0, meterWidth - 8) * ratio;
-        knotRef.current.style.transform = `translate3d(${knotX.toFixed(1)}px, -50%, 0)`;
       }
     };
 
@@ -48,14 +35,12 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
 
     const measure = () => {
       maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
-      if (meter) meterWidth = meter.clientWidth;
       syncProgress();
     };
 
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    if (meter) ro.observe(meter);
 
     el.addEventListener('scroll', scheduleSync, { passive: true });
     return () => {
@@ -68,7 +53,7 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
   const scrollByStep = (direction: -1 | 1) => {
     const el = scrollRef.current;
     if (!el) return;
-    const step = Math.min(el.clientWidth * 0.82, 420);
+    const step = Math.min(el.clientWidth * 0.85, 420);
     el.scrollBy({
       left: direction * step,
       behavior: prefersReducedMotionNow() ? 'auto' : 'smooth',
@@ -112,43 +97,44 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
   };
 
   return (
-    <Section id="certificates" className="overflow-hidden">
-      <div className="container-site mb-10">
+    <Section id="certificates" defer className="overflow-hidden">
+      <div className="container-site">
         <SectionHeading
           index="04"
-          label="Credentials"
-          ephemeris="RA 20h 42m // DEC +45°16′ // ARCHIVE_VAULT"
-          note={`${certificates.length} Accredited`}
+          label="CERTIFICATES"
+          title="Credentials & Achievements"
+          note={`${certificates.length} ACCREDITED CERTIFICATES`}
         />
 
-        <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
-          <h2 className="mincho-editorial text-2xl sm:text-4xl">Verified Honors</h2>
+        <div data-reveal className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <p className="mono-label text-[var(--ink-secondary)]">
+            CLICK ANY CERTIFICATE TO OPEN FULL-RESOLUTION LIGHTBOX
+          </p>
 
-          <div className="flex items-center gap-3">
-            <span className="ephemeris-label hidden sm:inline">HORIZONTAL TRAVERSE →</span>
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={() => scrollByStep(-1)}
-                aria-label="Scroll credentials left"
-                className="twilight-chip flex h-9 w-9 items-center justify-center font-mono text-xs text-slate-200 hover:text-amber-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-400"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollByStep(1)}
-                aria-label="Scroll credentials right"
-                className="twilight-chip flex h-9 w-9 items-center justify-center font-mono text-xs text-slate-200 hover:text-amber-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-400"
-              >
-                →
-              </button>
-            </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => scrollByStep(-1)}
+              aria-label="Previous certificates"
+              className="btn-paper min-h-10 px-3.5 py-1.5"
+            >
+              <span aria-hidden="true">←</span>
+              <span>Prev</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByStep(1)}
+              aria-label="Next certificates"
+              className="btn-paper min-h-10 px-3.5 py-1.5"
+            >
+              <span>Next</span>
+              <span aria-hidden="true">→</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Horizontal CSS Scroll-Snap Gallery Reel */}
+      {/* Horizontal CSS Scroll-Snap Track */}
       <div
         ref={scrollRef}
         tabIndex={0}
@@ -159,62 +145,67 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
         onMouseMove={handleMouseMove}
         onMouseUp={endMouseDrag}
         onMouseLeave={endMouseDrag}
-        className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-6 px-6 md:px-[max(1.5rem,calc((100vw-76rem)/2+3.25rem))] focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-400"
+        className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pt-2 pb-6 px-4 sm:px-8 lg:px-[max(2rem,calc((100vw-80rem)/2+3rem))]"
       >
         {certificates.map((cert, index) => {
           const number = String(index + 1).padStart(2, '0');
           return (
             <article
               key={cert.id}
-              className="kumihimo-panel group flex w-[288px] shrink-0 snap-center flex-col justify-between p-3.5 sm:w-[356px] md:w-[404px]"
+              className="manga-card-interactive group flex w-[292px] shrink-0 snap-start flex-col justify-between sm:w-[360px] md:w-[396px]"
             >
-              <button
-                type="button"
-                onClick={() => {
-                  if (dragStateRef.current.moved) {
-                    dragStateRef.current.moved = false;
-                    return;
-                  }
-                  onSelectCert(cert);
-                }}
-                aria-label={`Open credential ${number}: ${cert.title}`}
-                className="block w-full text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-400"
-              >
-                <div className="relative mb-3.5 aspect-[16/10] w-full overflow-hidden rounded-[2px] border border-white/10 bg-[#050714]">
-                  <OptimizedPicture
-                    src={cert.image}
-                    alt={cert.title}
-                    width={480}
-                    height={300}
-                    draggable={false}
-                    scrollRootRef={scrollRef}
-                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050714]/75 via-transparent to-transparent transition-opacity duration-300 group-hover:opacity-0"
-                  />
+              <div>
+                <div className="flex items-center justify-between border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-2">
+                  <span className="inline-flex bg-[var(--bg-inverted)] px-2 py-0.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]">
+                    CERT // {number}
+                  </span>
+                  <span className="mono-label text-[var(--ink-muted)]">{cert.year}</span>
                 </div>
 
-                <div className="mb-1.5 flex items-center justify-between">
-                  <span className="ephemeris-label">INDEX // {number}</span>
-                  <span className="astro-telemetry">{cert.year}</span>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (dragStateRef.current.moved) {
+                      dragStateRef.current.moved = false;
+                      return;
+                    }
+                    onSelectCert(cert);
+                  }}
+                  aria-label={`Preview certificate ${number}: ${cert.title}`}
+                  className="block w-full text-left cursor-pointer"
+                >
+                  <div className="halftone-surface relative aspect-[16/11] w-full overflow-hidden border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-subtle)] p-2.5">
+                    <OptimizedPicture
+                      src={cert.image}
+                      alt={cert.title}
+                      width={480}
+                      height={330}
+                      draggable={false}
+                      className="editorial-media h-full w-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] object-contain"
+                    />
+                  </div>
 
-                <h3 className="mincho-sub line-clamp-2 text-sm text-slate-100 group-hover:text-amber-100 sm:text-[15px]">
-                  {cert.title}
-                </h3>
+                  <div className="p-4 sm:p-5">
+                    <h3 className="display-card text-base sm:text-lg group-hover:underline underline-offset-4">
+                      {cert.title}
+                    </h3>
+                    <p className="mt-2 font-mono text-xs text-[var(--ink-secondary)]">
+                      {cert.issuer}
+                    </p>
+                  </div>
+                </button>
+              </div>
 
-                <p className="mt-1 truncate text-xs text-slate-400">{cert.issuer}</p>
-              </button>
-
-              <div className="mt-3.5 flex items-center justify-between border-t border-white/10 pt-2">
+              <div className="flex items-center justify-between border-t border-[var(--border-subtle)] px-4 py-3 sm:px-5">
                 <button
                   type="button"
                   onClick={() => onSelectCert(cert)}
-                  className="celestial-link inline-flex min-h-9 items-center font-mono text-[9px] uppercase tracking-[0.3em] text-sky-300 hover:text-amber-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-400"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--ink-primary)] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)] px-2 py-1 cursor-pointer"
                 >
-                  Inspect Still
+                  <span>Preview</span>
+                  <span className="btn-arrow" aria-hidden="true">
+                    →
+                  </span>
                 </button>
 
                 {cert.verificationUrl && (
@@ -223,9 +214,10 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Verify ${cert.title} (opens in a new tab)`}
-                    className="celestial-link inline-flex min-h-9 items-center font-mono text-[9px] uppercase tracking-[0.3em] text-slate-300 hover:text-rose-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-sky-400"
+                    className="inline-flex items-center gap-1 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--ink-secondary)] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)] px-2 py-1"
                   >
-                    Verify ↗
+                    <span>Verify</span>
+                    <span aria-hidden="true">↗</span>
                   </a>
                 )}
               </div>
@@ -234,18 +226,13 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
         })}
       </div>
 
-      {/* Celestial Progress Trajectory (Strictly Transform-Driven — Zero Layout Reflow or Re-renders) */}
-      <div className="mx-auto mt-4 max-w-xs px-6" aria-hidden="true">
-        <div ref={meterRef} className="relative h-px w-full bg-white/12">
+      {/* GPU Transform-Only Scroll Progress Line */}
+      <div className="container-site mt-4" aria-hidden="true">
+        <div className="h-[3px] w-full border border-[var(--border-strong)] bg-[var(--bg-surface)]">
           <div
             ref={progressBarRef}
-            className="absolute inset-y-0 left-0 w-full origin-left bg-gradient-to-r from-rose-500/70 via-amber-300/80 to-sky-300/70 transition-transform duration-100"
-            style={{ transform: 'scaleX(0)' }}
-          />
-          <div
-            ref={knotRef}
-            className="absolute left-0 top-1/2 h-2 w-2 rounded-full bg-amber-200 shadow-[0_0_8px_rgba(253,224,71,0.75)] transition-transform duration-100"
-            style={{ transform: 'translate3d(0px, -50%, 0)' }}
+            className="h-full w-full origin-left bg-[var(--ink-primary)]"
+            style={{ transform: 'scaleX(0)', willChange: 'transform' }}
           />
         </div>
       </div>

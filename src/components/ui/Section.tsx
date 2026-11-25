@@ -5,16 +5,16 @@ interface SectionProps {
   id: string;
   children: ReactNode;
   className?: string;
+  defer?: boolean;
 }
 
-/**
- * Editorial Section Landmark.
- */
-export function Section({ id, children, className = '' }: SectionProps) {
+export function Section({ id, children, className = '', defer = false }: SectionProps) {
   return (
     <section
       id={id}
-      className={`relative scroll-mt-[72px] py-[clamp(4.5rem,7.5vw,7rem)] ${className}`.trim()}
+      className={`relative scroll-mt-16 border-t border-[var(--border-subtle)] py-16 sm:py-20 lg:py-24 ${
+        defer ? 'section-defer' : ''
+      } ${className}`.trim()}
     >
       {children}
     </section>

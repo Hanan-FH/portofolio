@@ -1,73 +1,43 @@
 export interface SectionHeadingProps {
   index: string;
   label: string;
-  ephemeris?: string;
+  title: string;
   note?: string;
   className?: string;
 }
 
-/**
- * Editorial Roadshow Section Header with 1px Kumihimo Chromatic Cord
- * and Monospaced Astronomical Ephemeris Indices.
- */
 export function SectionHeading({
   index,
   label,
-  ephemeris,
+  title,
   note,
   className = '',
 }: SectionHeadingProps) {
   return (
-    <div className={`relative ${className}`.trim()}>
-      <svg
-        viewBox="0 0 1200 6"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        className="mb-4 block h-[5px] w-full overflow-visible opacity-80"
-      >
-        <defs>
-          <linearGradient id={`kumihimoCordA-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.72" />
-            <stop offset="46%" stopColor="#e11d48" stopOpacity="0.62" />
-            <stop offset="82%" stopColor="#fde047" stopOpacity="0.48" />
-            <stop offset="100%" stopColor="#c2410c" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id={`kumihimoCordB-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.5" />
-            <stop offset="52%" stopColor="#38bdf8" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#6d1146" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M 0 3 Q 180 0.5 360 3 T 720 3 T 1200 3"
-          fill="none"
-          stroke={`url(#kumihimoCordA-${index})`}
-          strokeWidth="1"
-        />
-        <path
-          d="M 0 3 Q 180 5.5 360 3 T 720 3 T 1200 3"
-          fill="none"
-          stroke={`url(#kumihimoCordB-${index})`}
-          strokeWidth="0.65"
-        />
-      </svg>
-
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="ephemeris-label text-amber-200/80">
-            ARCHIVE // {index} — {label}
+    <header data-reveal className={`mb-10 sm:mb-12 ${className}`.trim()}>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t-[1.5px] border-[var(--border-strong)] pt-3">
+        <div className="flex items-center gap-2.5">
+          <span className="inline-flex items-center bg-[var(--bg-inverted)] px-2.5 py-1 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]">
+            {index} // {label}
           </span>
-          {ephemeris && (
-            <>
-              <span aria-hidden="true" className="hidden h-2.5 w-px bg-white/15 sm:inline-block" />
-              <span className="astro-telemetry hidden sm:inline">{ephemeris}</span>
-            </>
-          )}
         </div>
-
-        {note && <span className="astro-telemetry">{note}</span>}
+        {note && (
+          <span className="mono-label text-[var(--ink-muted)]">
+            {note}
+          </span>
+        )}
       </div>
-    </div>
+
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <h2 className="display-section text-[clamp(2rem,4.2vw,3.35rem)] uppercase">
+          {title}
+        </h2>
+        <div
+          aria-hidden="true"
+          className="hidden h-[3px] w-12 shrink-0 bg-[var(--ink-primary)] sm:block"
+        />
+      </div>
+    </header>
   );
 }
 

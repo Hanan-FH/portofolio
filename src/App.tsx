@@ -1,67 +1,48 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { Certificate, Project } from './data/portfolio';
+import { portfolioData, type Certificate, type Project } from './data/portfolio';
 import { prefersReducedMotionNow } from './hooks/useReducedMotion';
-import { CinematicIntro } from './components/atmosphere/CinematicIntro';
-import { AtmosphericScrollEngine } from './components/atmosphere/AtmosphericScrollEngine';
+import { useScrollReveal } from './hooks/useScrollReveal';
+import { useThemePolarity } from './hooks/useThemePolarity';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
-import { Skills } from './components/sections/Skills';
 import { Projects } from './components/sections/Projects';
+import { Skills } from './components/sections/Skills';
 import { Certificates } from './components/sections/Certificates';
 import { Contact } from './components/sections/Contact';
 import { ProjectModal } from './components/ProjectModal';
 import { CertificateModal } from './components/CertificateModal';
 
-const SECTION_IDS = ['hero', 'about', 'skills', 'projects', 'certificates', 'contact'] as const;
-
-function isAlreadyAssembled(): boolean {
-  if (typeof window === 'undefined') return true;
-  if (prefersReducedMotionNow()) return true;
-  try {
-    return window.sessionStorage.getItem('tiamat_intro_executed') === '1';
-  } catch {
-    return true;
-  }
-}
+const SECTION_IDS = ['hero', 'about', 'projects', 'skills', 'certificates', 'contact'] as const;
 
 export function App() {
   const [activeSection, setActiveSection] = useState('hero');
-  const [isAssembled, setIsAssembled] = useState<boolean>(isAlreadyAssembled);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
   const mainRef = useRef<HTMLElement | null>(null);
 
-  const handleHandoff = useCallback(() => {
-    setIsAssembled(true);
-  }, []);
+  const { polarity, togglePolarity } = useThemePolarity();
+  useScrollReveal();
 
   useEffect(() => {
     let frame = 0;
-    let offsets: Array<{ id: string; top: number }> = [];
-    let bottomLimit = 0;
-
-    const measureSections = () => {
-      const scrollTop = window.scrollY;
-      offsets = SECTION_IDS.map((id) => {
-        const el = document.getElementById(id);
-        return { id, top: el ? el.getBoundingClientRect().top + scrollTop : Infinity };
-      });
-      bottomLimit = document.documentElement.scrollHeight - 8;
-    };
 
     const updateActiveSection = () => {
       frame = 0;
       const scrollY = window.scrollY;
-      const marker = scrollY + 120;
+      const marker = scrollY + 140;
       let next = 'hero';
 
-      for (let i = 0; i < offsets.length; i++) {
-        if (offsets[i].top <= marker) next = offsets[i].id;
+      for (let i = 0; i < SECTION_IDS.length; i++) {
+        const id = SECTION_IDS[i];
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top + scrollY;
+        if (top <= marker) next = id;
       }
 
-      if (window.innerHeight + scrollY >= bottomLimit) {
+      if (window.innerHeight + scrollY >= document.documentElement.scrollHeight - 12) {
         next = 'contact';
       }
 
@@ -69,42 +50,20 @@ export function App() {
     };
 
     const handleScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(updateActiveSection);
+      if (!frame) frame = window.requestAnimationFrame(updateActiveSection);
     };
 
-    const handleResize = () => {
-      measureSections();
-      handleScroll();
-    };
-
-    measureSections();
     updateActiveSection();
-
-    let cancelled = false;
-    document.fonts?.ready.then(() => {
-      if (!cancelled) {
-        measureSections();
-        updateActiveSection();
-      }
-    });
-
-    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(handleResize) : null;
-    if (ro && mainRef.current) ro.observe(mainRef.current);
-
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize, { passive: true });
-
+    window.addEventListener('resize', handleScroll, { passive: true });
     return () => {
-      cancelled = true;
-      ro?.disconnect();
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
 
-  const handleNavigate = (sectionId: string) => {
+  const handleNavigate = useCallback((sectionId: string) => {
     setActiveSection(sectionId);
     const target = document.getElementById(sectionId);
     if (!target) return;
@@ -113,28 +72,44 @@ export function App() {
       behavior: prefersReducedMotionNow() ? 'auto' : 'smooth',
       block: 'start',
     });
-  };
+  }, []);
+
+  const handleStepProject = useCallback((delta: -1 | 1) => {
+    setSelectedProject((current) => {
+      if (!current) return null;
+      const list = portfolioData.projects;
+      const idx = list.findIndex((p) => p.id === current.id);
+      if (idx === -1) return current;
+      const nextIdx = (idx + delta + list.length) % list.length;
+      return list[nextIdx];
+    });
+  }, []);
+
+  const handleStepCertificate = useCallback((delta: -1 | 1) => {
+    setSelectedCertificate((current) => {
+      if (!current) return null;
+      const list = portfolioData.certificates;
+      const idx = list.findIndex((c) => c.id === current.id);
+      if (idx === -1) return current;
+      const nextIdx = (idx + delta + list.length) % list.length;
+      return list[nextIdx];
+    });
+  }, []);
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-zenith-void text-slate-50">
-      {/* GPU Transform-Only Skip-to-Content Link */}
+    <div className="min-h-screen overflow-x-clip bg-[var(--bg-primary)] text-[var(--ink-primary)]">
+      {/* Keyboard Skip-to-Content Link */}
       <a
         href="#main-content"
-        className="fixed left-4 top-4 z-[300] -translate-y-28 rounded-[2px] bg-sky-300 px-4 py-2 font-mono text-xs font-medium uppercase tracking-[0.18em] text-[#050714] transition-transform duration-200 focus:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-200"
+        className="fixed left-4 top-4 z-[300] -translate-y-28 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)] transition-transform duration-150 focus:translate-y-0"
       >
         Skip to main content
       </a>
 
-      {/* Unskippable 3.2s Optical Cold-Open Engine */}
-      <CinematicIntro onHandoff={handleHandoff} />
-
-      {/* Master Katawaredoki Atmosphere, Elastic Musubi Spline & Doppler Stardust Engine */}
-      <AtmosphericScrollEngine contentPlaneRef={mainRef} paused={!isAssembled} />
-
-      {/* Atmospheric Kumihimo Glass Navigation Bar */}
       <Navbar
         activeSection={activeSection}
-        isAssembled={isAssembled}
+        polarity={polarity}
+        onTogglePolarity={togglePolarity}
         onNavigate={handleNavigate}
       />
 
@@ -142,24 +117,27 @@ export function App() {
         ref={mainRef}
         id="main-content"
         tabIndex={-1}
-        className="relative z-10 focus:outline-none"
+        className="focus:outline-none"
       >
-        <Hero isAssembled={isAssembled} onNavigate={handleNavigate} />
+        <Hero onNavigate={handleNavigate} />
         <About />
-        <Skills />
         <Projects onSelectProject={setSelectedProject} />
+        <Skills />
         <Certificates onSelectCert={setSelectedCertificate} />
         <Contact />
       </main>
 
-      <div className="relative z-10">
-        <Footer />
-      </div>
+      <Footer />
 
-      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+        onStep={handleStepProject}
+      />
       <CertificateModal
         certificate={selectedCertificate}
         onClose={() => setSelectedCertificate(null)}
+        onStep={handleStepCertificate}
       />
     </div>
   );

@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { portfolioData } from '../../data/portfolio';
 import { prefersReducedMotionNow } from '../../hooks/useReducedMotion';
 
@@ -6,25 +5,9 @@ const CURRENT_YEAR = new Date().getFullYear();
 
 export function Footer() {
   const { personal, social } = portfolioData;
-  const footerRef = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    const el = footerRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    el.classList.add('motion-paused');
-    const io = new IntersectionObserver(
-      (entries) => {
-        const visible = entries[0]?.isIntersecting ?? false;
-        el.classList.toggle('motion-paused', !visible);
-      },
-      { threshold: 0.01 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  const scrollToTop = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const scrollToTop = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     window.scrollTo({
       top: 0,
       behavior: prefersReducedMotionNow() ? 'auto' : 'smooth',
@@ -32,33 +15,26 @@ export function Footer() {
   };
 
   return (
-    <footer ref={footerRef} className="relative bg-[#050714]/82 backdrop-blur-sm">
-      <div className="anamorphic-streak opacity-65" aria-hidden="true" />
-
-      <div className="container-site flex flex-col gap-6 py-10 md:flex-row md:items-end md:justify-between">
-        <div>
-          <div className="flex items-center gap-3">
-            <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200" />
-            <p className="mincho-editorial text-sm">{personal.name}</p>
-          </div>
-          <p className="mt-1.5 text-xs text-slate-400">
-            {personal.role} · SMK Plus Pelita Nusantara · {personal.location}
-          </p>
-          <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.26em] text-slate-500">
-            © {CURRENT_YEAR} {personal.name}
-          </p>
-        </div>
-
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2" aria-label="Footer navigation">
+    <footer className="border-t-2 border-[var(--border-strong)] bg-[var(--bg-inverted)] text-[var(--bg-primary)]">
+      <div className="container-site py-12 sm:py-16">
+        {/* Oversized Editorial Channel Strip */}
+        <div className="grid border-[1.5px] border-[var(--border-inverted)] divide-y divide-[var(--border-inverted)] md:grid-cols-3 md:divide-x md:divide-y-0">
           {social.github && (
             <a
               href={social.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              className="group flex items-center justify-between gap-4 p-5 sm:p-6 hover:bg-[var(--bg-primary)] hover:text-[var(--bg-inverted)]"
             >
-              GitHub
-              <span className="link-arrow text-sky-300" aria-hidden="true">
+              <div>
+                <span className="block font-mono text-xs uppercase tracking-[0.08em] opacity-70">
+                  01 // REPOSITORY
+                </span>
+                <span className="mt-1 block font-display text-xl uppercase sm:text-2xl">
+                  GitHub
+                </span>
+              </div>
+              <span className="btn-arrow font-mono text-xl" aria-hidden="true">
                 ↗
               </span>
             </a>
@@ -69,10 +45,17 @@ export function Footer() {
               href={social.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              className="group flex items-center justify-between gap-4 p-5 sm:p-6 hover:bg-[var(--bg-primary)] hover:text-[var(--bg-inverted)]"
             >
-              LinkedIn
-              <span className="link-arrow text-pink-300" aria-hidden="true">
+              <div>
+                <span className="block font-mono text-xs uppercase tracking-[0.08em] opacity-70">
+                  02 // NETWORK
+                </span>
+                <span className="mt-1 block font-display text-xl uppercase sm:text-2xl">
+                  LinkedIn
+                </span>
+              </div>
+              <span className="btn-arrow font-mono text-xl" aria-hidden="true">
                 ↗
               </span>
             </a>
@@ -80,22 +63,44 @@ export function Footer() {
 
           <a
             href={`mailto:${personal.email}`}
-            className="celestial-link group inline-flex min-h-9 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-300 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            className="group flex items-center justify-between gap-4 p-5 sm:p-6 hover:bg-[var(--bg-primary)] hover:text-[var(--bg-inverted)]"
           >
-            Email
-            <span className="link-arrow text-amber-200" aria-hidden="true">
+            <div className="min-w-0">
+              <span className="block font-mono text-xs uppercase tracking-[0.08em] opacity-70">
+                03 // DIRECT MAIL
+              </span>
+              <span className="mt-1 block truncate font-display text-lg uppercase sm:text-xl">
+                {personal.email}
+              </span>
+            </div>
+            <span className="btn-arrow shrink-0 font-mono text-xl" aria-hidden="true">
               ↗
             </span>
           </a>
+        </div>
+
+        {/* Colophon & Back-to-Top Control */}
+        <div className="mt-10 flex flex-col gap-6 border-t border-[var(--border-inverted)] pt-8 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="font-display text-lg uppercase tracking-tight text-[var(--bg-primary)] sm:text-xl">
+              {personal.name}
+            </p>
+            <p className="mt-1.5 font-sans text-sm opacity-80">
+              {personal.role} · SMK Plus Pelita Nusantara · {personal.location}
+            </p>
+            <p className="mt-3 font-mono text-xs uppercase tracking-[0.08em] opacity-65">
+              © {CURRENT_YEAR} {personal.name}. All rights reserved.
+            </p>
+          </div>
 
           <button
             type="button"
             onClick={scrollToTop}
-            className="twilight-chip min-h-9 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.24em] text-sky-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            className="inline-flex h-11 shrink-0 items-center justify-center border-[1.5px] border-[var(--bg-primary)] bg-transparent px-4 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)] hover:bg-[var(--bg-primary)] hover:text-[var(--bg-inverted)] cursor-pointer"
           >
-            Top ↑
+            [ ↑ TOP ]
           </button>
-        </nav>
+        </div>
       </div>
     </footer>
   );

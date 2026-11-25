@@ -9,42 +9,43 @@ export function About() {
       <div className="container-site">
         <SectionHeading
           index="01"
-          label="Narrative & Trajectory"
-          ephemeris="EPOCH // ACADEMIC & ENGINEERING MILESTONES"
+          label="ABOUT"
+          title="Profile & Curriculum"
           note={about.location}
         />
 
-        {/* Editorial Split Layout: Authentic Bio Left // Luminous Vertical Timeline Right */}
-        <div className="mt-12 grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-12">
-          {/* Left Column: Mincho Statement, Verbatim Bio & Compact Specs */}
+        <div data-reveal className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
+          {/* Left Column: Editorial Statement, Verbatim Bio & Specification Table */}
           <div className="lg:col-span-5">
-            <h2 className="mincho-editorial text-2xl sm:text-[1.85rem]">{about.heading}</h2>
+            <h3 className="display-card text-2xl sm:text-3xl">
+              {about.heading}
+            </h3>
 
-            <div className="mt-6 space-y-4 text-[0.95rem] leading-[1.6] text-slate-300">
+            <div className="mt-5 space-y-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
               {about.paragraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
 
-            <dl className="rim-horizon-panel mt-8 divide-y divide-white/10 p-5 text-xs">
-              <div className="flex items-baseline justify-between gap-4 pb-3">
-                <dt className="astro-telemetry">Status</dt>
-                <dd className="text-right text-slate-100">{about.status}</dd>
+            <dl className="manga-card mt-8 divide-y divide-[var(--border-subtle)] text-sm">
+              <div className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt className="mono-label text-[var(--ink-muted)]">Status</dt>
+                <dd className="font-semibold text-[var(--ink-primary)]">{about.status}</dd>
               </div>
-              <div className="py-3">
-                <dt className="astro-telemetry">Focus</dt>
-                <dd className="mt-1.5 leading-[1.6] text-slate-300">{about.currentFocus}</dd>
+              <div className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt className="mono-label text-[var(--ink-muted)]">Focus</dt>
+                <dd className="leading-[1.6] text-[var(--ink-secondary)]">{about.currentFocus}</dd>
               </div>
-              <div className="flex items-baseline justify-between gap-4 py-3">
-                <dt className="astro-telemetry">Location</dt>
-                <dd className="text-right text-slate-200">{about.location}</dd>
+              <div className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt className="mono-label text-[var(--ink-muted)]">Location</dt>
+                <dd className="text-[var(--ink-primary)]">{about.location}</dd>
               </div>
-              <div className="flex items-baseline justify-between gap-4 pt-3">
-                <dt className="astro-telemetry">Email</dt>
+              <div className="grid grid-cols-1 gap-1 p-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt className="mono-label text-[var(--ink-muted)]">Email</dt>
                 <dd>
                   <a
                     href={`mailto:${personal.email}`}
-                    className="font-mono text-sky-300 transition-opacity hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                    className="font-mono text-xs font-semibold text-[var(--ink-primary)] underline underline-offset-4 hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
                   >
                     {personal.email} ↗
                   </a>
@@ -53,64 +54,50 @@ export function About() {
             </dl>
           </div>
 
-          {/* Right Column: Split Timeline with Restrained Planetary Nodes */}
-          <div className="relative pl-7 sm:pl-10 lg:col-span-7">
-            {/* Vertical Katawaredoki Horizon Track */}
-            <div
-              aria-hidden="true"
-              className="absolute bottom-3 left-[7px] top-2 w-px sm:left-[11px]"
-              style={{
-                background:
-                  'linear-gradient(180deg, #38bdf8 0%, #6d1146 46%, #c2410c 78%, rgba(253, 224, 71, 0.24) 100%)',
-              }}
-            />
-
-            <div className="space-y-6">
-              {/* Primary Education Milestone */}
-              {education.map((item, index) => (
-                <article
-                  key={`${item.institution}-${index}`}
-                  className="kumihimo-panel relative p-5 sm:p-6"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="absolute -left-[25px] top-6 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-sky-300/80 bg-[#050714] sm:-left-[33px]"
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-sky-200" />
+          {/* Right Column: Academic Record & 4 Foundation Competencies Matrix */}
+          <div className="space-y-6 lg:col-span-7">
+            {education.map((item, index) => (
+              <article key={`${item.institution}-${index}`} className="manga-card overflow-hidden">
+                <div className="halftone-surface flex flex-wrap items-center justify-between gap-2 border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)] px-5 py-3">
+                  <span className="mono-label text-[var(--ink-primary)]">
+                    EDUCATION // {item.period}
                   </span>
+                  <span className="inline-flex bg-[var(--bg-inverted)] px-2 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]">
+                    {item.status}
+                  </span>
+                </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="astro-coord">{item.period}</span>
-                    <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-amber-200/85">
-                      ● {item.status}
-                    </span>
-                  </div>
-
-                  <h3 className="mincho-sub mt-2.5 text-lg sm:text-xl">{item.program}</h3>
-                  <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.22em] text-sky-200/80">
+                <div className="p-5 sm:p-6">
+                  <h3 className="display-card text-xl sm:text-2xl">{item.program}</h3>
+                  <p className="mt-1.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--ink-muted)]">
                     {item.institution}
                   </p>
-                  <p className="mt-3 text-sm leading-[1.6] text-slate-300">{item.description}</p>
-                </article>
-              ))}
+                  <p className="mt-3 text-base leading-[1.65] text-[var(--ink-secondary)]">
+                    {item.description}
+                  </p>
+                </div>
+              </article>
+            ))}
 
-              {/* 4 Authentic SMK Plus Pelita Nusantara Foundation Milestones */}
+            {/* 2x2 Manga-Panel Grid of 4 SMK Plus Pelita Nusantara Foundation Competencies */}
+            <div className="grid gap-4 sm:grid-cols-2">
               {about.fundamentals.map((comp) => (
-                <article key={comp.id} className="kumihimo-panel relative p-5">
-                  <span
-                    aria-hidden="true"
-                    className="absolute -left-[23px] top-6 h-2.5 w-2.5 rounded-full border border-amber-200/75 bg-rose-500 sm:-left-[31px]"
-                  />
+                <article key={comp.id} className="manga-card flex flex-col justify-between p-5">
+                  <div>
+                    <div className="flex items-baseline justify-between gap-2 border-b border-[var(--border-subtle)] pb-2.5">
+                      <span className="font-display text-2xl leading-none text-[var(--ink-primary)]">
+                        {comp.id}
+                      </span>
+                      <span className="font-mono text-[11px] font-medium uppercase tracking-[0.06em] text-[var(--ink-muted)]">
+                        {comp.localTitle}
+                      </span>
+                    </div>
 
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <span className="astro-coord">MILESTONE // {comp.id}</span>
-                    <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-amber-200/75">
-                      {comp.localTitle}
-                    </span>
+                    <h4 className="display-card mt-3.5 text-lg">{comp.title}</h4>
+                    <p className="mt-2.5 text-sm leading-[1.65] text-[var(--ink-secondary)]">
+                      {comp.description}
+                    </p>
                   </div>
-
-                  <h3 className="mincho-sub mt-2 text-base">{comp.title}</h3>
-                  <p className="mt-2 text-xs leading-[1.6] text-slate-300/90">{comp.description}</p>
                 </article>
               ))}
             </div>

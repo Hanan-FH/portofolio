@@ -1,34 +1,64 @@
 import { useEffect, useRef, useState } from 'react';
 import { portfolioData } from '../../data/portfolio';
+import type { ThemePolarity } from '../../hooks/useThemePolarity';
 
 interface NavbarProps {
   activeSection: string;
-  isAssembled?: boolean;
+  polarity: ThemePolarity;
+  onTogglePolarity: () => void;
   onNavigate?: (id: string) => void;
 }
 
 const NAV_ITEMS = [
-  { id: 'hero', label: 'Home' },
-  { id: 'about', label: 'Journey' },
-  { id: 'skills', label: 'Capabilities' },
-  { id: 'projects', label: 'Works' },
-  { id: 'certificates', label: 'Vault' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'about', index: '01', label: 'About' },
+  { id: 'projects', index: '02', label: 'Projects' },
+  { id: 'skills', index: '03', label: 'Skills' },
+  { id: 'certificates', index: '04', label: 'Certificates' },
+  { id: 'contact', index: '05', label: 'Contact' },
 ];
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-/**
- * Atmospheric Kumihimo Glass Navigation Bar.
- * Ultra-thin fixed top bar with deep indigo twilight glass (backdrop-blur-md)
- * and a 1px bottom border catching horizon amber.
- */
-export function Navbar({ activeSection, isAssembled = true, onNavigate }: NavbarProps) {
+export function Navbar({
+  activeSection,
+  polarity,
+  onTogglePolarity,
+  onNavigate,
+}: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const drawerRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement | null>(null);
+  const drawerRef = useRef<HTMLDivElement | null>(null);
   const { personal } = portfolioData;
 
+  /* GPU-composited scaleX() reading progress bar — zero React re-renders */
+  useEffect(() => {
+    let rafId = 0;
+
+    const updateProgress = () => {
+      rafId = 0;
+      const bar = progressRef.current;
+      if (!bar) return;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+      bar.style.transform = `scaleX(${ratio.toFixed(4)})`;
+    };
+
+    const onScrollOrResize = () => {
+      if (!rafId) rafId = window.requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  /* Mobile menu focus trap & Escape handling */
   useEffect(() => {
     if (!isMenuOpen) return;
 
@@ -48,20 +78,17 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
       }
 
       if (event.key !== 'Tab' || !panel) return;
-
       const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
-        (element) => element.offsetParent !== null
+        (el) => el.offsetParent !== null
       );
-      if (focusable.length === 0) return;
+      if (!focusable.length) return;
 
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-      const active = document.activeElement;
-
-      if (event.shiftKey && active === first) {
+      if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
-      } else if (!event.shiftKey && active === last) {
+      } else if (!event.shiftKey && document.activeElement === last) {
         event.preventDefault();
         first.focus();
       }
@@ -82,13 +109,9 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
 
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 h-14 bg-[#080c24]/75 backdrop-blur-md transition-[transform,opacity] duration-700 ${
-          isAssembled ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0'
-        }`}
-      >
-        <div className="container-site flex h-full items-center justify-between">
-          {/* Minimalist Editorial Monogram */}
+      <header className="sticky top-0 z-50 border-b-[1.5px] border-[var(--border-strong)] bg-[var(--bg-primary)]">
+        <div className="container-site flex h-16 items-center justify-between gap-4">
+          {/* Editorial Brand / Monogram */}
           <a
             href="#hero"
             onClick={(event) => {
@@ -96,116 +119,24 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
               handleLinkClick('hero');
             }}
             aria-label={`${personal.name} — Return to top`}
-            className="group flex items-center gap-3 py-1 text-white transition-opacity hover:opacity-85 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            className="group inline-flex items-center gap-3 py-1"
           >
-            <span className="flex h-6 w-6 items-center justify-center rounded-[2px] border border-amber-200/35 bg-[#0d1435]/80 font-serif text-xs tracking-normal text-amber-100">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] font-display text-sm text-[var(--bg-primary)]">
               H
             </span>
-            <span className="mincho-display text-xs font-medium tracking-[0.26em]">
-              HANAN
+            <span className="flex flex-col">
+              <span className="font-display text-sm uppercase tracking-tight text-[var(--ink-primary)] sm:text-base">
+                HANAN F.H.
+              </span>
+              <span className="hidden font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--ink-muted)] sm:block">
+                RPL // BOGOR
+              </span>
             </span>
           </a>
 
-          {/* Clean Anchor Links & Animated Rose-Gold Celestial Status Dot */}
-          <div className="hidden items-center gap-7 lg:flex">
-            <nav className="flex items-center gap-6" aria-label="Primary navigation">
-              {NAV_ITEMS.map((item) => {
-                const isActive = activeSection === item.id;
-                return (
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      handleLinkClick(item.id);
-                    }}
-                    aria-current={isActive ? 'location' : undefined}
-                    className={`relative py-1 font-mono text-[11px] uppercase tracking-[0.22em] transition-opacity duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
-                      isActive ? 'text-amber-100 opacity-100' : 'text-slate-300 opacity-75 hover:opacity-100'
-                    }`}
-                  >
-                    {item.label}
-                    <span
-                      aria-hidden="true"
-                      className={`absolute inset-x-0 -bottom-[9px] h-[1.5px] bg-gradient-to-r from-sky-400 via-rose-400 to-amber-200 transition-transform duration-300 ${
-                        isActive ? 'scale-x-100' : 'scale-x-0'
-                      }`}
-                    />
-                  </a>
-                );
-              })}
-            </nav>
-
-            <span aria-hidden="true" className="h-3.5 w-px bg-white/15" />
-
-            <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.34em] text-slate-300">
-              <span className="beacon-pulse h-1.5 w-1.5 rounded-full bg-gradient-to-tr from-rose-500 to-amber-200" />
-              <span>RPL · Bogor</span>
-            </div>
-          </div>
-
-          {/* Mobile Drawer Trigger */}
-          <button
-            type="button"
-            onClick={() => setIsMenuOpen((open) => !open)}
-            aria-label={isMenuOpen ? 'Close navigation' : 'Open navigation'}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-navigation"
-            className="flex h-9 w-9 items-center justify-center rounded-[2px] border border-white/15 bg-white/5 text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 lg:hidden"
-          >
-            <span className="relative block h-3 w-4.5" aria-hidden="true">
-              <span
-                className={`absolute left-0 top-0 h-[1.5px] w-4.5 bg-current transition-transform duration-300 ${
-                  isMenuOpen ? 'translate-y-[5px] rotate-45 text-amber-200' : ''
-                }`}
-              />
-              <span
-                className={`absolute bottom-0 left-0 h-[1.5px] w-4.5 bg-current transition-transform duration-300 ${
-                  isMenuOpen ? '-translate-y-[5.5px] -rotate-45 text-amber-200' : ''
-                }`}
-              />
-            </span>
-          </button>
-        </div>
-
-        {/* 1px Bottom Border Catching Horizon Amber */}
-        <div
-          aria-hidden="true"
-          className="h-px w-full"
-          style={{
-            background:
-              'linear-gradient(90deg, rgba(56, 189, 248, 0.24) 0%, rgba(109, 17, 70, 0.52) 38%, rgba(194, 65, 12, 0.62) 68%, rgba(253, 224, 71, 0.58) 86%, rgba(56, 189, 248, 0.18) 100%)',
-          }}
-        />
-      </header>
-
-      {/* Mobile Drawer */}
-      {isMenuOpen && (
-        <div
-          ref={drawerRef}
-          id="mobile-navigation"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Site navigation"
-          className="drawer-enter fixed inset-0 z-[180] flex flex-col bg-[#050714]/95 backdrop-blur-xl lg:hidden"
-        >
-          <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-6">
-            <span className="mincho-display text-xs tracking-[0.26em]">HANAN</span>
-            <button
-              type="button"
-              data-autofocus
-              onClick={() => setIsMenuOpen(false)}
-              aria-label="Close navigation"
-              className="flex h-9 w-9 items-center justify-center rounded-[2px] border border-white/20 text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-            >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
-          </div>
-
-          <nav className="flex flex-1 flex-col justify-center px-6" aria-label="Mobile navigation">
-            {NAV_ITEMS.map((item, index) => {
+          {/* Desktop Monospace Navigation with Instant Ink-Invert Hover */}
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
+            {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.id;
               return (
                 <a
@@ -216,31 +147,169 @@ export function Navbar({ activeSection, isAssembled = true, onNavigate }: Navbar
                     handleLinkClick(item.id);
                   }}
                   aria-current={isActive ? 'location' : undefined}
-                  className="group flex items-baseline gap-5 border-b border-white/10 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  className={`px-3 py-1.5 font-mono text-xs font-medium uppercase tracking-[0.08em] ${
+                    isActive
+                      ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
+                      : 'text-[var(--ink-primary)] hover:bg-[var(--ink-primary)] hover:text-[var(--bg-primary)]'
+                  }`}
                 >
-                  <span className="astro-coord">0{index + 1}</span>
-                  <span
-                    className={`mincho-sub text-2xl ${
-                      isActive ? 'text-amber-200' : 'text-slate-100'
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-                  <span aria-hidden="true" className="ml-auto font-mono text-sm text-sky-300">
-                    ↗
-                  </span>
+                  <span className="opacity-65">{item.index}</span> {item.label}
                 </a>
               );
             })}
           </nav>
 
-          <div className="border-t border-white/10 px-6 py-5">
+          {/* Right Controls: PAPER / INK Polarity Toggle + Mobile Menu Trigger */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={onTogglePolarity}
+              aria-label={`Switch theme polarity (currently ${polarity} mode)`}
+              aria-pressed={polarity === 'ink'}
+              className="inline-flex h-9 items-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] cursor-pointer"
+            >
+              <span
+                className={`flex h-full items-center gap-1.5 px-2.5 ${
+                  polarity === 'paper'
+                    ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
+                    : 'text-[var(--ink-muted)] hover:text-[var(--ink-primary)]'
+                }`}
+              >
+                {polarity === 'paper' && <span aria-hidden="true">■</span>}
+                <span>Paper</span>
+              </span>
+              <span
+                aria-hidden="true"
+                className="h-full w-[1.5px] bg-[var(--border-strong)]"
+              />
+              <span
+                className={`flex h-full items-center gap-1.5 px-2.5 ${
+                  polarity === 'ink'
+                    ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
+                    : 'text-[var(--ink-muted)] hover:text-[var(--ink-primary)]'
+                }`}
+              >
+                {polarity === 'ink' && <span aria-hidden="true">■</span>}
+                <span>Ink</span>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
+              className="flex h-9 w-9 items-center justify-center border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--ink-primary)] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)] lg:hidden"
+            >
+              {isMenuOpen ? (
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M2.5 2.5L13.5 13.5M13.5 2.5L2.5 13.5" stroke="currentColor" strokeWidth="1.75" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M2 4H14M2 8H14M2 12H14" stroke="currentColor" strokeWidth="1.75" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* 2px GPU-Composited Reading Progress Line */}
+        <div aria-hidden="true" className="h-[2px] w-full bg-transparent">
+          <div
+            ref={progressRef}
+            className="h-full w-full origin-left bg-[var(--accent-indigo)]"
+            style={{ transform: 'scaleX(0)', willChange: 'transform' }}
+          />
+        </div>
+      </header>
+
+      {/* Accessible Mobile Editorial Index Sheet */}
+      {isMenuOpen && (
+        <div
+          ref={drawerRef}
+          id="mobile-navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
+          className="fixed inset-0 z-[180] flex flex-col bg-[var(--bg-primary)] lg:hidden"
+        >
+          <div className="flex h-16 shrink-0 items-center justify-between border-b-[1.5px] border-[var(--border-strong)] px-4 sm:px-6">
+            <span className="font-display text-sm uppercase tracking-tight text-[var(--ink-primary)]">
+              INDEX // NAVIGATION
+            </span>
+            <button
+              type="button"
+              data-autofocus
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close navigation menu"
+              className="inline-flex h-9 items-center gap-1.5 border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--ink-primary)] hover:bg-[var(--bg-inverted)] hover:text-[var(--bg-primary)]"
+            >
+              <span>Close</span>
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.75" />
+              </svg>
+            </button>
+          </div>
+
+          <nav className="flex flex-1 flex-col justify-center divide-y divide-[var(--border-subtle)] px-4 sm:px-6" aria-label="Mobile navigation">
+            <a
+              href="#hero"
+              onClick={(event) => {
+                event.preventDefault();
+                handleLinkClick('hero');
+              }}
+              className={`flex items-baseline justify-between py-4 px-3 ${
+                activeSection === 'hero'
+                  ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
+                  : 'text-[var(--ink-primary)] hover:bg-[var(--ink-primary)] hover:text-[var(--bg-primary)]'
+              }`}
+            >
+              <span className="font-mono text-xs uppercase tracking-[0.08em]">00 // COVER</span>
+              <span className="font-display text-2xl uppercase">Home</span>
+            </a>
+
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleLinkClick(item.id);
+                  }}
+                  aria-current={isActive ? 'location' : undefined}
+                  className={`flex items-baseline justify-between py-4 px-3 ${
+                    isActive
+                      ? 'bg-[var(--bg-inverted)] text-[var(--bg-primary)]'
+                      : 'text-[var(--ink-primary)] hover:bg-[var(--ink-primary)] hover:text-[var(--bg-primary)]'
+                  }`}
+                >
+                  <span className="font-mono text-xs uppercase tracking-[0.08em]">
+                    {item.index} // SECTION
+                  </span>
+                  <span className="font-display text-2xl uppercase">{item.label}</span>
+                </a>
+              );
+            })}
+          </nav>
+
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t-[1.5px] border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-4 sm:px-6">
             <a
               href={`mailto:${personal.email}`}
-              className="font-mono text-xs tracking-[0.14em] text-sky-200 hover:text-amber-200"
+              className="font-mono text-xs font-medium uppercase tracking-[0.06em] text-[var(--ink-primary)] underline underline-offset-4"
             >
               {personal.email} ↗
             </a>
+            <button
+              type="button"
+              onClick={onTogglePolarity}
+              className="border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-inverted)] px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[var(--bg-primary)]"
+            >
+              Mode: {polarity}
+            </button>
           </div>
         </div>
       )}
