@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="paper">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,7 @@
       name="description"
       content="Production-grade developer portfolio of Hanan Fathurrozaq Hidayatullah, a vocational high school software engineering student at SMK Plus Pelita Nusantara, Bogor."
     />
-    <meta name="theme-color" content="#F4F4F1" />
+    <meta name="theme-color" content="#ECECF0" />
     <meta name="color-scheme" content="light dark" />
     <meta name="author" content="Hanan Fathurrozaq Hidayatullah" />
     <meta property="og:title" content="Hanan Fathurrozaq Hidayatullah — Software Developer &amp; Engineering Student" />
@@ -29,18 +29,6 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="preload" as="image" href="/webp/profile.webp?v=addo" type="image/webp" fetchpriority="high" />
-    <script>
-      (function () {
-        try {
-          var saved = localStorage.getItem('theme-polarity');
-          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var mode = saved === 'ink' || saved === 'paper' ? saved : prefersDark ? 'ink' : 'paper';
-          document.documentElement.dataset.theme = mode;
-          var meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) meta.setAttribute('content', mode === 'ink' ? '#090909' : '#F4F4F1');
-        } catch (e) {}
-      })();
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -53,7 +41,7 @@
         "@type": "Person",
         "name": "Hanan Fathurrozaq Hidayatullah",
         "jobTitle": "Software Engineering Student",
-        "image": "/addo.jpg",
+        "image": "/profile.jpg?v=addo",
         "email": "mailto:hananfh77@gmail.com",
         "address": {
           "@type": "PostalAddress",

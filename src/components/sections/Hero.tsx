@@ -1,7 +1,5 @@
-import { useEffect, useRef } from 'react';
 import { portfolioData } from '../../data/portfolio';
 import { OptimizedPicture } from '../ui/OptimizedPicture';
-import { RollingText } from '../ui/RollingText';
 
 interface HeroProps {
   onNavigate?: (id: string) => void;
@@ -9,62 +7,6 @@ interface HeroProps {
 
 export function Hero({ onNavigate }: HeroProps) {
   const { personal, social } = portfolioData;
-  const stageRef = useRef<HTMLDivElement | null>(null);
-  const parallaxRef = useRef<HTMLDivElement | null>(null);
-
-  /* Subtle 60fps desktop mouse-reactive parallax (max ±8px via rAF, zero re-renders) */
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-    const finePointer = window.matchMedia('(pointer: fine)').matches;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!finePointer || reducedMotion) return;
-
-    const stage = stageRef.current;
-    const targetEl = parallaxRef.current;
-    if (!stage || !targetEl) return;
-
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    let rafId = 0;
-
-    const step = () => {
-      currentX += (targetX - currentX) * 0.14;
-      currentY += (targetY - currentY) * 0.14;
-      targetEl.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
-
-      if (Math.abs(targetX - currentX) > 0.08 || Math.abs(targetY - currentY) > 0.08) {
-        rafId = window.requestAnimationFrame(step);
-      } else {
-        rafId = 0;
-      }
-    };
-
-    const onMove = (event: PointerEvent) => {
-      const rect = stage.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-      const nx = (event.clientX - rect.left) / rect.width - 0.5;
-      const ny = (event.clientY - rect.top) / rect.height - 0.5;
-      targetX = Math.max(-8, Math.min(8, nx * 16));
-      targetY = Math.max(-8, Math.min(8, ny * 16));
-      if (!rafId) rafId = window.requestAnimationFrame(step);
-    };
-
-    const onLeave = () => {
-      targetX = 0;
-      targetY = 0;
-      if (!rafId) rafId = window.requestAnimationFrame(step);
-    };
-
-    stage.addEventListener('pointermove', onMove, { passive: true });
-    stage.addEventListener('pointerleave', onLeave);
-    return () => {
-      stage.removeEventListener('pointermove', onMove);
-      stage.removeEventListener('pointerleave', onLeave);
-      if (rafId) window.cancelAnimationFrame(rafId);
-    };
-  }, []);
 
   const navigate = (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -72,167 +14,169 @@ export function Hero({ onNavigate }: HeroProps) {
   };
 
   return (
-    <section id="hero" className="editorial-grain relative scroll-mt-16 pb-20 pt-8 sm:pb-28 sm:pt-12 lg:pb-32 lg:pt-14">
-      <div className="container-site">
-        {/* Top Architectural Metadata Strip */}
-        <div
-          style={{ '--delay': '100ms' } as React.CSSProperties}
-          className="hero-stagger-fade flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line-hairline)] pb-4"
-        >
-          <div className="flex items-center gap-2.5">
-            <span className="mono-index font-semibold text-[var(--accent-purple)]">00</span>
-            <span aria-hidden="true" className="mono-index text-[var(--ink-muted)]">/</span>
-            <span className="mono-index text-[var(--ink-primary)]">{personal.eyebrow}</span>
-          </div>
-          <span className="mono-index text-[var(--ink-muted)]">{personal.location}</span>
-        </div>
+    <section
+      id="hero"
+      className="manga-chapter relative z-[11] flex min-h-[100svh] items-center bg-[#ECECF0] pt-20 pb-[calc(var(--cut)+3.5rem)] text-[#060608]"
+    >
+      {/* Back Layer: Subtle Radial Speedlines & Oversized Watermark Chapter Number */}
+      <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="manga-speedlines absolute inset-0 text-[#060608]" />
+        <span className="absolute -bottom-8 left-4 select-none font-display text-[clamp(9rem,22vw,20rem)] leading-none text-[#060608]/[0.04] sm:left-10">
+          00
+        </span>
+      </div>
 
-        {/* Above-the-Fold 12-Column Editorial Split: Display Title & Bio Left // addo.jpg Profile Centerpiece Right */}
-        <div className="mt-8 grid gap-10 lg:mt-12 lg:grid-cols-12 lg:items-center lg:gap-12">
-          {/* Left Column: Staggered Masked Display Name, Bio & Kinetic CTAs */}
-          <div className="lg:col-span-6">
-            <h1 aria-label={personal.name} className="uppercase tracking-[-0.04em]">
-              <span className="hero-mask-line">
+      {/* Front Layer: Vertical & Tilted Electric-Violet (#584CE6) Stamps Echoing addo.jpg */}
+      <div
+        aria-hidden="true"
+        className="parallax-front pointer-events-none absolute right-3 top-24 z-30 hidden xl:block"
+      >
+        <span className="vertical-stamp font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#584CE6]">
+          CH.00 // OPENING SPREAD — BOGOR
+        </span>
+      </div>
+
+      <div className="container-site relative z-20 w-full">
+        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-6">
+          {/* Left Focal Zone: Kinetic Line-Rise Display Title, Bio & Beat-Drop CTAs */}
+          <div className="parallax-mid relative z-20 lg:col-span-6">
+            {/* Tilted #584CE6 Chapter Stamp */}
+            <div className="hero-cut-fade mb-5 flex flex-wrap items-center gap-3" style={{ '--d': '40ms' } as React.CSSProperties}>
+              <span className="inline-block -rotate-2 bg-[#584CE6] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-white">
+                CH.00 // OPENING
+              </span>
+              <span className="mono-stamp text-[#4E4E57]">{personal.eyebrow}</span>
+            </div>
+
+            {/* Tight 60ms Staggered Kinetic Line-Rise Display Name */}
+            <h1 aria-label={personal.name} className="uppercase tracking-[-0.035em] text-[#060608]">
+              <span className="hero-line-mask">
                 <span
-                  style={{ '--delay': '140ms' } as React.CSSProperties}
-                  className="hero-mask-inner flex items-start gap-2.5 text-[clamp(2.9rem,6.5vw,5.75rem)] leading-[0.9]"
+                  style={{ '--d': '60ms' } as React.CSSProperties}
+                  className="hero-line-rise text-[clamp(3.1rem,7.2vw,6.4rem)] leading-[0.9]"
                 >
-                  <span>HANAN</span>
-                  <span
-                    aria-hidden="true"
-                    className="mt-1.5 font-mono text-xs font-medium tracking-[0.1em] text-[var(--accent-purple)]"
-                  >
-                    [ED.26]
-                  </span>
+                  HANAN
                 </span>
               </span>
-              <span className="hero-mask-line">
+              <span className="hero-line-mask">
                 <span
-                  style={{ '--delay': '210ms' } as React.CSSProperties}
-                  className="hero-mask-inner text-[clamp(1.85rem,4.1vw,3.65rem)] leading-[0.92]"
+                  style={{ '--d': '120ms' } as React.CSSProperties}
+                  className="hero-line-rise text-[clamp(1.95rem,4.4vw,3.95rem)] leading-[0.92]"
                 >
                   FATHURROZAQ
                 </span>
               </span>
-              <span className="hero-mask-line">
+              <span className="hero-line-mask">
                 <span
-                  style={{ '--delay': '280ms' } as React.CSSProperties}
-                  className="hero-mask-inner text-[clamp(1.75rem,3.85vw,3.4rem)] leading-[0.92] text-[var(--ink-secondary)]"
+                  style={{ '--d': '180ms' } as React.CSSProperties}
+                  className="hero-line-rise flex items-baseline gap-3 text-[clamp(1.8rem,4.1vw,3.65rem)] leading-[0.92]"
                 >
-                  HIDAYATULLAH
+                  <span>HIDAYATULLAH</span>
+                  <span
+                    aria-hidden="true"
+                    className="-rotate-6 font-mono text-xs font-semibold tracking-[0.08em] text-[#584CE6] sm:text-sm"
+                  >
+                    //26
+                  </span>
                 </span>
               </span>
             </h1>
 
             <div
-              style={{ '--delay': '350ms' } as React.CSSProperties}
-              className="hero-stagger-fade mt-7 border-t border-[var(--line-hairline)] pt-6"
+              style={{ '--d': '240ms' } as React.CSSProperties}
+              className="hero-cut-fade mt-6 max-w-xl"
             >
-              <p className="font-sans text-lg font-semibold leading-snug text-[var(--ink-primary)] sm:text-xl">
+              <p className="font-sans text-lg font-bold leading-snug text-[#060608] sm:text-xl">
                 {personal.headline}
               </p>
 
-              <p className="mt-3.5 text-base leading-[1.65] text-[var(--ink-secondary)]">
+              <p className="mt-3 text-base leading-[1.65] text-[#4E4E57]">
                 {personal.shortBio}
               </p>
 
-              <div className="mt-7 flex flex-wrap items-center gap-3.5">
-                <a href="#projects" onClick={navigate('projects')} className="btn-kinetic-ink">
-                  <RollingText text="Selected Works" />
-                  <span className="kinetic-arrow" aria-hidden="true">→</span>
+              {/* Beat-Drop Action Links */}
+              <div className="mt-7 flex flex-wrap items-center gap-4">
+                <a href="#projects" onClick={navigate('projects')} className="btn-beat-dark">
+                  <span>Selected Works</span>
+                  <span className="beat-arrow" aria-hidden="true">→</span>
                 </a>
 
-                <a href="#contact" onClick={navigate('contact')} className="btn-kinetic-outline">
-                  <RollingText text="Get in Touch" />
-                  <span className="kinetic-arrow" aria-hidden="true">→</span>
+                <a href="#contact" onClick={navigate('contact')} className="btn-beat-ghost">
+                  <span>Get in Touch</span>
+                  <span className="beat-arrow" aria-hidden="true">→</span>
                 </a>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-[var(--line-hairline)] pt-5">
+              {/* Authentic Social & Direct Coordinates */}
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 pt-2">
+                <span className="mono-stamp text-[#584CE6]">{personal.location}</span>
                 {social.github && (
                   <a
                     href={social.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub profile (opens in a new tab)"
-                    className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
+                    className="mono-stamp inline-flex items-center gap-1 text-[#060608] hover:text-[#584CE6]"
                   >
-                    <RollingText text="GitHub" />
-                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                    <span>GitHub</span>
+                    <span className="beat-arrow" aria-hidden="true">↗</span>
                   </a>
                 )}
-
                 {social.linkedin && (
                   <a
                     href={social.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn profile (opens in a new tab)"
-                    className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
+                    className="mono-stamp inline-flex items-center gap-1 text-[#060608] hover:text-[#584CE6]"
                   >
-                    <RollingText text="LinkedIn" />
-                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                    <span>LinkedIn</span>
+                    <span className="beat-arrow" aria-hidden="true">↗</span>
                   </a>
                 )}
-
                 <a
                   href={`mailto:${personal.email}`}
-                  className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-secondary)] hover:text-[var(--accent-purple)]"
+                  className="mono-stamp inline-flex items-center gap-1 text-[#4E4E57] hover:text-[#584CE6]"
                 >
-                  <RollingText text={personal.email} />
-                  <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                  <span>{personal.email}</span>
+                  <span className="beat-arrow" aria-hidden="true">↗</span>
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Main Hero Profile Centerpiece (addo.jpg) — Above the Fold */}
-          <div className="lg:col-span-6">
-            <figure ref={stageRef} className="hero-art-stage relative">
-              <div ref={parallaxRef} className="relative will-change-transform">
-                {/* Subtle Electric-Purple Ink Offset Plate on Hover */}
-                <div
-                  aria-hidden="true"
-                  className="hero-ink-plate pointer-events-none absolute inset-0 bg-[var(--accent-purple)]"
-                />
-
-                {/* Sharp Corner Registration Crop-Marks */}
-                <span aria-hidden="true" className="hero-crop hero-crop-tl -left-2 -top-2 border-l-[1.5px] border-t-[1.5px]" />
-                <span aria-hidden="true" className="hero-crop hero-crop-tr -right-2 -top-2 border-r-[1.5px] border-t-[1.5px]" />
-                <span aria-hidden="true" className="hero-crop hero-crop-bl -bottom-2 -left-2 border-b-[1.5px] border-l-[1.5px]" />
-                <span aria-hidden="true" className="hero-crop hero-crop-br -bottom-2 -right-2 border-b-[1.5px] border-r-[1.5px]" />
-
-                {/* Editorial Profile Plate + 16:9 Uncropped Manga Artwork */}
-                <div className="hero-panel-reveal overflow-hidden border-[1.5px] border-[var(--line-strong)] bg-[var(--bg-surface)]">
-                  <div className="flex items-center justify-between border-b border-[var(--line-hairline)] px-4 py-2.5">
-                    <span className="mono-index text-[var(--ink-primary)]">
-                      <span className="text-[var(--accent-purple)]">FIG.01</span> / PROFILE VISUAL
-                    </span>
-                    <span className="mono-index text-[var(--ink-muted)]">RPL · BOGOR</span>
-                  </div>
-
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#090909]">
-                    <OptimizedPicture
-                      src={personal.profileImage}
-                      alt={personal.name}
-                      width={736}
-                      height={414}
-                      eager
-                      fetchPriority="high"
-                      className="hero-image-entrance h-full w-full object-cover"
-                    />
-                  </div>
-
-                  <figcaption className="flex flex-wrap items-baseline justify-between gap-2 border-t border-[var(--line-hairline)] px-4 py-3">
-                    <span className="mono-index font-semibold text-[var(--ink-primary)]">
-                      {personal.role}
-                    </span>
-                    <span className="mono-index text-[var(--ink-muted)]">
-                      {personal.status}
-                    </span>
-                  </figcaption>
-                </div>
+          {/* Right Focal Zone: Frameless Seamlessly-Blended addo.jpg Opening Spread Centerpiece */}
+          <div className="relative z-10 lg:col-span-6">
+            <figure className="relative lg:-ml-8 lg:w-[calc(100%+2.5rem)]">
+              {/* Floating Tilted Violet Stamp */}
+              <div
+                aria-hidden="true"
+                className="parallax-front pointer-events-none absolute -top-4 right-2 z-20"
+              >
+                <span className="inline-block rotate-2 bg-[#060608] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#ECECF0]">
+                  <span className="text-[#584CE6]">//</span> {personal.role}
+                </span>
               </div>
+
+              {/* 0.65s Opening Slice + Punch-Zoom Impact Seamlessly Masked into #ECECF0 */}
+              <div className="hero-opening-slice hero-art-mask relative aspect-[16/9.4] w-full overflow-hidden bg-[#ECECF0]">
+                <OptimizedPicture
+                  src={personal.profileImage}
+                  alt={`${personal.name} — Opening manga illustration`}
+                  width={736}
+                  height={414}
+                  eager
+                  fetchPriority="high"
+                  className="hero-opening-punch h-full w-full object-cover [object-position:55%_35%] contrast-[1.06]"
+                />
+              </div>
+
+              <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1">
+                <span className="mono-stamp font-semibold text-[#060608]">
+                  <span className="text-[#584CE6]">/</span> {personal.role}
+                </span>
+                <span className="mono-stamp text-[#4E4E57]">{personal.status}</span>
+              </figcaption>
             </figure>
           </div>
         </div>

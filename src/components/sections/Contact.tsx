@@ -1,10 +1,9 @@
 import { useId, useState } from 'react';
 import { portfolioData } from '../../data/portfolio';
-import { RollingText } from '../ui/RollingText';
-import { Section, SectionHeading } from '../ui/Section';
+import { Footer } from '../layout/Footer';
 
 export function Contact() {
-  const { contact, personal, social } = portfolioData;
+  const { contact, personal } = portfolioData;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -98,79 +97,57 @@ export function Contact() {
   )}`;
 
   return (
-    <Section id="contact">
-      <div className="container-site">
-        <SectionHeading
-          index="05"
-          label="CONTACT"
-          title={contact.heading}
-          note="WIB / UTC+7"
-        />
+    <section
+      id="contact"
+      className="manga-chapter chapter-cut-final relative z-[16] scroll-mt-12 bg-[#060608] text-[#ECECF0]"
+    >
+      {/* Back Layer: Subtle Radial Speedlines & Closing Watermark */}
+      <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="manga-speedlines absolute inset-0 text-[#ECECF0]" />
+        <span className="absolute right-4 top-20 select-none font-display text-[clamp(9rem,22vw,19rem)] leading-none text-[#ECECF0]/[0.035] sm:right-12">
+          05
+        </span>
+      </div>
+
+      <div className="container-site relative z-10">
+        {/* Final Spread Masthead */}
+        <div className="mb-14 sm:mb-20">
+          <div className="parallax-front mb-4 inline-block">
+            <span className="inline-block -rotate-2 bg-[#584CE6] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white">
+              FINAL SPREAD // CONTACT
+            </span>
+          </div>
+
+          <h2
+            data-cut
+            className="parallax-mid text-[clamp(2.5rem,6.5vw,5.6rem)] uppercase tracking-[-0.035em] text-[#ECECF0]"
+          >
+            <span className="line-mask">
+              <span className="line-rise">{contact.heading}</span>
+            </span>
+          </h2>
+        </div>
 
         <div className="grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16">
-          {/* Left Column: Open Editorial Dispatch Copy & Direct Channels */}
-          <div data-reveal="up" className="lg:col-span-5">
-            <p className="text-base leading-[1.65] text-[var(--ink-secondary)]">
-              {contact.subheading}
-            </p>
-
-            <div className="mt-10 border-t border-[var(--line-hairline)] pt-7">
-              <span className="mono-index text-[var(--ink-muted)]">DIRECT ADDRESS</span>
-              <a
-                href={`mailto:${contact.recipientEmail}?subject=Portfolio%20Inquiry`}
-                aria-label={`Send an email directly to ${contact.recipientEmail}`}
-                className="roll-trigger mt-3 inline-flex max-w-full items-center gap-2 overflow-hidden font-display text-[clamp(1rem,2.4vw,1.6rem)] uppercase tracking-[-0.03em] text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
-              >
-                <RollingText text={contact.recipientEmail} />
-                <span className="kinetic-arrow shrink-0 font-mono text-lg" aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-
-              <p className="mt-4 mono-index text-[var(--ink-muted)]">
-                {personal.location} · WIB (UTC+7)
+          {/* Left Column: Editorial Dispatch Copy */}
+          <div data-cut className="lg:col-span-5">
+            <div className="reveal-slice">
+              <p className="text-base leading-[1.65] text-[#A6A6B2]">
+                {contact.subheading}
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-[var(--line-hairline)] pt-6">
-                {social.github && (
-                  <a
-                    href={social.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-kinetic-outline min-h-10 px-4 py-2"
-                  >
-                    <RollingText text="GitHub" />
-                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
-                  </a>
-                )}
-
-                {social.linkedin && (
-                  <a
-                    href={social.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-kinetic-outline min-h-10 px-4 py-2"
-                  >
-                    <RollingText text="LinkedIn" />
-                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
-                  </a>
-                )}
-
-                <a href={social.email} className="btn-kinetic-outline min-h-10 px-4 py-2">
-                  <RollingText text="Email" />
-                  <span className="kinetic-arrow" aria-hidden="true">↗</span>
-                </a>
+              <div className="mt-8 border-l-2 border-[#584CE6] pl-5">
+                <span className="mono-stamp text-[#584CE6]">ORIGIN // TIMEZONE</span>
+                <p className="mt-1 font-mono text-xs uppercase tracking-[0.08em] text-[#ECECF0]">
+                  {personal.location} · WIB (UTC+7)
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Clean Hairline Editorial Form (Preserved FormSubmit AJAX Endpoint) */}
-          <div data-reveal="wipe" className="lg:col-span-7">
-            <form
-              onSubmit={handleFormSubmit}
-              noValidate
-              className="border-t border-[var(--line-hairline)] pt-6"
-            >
+          {/* Right Column: Preserved FormSubmit AJAX Form */}
+          <div data-cut className="lg:col-span-7">
+            <form onSubmit={handleFormSubmit} noValidate className="reveal-slice">
               <div
                 className="honeypot absolute h-0 w-0 overflow-hidden opacity-0"
                 aria-hidden="true"
@@ -189,11 +166,8 @@ export function Contact() {
 
               <div className="grid gap-8 sm:grid-cols-2">
                 <div>
-                  <label
-                    htmlFor={nameInputId}
-                    className="mono-index block text-[var(--ink-muted)]"
-                  >
-                    01 / Name <span aria-hidden="true">*</span>
+                  <label htmlFor={nameInputId} className="mono-stamp block text-[#A6A6B2]">
+                    01 // Name <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id={nameInputId}
@@ -202,7 +176,7 @@ export function Contact() {
                     required
                     autoComplete="name"
                     placeholder="Jane Doe"
-                    className="editorial-field"
+                    className="ink-input"
                     value={formData.name}
                     onChange={(event) =>
                       setFormData({ ...formData, name: event.target.value })
@@ -211,11 +185,8 @@ export function Contact() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor={emailInputId}
-                    className="mono-index block text-[var(--ink-muted)]"
-                  >
-                    02 / Email <span aria-hidden="true">*</span>
+                  <label htmlFor={emailInputId} className="mono-stamp block text-[#A6A6B2]">
+                    02 // Email <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id={emailInputId}
@@ -224,7 +195,7 @@ export function Contact() {
                     required
                     autoComplete="email"
                     placeholder="jane@example.com"
-                    className="editorial-field"
+                    className="ink-input"
                     value={formData.email}
                     onChange={(event) =>
                       setFormData({ ...formData, email: event.target.value })
@@ -234,11 +205,8 @@ export function Contact() {
               </div>
 
               <div className="mt-8">
-                <label
-                  htmlFor={subjectInputId}
-                  className="mono-index block text-[var(--ink-muted)]"
-                >
-                  03 / Subject <span aria-hidden="true">*</span>
+                <label htmlFor={subjectInputId} className="mono-stamp block text-[#A6A6B2]">
+                  03 // Subject <span aria-hidden="true">*</span>
                 </label>
                 <input
                   id={subjectInputId}
@@ -246,7 +214,7 @@ export function Contact() {
                   type="text"
                   required
                   placeholder="Project inquiry / Internship"
-                  className="editorial-field"
+                  className="ink-input"
                   value={formData.subject}
                   onChange={(event) =>
                     setFormData({ ...formData, subject: event.target.value })
@@ -256,13 +224,10 @@ export function Contact() {
 
               <div className="mt-8">
                 <div className="flex items-baseline justify-between gap-4">
-                  <label
-                    htmlFor={messageInputId}
-                    className="mono-index text-[var(--ink-muted)]"
-                  >
-                    04 / Message <span aria-hidden="true">*</span>
+                  <label htmlFor={messageInputId} className="mono-stamp text-[#A6A6B2]">
+                    04 // Message <span aria-hidden="true">*</span>
                   </label>
-                  <span id={messageHelpId} className="mono-index text-[var(--ink-muted)]">
+                  <span id={messageHelpId} className="mono-stamp text-[#A6A6B2]">
                     {formData.message.length} / 10+
                   </span>
                 </div>
@@ -273,7 +238,7 @@ export function Contact() {
                   rows={4}
                   aria-describedby={messageHelpId}
                   placeholder="Write your message..."
-                  className="editorial-field resize-y"
+                  className="ink-input resize-y"
                   value={formData.message}
                   onChange={(event) =>
                     setFormData({ ...formData, message: event.target.value })
@@ -284,7 +249,7 @@ export function Contact() {
               {formErrorMsg && (
                 <div
                   role="alert"
-                  className="mt-6 border-l-2 border-[var(--accent-purple)] bg-[var(--bg-surface)] px-4 py-3 font-mono text-xs text-[var(--ink-primary)]"
+                  className="mt-6 border-l-2 border-[#584CE6] bg-[#101015] px-4 py-3 font-mono text-xs text-[#ECECF0]"
                 >
                   {formErrorMsg}
                 </div>
@@ -293,7 +258,7 @@ export function Contact() {
               {formStatus === 'success' && (
                 <div
                   role="status"
-                  className="mt-6 border-l-2 border-[var(--accent-purple)] bg-[var(--bg-surface)] px-4 py-3 font-mono text-xs text-[var(--ink-primary)]"
+                  className="mt-6 border-l-2 border-[#584CE6] bg-[#101015] px-4 py-3 font-mono text-xs text-[#ECECF0]"
                 >
                   Message transmitted successfully to Hanan&apos;s inbox.
                 </div>
@@ -302,12 +267,12 @@ export function Contact() {
               {formStatus === 'activation_required' && (
                 <div
                   role="status"
-                  className="mt-6 border-l-2 border-[var(--accent-purple)] bg-[var(--bg-surface)] px-4 py-3 text-xs text-[var(--ink-primary)]"
+                  className="mt-6 border-l-2 border-[#584CE6] bg-[#101015] px-4 py-3 text-xs text-[#ECECF0]"
                 >
                   <p className="font-mono">FormSubmit activation pending.</p>
                   <a
                     href={mailtoFallbackUrl}
-                    className="mt-2 inline-block font-mono font-semibold underline"
+                    className="mt-2 inline-block font-mono font-semibold text-[#584CE6] underline"
                   >
                     Send via mail client ↗
                   </a>
@@ -317,43 +282,43 @@ export function Contact() {
               {formStatus === 'error' && (
                 <div
                   role="alert"
-                  className="mt-6 border-l-2 border-[var(--accent-purple)] bg-[var(--bg-surface)] px-4 py-3 text-xs text-[var(--ink-primary)]"
+                  className="mt-6 border-l-2 border-[#584CE6] bg-[#101015] px-4 py-3 text-xs text-[#ECECF0]"
                 >
                   <p className="font-mono">Unable to transmit via FormSubmit.</p>
                   <a
                     href={mailtoFallbackUrl}
-                    className="mt-2 inline-block font-mono font-semibold underline"
+                    className="mt-2 inline-block font-mono font-semibold text-[#584CE6] underline"
                   >
                     Open default mail client ↗
                   </a>
                 </div>
               )}
 
-              <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+              <div className="mt-9 flex flex-wrap items-center justify-between gap-4">
                 <button
                   type="submit"
                   disabled={formStatus === 'sending'}
-                  className="btn-kinetic-ink disabled:cursor-not-allowed disabled:opacity-60"
+                  className="btn-beat-light disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <RollingText
-                    text={formStatus === 'sending' ? 'Transmitting...' : 'Send Message'}
-                  />
-                  <span className="kinetic-arrow" aria-hidden="true">→</span>
+                  <span>{formStatus === 'sending' ? 'Transmitting...' : 'Send Message'}</span>
+                  <span className="beat-arrow" aria-hidden="true">→</span>
                 </button>
 
                 <a
                   href={mailtoFallbackUrl}
-                  className="roll-trigger inline-flex items-center gap-1.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-[var(--ink-muted)] hover:text-[var(--ink-primary)]"
+                  className="mono-stamp text-[#A6A6B2] hover:text-[#584CE6]"
                 >
-                  <RollingText text="Mailto Fallback" />
-                  <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                  Mailto Fallback ↗
                 </a>
               </div>
             </form>
           </div>
         </div>
+
+        {/* Seamless Closing Footer Inside the #060608 Final Spread */}
+        <Footer />
       </div>
-    </Section>
+    </section>
   );
 }
 

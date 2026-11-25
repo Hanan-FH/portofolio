@@ -1,124 +1,138 @@
 import { portfolioData } from '../../data/portfolio';
-import { RollingText } from '../ui/RollingText';
-import { Section, SectionHeading } from '../ui/Section';
 
 export function About() {
   const { about, education, personal } = portfolioData;
 
   return (
-    <Section id="about">
-      <div className="container-site">
-        <SectionHeading
-          index="01"
-          label="ABOUT"
-          title="Narrative & Discipline"
-          note={about.location}
-        />
+    <section
+      id="about"
+      className="manga-chapter chapter-cut-top relative z-[12] scroll-mt-12 bg-[#060608] text-[#ECECF0]"
+    >
+      {/* Back Layer: Faint Manga Halftone & Oversized Chapter Watermark */}
+      <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="manga-halftone absolute inset-0 text-[#ECECF0]" />
+        <span className="absolute right-4 top-16 select-none font-display text-[clamp(9rem,22vw,19rem)] leading-none text-[#ECECF0]/[0.035] sm:right-12">
+          01
+        </span>
+      </div>
 
-        {/* Open 12-Column Editorial Spread — Generous Whitespace & 1px Hairlines */}
-        <div className="grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16">
-          {/* Left Column: Statement, Bio & Clean Hairline Dossier */}
-          <div data-reveal="up" className="lg:col-span-5">
-            <h3 className="text-2xl uppercase leading-[1.04] tracking-[-0.03em] sm:text-3xl">
-              {about.heading}
-            </h3>
-
-            <div className="mt-6 space-y-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
-              {about.paragraphs.map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-            </div>
-
-            <dl className="mt-10 divide-y divide-[var(--line-hairline)] border-y border-[var(--line-hairline)] text-sm">
-              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-                <dt className="mono-index text-[var(--ink-muted)]">Status</dt>
-                <dd className="font-medium text-[var(--ink-primary)]">{about.status}</dd>
-              </div>
-              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-                <dt className="mono-index text-[var(--ink-muted)]">Focus</dt>
-                <dd className="leading-[1.6] text-[var(--ink-secondary)]">{about.currentFocus}</dd>
-              </div>
-              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-                <dt className="mono-index text-[var(--ink-muted)]">Location</dt>
-                <dd className="text-[var(--ink-primary)]">{about.location}</dd>
-              </div>
-              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
-                <dt className="mono-index text-[var(--ink-muted)]">Direct</dt>
-                <dd>
-                  <a
-                    href={`mailto:${personal.email}`}
-                    className="roll-trigger inline-flex items-center gap-1.5 font-mono text-xs font-medium text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
-                  >
-                    <RollingText text={personal.email} />
-                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
-                  </a>
-                </dd>
-              </div>
-            </dl>
+      <div className="container-site relative z-10">
+        {/* Floating Parallax #584CE6 Chapter Stamp & Kinetic Line-Rise Masthead */}
+        <div className="mb-14 sm:mb-20">
+          <div className="parallax-front mb-4 inline-block">
+            <span className="inline-block -rotate-2 bg-[#584CE6] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white">
+              CH.01 // ABOUT
+            </span>
           </div>
 
-          {/* Right Column: Academic Record & Open 2x2 Curriculum Grid */}
+          <h2 data-cut className="parallax-mid text-[clamp(2.5rem,6.5vw,5.6rem)] uppercase tracking-[-0.035em] text-[#ECECF0]">
+            <span className="line-mask">
+              <span className="line-rise">NARRATIVE &amp;</span>
+            </span>
+            <span className="line-mask">
+              <span className="line-rise" style={{ '--d': '60ms' } as React.CSSProperties}>
+                TRAJECTORY
+              </span>
+            </span>
+          </h2>
+        </div>
+
+        {/* Open Asymmetrical Ink Spread (35%+ Negative Space, Zero Rectangular Boxes) */}
+        <div className="grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16">
+          {/* Left Column: Confident Editorial Bio & Unboxed Dossier */}
+          <div data-cut className="lg:col-span-5">
+            <div className="reveal-slice">
+              <h3 className="text-2xl uppercase leading-[1.02] tracking-[-0.03em] text-[#ECECF0] sm:text-3xl">
+                {about.heading}
+              </h3>
+
+              <div className="mt-6 space-y-4 text-base leading-[1.65] text-[#A6A6B2]">
+                {about.paragraphs.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
+
+              <dl className="mt-10 space-y-4 border-l-2 border-[#584CE6] pl-5 text-sm">
+                <div>
+                  <dt className="mono-stamp text-[#584CE6]">STATUS</dt>
+                  <dd className="mt-0.5 font-medium text-[#ECECF0]">{about.status}</dd>
+                </div>
+                <div>
+                  <dt className="mono-stamp text-[#584CE6]">CURRENT FOCUS</dt>
+                  <dd className="mt-0.5 leading-[1.6] text-[#A6A6B2]">{about.currentFocus}</dd>
+                </div>
+                <div>
+                  <dt className="mono-stamp text-[#584CE6]">LOCATION</dt>
+                  <dd className="mt-0.5 text-[#ECECF0]">{about.location}</dd>
+                </div>
+                <div>
+                  <dt className="mono-stamp text-[#584CE6]">DIRECT CHANNEL</dt>
+                  <dd className="mt-0.5">
+                    <a
+                      href={`mailto:${personal.email}`}
+                      className="font-mono text-xs font-semibold text-[#ECECF0] hover:text-[#584CE6]"
+                    >
+                      {personal.email} ↗
+                    </a>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          {/* Right Column: Unboxed Education Milestone & 4 Foundation Competencies */}
           <div className="lg:col-span-7">
             {education.map((item, index) => (
               <article
                 key={`${item.institution}-${index}`}
-                data-reveal="wipe"
-                className="border-t border-[var(--line-hairline)] pb-10 pt-6"
+                data-cut
+                className="border-b border-[#ECECF0]/14 pb-10"
               >
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="mono-index text-[var(--ink-muted)]">
-                    EDUCATION / {item.period}
-                  </span>
-                  <span className="mono-index font-semibold text-[var(--accent-purple)]">
-                    {item.status}
-                  </span>
-                </div>
+                <div className="reveal-slice">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="mono-stamp text-[#584CE6]">// {item.period}</span>
+                    <span className="mono-stamp text-[#A6A6B2]">{item.status}</span>
+                  </div>
 
-                <h3 className="mt-3 text-2xl uppercase leading-[1.02] tracking-[-0.03em] sm:text-3xl">
-                  {item.program}
-                </h3>
-                <p className="mt-1.5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)]">
-                  {item.institution}
-                </p>
-                <p className="mt-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
-                  {item.description}
-                </p>
+                  <h3 className="mt-3 text-2xl uppercase leading-[0.98] tracking-[-0.03em] text-[#ECECF0] sm:text-3xl">
+                    {item.program}
+                  </h3>
+                  <p className="mt-1.5 mono-stamp text-[#A6A6B2]">{item.institution}</p>
+                  <p className="mt-4 text-base leading-[1.65] text-[#A6A6B2]">
+                    {item.description}
+                  </p>
+                </div>
               </article>
             ))}
 
-            {/* 4 Authentic SMK Plus Pelita Nusantara Foundation Competencies */}
-            <div className="grid border-t border-[var(--line-hairline)] sm:grid-cols-2">
+            <div className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2">
               {about.fundamentals.map((comp, index) => (
-                <article
-                  key={comp.id}
-                  data-reveal="wipe"
-                  style={{ '--delay': `${index * 70}ms` } as React.CSSProperties}
-                  className={`group border-b border-[var(--line-hairline)] py-7 ${
-                    index % 2 === 0 ? 'sm:pr-8' : 'sm:border-l sm:border-[var(--line-hairline)] sm:pl-8'
-                  }`}
-                >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="font-display text-2xl leading-none text-[var(--ink-primary)] group-hover:text-[var(--accent-purple)]">
-                      {comp.id}
-                    </span>
-                    <span className="mono-index text-[var(--ink-muted)]">
-                      {comp.localTitle}
-                    </span>
-                  </div>
+                <article key={comp.id} data-cut>
+                  <div
+                    style={{ '--d': `${index * 60}ms` } as React.CSSProperties}
+                    className="reveal-slice group"
+                  >
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-display text-3xl leading-none text-[#584CE6]">
+                        {comp.id}
+                      </span>
+                      <span className="mono-stamp text-[#A6A6B2]">/ {comp.localTitle}</span>
+                    </div>
 
-                  <h4 className="mt-4 text-lg uppercase leading-[1.06] tracking-[-0.03em]">
-                    {comp.title}
-                  </h4>
-                  <p className="mt-2.5 text-sm leading-[1.65] text-[var(--ink-secondary)]">
-                    {comp.description}
-                  </p>
+                    <h4 className="mt-3 text-lg uppercase leading-[1.04] tracking-[-0.025em] text-[#ECECF0]">
+                      {comp.title}
+                    </h4>
+                    <p className="mt-2.5 text-sm leading-[1.65] text-[#A6A6B2]">
+                      {comp.description}
+                    </p>
+                  </div>
                 </article>
               ))}
             </div>
           </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 

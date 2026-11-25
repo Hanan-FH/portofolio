@@ -2,7 +2,6 @@ import { useId } from 'react';
 import { type Certificate } from '../data/portfolio';
 import { Modal } from './ui/Modal';
 import { OptimizedPicture } from './ui/OptimizedPicture';
-import { RollingText } from './ui/RollingText';
 
 interface CertificateModalProps {
   certificate: Certificate | null;
@@ -20,17 +19,18 @@ export function CertificateModal({ certificate, onClose, onStep }: CertificateMo
 
   return (
     <Modal open={Boolean(certificate)} onClose={onClose} labelledBy={titleId}>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line-hairline)] px-6 py-4 pr-24">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ECECF0]/15 px-6 py-4 pr-24">
         <div className="flex items-center gap-2.5">
-          <span className="mono-index font-semibold text-[var(--accent-purple)]">{number}</span>
-          <span aria-hidden="true" className="mono-index text-[var(--ink-muted)]">/</span>
-          <span className="mono-index text-[var(--ink-primary)]">CREDENTIAL</span>
+          <span className="inline-block bg-[#584CE6] px-2 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-white [clip-path:polygon(4px_0,100%_0,calc(100%-4px)_100%,0_100%)]">
+            CERT {number}
+          </span>
+          <span className="mono-stamp text-[#ECECF0]">ACCREDITED RECORD</span>
         </div>
-        <span className="mono-index text-[var(--ink-muted)]">{certificate.year}</span>
+        <span className="mono-stamp text-[#A6A6B2]">{certificate.year}</span>
       </div>
 
-      {/* Full Clarity Certificate Viewport — Never Grayscale */}
-      <div className="editorial-halftone relative aspect-[16/11] w-full overflow-hidden border-b border-[var(--line-hairline)] bg-[var(--bg-subtle)] p-4 sm:p-6">
+      {/* 100% Original Color & Clarity */}
+      <div className="relative aspect-[16/11] w-full overflow-hidden border-b border-[#ECECF0]/15 bg-[#101015] p-4 sm:p-6">
         <OptimizedPicture
           src={certificate.image}
           alt={`${certificate.title} — ${certificate.issuer}`}
@@ -42,20 +42,18 @@ export function CertificateModal({ certificate, onClose, onStep }: CertificateMo
       </div>
 
       <div className="p-6 sm:p-10">
-        <h2 id={titleId} className="text-xl uppercase leading-[1.02] tracking-[-0.03em] sm:text-2xl">
+        <h2 id={titleId} className="text-xl uppercase leading-[1.0] tracking-[-0.03em] text-[#ECECF0] sm:text-2xl">
           {certificate.title}
         </h2>
 
-        <dl className="mt-6 divide-y divide-[var(--line-hairline)] border-y border-[var(--line-hairline)] text-sm">
-          <div className="grid grid-cols-1 gap-1 py-3.5 sm:grid-cols-[9rem_1fr] sm:gap-4">
-            <dt className="mono-index text-[var(--ink-muted)]">Issuer</dt>
-            <dd className="font-medium text-[var(--ink-primary)]">{certificate.issuer}</dd>
+        <dl className="mt-6 divide-y divide-[#ECECF0]/15 border-y border-[#ECECF0]/15 text-sm">
+          <div className="grid grid-cols-1 gap-1 py-3.5 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+            <dt className="mono-stamp text-[#A6A6B2]">Issuer</dt>
+            <dd className="font-medium text-[#ECECF0]">{certificate.issuer}</dd>
           </div>
-          <div className="grid grid-cols-1 gap-1 py-3.5 sm:grid-cols-[9rem_1fr] sm:gap-4">
-            <dt className="mono-index text-[var(--ink-muted)]">Issued</dt>
-            <dd className="font-mono text-xs font-medium text-[var(--ink-primary)]">
-              {certificate.year}
-            </dd>
+          <div className="grid grid-cols-1 gap-1 py-3.5 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+            <dt className="mono-stamp text-[#A6A6B2]">Issued</dt>
+            <dd className="font-mono text-xs font-semibold text-[#ECECF0]">{certificate.year}</dd>
           </div>
         </dl>
 
@@ -65,10 +63,10 @@ export function CertificateModal({ certificate, onClose, onStep }: CertificateMo
               href={certificate.verificationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-kinetic-ink"
+              className="btn-beat-light"
             >
-              <RollingText text={isPdf ? 'Verify PDF Document' : 'Open Original Certificate'} />
-              <span className="kinetic-arrow" aria-hidden="true">↗</span>
+              <span>{isPdf ? 'Open Official PDF' : 'Open Full Certificate'}</span>
+              <span className="beat-arrow" aria-hidden="true">↗</span>
             </a>
           )}
 
@@ -78,17 +76,17 @@ export function CertificateModal({ certificate, onClose, onStep }: CertificateMo
                 type="button"
                 onClick={() => onStep(-1)}
                 aria-label="Previous certificate"
-                className="roll-trigger inline-flex h-10 items-center border border-[var(--line-hairline)] px-3.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
+                className="inline-flex h-10 items-center border border-[#ECECF0]/25 px-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#ECECF0] hover:bg-[#584CE6] hover:border-[#584CE6] cursor-pointer"
               >
-                <RollingText text="← Prev" />
+                ← Prev
               </button>
               <button
                 type="button"
                 onClick={() => onStep(1)}
                 aria-label="Next certificate"
-                className="roll-trigger inline-flex h-10 items-center border border-[var(--line-hairline)] px-3.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
+                className="inline-flex h-10 items-center border border-[#ECECF0]/25 px-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#ECECF0] hover:bg-[#584CE6] hover:border-[#584CE6] cursor-pointer"
               >
-                <RollingText text="Next →" />
+                Next →
               </button>
             </div>
           )}

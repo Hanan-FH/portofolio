@@ -2,7 +2,6 @@ import { useId } from 'react';
 import { type Project } from '../data/portfolio';
 import { Modal } from './ui/Modal';
 import { OptimizedPicture } from './ui/OptimizedPicture';
-import { RollingText } from './ui/RollingText';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -19,17 +18,18 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
 
   return (
     <Modal open={Boolean(project)} onClose={onClose} labelledBy={titleId}>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line-hairline)] px-6 py-4 pr-24">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ECECF0]/15 px-6 py-4 pr-24">
         <div className="flex items-center gap-2.5">
-          <span className="mono-index font-semibold text-[var(--accent-purple)]">{number}</span>
-          <span aria-hidden="true" className="mono-index text-[var(--ink-muted)]">/</span>
-          <span className="mono-index text-[var(--ink-primary)]">{project.category}</span>
+          <span className="inline-block bg-[#584CE6] px-2 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-white [clip-path:polygon(4px_0,100%_0,calc(100%-4px)_100%,0_100%)]">
+            SPREAD {number}
+          </span>
+          <span className="mono-stamp text-[#ECECF0]">{project.category}</span>
         </div>
-        <span className="mono-index text-[var(--ink-muted)]">{project.year}</span>
+        <span className="mono-stamp text-[#A6A6B2]">{project.year}</span>
       </div>
 
       {project.image && (
-        <div className="editorial-halftone relative aspect-video w-full overflow-hidden border-b border-[var(--line-hairline)] bg-[var(--bg-subtle)] p-4 sm:p-6">
+        <div className="relative aspect-video w-full overflow-hidden border-b border-[#ECECF0]/15 bg-[#101015] p-4 sm:p-6">
           <OptimizedPicture
             src={project.image}
             alt={project.title}
@@ -42,35 +42,36 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
       )}
 
       <div className="p-6 sm:p-10">
-        <h2 id={titleId} className="text-2xl uppercase leading-[0.98] tracking-[-0.03em] sm:text-3xl">
+        <h2 id={titleId} className="text-2xl uppercase leading-[0.96] tracking-[-0.03em] text-[#ECECF0] sm:text-3xl">
           {project.title}
         </h2>
 
-        <p className="mt-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
+        <p className="mt-4 text-base leading-[1.65] text-[#A6A6B2]">
           {project.description}
         </p>
 
         {project.technologies.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-2 border-t border-[var(--line-hairline)] pt-5">
-            {project.technologies.map((tech) => (
-              <span key={tech} className="editorial-pill">
-                {tech}
+          <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[#ECECF0]/15 pt-5 font-mono text-xs uppercase tracking-[0.06em] text-[#ECECF0]">
+            {project.technologies.map((tech, idx) => (
+              <span key={tech} className="inline-flex items-center gap-3">
+                {idx > 0 && <span aria-hidden="true" className="text-[#584CE6]">/</span>}
+                <span>{tech}</span>
               </span>
             ))}
           </div>
         )}
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--line-hairline)] pt-6">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[#ECECF0]/15 pt-6">
           <div className="flex flex-wrap items-center gap-3">
             {project.liveUrl && (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-kinetic-ink"
+                className="btn-beat-light"
               >
-                <RollingText text="Live Demo" />
-                <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                <span>Live Demo</span>
+                <span className="beat-arrow" aria-hidden="true">↗</span>
               </a>
             )}
             {project.githubUrl && (
@@ -78,10 +79,10 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-kinetic-outline"
+                className="btn-beat-light"
               >
-                <RollingText text="GitHub" />
-                <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                <span>GitHub</span>
+                <span className="beat-arrow" aria-hidden="true">↗</span>
               </a>
             )}
             {project.image && (
@@ -89,10 +90,10 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
                 href={project.image}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-kinetic-outline"
+                className="btn-beat-light"
               >
-                <RollingText text="Full Resolution" />
-                <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                <span>Full Image</span>
+                <span className="beat-arrow" aria-hidden="true">↗</span>
               </a>
             )}
           </div>
@@ -103,17 +104,17 @@ export function ProjectModal({ project, onClose, onStep }: ProjectModalProps) {
                 type="button"
                 onClick={() => onStep(-1)}
                 aria-label="Previous project"
-                className="roll-trigger inline-flex h-10 items-center border border-[var(--line-hairline)] px-3.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
+                className="inline-flex h-10 items-center border border-[#ECECF0]/25 px-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#ECECF0] hover:bg-[#584CE6] hover:border-[#584CE6] cursor-pointer"
               >
-                <RollingText text="← Prev" />
+                ← Prev
               </button>
               <button
                 type="button"
                 onClick={() => onStep(1)}
                 aria-label="Next project"
-                className="roll-trigger inline-flex h-10 items-center border border-[var(--line-hairline)] px-3.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] hover:border-[var(--line-strong)] cursor-pointer"
+                className="inline-flex h-10 items-center border border-[#ECECF0]/25 px-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#ECECF0] hover:bg-[#584CE6] hover:border-[#584CE6] cursor-pointer"
               >
-                <RollingText text="Next →" />
+                Next →
               </button>
             </div>
           )}

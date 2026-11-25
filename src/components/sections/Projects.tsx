@@ -1,8 +1,6 @@
 import { useMemo, useState } from 'react';
 import { portfolioData, type Project } from '../../data/portfolio';
 import { OptimizedPicture } from '../ui/OptimizedPicture';
-import { RollingText } from '../ui/RollingText';
-import { Section, SectionHeading } from '../ui/Section';
 
 interface ProjectsProps {
   onSelectProject: (project: Project) => void;
@@ -17,7 +15,7 @@ const FRAME_DIMS: Record<number, { width: number; height: number; portrait?: boo
 export function Projects({ onSelectProject }: ProjectsProps) {
   const { projects } = portfolioData;
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
-  const [hasInteractedFilter, setHasInteractedFilter] = useState<boolean>(false);
+  const [hasFiltered, setHasFiltered] = useState<boolean>(false);
 
   const categories = useMemo(() => {
     const unique = Array.from(new Set(projects.map((p) => p.category)));
@@ -33,162 +31,210 @@ export function Projects({ onSelectProject }: ProjectsProps) {
   );
 
   const handleSelectCategory = (category: string) => {
-    setHasInteractedFilter(true);
+    setHasFiltered(true);
     setActiveCategory(category);
   };
 
   return (
-    <Section id="projects">
-      <div className="container-site">
-        <SectionHeading
-          index="02"
-          label="PROJECTS"
-          title="Selected Works"
-          note={`0${projects.length} ARCHIVED WORKS`}
-        />
+    <section
+      id="projects"
+      className="manga-chapter chapter-cut-top-alt relative z-[13] scroll-mt-12 bg-[#ECECF0] text-[#060608]"
+    >
+      {/* Back Layer: Halftone Screentone & Oversized Chapter Watermark */}
+      <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="manga-halftone absolute inset-0 text-[#060608]" />
+        <span className="absolute left-4 top-20 select-none font-display text-[clamp(9rem,22vw,19rem)] leading-none text-[#060608]/[0.04] sm:left-12">
+          02
+        </span>
+      </div>
 
-        {/* Minimalist Hairline Category Filter Bar */}
-        <div
-          data-reveal="up"
-          role="tablist"
-          aria-label="Filter projects by category"
-          className="mb-12 flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-[var(--line-hairline)] pb-4"
-        >
-          {categories.map((category) => {
-            const isSelected = activeCategory === category;
-            const count =
-              category === 'ALL'
-                ? projects.length
-                : projects.filter((p) => p.category === category).length;
+      {/* Front Layer: Vertical #584CE6 Accent Stamp */}
+      <div
+        aria-hidden="true"
+        className="parallax-front pointer-events-none absolute right-3 top-36 z-20 hidden xl:block"
+      >
+        <span className="vertical-stamp font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#584CE6]">
+          CH.02 // SELECTED WORKS ARCHIVE
+        </span>
+      </div>
 
-            return (
-              <button
-                key={category}
-                type="button"
-                role="tab"
-                aria-selected={isSelected}
-                onClick={() => handleSelectCategory(category)}
-                className={`roll-trigger relative inline-flex items-center gap-2 py-1.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] cursor-pointer ${
-                  isSelected
-                    ? 'font-semibold text-[var(--ink-primary)]'
-                    : 'text-[var(--ink-muted)] hover:text-[var(--ink-primary)]'
-                }`}
-              >
-                <RollingText text={category} />
-                <span className={isSelected ? 'text-[var(--accent-purple)]' : 'opacity-60'}>
-                  [{String(count).padStart(2, '0')}]
+      <div className="container-site relative z-10">
+        {/* Chapter Masthead */}
+        <div className="mb-12 sm:mb-16">
+          <div className="parallax-front mb-4 inline-block">
+            <span className="inline-block rotate-2 bg-[#060608] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[#ECECF0]">
+              <span className="text-[#584CE6]">CH.02</span> // WORKS
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <h2
+              data-cut
+              className="parallax-mid text-[clamp(2.5rem,6.5vw,5.6rem)] uppercase tracking-[-0.035em] text-[#060608]"
+            >
+              <span className="line-mask">
+                <span className="line-rise">SELECTED</span>
+              </span>
+              <span className="line-mask">
+                <span className="line-rise" style={{ '--d': '60ms' } as React.CSSProperties}>
+                  WORKS
                 </span>
-                <span
-                  aria-hidden="true"
-                  className={`absolute -bottom-[17px] left-0 h-[2px] w-full origin-left bg-[var(--accent-purple)] transition-transform duration-300 ${
-                    isSelected ? 'scale-x-100' : 'scale-x-0'
-                  }`}
-                />
-              </button>
-            );
-          })}
+              </span>
+            </h2>
+
+            {/* Sharp Slashed Monospace Filter Tabs */}
+            <div
+              role="tablist"
+              aria-label="Filter projects by category"
+              className="flex flex-wrap items-center gap-2"
+            >
+              {categories.map((category) => {
+                const isSelected = activeCategory === category;
+                const count =
+                  category === 'ALL'
+                    ? projects.length
+                    : projects.filter((p) => p.category === category).length;
+
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    role="tab"
+                    aria-selected={isSelected}
+                    onClick={() => handleSelectCategory(category)}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] [clip-path:polygon(8px_0,100%_0,calc(100%-8px)_100%,0_100%)] cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#584CE6] text-white'
+                        : 'bg-[#060608]/[0.07] text-[#060608] hover:bg-[#060608] hover:text-[#ECECF0]'
+                    }`}
+                  >
+                    <span>{category}</span>
+                    <span className="opacity-70">/{String(count).padStart(2, '0')}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        {/* Open Architectural Showcase Rows (1px Hairlines, Zero Clunky Drop Shadows) */}
-        <div className="divide-y divide-[var(--line-hairline)] border-b border-[var(--line-hairline)]">
+        {/* Staggered Asymmetric Manga Spreads (ZERO Boxy Rectangular Cards) */}
+        <div className="space-y-20 sm:space-y-28">
           {filteredProjects.map((project, index) => {
             const number = String(project.id).padStart(2, '0');
             const dims = FRAME_DIMS[project.id] ?? { width: 1280, height: 720 };
             const reverse = index % 2 === 1;
+            const wideLead = project.id === 3 && activeCategory === 'ALL';
+            const panelClip = reverse
+              ? '[clip-path:polygon(2.2%_2.5%,100%_0,98%_100%,0_97.5%)]'
+              : '[clip-path:polygon(0_0,98.5%_2.5%,100%_97.5%,1.5%_100%)]';
 
             return (
               <article
                 key={project.id}
-                data-reveal={hasInteractedFilter ? undefined : 'wipe'}
-                style={
-                  hasInteractedFilter
-                    ? undefined
-                    : ({ '--delay': `${index * 90}ms` } as React.CSSProperties)
-                }
-                className="project-card group grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-12 lg:gap-14"
+                className="project-spread group grid items-center gap-8 lg:grid-cols-12 lg:gap-12"
               >
-                {/* Framed 16:9 Editorial Viewport with Corner Crop-Marks & Hover Scale */}
-                <div className={reverse ? 'lg:order-2 lg:col-span-7' : 'lg:col-span-7'}>
+                {/* Slanted Manga Panel Visual (.reveal-slice + .reveal-punch) */}
+                <div
+                  className={
+                    reverse
+                      ? 'lg:order-2 lg:col-span-7'
+                      : wideLead
+                        ? 'lg:col-span-8'
+                        : 'lg:col-span-7'
+                  }
+                >
                   <button
                     type="button"
-                    data-cursor="VIEW"
+                    data-cut={hasFiltered ? undefined : ''}
                     onClick={() => onSelectProject(project)}
-                    aria-label={`Inspect ${project.title}`}
-                    className="relative block w-full text-left cursor-pointer"
+                    aria-label={`Open spread for ${project.title}`}
+                    className={`block w-full text-left cursor-pointer ${hasFiltered ? 'is-cut-in' : ''}`}
                   >
-                    <div className="editorial-halftone relative aspect-video w-full overflow-hidden border border-[var(--line-hairline)] bg-[var(--bg-surface)]">
-                      {dims.portrait ? (
-                        <div className="flex h-full w-full items-center justify-center p-5 sm:p-8">
-                          <OptimizedPicture
-                            src={project.image}
-                            alt={project.title}
-                            width={dims.width}
-                            height={dims.height}
-                            pictureClassName="flex h-full items-center justify-center"
-                            className="project-thumb h-full w-auto border border-[var(--line-hairline)] object-contain"
-                          />
+                    <div className="reveal-slice">
+                      <div
+                        className={`relative aspect-video w-full overflow-hidden bg-[#060608] ${panelClip}`}
+                      >
+                        <div className="reveal-punch h-full w-full">
+                          {dims.portrait ? (
+                            <div className="relative flex h-full w-full items-center justify-center p-5 sm:p-8">
+                              <div className="manga-halftone absolute inset-0 text-[#ECECF0]" aria-hidden="true" />
+                              <OptimizedPicture
+                                src={project.image}
+                                alt={project.title}
+                                width={dims.width}
+                                height={dims.height}
+                                pictureClassName="relative z-10 flex h-full items-center justify-center"
+                                className="spread-img h-full w-auto object-contain"
+                              />
+                            </div>
+                          ) : (
+                            <OptimizedPicture
+                              src={project.image}
+                              alt={project.title}
+                              width={dims.width}
+                              height={dims.height}
+                              className="spread-img h-full w-full object-cover object-top"
+                            />
+                          )}
                         </div>
-                      ) : (
-                        <OptimizedPicture
-                          src={project.image}
-                          alt={project.title}
-                          width={dims.width}
-                          height={dims.height}
-                          className="project-thumb h-full w-full object-cover object-top"
-                        />
-                      )}
-
-                      {/* Sharp Corner Brackets Snapping Into View on Hover */}
-                      <span aria-hidden="true" className="crop-corner crop-tl" />
-                      <span aria-hidden="true" className="crop-corner crop-tr" />
-                      <span aria-hidden="true" className="crop-corner crop-bl" />
-                      <span aria-hidden="true" className="crop-corner crop-br" />
+                      </div>
                     </div>
                   </button>
                 </div>
 
-                {/* Editorial Specification Column */}
-                <div className={reverse ? 'lg:order-1 lg:col-span-5' : 'lg:col-span-5'}>
-                  <div className="flex items-baseline justify-between gap-4 border-b border-[var(--line-hairline)] pb-4">
-                    <span className="font-display text-3xl leading-none text-[var(--ink-primary)] group-hover:text-[var(--accent-purple)] sm:text-4xl">
+                {/* Unboxed Editorial Spread Copy */}
+                <div
+                  className={
+                    reverse
+                      ? 'lg:order-1 lg:col-span-5'
+                      : wideLead
+                        ? 'lg:col-span-4'
+                        : 'lg:col-span-5'
+                  }
+                >
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-display text-5xl leading-none text-[#060608] group-hover:text-[#584CE6] sm:text-6xl">
                       {number}
                     </span>
-                    <span className="mono-index text-[var(--ink-muted)]">
-                      {project.category} / {project.year}
+                    <span className="mono-stamp text-[#584CE6]">//</span>
+                    <span className="mono-stamp text-[#4E4E57]">
+                      {project.category} · {project.year}
                     </span>
                   </div>
 
-                  <h3 className="mt-6 text-2xl uppercase leading-[1.02] tracking-[-0.03em] sm:text-3xl">
+                  <h3 className="mt-4 text-2xl uppercase leading-[0.98] tracking-[-0.03em] text-[#060608] sm:text-3xl">
                     <button
                       type="button"
-                      data-cursor="VIEW"
                       onClick={() => onSelectProject(project)}
-                      className="text-left transition-opacity hover:opacity-80 cursor-pointer"
+                      className="text-left hover:text-[#584CE6] cursor-pointer"
                     >
                       {project.title}
                     </button>
                   </h3>
 
-                  <p className="mt-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
+                  <p className="mt-4 text-base leading-[1.65] text-[#4E4E57]">
                     {project.description}
                   </p>
 
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span key={tech} className="editorial-pill">
-                        {tech}
+                  {/* Unboxed Slash-Separated Tech Tags */}
+                  <div className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-xs font-medium uppercase tracking-[0.06em] text-[#060608]">
+                    {project.technologies.map((tech, idx) => (
+                      <span key={tech} className="inline-flex items-center gap-2.5">
+                        {idx > 0 && <span aria-hidden="true" className="text-[#584CE6]">/</span>}
+                        <span>{tech}</span>
                       </span>
                     ))}
                   </div>
 
-                  <div className="mt-8 flex flex-wrap items-center gap-3">
+                  {/* Sharp Invert-Fill Action Links */}
+                  <div className="mt-7 flex flex-wrap items-center gap-4">
                     <button
                       type="button"
                       onClick={() => onSelectProject(project)}
-                      className="btn-kinetic-ink"
+                      className="btn-beat-dark"
                     >
-                      <RollingText text="View Case" />
-                      <span className="kinetic-arrow" aria-hidden="true">→</span>
+                      <span>Inspect Spread</span>
+                      <span className="beat-arrow" aria-hidden="true">→</span>
                     </button>
 
                     {project.liveUrl && (
@@ -196,10 +242,10 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-kinetic-outline"
+                        className="btn-beat-ghost"
                       >
-                        <RollingText text="Live Demo" />
-                        <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                        <span>Live Demo</span>
+                        <span className="beat-arrow" aria-hidden="true">↗</span>
                       </a>
                     )}
 
@@ -208,10 +254,10 @@ export function Projects({ onSelectProject }: ProjectsProps) {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-kinetic-outline"
+                        className="btn-beat-ghost"
                       >
-                        <RollingText text="GitHub" />
-                        <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                        <span>GitHub</span>
+                        <span className="beat-arrow" aria-hidden="true">↗</span>
                       </a>
                     )}
                   </div>
@@ -221,7 +267,7 @@ export function Projects({ onSelectProject }: ProjectsProps) {
           })}
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
