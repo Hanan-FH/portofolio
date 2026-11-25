@@ -1,7 +1,7 @@
-const MIDDLE_CAR_STARTS = [236, 460, 684, 908, 1132, 1356] as const;
-const GANGWAY_STARTS = [232, 456, 680, 904, 1128, 1352, 1576] as const;
+const MIDDLE_CAR_STARTS = [234, 458, 682, 906, 1130, 1354] as const;
+const GANGWAY_STARTS = [230, 454, 678, 902, 1126, 1350, 1574] as const;
 const MIDDLE_WINDOW_OFFSETS = [18, 40, 62, 84, 106, 128, 150, 172, 194] as const;
-const TAIL_WINDOW_XS = [118, 140, 162, 184, 206] as const;
+const TAIL_WINDOW_XS = [116, 138, 160, 182, 204] as const;
 const LEAD_WINDOW_XS = [1594, 1616, 1638, 1660] as const;
 
 /**
@@ -34,20 +34,20 @@ export function ShinkansenPass() {
             <rect x="8" y="38.5" width="42" height="1.8" fill="#584CE6" opacity="0.9" />
             <rect x="2" y="47" width="36" height="1.4" fill="#060608" opacity="0.44" />
 
-            {/* Car 8 (Tail Car, x: 0..232 zone — Tapered Aerodynamic Rear Nose) */}
+            {/* Car 8 (Tail Car, x: 0..230 — Tapered Aerodynamic Rear Nose) */}
             <path
-              d="M28 64 L28 61.5 C42 54.5 64 43.5 88 33.5 C104 27 118 25 136 25 L232 25 L232 64 Z"
+              d="M28 64 L28 61.5 C42 54.5 64 43.5 88 33.5 C104 27 118 25 136 25 L230 25 L230 64 Z"
               fill="#060608"
             />
 
-            {/* 7 Dark Articulated Gangway Connectors (4px each) */}
+            {/* 7 Dark Articulated Gangway Connectors (4px–6px dark bellows) */}
             <g fill="#121218">
               {GANGWAY_STARTS.map((gx) => (
-                <rect key={gx} x={gx} y="27.5" width="4" height="36.5" />
+                <rect key={gx} x={gx} y="27.5" width={gx === 1574 ? 6 : 4} height="36.5" />
               ))}
             </g>
             {/* Solid bottom track skirt seam so zero light ever leaks through gangway bases */}
-            <rect x="230" y="58" width="1352" height="6" fill="#060608" />
+            <rect x="228" y="58" width="1354" height="6" fill="#060608" />
 
             {/* Cars 7 to 2 (6 Middle Cars, 220px each) */}
             <g fill="#060608">

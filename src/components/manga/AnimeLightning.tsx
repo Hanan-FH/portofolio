@@ -2,7 +2,7 @@ import { useEffect, useRef, type RefObject } from 'react';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface AnimeLightningProps {
-  /** Reference to the addo.jpg wrapper element for click-to-strike & 60ms illumination boost. */
+  /** Reference to the addo.jpg wrapper element for click-to-strike & 60ms contrast kick. */
   targetRef: RefObject<HTMLElement | null>;
 }
 
@@ -17,10 +17,16 @@ interface BoltGeometry {
   sparks: Point[][];
 }
 
-const STRIKE_PASSES = [
-  { color: 'rgba(88, 76, 230, 0.45)', mainWidth: 7, branchWidth: 3 },
-  { color: '#584CE6', mainWidth: 3, branchWidth: 1.5 },
-  { color: '#FFFFFF', mainWidth: 1.6, branchWidth: 0.8 },
+/**
+ * 3-pass "Amaterasu / Black Flash" high-contrast ink stack (outer -> inner):
+ * 1. Outer Violet-Ink Distortion Halo: rgba(88, 76, 230, 0.55) — 8.5px main / 3.8px branch
+ * 2. Razor-Thin White Edge Rim: #ECECF0 — 5.2px main / 2.4px branch (pops over black hair)
+ * 3. Dominant Pitch-Black Amaterasu Core: #060608 — 3.4px main / 1.4px branch (pops over paper)
+ */
+const AMATERASU_PASSES = [
+  { color: 'rgba(88, 76, 230, 0.55)', mainWidth: 8.5, branchWidth: 3.8 },
+  { color: '#ECECF0', mainWidth: 5.2, branchWidth: 2.4 },
+  { color: '#060608', mainWidth: 3.4, branchWidth: 1.4 },
 ] as const;
 
 function subdivideSegment(p1: Point, p2: Point, disp: number, depth: number, out: Point[]): void {
@@ -111,6 +117,28 @@ function tracePolyline(ctx: CanvasRenderingContext2D, pts: Point[]): void {
   }
 }
 
+function strokeBoltLayer(
+  ctx: CanvasRenderingContext2D,
+  bolt: BoltGeometry,
+  mainWidth: number,
+  branchWidth: number
+): void {
+  ctx.lineWidth = mainWidth;
+  ctx.beginPath();
+  tracePolyline(ctx, bolt.main);
+  ctx.stroke();
+
+  ctx.lineWidth = branchWidth;
+  ctx.beginPath();
+  for (let i = 0; i < bolt.branches.length; i++) {
+    tracePolyline(ctx, bolt.branches[i]);
+  }
+  for (let i = 0; i < bolt.sparks.length; i++) {
+    tracePolyline(ctx, bolt.sparks[i]);
+  }
+  ctx.stroke();
+}
+
 function drawBoltCrisp(
   ctx: CanvasRenderingContext2D,
   bolt: BoltGeometry,
@@ -121,37 +149,31 @@ function drawBoltCrisp(
 ): void {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, width, height);
-  ctx.globalAlpha = alpha;
   ctx.lineCap = 'square';
   ctx.lineJoin = 'bevel';
   ctx.miterLimit = 4;
 
-  for (let p = 0; p < STRIKE_PASSES.length; p++) {
-    const pass = STRIKE_PASSES[p];
+  for (let p = 0; p < AMATERASU_PASSES.length; p++) {
+    const pass = AMATERASU_PASSES[p];
+    // During alpha decay (< 1), carve the inner channel first so the #060608 core never muddies with #ECECF0
+    if (p > 0 && alpha < 0.999) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.globalAlpha = 1;
+      strokeBoltLayer(ctx, bolt, pass.mainWidth, pass.branchWidth);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    ctx.globalAlpha = alpha;
     ctx.strokeStyle = pass.color;
-
-    ctx.lineWidth = pass.mainWidth;
-    ctx.beginPath();
-    tracePolyline(ctx, bolt.main);
-    ctx.stroke();
-
-    ctx.lineWidth = pass.branchWidth;
-    ctx.beginPath();
-    for (let i = 0; i < bolt.branches.length; i++) {
-      tracePolyline(ctx, bolt.branches[i]);
-    }
-    for (let i = 0; i < bolt.sparks.length; i++) {
-      tracePolyline(ctx, bolt.sparks[i]);
-    }
-    ctx.stroke();
+    strokeBoltLayer(ctx, bolt, pass.mainWidth, pass.branchWidth);
   }
+  ctx.globalCompositeOperation = 'source-over';
 }
 
 function pickEndpoints(width: number, height: number, clickPt?: Point): [Point, Point] {
   if (clickPt) {
     const crown: Point = {
-      x: width * (0.85 + Math.random() * 0.08),
-      y: height * (0.05 + Math.random() * 0.05),
+      x: width * (0.86 + Math.random() * 0.08),
+      y: height * (0.03 + Math.random() * 0.05),
     };
     if (Math.hypot(clickPt.x - crown.x, clickPt.y - crown.y) >= Math.min(width, height) * 0.36) {
       return [crown, clickPt];
@@ -159,31 +181,31 @@ function pickEndpoints(width: number, height: number, clickPt?: Point): [Point, 
     return [
       clickPt,
       {
-        x: width * (0.64 + Math.random() * 0.12),
-        y: height * (0.8 + Math.random() * 0.1),
+        x: width * (0.58 + Math.random() * 0.14),
+        y: height * (0.82 + Math.random() * 0.12),
       },
     ];
   }
 
   const variant = Math.floor(Math.random() * 3);
   if (variant === 0) {
-    // Top-right crown arcing down across the dark hair silhouette edge
+    // Top-right paper margin arcing down across black hair silhouette into lower cheek/paper edge
     return [
-      { x: width * (0.85 + Math.random() * 0.08), y: height * (0.05 + Math.random() * 0.06) },
-      { x: width * (0.67 + Math.random() * 0.11), y: height * (0.76 + Math.random() * 0.13) },
+      { x: width * (0.86 + Math.random() * 0.08), y: height * (0.03 + Math.random() * 0.05) },
+      { x: width * (0.62 + Math.random() * 0.12), y: height * (0.78 + Math.random() * 0.15) },
     ];
   }
   if (variant === 1) {
-    // Diagonal snap across the upper-right dark hair corner
+    // Diagonal snap from upper crown paper seam across the top-right black hair corner
     return [
-      { x: width * (0.58 + Math.random() * 0.12), y: height * (0.04 + Math.random() * 0.06) },
-      { x: width * (0.89 + Math.random() * 0.05), y: height * (0.56 + Math.random() * 0.16) },
+      { x: width * (0.54 + Math.random() * 0.12), y: height * (0.03 + Math.random() * 0.05) },
+      { x: width * (0.9 + Math.random() * 0.06), y: height * (0.58 + Math.random() * 0.18) },
     ];
   }
-  // Right silhouette edge slash toward lower hair/collar seam
+  // Right outer paper margin slashing diagonally across dark hair silhouette
   return [
-    { x: width * (0.9 + Math.random() * 0.05), y: height * (0.12 + Math.random() * 0.1) },
-    { x: width * (0.62 + Math.random() * 0.12), y: height * (0.82 + Math.random() * 0.09) },
+    { x: width * (0.92 + Math.random() * 0.05), y: height * (0.1 + Math.random() * 0.1) },
+    { x: width * (0.58 + Math.random() * 0.14), y: height * (0.84 + Math.random() * 0.1) },
   ];
 }
 

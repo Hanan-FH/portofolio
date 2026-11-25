@@ -1284,7 +1284,7 @@ html.intro-active .hero-cut-fade {
   }
 }
 
-/* Procedural Anime/Manga Lightning Canvas Overlay + 60ms Artwork Illumination Boost */
+/* Procedural Black "Amaterasu" Lightning Canvas Overlay + 60ms Manga Contrast Kick */
 .anime-lightning-canvas {
   position: absolute;
   inset: -10%;
@@ -1296,7 +1296,7 @@ html.intro-active .hero-cut-fade {
 }
 
 .hero-art-mask.is-lightning-lit img {
-  filter: brightness(1.18) contrast(1.15);
+  filter: contrast(1.22) brightness(1.06);
 }
 
 /* -----------------------------------------------------------------------------
