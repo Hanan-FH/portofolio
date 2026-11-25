@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { portfolioData, type Certificate, type Project } from './data/portfolio';
 import { prefersReducedMotionNow } from './hooks/useReducedMotion';
 import { useMangaScrollEngine } from './hooks/useMangaScrollEngine';
+import { MangaIntro } from './components/intro/MangaIntro';
 import { Navbar } from './components/layout/Navbar';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
@@ -94,6 +95,9 @@ export function App() {
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[#ECECF0] text-[#060608]">
+      {/* Kinetic Manga-Edit Opening Intro (~1.45s, self-unmounting) */}
+      <MangaIntro />
+
       <a
         href="#main-content"
         className="fixed left-4 top-4 z-[300] -translate-y-28 bg-[#584CE6] px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform duration-150 focus:translate-y-0"
