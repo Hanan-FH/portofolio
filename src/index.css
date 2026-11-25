@@ -1284,79 +1284,38 @@ html.intro-active .hero-cut-fade {
   }
 }
 
-/* Hero top-right silhouette lightning rig + pure-CSS localized radial energy flash */
-.hero-thunder-rig {
+/* Procedural Anime/Manga Lightning Canvas Overlay + 60ms Artwork Illumination Boost */
+.anime-lightning-canvas {
   position: absolute;
-  right: -3%;
-  top: -8%;
-  z-index: 20;
-  width: clamp(128px, 17.5vw, 216px);
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  max-width: none;
   pointer-events: none;
+  z-index: 10;
 }
 
-.hero-thunder-flash {
-  position: absolute;
-  inset: -14%;
-  z-index: 0;
-  background: radial-gradient(
-    circle at 56% 40%,
-    rgba(255, 255, 255, 0.92) 0%,
-    rgba(88, 76, 230, 0.65) 34%,
-    rgba(88, 76, 230, 0) 70%
-  );
-  opacity: 0;
-  will-change: transform, opacity;
-  animation: hero-thunder-radial 5.5s ease-out -2.6s infinite;
-}
-
-.hero-aura-thunder {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: auto;
-  pointer-events: none;
-}
-
-@keyframes hero-thunder-radial {
-  0%, 88% {
-    opacity: 0;
-    transform: scale(0.86);
-  }
-  88.4%, 90.6% {
-    opacity: 0.14;
-    transform: scale(0.98);
-  }
-  91.8%, 92.6% {
-    opacity: 0.03;
-    transform: scale(0.94);
-  }
-  /* Strike 2 aftershock radial flash (0 -> 0.22 -> 0, zero blur filter) */
-  92.8%, 95.6% {
-    opacity: 0.22;
-    transform: scale(1.05);
-  }
-  98.2%, 100% {
-    opacity: 0;
-    transform: scale(1);
-  }
+.hero-art-mask.is-lightning-lit img {
+  filter: brightness(1.18) contrast(1.15);
 }
 
 /* -----------------------------------------------------------------------------
-   Shinkansen Silhouette Along Bottom Diagonal Black Cut (10s Pure-CSS Cycle)
+   Full 8-Car Shinkansen Silhouette Along Bottom Diagonal Black Cut (10s Cycle)
    ----------------------------------------------------------------------------- */
 .shinkansen-ridge-stage {
   position: absolute;
   inset: 0;
   z-index: 25;
-  overflow: hidden;
+  overflow-x: clip;
   pointer-events: none;
 }
 
 .shinkansen-slope {
   position: absolute;
   left: 0;
-  bottom: -2.5px;
+  bottom: -2px;
   width: 102%;
+  padding-top: 12px;
   line-height: 0;
   transform-origin: 0 100%;
   transform: rotate(-2.405deg);
@@ -1369,34 +1328,33 @@ html.intro-active .hero-cut-fade {
 }
 
 .shinkansen-runner {
-  display: block;
+  display: flex;
   width: max-content;
-  will-change: transform, opacity;
-  animation: shinkansen-pass 10s linear -6.3s infinite;
+  will-change: transform;
+  animation: shinkansen-pass 10s linear infinite;
 }
 
 .shinkansen-svg {
   display: block;
-  height: 23px;
+  height: clamp(28px, 3.8vw, 54px);
   width: auto;
+  max-width: none;
+  flex-shrink: 0;
+  overflow: visible;
 }
 
 @keyframes shinkansen-pass {
-  0%, 82% {
-    transform: translate3d(-120%, 0, 0);
+  0%, 85.9% {
+    transform: translate3d(calc(-100% - 80px), 0, 0);
     opacity: 0;
   }
-  82.1% {
-    transform: translate3d(-100%, 0, 0);
-    opacity: 1;
-  }
-  99.3% {
-    transform: translate3d(115vw, 0, 0);
+  86% {
+    transform: translate3d(calc(-100% - 40px), 0, 0);
     opacity: 1;
   }
   100% {
-    transform: translate3d(115vw, 0, 0);
-    opacity: 0;
+    transform: translate3d(calc(100vw + 80px), 0, 0);
+    opacity: 1;
   }
 }
 
@@ -1709,7 +1667,7 @@ html.intro-active .hero-cut-fade {
   }
 }
 
-/* Mobile Aura & Shinkansen Lite Mode (< 768px) */
+/* Mobile Aura Lite Mode (< 768px) */
 @media (max-width: 767px) {
   .manga-aura {
     inset: -14% -4%;
@@ -1717,16 +1675,6 @@ html.intro-active .hero-cut-fade {
 
   .aura-wisp:nth-of-type(n + 4) {
     display: none;
-  }
-
-  .hero-thunder-rig {
-    right: -2%;
-    top: -6%;
-    width: clamp(104px, 31vw, 148px);
-  }
-
-  .shinkansen-svg {
-    height: 17px;
   }
 }
 
@@ -1738,7 +1686,8 @@ html.intro-active .hero-cut-fade {
   .hero-scroll-arrow,
   .rail-ticker-track,
   .rail-spark,
-  .rail-kanji-slot {
+  .rail-kanji-slot,
+  .shinkansen-runner {
     animation: none !important;
   }
 
@@ -1748,9 +1697,13 @@ html.intro-active .hero-cut-fade {
   }
 
   .manga-thunder,
-  .hero-thunder-flash,
+  .anime-lightning-canvas,
   .shinkansen-ridge-stage {
     display: none !important;
+  }
+
+  .hero-art-mask.is-lightning-lit img {
+    filter: contrast(1.06) !important;
   }
 
   .rail-tick {

@@ -1,6 +1,7 @@
+import { useRef } from 'react';
 import { portfolioData } from '../../data/portfolio';
 import { OptimizedPicture } from '../ui/OptimizedPicture';
-import { MangaThunder } from '../manga/MangaThunder';
+import { AnimeLightning } from '../manga/AnimeLightning';
 import { ShinkansenPass } from '../manga/ShinkansenPass';
 
 interface HeroProps {
@@ -9,6 +10,7 @@ interface HeroProps {
 
 export function Hero({ onNavigate }: HeroProps) {
   const { personal } = portfolioData;
+  const artWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const navigate = (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -119,7 +121,10 @@ export function Hero({ onNavigate }: HeroProps) {
               </div>
 
               {/* Seamlessly Blended addo.jpg Centerpiece */}
-              <div className="hero-opening-slice hero-art-mask relative z-10 aspect-[16/9.4] w-full overflow-hidden bg-[#ECECF0]">
+              <div
+                ref={artWrapperRef}
+                className="hero-opening-slice hero-art-mask relative z-10 aspect-[16/9.4] w-full cursor-pointer select-none overflow-hidden bg-[#ECECF0] [-webkit-tap-highlight-color:transparent]"
+              >
                 <OptimizedPicture
                   src={personal.profileImage}
                   alt={`${personal.name} — Opening manga illustration`}
@@ -131,11 +136,8 @@ export function Hero({ onNavigate }: HeroProps) {
                 />
               </div>
 
-              {/* Layer 3: Realistic 2-Layer Electric Strike + Localized Radial Aftershock Flash */}
-              <div aria-hidden="true" className="hero-thunder-rig pointer-events-none">
-                <span className="hero-thunder-flash" />
-                <MangaThunder variant="hero" mode="loop" className="hero-aura-thunder" />
-              </div>
+              {/* Procedural Anime/Manga Lightning Overlay */}
+              <AnimeLightning targetRef={artWrapperRef} />
             </figure>
           </div>
         </div>
