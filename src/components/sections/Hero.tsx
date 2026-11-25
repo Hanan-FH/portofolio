@@ -72,7 +72,7 @@ export function Hero({ onNavigate }: HeroProps) {
   };
 
   return (
-    <section id="hero" className="editorial-grain relative scroll-mt-16 pb-20 pt-10 sm:pb-28 sm:pt-14 lg:pb-36 lg:pt-16">
+    <section id="hero" className="editorial-grain relative scroll-mt-16 pb-20 pt-8 sm:pb-28 sm:pt-12 lg:pb-32 lg:pt-14">
       <div className="container-site">
         {/* Top Architectural Metadata Strip */}
         <div
@@ -87,59 +87,56 @@ export function Hero({ onNavigate }: HeroProps) {
           <span className="mono-index text-[var(--ink-muted)]">{personal.location}</span>
         </div>
 
-        {/* Monumental Masked Editorial Display Headline */}
-        <div className="mt-8 sm:mt-12">
-          <h1 aria-label={personal.name} className="uppercase tracking-[-0.04em]">
-            <span className="hero-mask-line">
-              <span
-                style={{ '--delay': '140ms' } as React.CSSProperties}
-                className="hero-mask-inner flex items-start gap-3 text-[clamp(3.1rem,9vw,8.5rem)] leading-[0.9]"
-              >
-                <span>HANAN</span>
+        {/* Above-the-Fold 12-Column Editorial Split: Display Title & Bio Left // addo.jpg Profile Centerpiece Right */}
+        <div className="mt-8 grid gap-10 lg:mt-12 lg:grid-cols-12 lg:items-center lg:gap-12">
+          {/* Left Column: Staggered Masked Display Name, Bio & Kinetic CTAs */}
+          <div className="lg:col-span-6">
+            <h1 aria-label={personal.name} className="uppercase tracking-[-0.04em]">
+              <span className="hero-mask-line">
                 <span
-                  aria-hidden="true"
-                  className="mt-2 font-mono text-xs font-medium tracking-[0.1em] text-[var(--accent-purple)] sm:text-sm"
+                  style={{ '--delay': '140ms' } as React.CSSProperties}
+                  className="hero-mask-inner flex items-start gap-2.5 text-[clamp(2.9rem,6.5vw,5.75rem)] leading-[0.9]"
                 >
-                  [ED.26]
+                  <span>HANAN</span>
+                  <span
+                    aria-hidden="true"
+                    className="mt-1.5 font-mono text-xs font-medium tracking-[0.1em] text-[var(--accent-purple)]"
+                  >
+                    [ED.26]
+                  </span>
                 </span>
               </span>
-            </span>
-            <span className="hero-mask-line">
-              <span
-                style={{ '--delay': '220ms' } as React.CSSProperties}
-                className="hero-mask-inner text-[clamp(2rem,6vw,5.8rem)] leading-[0.92]"
-              >
-                FATHURROZAQ
+              <span className="hero-mask-line">
+                <span
+                  style={{ '--delay': '210ms' } as React.CSSProperties}
+                  className="hero-mask-inner text-[clamp(1.85rem,4.1vw,3.65rem)] leading-[0.92]"
+                >
+                  FATHURROZAQ
+                </span>
               </span>
-            </span>
-            <span className="hero-mask-line">
-              <span
-                style={{ '--delay': '300ms' } as React.CSSProperties}
-                className="hero-mask-inner text-[clamp(1.9rem,5.6vw,5.4rem)] leading-[0.92] text-[var(--ink-secondary)]"
-              >
-                HIDAYATULLAH
+              <span className="hero-mask-line">
+                <span
+                  style={{ '--delay': '280ms' } as React.CSSProperties}
+                  className="hero-mask-inner text-[clamp(1.75rem,3.85vw,3.4rem)] leading-[0.92] text-[var(--ink-secondary)]"
+                >
+                  HIDAYATULLAH
+                </span>
               </span>
-            </span>
-          </h1>
-        </div>
+            </h1>
 
-        {/* Asymmetrical 12-Column Editorial Split: Copy Left // Interactive addo.jpg Centerpiece Right */}
-        <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-12 lg:items-end lg:gap-14">
-          {/* Left Column: Bio, Liquid Ink-Wipe CTAs & Social Index */}
-          <div
-            style={{ '--delay': '380ms' } as React.CSSProperties}
-            className="hero-stagger-fade flex flex-col justify-between lg:col-span-5"
-          >
-            <div className="border-t border-[var(--line-hairline)] pt-6">
+            <div
+              style={{ '--delay': '350ms' } as React.CSSProperties}
+              className="hero-stagger-fade mt-7 border-t border-[var(--line-hairline)] pt-6"
+            >
               <p className="font-sans text-lg font-semibold leading-snug text-[var(--ink-primary)] sm:text-xl">
                 {personal.headline}
               </p>
 
-              <p className="mt-4 text-base leading-[1.65] text-[var(--ink-secondary)]">
+              <p className="mt-3.5 text-base leading-[1.65] text-[var(--ink-secondary)]">
                 {personal.shortBio}
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3.5">
+              <div className="mt-7 flex flex-wrap items-center gap-3.5">
                 <a href="#projects" onClick={navigate('projects')} className="btn-kinetic-ink">
                   <RollingText text="Selected Works" />
                   <span className="kinetic-arrow" aria-hidden="true">→</span>
@@ -150,47 +147,47 @@ export function Hero({ onNavigate }: HeroProps) {
                   <span className="kinetic-arrow" aria-hidden="true">→</span>
                 </a>
               </div>
-            </div>
 
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-[var(--line-hairline)] pt-5">
-              {social.github && (
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-[var(--line-hairline)] pt-5">
+                {social.github && (
+                  <a
+                    href={social.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub profile (opens in a new tab)"
+                    className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
+                  >
+                    <RollingText text="GitHub" />
+                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                  </a>
+                )}
+
+                {social.linkedin && (
+                  <a
+                    href={social.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn profile (opens in a new tab)"
+                    className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
+                  >
+                    <RollingText text="LinkedIn" />
+                    <span className="kinetic-arrow" aria-hidden="true">↗</span>
+                  </a>
+                )}
+
                 <a
-                  href={social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub profile (opens in a new tab)"
-                  className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
+                  href={`mailto:${personal.email}`}
+                  className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-secondary)] hover:text-[var(--accent-purple)]"
                 >
-                  <RollingText text="GitHub" />
+                  <RollingText text={personal.email} />
                   <span className="kinetic-arrow" aria-hidden="true">↗</span>
                 </a>
-              )}
-
-              {social.linkedin && (
-                <a
-                  href={social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn profile (opens in a new tab)"
-                  className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-primary)] hover:text-[var(--accent-purple)]"
-                >
-                  <RollingText text="LinkedIn" />
-                  <span className="kinetic-arrow" aria-hidden="true">↗</span>
-                </a>
-              )}
-
-              <a
-                href={`mailto:${personal.email}`}
-                className="roll-trigger inline-flex items-center gap-1.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--ink-secondary)] hover:text-[var(--accent-purple)]"
-              >
-                <RollingText text={personal.email} />
-                <span className="kinetic-arrow" aria-hidden="true">↗</span>
-              </a>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Dramatic Asymmetrical Frame Anchored by addo.jpg */}
-          <div className="lg:col-span-7">
+          {/* Right Column: Main Hero Profile Centerpiece (addo.jpg) — Above the Fold */}
+          <div className="lg:col-span-6">
             <figure ref={stageRef} className="hero-art-stage relative">
               <div ref={parallaxRef} className="relative will-change-transform">
                 {/* Subtle Electric-Purple Ink Offset Plate on Hover */}
@@ -205,31 +202,37 @@ export function Hero({ onNavigate }: HeroProps) {
                 <span aria-hidden="true" className="hero-crop hero-crop-bl -bottom-2 -left-2 border-b-[1.5px] border-l-[1.5px]" />
                 <span aria-hidden="true" className="hero-crop hero-crop-br -bottom-2 -right-2 border-b-[1.5px] border-r-[1.5px]" />
 
-                {/* Main 16:9 Editorial Art Frame */}
-                <div className="hero-panel-reveal relative aspect-[16/9] w-full overflow-hidden border-[1.5px] border-[var(--line-strong)] bg-[#090909]">
-                  <OptimizedPicture
-                    src={personal.profileImage}
-                    alt={`${personal.name} — Editorial cover illustration`}
-                    width={736}
-                    height={414}
-                    eager
-                    fetchPriority="high"
-                    className="hero-image-entrance h-full w-full object-cover"
-                  />
+                {/* Editorial Profile Plate + 16:9 Uncropped Manga Artwork */}
+                <div className="hero-panel-reveal overflow-hidden border-[1.5px] border-[var(--line-strong)] bg-[var(--bg-surface)]">
+                  <div className="flex items-center justify-between border-b border-[var(--line-hairline)] px-4 py-2.5">
+                    <span className="mono-index text-[var(--ink-primary)]">
+                      <span className="text-[var(--accent-purple)]">FIG.01</span> / PROFILE VISUAL
+                    </span>
+                    <span className="mono-index text-[var(--ink-muted)]">RPL · BOGOR</span>
+                  </div>
+
+                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#090909]">
+                    <OptimizedPicture
+                      src={personal.profileImage}
+                      alt={personal.name}
+                      width={736}
+                      height={414}
+                      eager
+                      fetchPriority="high"
+                      className="hero-image-entrance h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <figcaption className="flex flex-wrap items-baseline justify-between gap-2 border-t border-[var(--line-hairline)] px-4 py-3">
+                    <span className="mono-index font-semibold text-[var(--ink-primary)]">
+                      {personal.role}
+                    </span>
+                    <span className="mono-index text-[var(--ink-muted)]">
+                      {personal.status}
+                    </span>
+                  </figcaption>
                 </div>
               </div>
-
-              <figcaption
-                style={{ '--delay': '440ms' } as React.CSSProperties}
-                className="hero-stagger-fade mt-4 flex flex-wrap items-baseline justify-between gap-2"
-              >
-                <span className="mono-index text-[var(--ink-primary)]">
-                  {personal.role}
-                </span>
-                <span className="mono-index text-[var(--ink-muted)]">
-                  {personal.status}
-                </span>
-              </figcaption>
             </figure>
           </div>
         </div>

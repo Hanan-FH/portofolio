@@ -11,12 +11,19 @@ export interface OptimizedPictureProps {
 }
 
 function toWebpSrc(src: string): string | null {
-  if (!src.startsWith('/') || src.startsWith('/webp/')) return null;
-  if (!src.startsWith('/projects/') && !src.startsWith('/certificates/') && src !== '/profile.jpg') {
+  const [cleanPath, query] = src.split('?');
+  if (!cleanPath.startsWith('/') || cleanPath.startsWith('/webp/')) return null;
+  if (
+    !cleanPath.startsWith('/projects/') &&
+    !cleanPath.startsWith('/certificates/') &&
+    cleanPath !== '/profile.jpg' &&
+    cleanPath !== '/addo.jpg'
+  ) {
     return null;
   }
-  if (!/\.(png|jpe?g)$/i.test(src)) return null;
-  return `/webp${src.replace(/\.(png|jpe?g)$/i, '.webp')}`;
+  if (!/\.(png|jpe?g)$/i.test(cleanPath)) return null;
+  const webpPath = `/webp${cleanPath.replace(/\.(png|jpe?g)$/i, '.webp')}`;
+  return query ? `${webpPath}?${query}` : webpPath;
 }
 
 export function OptimizedPicture({

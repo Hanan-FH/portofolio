@@ -30,7 +30,7 @@ export const personalData = {
   location: "Bogor, Indonesia",
   status: "Software Engineering Student at SMK Plus Pelita Nusantara",
   email: "hananfh77@gmail.com",
-  profileImage: "/addo.jpg",
+  profileImage: "/profile.jpg?v=addo",
   resumeUrl: "",
 };
 
