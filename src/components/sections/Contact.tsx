@@ -1,6 +1,7 @@
 import { useId, useState } from 'react';
 import { portfolioData } from '../../data/portfolio';
 import { Footer } from '../layout/Footer';
+import { MangaThunder } from '../manga/MangaThunder';
 
 export function Contact() {
   const { contact, personal } = portfolioData;
@@ -101,20 +102,35 @@ export function Contact() {
       id="contact"
       className="manga-chapter chapter-cut-final relative z-[16] scroll-mt-12 bg-[#060608] text-[#ECECF0]"
     >
-      {/* Back Layer: Subtle Radial Speedlines & Closing Watermark */}
+      {/* One-shot 220ms hairline lightning flash along the diagonal pitch-ink cut */}
+      <div data-cut aria-hidden="true" className="chapter-cut-arc pointer-events-none">
+        <MangaThunder tone="paper" variant="slash" mode="cut" className="chapter-cut-thunder" />
+      </div>
+
+      {/* Back Layer: Subtle Radial Speedlines & Masthead-Scoped Closing Watermark */}
       <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
         <div className="manga-speedlines absolute inset-0 text-[#ECECF0]" />
-        <span className="absolute right-4 top-20 select-none font-display text-[clamp(9rem,22vw,19rem)] leading-none text-[#ECECF0]/[0.035] sm:right-12">
-          05
-        </span>
+        <div className="absolute right-4 top-16 flex items-baseline gap-3 select-none sm:right-12 lg:right-16">
+          <span className="font-kanji text-[clamp(5.5rem,13vw,11.5rem)] font-black leading-none text-[#ECECF0]/[0.065]">
+            終
+          </span>
+          <span className="font-display text-[clamp(7.5rem,18vw,16rem)] leading-none text-[#ECECF0]/[0.035]">
+            05
+          </span>
+        </div>
       </div>
 
       <div className="container-site relative z-10">
         {/* Final Spread Masthead */}
         <div className="mb-14 sm:mb-20">
           <div className="parallax-front mb-4 inline-block">
-            <span className="inline-block -rotate-2 bg-[#584CE6] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white">
-              FINAL SPREAD // CONTACT
+            <span className="inline-flex items-center gap-2">
+              <span className="inline-block -rotate-2 bg-[#584CE6] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white">
+                FINAL SPREAD // CONTACT
+              </span>
+              <span aria-hidden="true" className="kanji-stamp font-kanji">
+                終
+              </span>
             </span>
           </div>
 

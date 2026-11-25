@@ -40,18 +40,23 @@ export function Projects({ onSelectProject }: ProjectsProps) {
       id="projects"
       className="manga-chapter chapter-cut-top-alt relative z-[13] scroll-mt-12 bg-[#ECECF0] text-[#060608]"
     >
-      {/* Back Layer: Halftone Screentone & Oversized Chapter Watermark */}
+      {/* Back Layer: Halftone Screentone & Masthead-Scoped Chapter + Kanji Watermark */}
       <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
         <div className="manga-halftone absolute inset-0 text-[#060608]" />
-        <span className="absolute left-4 top-20 select-none font-display text-[clamp(9rem,22vw,19rem)] leading-none text-[#060608]/[0.04] sm:left-12">
-          02
-        </span>
+        <div className="absolute left-4 top-16 flex items-baseline gap-3 select-none sm:left-12 lg:left-16">
+          <span className="font-display text-[clamp(7.5rem,18vw,16rem)] leading-none text-[#060608]/[0.04]">
+            02
+          </span>
+          <span className="font-kanji text-[clamp(5.5rem,13vw,11.5rem)] font-black leading-none text-[#060608]/[0.065]">
+            弐
+          </span>
+        </div>
       </div>
 
       {/* Front Layer: Vertical #584CE6 Accent Stamp */}
       <div
         aria-hidden="true"
-        className="parallax-front pointer-events-none absolute right-3 top-36 z-20 hidden xl:block"
+        className="parallax-front pointer-events-none absolute right-14 top-36 z-20 hidden xl:block"
       >
         <span className="vertical-stamp font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#584CE6]">
           CH.02 // SELECTED WORKS ARCHIVE
@@ -62,8 +67,13 @@ export function Projects({ onSelectProject }: ProjectsProps) {
         {/* Chapter Masthead */}
         <div className="mb-12 sm:mb-16">
           <div className="parallax-front mb-4 inline-block">
-            <span className="inline-block rotate-2 bg-[#060608] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[#ECECF0]">
-              <span className="text-[#584CE6]">CH.02</span> // WORKS
+            <span className="inline-flex items-center gap-2">
+              <span className="inline-block rotate-2 bg-[#060608] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[#ECECF0]">
+                <span className="text-[#584CE6]">CH.02</span> // WORKS
+              </span>
+              <span aria-hidden="true" className="kanji-stamp font-kanji">
+                弐
+              </span>
             </span>
           </div>
 

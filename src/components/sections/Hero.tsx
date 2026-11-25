@@ -1,12 +1,13 @@
 import { portfolioData } from '../../data/portfolio';
 import { OptimizedPicture } from '../ui/OptimizedPicture';
+import { MangaThunder } from '../manga/MangaThunder';
 
 interface HeroProps {
   onNavigate?: (id: string) => void;
 }
 
 export function Hero({ onNavigate }: HeroProps) {
-  const { personal, social } = portfolioData;
+  const { personal } = portfolioData;
 
   const navigate = (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -16,44 +17,62 @@ export function Hero({ onNavigate }: HeroProps) {
   return (
     <section
       id="hero"
-      className="manga-chapter relative z-[11] flex min-h-[100svh] items-center bg-[#ECECF0] pt-20 pb-[calc(var(--cut)+3.5rem)] text-[#060608]"
+      className="manga-chapter relative z-[11] flex min-h-[100svh] items-center overflow-x-clip bg-[#ECECF0] pb-[calc(var(--cut)+4.75rem)] pt-20 text-[#060608]"
     >
-      {/* Back Layer: Subtle Radial Speedlines & Oversized Watermark Chapter Number */}
+      {/* Back Layer: Subtle radial speedlines + oversized CH.00 & 零 formal Kanji watermarks */}
       <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
         <div className="manga-speedlines absolute inset-0 text-[#060608]" />
-        <span className="absolute -bottom-8 left-4 select-none font-display text-[clamp(9rem,22vw,20rem)] leading-none text-[#060608]/[0.04] sm:left-10">
+        <span className="absolute -bottom-8 left-4 select-none font-display text-[clamp(9rem,21vw,19rem)] leading-none text-[#060608]/[0.04] sm:left-10 lg:left-14">
           00
+        </span>
+        <span className="kanji-watermark absolute -top-8 right-4 select-none font-kanji text-[clamp(9.5rem,22vw,21rem)] font-black leading-none text-[#060608] sm:right-10 lg:right-14">
+          零
         </span>
       </div>
 
-      {/* Front Layer: Vertical & Tilted Electric-Violet (#584CE6) Stamps Echoing addo.jpg */}
+      {/* Architectural Vertical Kanji Stamp (領域 // 覚醒 — Domain / Awakening) near Hero outer margin */}
       <div
         aria-hidden="true"
-        className="parallax-front pointer-events-none absolute right-3 top-24 z-30 hidden xl:block"
+        className="parallax-front pointer-events-none absolute right-5 top-[4.5rem] z-30 hidden items-start gap-2 md:flex lg:right-14 lg:top-[4.5rem]"
       >
-        <span className="vertical-stamp font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#584CE6]">
-          CH.00 // OPENING SPREAD — BOGOR
+        <span className="vertical-stamp pt-0.5 font-mono text-[8.5px] font-semibold uppercase tracking-[0.22em] text-[#4E4E57]">
+          DOMAIN // AWAKENING
+        </span>
+        <span className="vertical-stamp border-r-2 border-[#584CE6] pr-2 font-kanji text-[clamp(1.3rem,1.85vw,1.9rem)] font-black leading-none tracking-[0.16em] text-[#584CE6]">
+          領域覚醒
         </span>
       </div>
 
       <div className="container-site relative z-20 w-full">
-        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-6">
-          {/* Left Focal Zone: Kinetic Line-Rise Display Title, Bio & Beat-Drop CTAs */}
+        <div className="grid items-center gap-9 lg:grid-cols-12 lg:gap-6">
+          {/* Left Cover Zone: Pure Oversized Display Name + Minimal Chapter Index */}
           <div className="parallax-mid relative z-20 lg:col-span-6">
-            {/* Tilted #584CE6 Chapter Stamp */}
-            <div className="hero-cut-fade mb-5 flex flex-wrap items-center gap-3" style={{ '--d': '40ms' } as React.CSSProperties}>
+            <div
+              className="hero-cut-fade mb-5 flex items-center gap-3"
+              style={{ '--d': '40ms' } as React.CSSProperties}
+            >
               <span className="inline-block -rotate-2 bg-[#584CE6] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-white">
                 CH.00 // OPENING
               </span>
-              <span className="mono-stamp text-[#4E4E57]">{personal.eyebrow}</span>
+              <span
+                aria-hidden="true"
+                className="kanji-stamp font-kanji text-[#060608]"
+              >
+                零
+              </span>
+              <span
+                aria-hidden="true"
+                className="font-kanji text-xs font-black tracking-[0.18em] text-[#584CE6] md:hidden"
+              >
+                領域 // 覚醒
+              </span>
             </div>
 
-            {/* Tight 60ms Staggered Kinetic Line-Rise Display Name */}
             <h1 aria-label={personal.name} className="uppercase tracking-[-0.035em] text-[#060608]">
               <span className="hero-line-mask">
                 <span
                   style={{ '--d': '60ms' } as React.CSSProperties}
-                  className="hero-line-rise text-[clamp(3.1rem,7.2vw,6.4rem)] leading-[0.9]"
+                  className="hero-line-rise text-[clamp(3.15rem,7.4vw,6.5rem)] leading-[0.9]"
                 >
                   HANAN
                 </span>
@@ -61,7 +80,7 @@ export function Hero({ onNavigate }: HeroProps) {
               <span className="hero-line-mask">
                 <span
                   style={{ '--d': '120ms' } as React.CSSProperties}
-                  className="hero-line-rise text-[clamp(1.95rem,4.4vw,3.95rem)] leading-[0.92]"
+                  className="hero-line-rise text-[clamp(1.95rem,4.45vw,4rem)] leading-[0.92]"
                 >
                   FATHURROZAQ
                 </span>
@@ -81,85 +100,29 @@ export function Hero({ onNavigate }: HeroProps) {
                 </span>
               </span>
             </h1>
-
-            <div
-              style={{ '--d': '240ms' } as React.CSSProperties}
-              className="hero-cut-fade mt-6 max-w-xl"
-            >
-              <p className="font-sans text-lg font-bold leading-snug text-[#060608] sm:text-xl">
-                {personal.headline}
-              </p>
-
-              <p className="mt-3 text-base leading-[1.65] text-[#4E4E57]">
-                {personal.shortBio}
-              </p>
-
-              {/* Beat-Drop Action Links */}
-              <div className="mt-7 flex flex-wrap items-center gap-4">
-                <a href="#projects" onClick={navigate('projects')} className="btn-beat-dark">
-                  <span>Selected Works</span>
-                  <span className="beat-arrow" aria-hidden="true">→</span>
-                </a>
-
-                <a href="#contact" onClick={navigate('contact')} className="btn-beat-ghost">
-                  <span>Get in Touch</span>
-                  <span className="beat-arrow" aria-hidden="true">→</span>
-                </a>
-              </div>
-
-              {/* Authentic Social & Direct Coordinates */}
-              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 pt-2">
-                <span className="mono-stamp text-[#584CE6]">{personal.location}</span>
-                {social.github && (
-                  <a
-                    href={social.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub profile (opens in a new tab)"
-                    className="mono-stamp inline-flex items-center gap-1 text-[#060608] hover:text-[#584CE6]"
-                  >
-                    <span>GitHub</span>
-                    <span className="beat-arrow" aria-hidden="true">↗</span>
-                  </a>
-                )}
-                {social.linkedin && (
-                  <a
-                    href={social.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn profile (opens in a new tab)"
-                    className="mono-stamp inline-flex items-center gap-1 text-[#060608] hover:text-[#584CE6]"
-                  >
-                    <span>LinkedIn</span>
-                    <span className="beat-arrow" aria-hidden="true">↗</span>
-                  </a>
-                )}
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="mono-stamp inline-flex items-center gap-1 text-[#4E4E57] hover:text-[#584CE6]"
-                >
-                  <span>{personal.email}</span>
-                  <span className="beat-arrow" aria-hidden="true">↗</span>
-                </a>
-              </div>
-            </div>
           </div>
 
-          {/* Right Focal Zone: Frameless Seamlessly-Blended addo.jpg Opening Spread Centerpiece */}
+          {/* Right Cover Zone: addo.jpg Centerpiece Enveloped in 3-Layer Manga Pressure Aura */}
           <div className="relative z-10 lg:col-span-6">
-            <figure className="relative lg:-ml-8 lg:w-[calc(100%+2.5rem)]">
-              {/* Floating Tilted Violet Stamp */}
-              <div
-                aria-hidden="true"
-                className="parallax-front pointer-events-none absolute -top-4 right-2 z-20"
-              >
-                <span className="inline-block rotate-2 bg-[#060608] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#ECECF0]">
-                  <span className="text-[#584CE6]">//</span> {personal.role}
-                </span>
+            <figure className="relative mx-auto max-w-2xl lg:mx-0 lg:-ml-8 lg:max-w-none lg:w-[calc(100%+2.5rem)]">
+              {/* Layer 1 & 2: Breathing Halftone/Speedline Pressure Field + 6 Perimeter Ink Shards */}
+              <div aria-hidden="true" className="manga-aura pointer-events-none">
+                <div className="aura-pressure">
+                  <div className="manga-halftone aura-halftone absolute inset-0 text-[#060608]" />
+                  <div className="manga-speedlines aura-speedlines absolute inset-0 text-[#060608]" />
+                </div>
+
+                {/* 6 razor-sharp rising ink/violet shards around the outer silhouette (3 on mobile) */}
+                <span className="aura-wisp aura-wisp-1" />
+                <span className="aura-wisp aura-wisp-2" />
+                <span className="aura-wisp aura-wisp-3" />
+                <span className="aura-wisp aura-wisp-4" />
+                <span className="aura-wisp aura-wisp-5" />
+                <span className="aura-wisp aura-wisp-6" />
               </div>
 
-              {/* 0.65s Opening Slice + Punch-Zoom Impact Seamlessly Masked into #ECECF0 */}
-              <div className="hero-opening-slice hero-art-mask relative aspect-[16/9.4] w-full overflow-hidden bg-[#ECECF0]">
+              {/* Seamlessly Blended addo.jpg Centerpiece */}
+              <div className="hero-opening-slice hero-art-mask relative z-10 aspect-[16/9.4] w-full overflow-hidden bg-[#ECECF0]">
                 <OptimizedPicture
                   src={personal.profileImage}
                   alt={`${personal.name} — Opening manga illustration`}
@@ -171,16 +134,35 @@ export function Hero({ onNavigate }: HeroProps) {
                 />
               </div>
 
-              <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1">
-                <span className="mono-stamp font-semibold text-[#060608]">
-                  <span className="text-[#584CE6]">/</span> {personal.role}
-                </span>
-                <span className="mono-stamp text-[#4E4E57]">{personal.status}</span>
-              </figcaption>
+              {/* Layer 3: Intermittent Asymmetrical Manga Lightning Crackle Along Silhouette Edge */}
+              <MangaThunder
+                variant="bolt"
+                tone="ink"
+                delay={1.1}
+                className="hero-aura-thunder hero-aura-thunder-a"
+              />
+              <MangaThunder
+                variant="arc"
+                tone="ink"
+                delay={3.7}
+                className="hero-aura-thunder hero-aura-thunder-b"
+              />
             </figure>
           </div>
         </div>
       </div>
+
+      {/* Minimal Scroll Indicator at Bottom Edge (Hairline + SCROLL + ↓) */}
+      <a
+        href="#about"
+        onClick={navigate('about')}
+        aria-label="Scroll down to About chapter"
+        className="hero-scroll-cue absolute bottom-[calc(var(--cut)+1.15rem)] left-1/2 z-30 flex min-h-11 min-w-14 -translate-x-1/2 flex-col items-center justify-end gap-1.5 px-2 font-mono text-[10px] font-semibold uppercase tracking-[0.24em] text-[#4E4E57] hover:text-[#584CE6]"
+      >
+        <span aria-hidden="true" className="hero-scroll-hairline" />
+        <span>SCROLL</span>
+        <span aria-hidden="true" className="hero-scroll-arrow leading-none">↓</span>
+      </a>
     </section>
   );
 }

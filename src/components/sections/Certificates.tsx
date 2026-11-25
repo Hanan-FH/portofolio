@@ -100,19 +100,29 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
       id="certificates"
       className="manga-chapter chapter-cut-top-alt relative z-[15] scroll-mt-12 bg-[#ECECF0] text-[#060608]"
     >
-      {/* Back Layer: Halftone & Chapter Watermark */}
+      {/* Back Layer: Halftone & Masthead-Scoped Chapter + Kanji Watermark */}
       <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
         <div className="manga-halftone absolute inset-0 text-[#060608]" />
-        <span className="absolute left-4 top-20 select-none font-display text-[clamp(9rem,22vw,19rem)] leading-none text-[#060608]/[0.04] sm:left-12">
-          04
-        </span>
+        <div className="absolute left-4 top-16 flex items-baseline gap-3 select-none sm:left-12 lg:left-16">
+          <span className="font-display text-[clamp(7.5rem,18vw,16rem)] leading-none text-[#060608]/[0.04]">
+            04
+          </span>
+          <span className="font-kanji text-[clamp(5.5rem,13vw,11.5rem)] font-black leading-none text-[#060608]/[0.065]">
+            肆
+          </span>
+        </div>
       </div>
 
       <div className="container-site relative z-10">
         <div className="mb-10 sm:mb-14">
           <div className="parallax-front mb-4 inline-block">
-            <span className="inline-block rotate-2 bg-[#060608] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[#ECECF0]">
-              <span className="text-[#584CE6]">CH.04</span> // CREDENTIALS
+            <span className="inline-flex items-center gap-2">
+              <span className="inline-block rotate-2 bg-[#060608] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[#ECECF0]">
+                <span className="text-[#584CE6]">CH.04</span> // CREDENTIALS
+              </span>
+              <span aria-hidden="true" className="kanji-stamp font-kanji">
+                肆
+              </span>
             </span>
           </div>
 
@@ -167,7 +177,7 @@ export function Certificates({ onSelectCert }: CertificatesProps) {
           onMouseMove={handleMouseMove}
           onMouseUp={endMouseDrag}
           onMouseLeave={endMouseDrag}
-          className="reveal-slice no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto pb-8 px-5 sm:px-8 lg:px-[max(2rem,calc((100vw-84rem)/2+3.5rem))]"
+          className="reveal-slice no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto pb-8 px-5 sm:px-8 lg:px-[max(3.5rem,calc((100vw-84rem)/2+3.5rem))]"
         >
           {certificates.map((cert, index) => {
             const number = String(index + 1).padStart(2, '0');

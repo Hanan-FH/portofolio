@@ -21,7 +21,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const drawerRef = useRef<HTMLDivElement | null>(null);
-  const { personal } = portfolioData;
+  const { personal, social } = portfolioData;
 
   /* Razor-thin 2px #584CE6 GPU-composited scroll progress bar */
   useEffect(() => {
@@ -246,13 +246,35 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             })}
           </nav>
 
-          <div className="relative z-10 border-t border-[#ECECF0]/15 px-5 py-5">
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-t border-[#ECECF0]/15 px-5 py-5">
             <a
               href={`mailto:${personal.email}`}
               className="mono-stamp text-[#ECECF0] hover:text-[#584CE6]"
             >
               {personal.email} ↗
             </a>
+            <div className="flex items-center gap-4">
+              {social.github && (
+                <a
+                  href={social.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono-stamp text-[#A6A6B2] hover:text-[#584CE6]"
+                >
+                  GitHub ↗
+                </a>
+              )}
+              {social.linkedin && (
+                <a
+                  href={social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono-stamp text-[#A6A6B2] hover:text-[#584CE6]"
+                >
+                  LinkedIn ↗
+                </a>
+              )}
+            </div>
           </div>
         </div>
       )}

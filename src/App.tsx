@@ -4,6 +4,7 @@ import { prefersReducedMotionNow } from './hooks/useReducedMotion';
 import { useMangaScrollEngine } from './hooks/useMangaScrollEngine';
 import { MangaIntro } from './components/intro/MangaIntro';
 import { Navbar } from './components/layout/Navbar';
+import { MangaSideRails } from './components/layout/MangaSideRails';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { Projects } from './components/sections/Projects';
@@ -106,6 +107,9 @@ export function App() {
       </a>
 
       <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
+
+      {/* Living kinetic manga margin rails (desktop >= 1024px only) */}
+      <MangaSideRails activeSection={activeSection} onNavigate={handleNavigate} />
 
       <main id="main-content" tabIndex={-1} className="focus:outline-none">
         <Hero onNavigate={handleNavigate} />

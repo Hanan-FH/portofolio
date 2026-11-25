@@ -1,4 +1,5 @@
 import { portfolioData } from '../../data/portfolio';
+import { MangaThunder } from '../manga/MangaThunder';
 
 export function About() {
   const { about, education, personal } = portfolioData;
@@ -8,20 +9,35 @@ export function About() {
       id="about"
       className="manga-chapter chapter-cut-top relative z-[12] scroll-mt-12 bg-[#060608] text-[#ECECF0]"
     >
-      {/* Back Layer: Faint Manga Halftone & Oversized Chapter Watermark */}
+      {/* One-shot 220ms hairline lightning flash along the diagonal pitch-ink cut */}
+      <div data-cut aria-hidden="true" className="chapter-cut-arc pointer-events-none">
+        <MangaThunder tone="paper" variant="slash" mode="cut" className="chapter-cut-thunder" />
+      </div>
+
+      {/* Back Layer: Faint Manga Halftone & Masthead-Scoped Chapter + Kanji Watermark */}
       <div aria-hidden="true" className="parallax-back pointer-events-none absolute inset-0 overflow-hidden">
         <div className="manga-halftone absolute inset-0 text-[#ECECF0]" />
-        <span className="absolute right-4 top-16 select-none font-display text-[clamp(9rem,22vw,19rem)] leading-none text-[#ECECF0]/[0.035] sm:right-12">
-          01
-        </span>
+        <div className="absolute right-4 top-14 flex items-baseline gap-3 select-none sm:right-12 lg:right-16">
+          <span className="font-kanji text-[clamp(5.5rem,13vw,11.5rem)] font-black leading-none text-[#ECECF0]/[0.065]">
+            壱
+          </span>
+          <span className="font-display text-[clamp(7.5rem,18vw,16rem)] leading-none text-[#ECECF0]/[0.035]">
+            01
+          </span>
+        </div>
       </div>
 
       <div className="container-site relative z-10">
         {/* Floating Parallax #584CE6 Chapter Stamp & Kinetic Line-Rise Masthead */}
         <div className="mb-14 sm:mb-20">
           <div className="parallax-front mb-4 inline-block">
-            <span className="inline-block -rotate-2 bg-[#584CE6] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white">
-              CH.01 // ABOUT
+            <span className="inline-flex items-center gap-2">
+              <span className="inline-block -rotate-2 bg-[#584CE6] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white">
+                CH.01 // ABOUT
+              </span>
+              <span aria-hidden="true" className="kanji-stamp font-kanji">
+                壱
+              </span>
             </span>
           </div>
 
@@ -42,7 +58,14 @@ export function About() {
           {/* Left Column: Confident Editorial Bio & Unboxed Dossier */}
           <div data-cut className="lg:col-span-5">
             <div className="reveal-slice">
-              <h3 className="text-2xl uppercase leading-[1.02] tracking-[-0.03em] text-[#ECECF0] sm:text-3xl">
+              {/* Preserved opening-spread bio, relocated from Hero so no content is lost */}
+              <p className="mono-stamp text-[#584CE6]">// {personal.eyebrow}</p>
+              <p className="mt-4 text-xl font-bold leading-snug text-[#ECECF0] sm:text-2xl">
+                {personal.headline}
+              </p>
+              <p className="mt-3 text-base leading-[1.65] text-[#A6A6B2]">{personal.shortBio}</p>
+
+              <h3 className="mt-10 text-2xl uppercase leading-[1.02] tracking-[-0.03em] text-[#ECECF0] sm:text-3xl">
                 {about.heading}
               </h3>
 

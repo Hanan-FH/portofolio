@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Self-hosted display face — preloaded in index.html so the hero reveal never swaps metrics. */
+@font-face {
+  font-family: "Archivo Black";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/archivo-black-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* =============================================================================
    KINETIC MANGA EDIT (MMV) DESIGN SYSTEM — SAMPLED DIRECTLY FROM ADDO.JPG
    Pitch Ink (#060608) · Matte Paper (#ECECF0) · Electric Violet (#584CE6)
@@ -26,6 +36,7 @@
   --font-display: "Archivo Black", "Arial Black", system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-kanji: "Noto Serif JP", "IBM Plex Mono", "Yu Mincho", "Hiragino Mincho ProN", serif;
 
   --ease-mmv: cubic-bezier(0.16, 1, 0.3, 1);
   --container-site: 84rem;
@@ -138,6 +149,12 @@
     max-width: var(--container-site);
     margin-inline: auto;
     padding-inline: clamp(1.25rem, 4.2vw, 3.5rem);
+  }
+
+  @media (min-width: 1024px) {
+    .container-site {
+      padding-inline: max(3.5rem, 4.5vw);
+    }
   }
 
   .mono-stamp {
@@ -925,5 +942,684 @@ html.intro-active .hero-cut-fade {
 @media (prefers-reduced-motion: reduce) {
   .mi-root {
     display: none !important;
+  }
+}
+
+/* =============================================================================
+   KANJI · MANGA AURA · INK THUNDER · LIVING MARGIN RAILS
+   GPU-only motion: transform / opacity / clip-path. Zero blur, zero canvas.
+   ============================================================================= */
+.font-kanji {
+  font-family: var(--font-kanji);
+  font-feature-settings: "palt" 1;
+  font-weight: 900;
+}
+
+/* Crisp micro-stamp beside chapter indices */
+.kanji-stamp {
+  display: inline-flex;
+  width: 1.65rem;
+  height: 1.65rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  font-family: var(--font-kanji);
+  font-size: 0.8rem;
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0.82;
+}
+
+.kanji-watermark {
+  opacity: 0.065;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* -----------------------------------------------------------------------------
+   Reusable Manga Ink Lightning — 6 paths, ~270ms stepped strike / 5.2s cycle
+   ----------------------------------------------------------------------------- */
+.manga-thunder {
+  display: block;
+  color: var(--ink);
+  opacity: 0;
+  animation: mt-cycle 5.2s steps(2, end) var(--strike-delay, 0s) infinite;
+  will-change: opacity;
+}
+
+.manga-thunder[data-tone="paper"] {
+  color: var(--paper);
+}
+
+.manga-thunder.is-once {
+  animation: mt-once 280ms steps(2, end) forwards;
+}
+
+.manga-thunder.is-cut-trigger {
+  animation: none;
+  opacity: 0;
+}
+
+.chapter-cut-arc.is-cut-in .manga-thunder.is-cut-trigger {
+  animation: mt-cut-once 220ms steps(2, end) 70ms forwards;
+}
+
+.mt-accent {
+  stroke-dasharray: 820;
+  stroke-dashoffset: 820;
+  animation: mt-draw 5.2s steps(2, end) var(--strike-delay, 0s) infinite;
+}
+
+.mt-crack {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: mt-draw-crack 5.2s steps(2, end) var(--strike-delay, 0s) infinite;
+}
+
+.manga-thunder.is-once .mt-accent {
+  animation: mt-draw-once 280ms steps(2, end) forwards;
+}
+
+.manga-thunder.is-once .mt-crack {
+  animation: mt-draw-crack-once 280ms steps(2, end) forwards;
+}
+
+.manga-thunder.is-cut-trigger .mt-accent,
+.manga-thunder.is-cut-trigger .mt-crack {
+  animation: none;
+}
+
+.chapter-cut-arc.is-cut-in .manga-thunder.is-cut-trigger .mt-accent {
+  animation: mt-draw-once 220ms steps(2, end) 70ms forwards;
+}
+
+.chapter-cut-arc.is-cut-in .manga-thunder.is-cut-trigger .mt-crack {
+  animation: mt-draw-crack-once 220ms steps(2, end) 70ms forwards;
+}
+
+/* ~270ms double-snap manga impact strike inside a calm 5.2s loop */
+@keyframes mt-cycle {
+  0%, 0.8% { opacity: 0; }
+  1.0%, 2.6% { opacity: 1; }
+  2.8%, 3.6% { opacity: 0.22; }
+  3.8%, 6.0% { opacity: 1; }
+  6.2%, 100% { opacity: 0; }
+}
+
+@keyframes mt-once {
+  0%, 36% { opacity: 1; }
+  37%, 52% { opacity: 0.28; }
+  53%, 88% { opacity: 1; }
+  89%, 100% { opacity: 0; }
+}
+
+@keyframes mt-cut-once {
+  0%, 42% { opacity: 0.92; }
+  43%, 58% { opacity: 0.25; }
+  59%, 86% { opacity: 0.88; }
+  87%, 100% { opacity: 0; }
+}
+
+@keyframes mt-draw {
+  0%, 0.9% { stroke-dashoffset: 820; }
+  1.8%, 6.0% { stroke-dashoffset: 0; }
+  6.2%, 100% { stroke-dashoffset: 820; }
+}
+
+@keyframes mt-draw-crack {
+  0%, 1.1% { stroke-dashoffset: 220; }
+  2.1%, 6.0% { stroke-dashoffset: 0; }
+  6.2%, 100% { stroke-dashoffset: 220; }
+}
+
+@keyframes mt-draw-once {
+  0% { stroke-dashoffset: 820; }
+  38%, 88% { stroke-dashoffset: 0; }
+  89%, 100% { stroke-dashoffset: 820; }
+}
+
+@keyframes mt-draw-crack-once {
+  0% { stroke-dashoffset: 220; }
+  32%, 88% { stroke-dashoffset: 0; }
+  89%, 100% { stroke-dashoffset: 220; }
+}
+
+/* Opening Intro Beat-2 Impact Bolt — cuts diagonally across the full stage */
+.mi-thunder {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  width: min(88vw, 1060px);
+  height: auto;
+  color: #ECECF0;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0) rotate(-2deg);
+  transform-origin: 50% 50%;
+}
+
+/* During the 70ms white polarity flash, invert bolt to pitch ink (#060608) */
+.mi-root[data-phase="flash"] .mi-thunder {
+  color: #060608;
+}
+
+/* Pitch-Ink Chapter Cut Trigger — one-shot hairline arc along the diagonal top seam */
+.chapter-cut-arc {
+  position: absolute;
+  top: 0;
+  right: 6%;
+  z-index: 20;
+  width: clamp(200px, 34vw, 460px);
+  pointer-events: none;
+}
+
+.chapter-cut-thunder {
+  width: 100%;
+  height: auto;
+}
+
+/* -----------------------------------------------------------------------------
+   Hero Signature Manga Pressure Aura (Zero-Lag Pure CSS / SVG)
+   ----------------------------------------------------------------------------- */
+.manga-aura {
+  position: absolute;
+  inset: -16% -12%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.aura-pressure {
+  position: absolute;
+  inset: 0;
+  transform-origin: 54% 48%;
+  -webkit-mask-image: radial-gradient(ellipse 68% 65% at 54% 48%, #000 32%, transparent 74%);
+  mask-image: radial-gradient(ellipse 68% 65% at 54% 48%, #000 32%, transparent 74%);
+  animation: aura-breathe 6s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.aura-halftone {
+  opacity: 0.085;
+}
+
+.aura-speedlines {
+  opacity: 0.065;
+}
+
+@keyframes aura-breathe {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.035); }
+}
+
+/* Rising Dark Ink & Electric-Violet Shards Around Outer Silhouette Perimeter */
+.aura-wisp {
+  position: absolute;
+  display: block;
+  background-color: var(--ink);
+  transform-origin: 50% 100%;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: aura-wisp-rise var(--w-dur, 7.6s) ease-in-out var(--w-delay, 0s) infinite;
+}
+
+/* 1: Left flank violet razor shard (kept on mobile) */
+.aura-wisp-1 {
+  left: -1%;
+  bottom: 22%;
+  width: 9%;
+  height: 40%;
+  background-color: var(--violet);
+  clip-path: polygon(54% 0, 100% 24%, 58% 100%, 0 78%);
+  --w-dur: 6.8s;
+  --w-delay: -1.4s;
+}
+
+/* 2: Upper-left crown pitch-ink shard rising above top edge (kept on mobile) */
+.aura-wisp-2 {
+  left: 18%;
+  top: -4%;
+  width: 8%;
+  height: 30%;
+  clip-path: polygon(42% 0, 100% 32%, 68% 100%, 8% 84%);
+  --w-dur: 7.6s;
+  --w-delay: -2.8s;
+}
+
+/* 3: Upper-right silhouette violet spire rising past top-right corner (kept on mobile) */
+.aura-wisp-3 {
+  right: 7%;
+  top: -5%;
+  width: 7.5%;
+  height: 32%;
+  background-color: var(--violet);
+  clip-path: polygon(58% 0, 96% 28%, 62% 100%, 0 74%);
+  --w-dur: 6.4s;
+  --w-delay: -1.9s;
+}
+
+/* 4: Far-right flank pitch-ink blade (desktop/tablet >= 768px) */
+.aura-wisp-4 {
+  right: -2%;
+  bottom: 24%;
+  width: 8.5%;
+  height: 36%;
+  clip-path: polygon(46% 0, 100% 18%, 70% 100%, 6% 82%);
+  --w-dur: 8.2s;
+  --w-delay: -4.1s;
+}
+
+/* 5: Center-crown pitch-ink needle rising above addo.jpg head (desktop/tablet >= 768px) */
+.aura-wisp-5 {
+  left: 50%;
+  top: -6%;
+  width: 7%;
+  height: 28%;
+  clip-path: polygon(50% 0, 92% 30%, 60% 100%, 12% 78%);
+  --w-dur: 7.2s;
+  --w-delay: -0.9s;
+}
+
+/* 6: Lower-left seam shard bridging toward display name (desktop/tablet >= 768px) */
+.aura-wisp-6 {
+  left: 5%;
+  bottom: -2%;
+  width: 9.5%;
+  height: 28%;
+  clip-path: polygon(38% 0, 94% 24%, 66% 100%, 0 80%);
+  --w-dur: 8.6s;
+  --w-delay: -4.8s;
+}
+
+@keyframes aura-wisp-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) scaleY(0.38) scaleX(0.76);
+  }
+  20% {
+    opacity: 0.22;
+  }
+  58% {
+    opacity: 0.14;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -52px, 0) scaleY(1.14) scaleX(1);
+  }
+}
+
+/* Aura lightning arcs positioned cleanly on outer silhouette corners — never over the face */
+.hero-aura-thunder {
+  position: absolute;
+  z-index: 20;
+  height: auto;
+  pointer-events: none;
+}
+
+.hero-aura-thunder-a {
+  right: -3%;
+  top: -5%;
+  width: clamp(66px, 7.6vw, 112px);
+  transform: rotate(15deg);
+}
+
+.hero-aura-thunder-b {
+  left: -3%;
+  bottom: 4%;
+  width: clamp(56px, 6.2vw, 90px);
+  transform: rotate(-14deg);
+}
+
+/* -----------------------------------------------------------------------------
+   Minimal Hero Scroll Cue
+   ----------------------------------------------------------------------------- */
+.hero-scroll-hairline {
+  display: block;
+  width: 1px;
+  height: 1.9rem;
+  background-color: currentColor;
+  opacity: 0.55;
+  transform-origin: 50% 0;
+  animation: hero-cue-line 2.8s ease-in-out infinite;
+}
+
+.hero-scroll-arrow {
+  display: block;
+  animation: hero-cue-nudge 2.8s ease-in-out infinite;
+}
+
+@keyframes hero-cue-line {
+  0%, 100% { transform: scaleY(0.55); opacity: 0.35; }
+  50% { transform: scaleY(1); opacity: 0.78; }
+}
+
+@keyframes hero-cue-nudge {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 3px, 0); }
+}
+
+/* -----------------------------------------------------------------------------
+   Living Kinetic Side Rails — Desktop Only (>= 1024px, 38px Wide, Difference Blend)
+   ----------------------------------------------------------------------------- */
+.manga-side-rail {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .manga-side-rail {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    width: 38px;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 5.5rem;
+    padding-bottom: 1.75rem;
+    color: #FFFFFF;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .manga-rail-left {
+    left: 0;
+    align-items: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .manga-rail-right {
+    right: 0;
+    align-items: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .rail-top-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-family: var(--font-display);
+    font-size: 8.5px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .rail-monogram-sub {
+    font-family: var(--font-mono);
+    font-size: 6.5px;
+    letter-spacing: 0.14em;
+    opacity: 0.62;
+  }
+
+  .rail-spine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .rail-kanji-viewport {
+    overflow: hidden;
+    padding-block: 2px;
+  }
+
+  .rail-kanji-slot {
+    display: block;
+    font-family: var(--font-kanji);
+    font-size: 1.35rem;
+    font-weight: 900;
+    line-height: 1;
+    animation: rail-slot-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .rail-progress-track {
+    --rail-track: min(25vh, 220px);
+    position: relative;
+    width: 1px;
+    height: var(--rail-track);
+    background-color: rgba(255, 255, 255, 0.26);
+  }
+
+  .rail-progress-fill {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    transform-origin: 50% 0;
+    transform: scaleY(var(--rail-progress, 0));
+    will-change: transform;
+  }
+
+  .rail-needle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 11px;
+    height: 2px;
+    margin-left: -5.5px;
+    background-color: #FFFFFF;
+    transform: translate3d(0, calc(var(--rail-progress, 0) * var(--rail-track)), 0);
+    will-change: transform;
+  }
+
+  .rail-code {
+    font-family: var(--font-mono);
+    font-size: 7px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    opacity: 0.72;
+  }
+
+  .rail-ticks-group {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding-left: 7px;
+  }
+
+  .rail-ticks-label {
+    font-family: var(--font-mono);
+    font-size: 6.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    opacity: 0.5;
+  }
+
+  .rail-ticks {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* 8px idle -> stretches crisply up to 2.4x (19.2px) at peak scroll velocity */
+  .rail-tick {
+    display: block;
+    width: 8px;
+    height: 1.5px;
+    background-color: #FFFFFF;
+    transform-origin: left center;
+    transform: scaleX(calc(1 + var(--rail-velocity, 0) * var(--w, 1.2)));
+    will-change: transform;
+  }
+
+  /* Right Rail: 2px x 24px electric pulse spark riding directly down the left hairline */
+  .rail-spark {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 2px;
+    height: 24px;
+    background-color: #FFFFFF;
+    animation: rail-spark 4s linear infinite;
+    will-change: transform, opacity;
+  }
+
+  .rail-ticker {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: min(38vh, 310px);
+    justify-content: center;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  .rail-ticker-track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: rail-ticker 28s linear infinite;
+    will-change: transform;
+  }
+
+  .rail-ticker-copy {
+    display: block;
+    padding-bottom: 1.75rem;
+    font-family: var(--font-kanji);
+    font-size: 8.5px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    opacity: 0.68;
+  }
+
+  .rail-dots {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    pointer-events: auto;
+  }
+
+  /* >= 30x26px touch/click area for effortless use & WCAG 2.2 AA target-size compliance */
+  .rail-dot-link {
+    display: flex;
+    min-width: 30px;
+    min-height: 26px;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding-inline: 3px;
+  }
+
+  .rail-dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border: 1px solid #FFFFFF;
+    transition: transform 180ms var(--ease-mmv), background-color 180ms var(--ease-mmv);
+  }
+
+  .rail-dot-link.is-active .rail-dot {
+    background-color: #FFFFFF;
+    transform: scale(1.25);
+  }
+
+  .rail-dot-link:hover .rail-dot,
+  .rail-dot-link:focus-visible .rail-dot {
+    transform: scale(1.45);
+  }
+
+  .rail-dot-label {
+    font-family: var(--font-kanji);
+    font-size: 8.5px;
+    font-weight: 900;
+    line-height: 1;
+    opacity: 0.45;
+    transition: opacity 180ms var(--ease-mmv);
+  }
+
+  .rail-dot-link:hover .rail-dot-label,
+  .rail-dot-link:focus-visible .rail-dot-label,
+  .rail-dot-link.is-active .rail-dot-label {
+    opacity: 1;
+  }
+
+  @keyframes rail-slot-in {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 65%, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes rail-ticker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(0, -50%, 0); }
+  }
+
+  @keyframes rail-spark {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -28px, 0);
+    }
+    3% {
+      opacity: 0.95;
+    }
+    22% {
+      opacity: 0;
+      transform: translate3d(0, 100vh, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(0, 100vh, 0);
+    }
+  }
+}
+
+/* Mobile Aura Lite Mode (< 768px) — 3 wisps, 1 bolt, 50% parallax already via --p-mult */
+@media (max-width: 767px) {
+  .manga-aura {
+    inset: -14% -4%;
+  }
+
+  .aura-wisp:nth-of-type(n + 4) {
+    display: none;
+  }
+
+  .hero-aura-thunder-b {
+    display: none;
+  }
+}
+
+/* Reduced Motion — freeze aura wisps, disable lightning flashes, stop tickers */
+@media (prefers-reduced-motion: reduce) {
+  .aura-pressure,
+  .aura-wisp,
+  .hero-scroll-hairline,
+  .hero-scroll-arrow,
+  .rail-ticker-track,
+  .rail-spark,
+  .rail-kanji-slot {
+    animation: none !important;
+  }
+
+  .aura-wisp {
+    opacity: 0.12 !important;
+    transform: none !important;
+  }
+
+  .manga-thunder {
+    display: none !important;
+  }
+
+  .rail-tick {
+    transform: scaleX(1) !important;
+  }
+
+  .rail-dot {
+    transition: none !important;
   }
 }

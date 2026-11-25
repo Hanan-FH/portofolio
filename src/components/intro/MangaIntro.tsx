@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { portfolioData } from '../../data/portfolio';
+import { MangaThunder } from '../manga/MangaThunder';
 
 /**
  * One-line toggle: `false` plays on every fresh page load.
@@ -68,6 +69,7 @@ if (INTRO_SHOULD_PLAY) {
 export function MangaIntro() {
   const [mounted, setMounted] = useState<boolean>(INTRO_SHOULD_PLAY);
   const [phase, setPhase] = useState<Phase>('slash');
+  const [struck, setStruck] = useState(false);
   const counterRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const timersRef = useRef<number[]>([]);
   const splitRef = useRef(false);
@@ -108,7 +110,10 @@ export function MangaIntro() {
 
     T_TICKS.forEach((ms, i) => schedule(() => setCounter(COUNTER_STEPS[i + 1]), ms));
     schedule(() => setPhase('title'), T_TITLE);
-    schedule(() => setPhase('flash'), T_FLASH);
+    schedule(() => {
+      setPhase('flash');
+      setStruck(true);
+    }, T_FLASH);
     schedule(() => setPhase('title'), T_FLASH_END);
     schedule(triggerSplit, T_SPLIT);
 
@@ -173,6 +178,9 @@ export function MangaIntro() {
       <div className="mi-shutter mi-shutter-bottom" aria-hidden="true">
         {renderStage(1)}
       </div>
+
+      {/* Impact-frame thunder: 280ms diagonal strike cutting across Beat-2 flash before split */}
+      {struck && <MangaThunder variant="slash" mode="once" className="mi-thunder" />}
 
       {/* Violet cut line exactly along the shutter seam (aspect-ratio independent) */}
       <svg className="mi-seam" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
