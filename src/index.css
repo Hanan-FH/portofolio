@@ -977,18 +977,23 @@ html.intro-active .hero-cut-fade {
 }
 
 /* -----------------------------------------------------------------------------
-   Reusable Manga Ink Lightning — 6 paths, ~270ms stepped strike / 5.2s cycle
+   Kinetic 2-Layer Manga Lightning — 5.5s cycle (0%–88% dark, 88%–100% 2-pulse strike)
+   Outer #584CE6 3.5px stroke beneath a #FFFFFF 1.4px hot core. Zero blur filters.
    ----------------------------------------------------------------------------- */
 .manga-thunder {
   display: block;
   color: var(--ink);
   opacity: 0;
-  animation: mt-cycle 5.2s steps(2, end) var(--strike-delay, 0s) infinite;
-  will-change: opacity;
+  will-change: transform, opacity;
 }
 
 .manga-thunder[data-tone="paper"] {
   color: var(--paper);
+}
+
+.manga-thunder.is-loop {
+  --strike-delay: -2.6s;
+  animation: mt-double-strike 5.5s steps(1, end) var(--strike-delay) infinite;
 }
 
 .manga-thunder.is-once {
@@ -1004,84 +1009,115 @@ html.intro-active .hero-cut-fade {
   animation: mt-cut-once 220ms steps(2, end) 70ms forwards;
 }
 
-.mt-accent {
-  stroke-dasharray: 820;
-  stroke-dashoffset: 820;
-  animation: mt-draw 5.2s steps(2, end) var(--strike-delay, 0s) infinite;
+.mt-primary-outer,
+.mt-primary-core {
+  stroke-dasharray: 660;
+  stroke-dashoffset: 660;
 }
 
-.mt-crack {
-  stroke-dasharray: 220;
-  stroke-dashoffset: 220;
-  animation: mt-draw-crack 5.2s steps(2, end) var(--strike-delay, 0s) infinite;
+.manga-thunder.is-loop .mt-primary-outer,
+.manga-thunder.is-loop .mt-primary-core {
+  animation: mt-bolt-draw 5.5s linear var(--strike-delay, -2.6s) infinite;
 }
 
-.manga-thunder.is-once .mt-accent {
+.manga-thunder.is-loop .mt-forks {
+  animation: mt-forks-ignite 5.5s steps(1, end) var(--strike-delay, -2.6s) infinite;
+}
+
+.manga-thunder.is-loop .mt-sparks {
+  animation: mt-sparks-ignite 5.5s steps(1, end) var(--strike-delay, -2.6s) infinite;
+}
+
+.manga-thunder.is-once .mt-primary-outer,
+.manga-thunder.is-once .mt-primary-core {
   animation: mt-draw-once 280ms steps(2, end) forwards;
 }
 
-.manga-thunder.is-once .mt-crack {
-  animation: mt-draw-crack-once 280ms steps(2, end) forwards;
-}
-
-.manga-thunder.is-cut-trigger .mt-accent,
-.manga-thunder.is-cut-trigger .mt-crack {
-  animation: none;
-}
-
-.chapter-cut-arc.is-cut-in .manga-thunder.is-cut-trigger .mt-accent {
+.chapter-cut-arc.is-cut-in .manga-thunder.is-cut-trigger .mt-primary-outer,
+.chapter-cut-arc.is-cut-in .manga-thunder.is-cut-trigger .mt-primary-core {
   animation: mt-draw-once 220ms steps(2, end) 70ms forwards;
 }
 
-.chapter-cut-arc.is-cut-in .manga-thunder.is-cut-trigger .mt-crack {
-  animation: mt-draw-crack-once 220ms steps(2, end) 70ms forwards;
+/* 5.5s cycle: 0%–88% invisible -> Strike 1 -> 40ms micro-blackout -> Strike 2 aftershock -> vanish */
+@keyframes mt-double-strike {
+  0%, 88% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  88.2%, 90.4% {
+    opacity: 1;
+    transform: translate3d(2px, -1px, 0);
+  }
+  90.5%, 91.7% {
+    opacity: 0.92;
+    transform: translate3d(-1px, 1px, 0);
+  }
+  /* ~40ms micro-blackout dip */
+  91.8%, 92.6% {
+    opacity: 0.15;
+    transform: translate3d(0, 0, 0);
+  }
+  /* Strike 2 (Aftershock) */
+  92.7%, 95.8% {
+    opacity: 1;
+    transform: translate3d(2px, -1px, 0);
+  }
+  95.9%, 97.6% {
+    opacity: 0.72;
+    transform: translate3d(0, 0, 0);
+  }
+  97.7%, 100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-/* ~270ms double-snap manga impact strike inside a calm 5.2s loop */
-@keyframes mt-cycle {
-  0%, 0.8% { opacity: 0; }
-  1.0%, 2.6% { opacity: 1; }
-  2.8%, 3.6% { opacity: 0.22; }
-  3.8%, 6.0% { opacity: 1; }
-  6.2%, 100% { opacity: 0; }
+@keyframes mt-bolt-draw {
+  0%, 88% {
+    stroke-dashoffset: 660;
+  }
+  89.6%, 98% {
+    stroke-dashoffset: 0;
+  }
+  98.1%, 100% {
+    stroke-dashoffset: 660;
+  }
+}
+
+@keyframes mt-forks-ignite {
+  0%, 88.8% { opacity: 0; }
+  88.9%, 91.7% { opacity: 0.38; }
+  91.8%, 92.6% { opacity: 0.08; }
+  92.7%, 96.8% { opacity: 1; }
+  96.9%, 100% { opacity: 0; }
+}
+
+@keyframes mt-sparks-ignite {
+  0%, 89.2% { opacity: 0; }
+  89.3%, 91.7% { opacity: 0.45; }
+  91.8%, 92.6% { opacity: 0; }
+  92.7%, 97.2% { opacity: 1; }
+  97.3%, 100% { opacity: 0; }
 }
 
 @keyframes mt-once {
   0%, 36% { opacity: 1; }
-  37%, 52% { opacity: 0.28; }
+  37%, 52% { opacity: 0.24; }
   53%, 88% { opacity: 1; }
   89%, 100% { opacity: 0; }
 }
 
 @keyframes mt-cut-once {
   0%, 42% { opacity: 0.92; }
-  43%, 58% { opacity: 0.25; }
+  43%, 58% { opacity: 0.22; }
   59%, 86% { opacity: 0.88; }
   87%, 100% { opacity: 0; }
 }
 
-@keyframes mt-draw {
-  0%, 0.9% { stroke-dashoffset: 820; }
-  1.8%, 6.0% { stroke-dashoffset: 0; }
-  6.2%, 100% { stroke-dashoffset: 820; }
-}
-
-@keyframes mt-draw-crack {
-  0%, 1.1% { stroke-dashoffset: 220; }
-  2.1%, 6.0% { stroke-dashoffset: 0; }
-  6.2%, 100% { stroke-dashoffset: 220; }
-}
-
 @keyframes mt-draw-once {
-  0% { stroke-dashoffset: 820; }
+  0% { stroke-dashoffset: 660; }
   38%, 88% { stroke-dashoffset: 0; }
-  89%, 100% { stroke-dashoffset: 820; }
-}
-
-@keyframes mt-draw-crack-once {
-  0% { stroke-dashoffset: 220; }
-  32%, 88% { stroke-dashoffset: 0; }
-  89%, 100% { stroke-dashoffset: 220; }
+  89%, 100% { stroke-dashoffset: 660; }
 }
 
 /* Opening Intro Beat-2 Impact Bolt — cuts diagonally across the full stage */
@@ -1248,26 +1284,120 @@ html.intro-active .hero-cut-fade {
   }
 }
 
-/* Aura lightning arcs positioned cleanly on outer silhouette corners — never over the face */
-.hero-aura-thunder {
+/* Hero top-right silhouette lightning rig + pure-CSS localized radial energy flash */
+.hero-thunder-rig {
   position: absolute;
+  right: -3%;
+  top: -8%;
   z-index: 20;
+  width: clamp(128px, 17.5vw, 216px);
+  pointer-events: none;
+}
+
+.hero-thunder-flash {
+  position: absolute;
+  inset: -14%;
+  z-index: 0;
+  background: radial-gradient(
+    circle at 56% 40%,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(88, 76, 230, 0.65) 34%,
+    rgba(88, 76, 230, 0) 70%
+  );
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: hero-thunder-radial 5.5s ease-out -2.6s infinite;
+}
+
+.hero-aura-thunder {
+  position: relative;
+  z-index: 1;
+  width: 100%;
   height: auto;
   pointer-events: none;
 }
 
-.hero-aura-thunder-a {
-  right: -3%;
-  top: -5%;
-  width: clamp(66px, 7.6vw, 112px);
-  transform: rotate(15deg);
+@keyframes hero-thunder-radial {
+  0%, 88% {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  88.4%, 90.6% {
+    opacity: 0.14;
+    transform: scale(0.98);
+  }
+  91.8%, 92.6% {
+    opacity: 0.03;
+    transform: scale(0.94);
+  }
+  /* Strike 2 aftershock radial flash (0 -> 0.22 -> 0, zero blur filter) */
+  92.8%, 95.6% {
+    opacity: 0.22;
+    transform: scale(1.05);
+  }
+  98.2%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
 }
 
-.hero-aura-thunder-b {
-  left: -3%;
-  bottom: 4%;
-  width: clamp(56px, 6.2vw, 90px);
-  transform: rotate(-14deg);
+/* -----------------------------------------------------------------------------
+   Shinkansen Silhouette Along Bottom Diagonal Black Cut (10s Pure-CSS Cycle)
+   ----------------------------------------------------------------------------- */
+.shinkansen-ridge-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.shinkansen-slope {
+  position: absolute;
+  left: 0;
+  bottom: -2.5px;
+  width: 102%;
+  line-height: 0;
+  transform-origin: 0 100%;
+  transform: rotate(-2.405deg);
+}
+
+@supports (transform: rotate(atan2(-1px, 1px))) {
+  .shinkansen-slope {
+    transform: rotate(atan2(calc(var(--cut) * -1), 100vw));
+  }
+}
+
+.shinkansen-runner {
+  display: block;
+  width: max-content;
+  will-change: transform, opacity;
+  animation: shinkansen-pass 10s linear -6.3s infinite;
+}
+
+.shinkansen-svg {
+  display: block;
+  height: 23px;
+  width: auto;
+}
+
+@keyframes shinkansen-pass {
+  0%, 82% {
+    transform: translate3d(-120%, 0, 0);
+    opacity: 0;
+  }
+  82.1% {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 1;
+  }
+  99.3% {
+    transform: translate3d(115vw, 0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(115vw, 0, 0);
+    opacity: 0;
+  }
 }
 
 /* -----------------------------------------------------------------------------
@@ -1579,7 +1709,7 @@ html.intro-active .hero-cut-fade {
   }
 }
 
-/* Mobile Aura Lite Mode (< 768px) — 3 wisps, 1 bolt, 50% parallax already via --p-mult */
+/* Mobile Aura & Shinkansen Lite Mode (< 768px) */
 @media (max-width: 767px) {
   .manga-aura {
     inset: -14% -4%;
@@ -1589,12 +1719,18 @@ html.intro-active .hero-cut-fade {
     display: none;
   }
 
-  .hero-aura-thunder-b {
-    display: none;
+  .hero-thunder-rig {
+    right: -2%;
+    top: -6%;
+    width: clamp(104px, 31vw, 148px);
+  }
+
+  .shinkansen-svg {
+    height: 17px;
   }
 }
 
-/* Reduced Motion — freeze aura wisps, disable lightning flashes, stop tickers */
+/* Reduced Motion — freeze aura wisps, disable lightning flashes & Shinkansen, stop tickers */
 @media (prefers-reduced-motion: reduce) {
   .aura-pressure,
   .aura-wisp,
@@ -1611,7 +1747,9 @@ html.intro-active .hero-cut-fade {
     transform: none !important;
   }
 
-  .manga-thunder {
+  .manga-thunder,
+  .hero-thunder-flash,
+  .shinkansen-ridge-stage {
     display: none !important;
   }
 

@@ -1,6 +1,7 @@
 import { portfolioData } from '../../data/portfolio';
 import { OptimizedPicture } from '../ui/OptimizedPicture';
 import { MangaThunder } from '../manga/MangaThunder';
+import { ShinkansenPass } from '../manga/ShinkansenPass';
 
 interface HeroProps {
   onNavigate?: (id: string) => void;
@@ -30,16 +31,16 @@ export function Hero({ onNavigate }: HeroProps) {
         </span>
       </div>
 
-      {/* Architectural Vertical Kanji Stamp (領域 // 覚醒 — Domain / Awakening) near Hero outer margin */}
+      {/* Architectural Vertical Kanji Stamp (電光石火 — Flash of Lightning / High Velocity) */}
       <div
         aria-hidden="true"
         className="parallax-front pointer-events-none absolute right-5 top-[4.5rem] z-30 hidden items-start gap-2 md:flex lg:right-14 lg:top-[4.5rem]"
       >
         <span className="vertical-stamp pt-0.5 font-mono text-[8.5px] font-semibold uppercase tracking-[0.22em] text-[#4E4E57]">
-          DOMAIN // AWAKENING
+          VELOCITY // ARCHIVE
         </span>
         <span className="vertical-stamp border-r-2 border-[#584CE6] pr-2 font-kanji text-[clamp(1.3rem,1.85vw,1.9rem)] font-black leading-none tracking-[0.16em] text-[#584CE6]">
-          領域覚醒
+          電光石火
         </span>
       </div>
 
@@ -54,17 +55,14 @@ export function Hero({ onNavigate }: HeroProps) {
               <span className="inline-block -rotate-2 bg-[#584CE6] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-white">
                 CH.00 // OPENING
               </span>
-              <span
-                aria-hidden="true"
-                className="kanji-stamp font-kanji text-[#060608]"
-              >
+              <span aria-hidden="true" className="kanji-stamp font-kanji text-[#060608]">
                 零
               </span>
               <span
                 aria-hidden="true"
                 className="font-kanji text-xs font-black tracking-[0.18em] text-[#584CE6] md:hidden"
               >
-                領域 // 覚醒
+                電光石火
               </span>
             </div>
 
@@ -102,7 +100,7 @@ export function Hero({ onNavigate }: HeroProps) {
             </h1>
           </div>
 
-          {/* Right Cover Zone: addo.jpg Centerpiece Enveloped in 3-Layer Manga Pressure Aura */}
+          {/* Right Cover Zone: addo.jpg Centerpiece Enveloped in Manga Aura + 2-Layer Electric Strike */}
           <div className="relative z-10 lg:col-span-6">
             <figure className="relative mx-auto max-w-2xl lg:mx-0 lg:-ml-8 lg:max-w-none lg:w-[calc(100%+2.5rem)]">
               {/* Layer 1 & 2: Breathing Halftone/Speedline Pressure Field + 6 Perimeter Ink Shards */}
@@ -112,7 +110,6 @@ export function Hero({ onNavigate }: HeroProps) {
                   <div className="manga-speedlines aura-speedlines absolute inset-0 text-[#060608]" />
                 </div>
 
-                {/* 6 razor-sharp rising ink/violet shards around the outer silhouette (3 on mobile) */}
                 <span className="aura-wisp aura-wisp-1" />
                 <span className="aura-wisp aura-wisp-2" />
                 <span className="aura-wisp aura-wisp-3" />
@@ -134,19 +131,11 @@ export function Hero({ onNavigate }: HeroProps) {
                 />
               </div>
 
-              {/* Layer 3: Intermittent Asymmetrical Manga Lightning Crackle Along Silhouette Edge */}
-              <MangaThunder
-                variant="bolt"
-                tone="ink"
-                delay={1.1}
-                className="hero-aura-thunder hero-aura-thunder-a"
-              />
-              <MangaThunder
-                variant="arc"
-                tone="ink"
-                delay={3.7}
-                className="hero-aura-thunder hero-aura-thunder-b"
-              />
+              {/* Layer 3: Realistic 2-Layer Electric Strike + Localized Radial Aftershock Flash */}
+              <div aria-hidden="true" className="hero-thunder-rig pointer-events-none">
+                <span className="hero-thunder-flash" />
+                <MangaThunder variant="hero" mode="loop" className="hero-aura-thunder" />
+              </div>
             </figure>
           </div>
         </div>
@@ -157,12 +146,15 @@ export function Hero({ onNavigate }: HeroProps) {
         href="#about"
         onClick={navigate('about')}
         aria-label="Scroll down to About chapter"
-        className="hero-scroll-cue absolute bottom-[calc(var(--cut)+1.15rem)] left-1/2 z-30 flex min-h-11 min-w-14 -translate-x-1/2 flex-col items-center justify-end gap-1.5 px-2 font-mono text-[10px] font-semibold uppercase tracking-[0.24em] text-[#4E4E57] hover:text-[#584CE6]"
+        className="hero-scroll-cue absolute bottom-[calc(var(--cut)+1.35rem)] left-1/2 z-30 flex min-h-11 min-w-14 -translate-x-1/2 flex-col items-center justify-end gap-1.5 px-2 font-mono text-[10px] font-semibold uppercase tracking-[0.24em] text-[#4E4E57] hover:text-[#584CE6]"
       >
         <span aria-hidden="true" className="hero-scroll-hairline" />
         <span>SCROLL</span>
         <span aria-hidden="true" className="hero-scroll-arrow leading-none">↓</span>
       </a>
+
+      {/* Shinkansen Bullet Train Silhouette Gliding Flush Along the Bottom Diagonal Cut Every 10s */}
+      <ShinkansenPass />
     </section>
   );
 }

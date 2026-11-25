@@ -58,18 +58,14 @@ export function About() {
           {/* Left Column: Confident Editorial Bio & Unboxed Dossier */}
           <div data-cut className="lg:col-span-5">
             <div className="reveal-slice">
-              {/* Preserved opening-spread bio, relocated from Hero so no content is lost */}
+              {/* Concise editorial profile lead — zero redundant walls of text */}
               <p className="mono-stamp text-[#584CE6]">// {personal.eyebrow}</p>
-              <p className="mt-4 text-xl font-bold leading-snug text-[#ECECF0] sm:text-2xl">
-                {personal.headline}
-              </p>
-              <p className="mt-3 text-base leading-[1.65] text-[#A6A6B2]">{personal.shortBio}</p>
-
-              <h3 className="mt-10 text-2xl uppercase leading-[1.02] tracking-[-0.03em] text-[#ECECF0] sm:text-3xl">
+              <h3 className="mt-4 text-2xl uppercase leading-[1.02] tracking-[-0.03em] text-[#ECECF0] sm:text-3xl">
                 {about.heading}
               </h3>
 
-              <div className="mt-6 space-y-4 text-base leading-[1.65] text-[#A6A6B2]">
+              <div className="mt-4 space-y-3 text-base leading-[1.6] text-[#A6A6B2]">
+                <p>{personal.shortBio}</p>
                 {about.paragraphs.map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}

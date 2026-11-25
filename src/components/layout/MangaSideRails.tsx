@@ -23,7 +23,7 @@ const RAIL_CHAPTERS: RailChapter[] = [
 /* Asymmetric studio-equalizer curve across the 5 hairline ticks (stretches 1.0 -> 2.4x on fast scroll) */
 const EQUALIZER_WEIGHTS = [0.95, 1.35, 1.4, 1.2, 0.85] as const;
 
-const TICKER_STREAM = '創作 // ARCHIVE // 領域 // KINETIC // 電撃 // 静寂 // 記録 //';
+const TICKER_STREAM = '電光石火 // VELOCITY // 創作 // ARCHIVE // KINETIC // 記録 //';
 
 /**
  * Desktop-only 38px Kinetic Manga Margin Rails (`@media (min-width: 1024px)`).
